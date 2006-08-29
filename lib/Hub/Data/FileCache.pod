@@ -1,0 +1,134 @@
+=head1 NAME
+
+Hub::Data::FileCache - 
+
+Part of the L<Hub Library|hublib>
+
+=head1 SYNOPSIS
+
+
+
+=head1 DESCRIPTION
+
+
+
+=head1 METHODS
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item_fattach">fattach</a>
+
+</td><td>
+<a class="methlink" href="#item_fhandler">fhandler</a>
+
+</td><td>
+<a class="methlink" href="#item_frefresh">frefresh</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item fattach
+
+B<>
+
+ Usage: fattach FILENAME, CLASS
+
+Attach an instance of a class (which has a corresponding 'parsefile' method)
+to a file.
+
+
+
+Returns an instance, which is a hash with members:
+
+
+  lastread    # mod time last time we read it
+  filename    # name
+  lines       # ARRAY of lines in the file
+  handlers    # HASH of attached classes
+
+
+The instance is a singleton.
+
+
+
+=back
+
+=over 4
+
+=item fhandler
+
+B<>
+
+ Usage: fhandler FILENAME, CLASSNAME
+
+Find the instance of a particular class which is attached to the file
+
+
+=back
+
+=over 4
+
+=item frefresh
+
+B<>
+
+ Usage: frefresh
+
+Signal all instances to check to see if their file on disk has been modified.
+
+If so, re-read the file and tell all your handlers to reparse themselves.
+
+
+
+=back
+
+
+=head1 INTERNAL
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item__read_from_disk">_read_from_disk</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item _read_from_disk
+
+B<>
+
+ Usage: _read_from_disk
+
+Modify the provided instance to reflect what is on disk.
+
+
+
+=back
+
+
+=head1 AUTHOR
+
+
+Ryan Gies
+
+=head1 COPYRIGHT
+
+
+Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+
+Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+
+=head1 UPDATED
+
+This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+
+=cut

@@ -1,0 +1,146 @@
+=head1 NAME
+
+Hub::Data::Archive - 
+
+Part of the L<Hub Library|hublib>
+
+=head1 SYNOPSIS
+
+
+
+=head1 DESCRIPTION
+
+
+
+=head1 METHODS
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item_carch">carch</a>
+
+</td><td>
+<a class="methlink" href="#item_larch">larch</a>
+
+</td><td>
+<a class="methlink" href="#item_xarch">xarch</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item carch
+
+B<>
+
+ Usage: carch FILE, DIR, LIST
+
+Create archive
+
+
+Where:
+
+
+  FILE            absolute path to the archive
+  DIR             perform in this directory
+  LIST            array reference of filenames (relative to DIR or absolute)
+
+
+=back
+
+=over 4
+
+=item larch
+
+B<>
+
+ Usage: larch FILE
+
+List archive
+
+
+Where:
+
+
+  FILE            absolute path to the archive
+
+
+=back
+
+=over 4
+
+=item xarch
+
+B<>
+
+ Usage: xarch FILE, DIR
+
+Extract archive
+
+
+Where:
+
+
+  FILE            absolute path to the archive
+  DIR             perform in this directory
+
+
+=back
+
+
+=head1 INTERNAL
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item__perform">_perform</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item _perform
+
+B<>
+
+ Usage: _perform ACTION, FILE, DIR, [MORE]
+
+Perform Archive::Tar class method events.
+
+
+
+Where:
+
+
+  ACTION          extract|create|list
+  FILE            absolute path to the archive
+  DIR             perform in this directory
+  MORE            for creating archives, this is an array reference
+
+
+=back
+
+
+=head1 AUTHOR
+
+
+Ryan Gies
+
+=head1 COPYRIGHT
+
+
+Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+
+Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+
+=head1 UPDATED
+
+This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+
+=cut

@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Hub::Data::Nest</title>
+<link rel="stylesheet" href="../../pod.css" type="text/css" />
+<link rev="made" href="mailto:gerrit@familiehaase.de" />
+</head>
+
+<body>
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#intention">Intention</a></li>
+		<li><a href="#see_also_">See also:</a></li>
+	</ul>
+
+	<li><a href="#methods">METHODS</a></li>
+	<li><a href="#internal">INTERNAL</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#updated">UPDATED</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Hub::Data::Nest - Nested data object</p>
+<p>Part of the <a href="../../hublib.html">Hub Library</a></p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    use Hub qw(:standard);
+    my $nest = mkinst( 'Nest' );</pre>
+<pre>
+    $$nest{'colors'} = {
+      white =&gt; 'fff',
+      black =&gt; '000',
+    };</pre>
+<pre>
+    print '#', $$nest{'colors/black'}, &quot;\n&quot;;</pre>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This virtual base class ties itself to
+<a href="../Knots/Addressable.html">Hub::Knots::Addressable</a> in order to hook into member 
+access routines.</p>
+<p>
+</p>
+<h2><a name="intention">Intention</a></h2>
+<p>We wish to have a single hash which behaves as the root element of a
+hierarchical data structure (such as XML or the DOM.)</p>
+<p>
+</p>
+<h2><a name="see_also_">See also:</a></h2>
+<p><a href="../../hubaddr.html">the hubaddr manpage</a></p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<table><tr><td>
+<a class="methlink" href="#item_new">new</a></td></tr></table><dl>
+<dt><strong><a name="item_new">new</a></strong><br />
+</dt>
+<dd>
+<strong>Constructor.</strong>
+</dd>
+<p></p></dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="internal">INTERNAL</a></h1>
+<table><tr><td>
+<a class="methlink" href="#item_autoload">AUTOLOAD</a></td><td>
+<a class="methlink" href="#item_destroy">DESTROY</a></td></tr></table><dl>
+<dt><strong><a name="item_autoload">AUTOLOAD</a></strong><br />
+</dt>
+<dd>
+<strong>Proxy for data handler methods</strong>
+</dd>
+<dd>
+<pre>
+  get         # fetch
+  set         # store
+  append      # special store
+  take        # delete</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_destroy">DESTROY</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: DESTROY</pre>
+</dd>
+<dd>
+<p>Defining this function prevents it from being searched in AUTOLOAD</p>
+</dd>
+<p></p></dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Ryan Gies</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
+<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="updated">UPDATED</a></h1>
+<p>This file created by mkdocs.pl on 8/29/2006 at 2:07pm</p>
+<p><a href="#__index__"><small>Top</small></a></p>
+
+</body>
+
+</html>

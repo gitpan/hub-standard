@@ -1,0 +1,306 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Hub::Base::Logger</title>
+<link rel="stylesheet" href="../../pod.css" type="text/css" />
+<link rev="made" href="mailto:gerrit@familiehaase.de" />
+</head>
+
+<body>
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<li><a href="#internal">INTERNAL</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#updated">UPDATED</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Hub::Base::Logger - 
+    use Hub;
+    my $log = Hub::mkinst( 'Logger', ``/var/log/service.log'' );
+    $log-&gt;show( ``warn, info, foo'' );</p>
+<pre>
+    $log-&gt;msg( &quot;I will print b/c level 'info' is specified&quot;, 'info' );
+    $log-&gt;msg( &quot;I will print b/c there is no type&quot; );
+    $log-&gt;err( &quot;$!: $filename&quot; );
+    $log-&gt;msg( &quot;I will not print&quot;, &quot;kmfdm&quot; );</pre>
+<pre>
+    $log-&gt;flush(); # write to file (also called on DESTROY)</pre>
+<p>Part of the <a href="../../hublib.html">Hub Library</a></p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>Record log messages, write them to file and append to stdout.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This logger is used by this library.  Logging levels are not standardized,
+but you can specify show( 'all' ) to see what gets used.</p>
+<p>Always available:</p>
+<pre>
+          Unspecified messages</pre>
+<pre>
+  err     Error, fatal errors such as configuration issues. (always 
+          print, unless 'opressed' is set)</pre>
+<p>THese are used by this library, and may also server as examples:</p>
+<pre>
+  info    Informational, users will set this as the default to get a warm
+          fuzzy of program flow.</pre>
+<pre>
+  warn    Warning, non-fatal errors such as configuration issues.</pre>
+<pre>
+  verb    Verbose, programmers will look at this output to determine where to 
+          start debugging an error.</pre>
+<pre>
+  dbg     Debug, these messages are useless unless you know what you're
+          looking for.</pre>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<table><tr><td>
+<a class="methlink" href="#item_disable">disable</a></td><td>
+<a class="methlink" href="#item_lograw">logRaw</a></td><td>
+<a class="methlink" href="#item_msg">msg</a></td><td>
+<a class="methlink" href="#item_set">set</a></td></tr><tr><td>
+<a class="methlink" href="#item_dump">dump</a></td><td>
+<a class="methlink" href="#item_measurefrom">measurefrom</a></td><td>
+<a class="methlink" href="#item_new">new</a></td><td>
+<a class="methlink" href="#item_show">show</a></td></tr><tr><td>
+<a class="methlink" href="#item_err">err</a></td><td>
+<a class="methlink" href="#item_measureto">measureto</a></td><td>
+<a class="methlink" href="#item_out">out</a></td><td>
+<a class="methlink" href="#item_tee">tee</a></td></tr><tr><td>
+<a class="methlink" href="#item_flush">flush</a></td><td>
+<a class="methlink" href="#item_morte">morte</a></td><td>
+<a class="methlink" href="#item_refresh">refresh</a></td><td>
+<a class="methlink" href="#item_trim_file">trim_file</a></td></tr></table><dl>
+<dt><strong><a name="item_disable">disable</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>No logging</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_dump">dump</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: dump [MESSAGE], ?REF, [LEVEL]</pre>
+</dd>
+<dd>
+<p>Where:</p>
+</dd>
+<dd>
+<pre>
+  MESSAGE     An optional message to prefix the output
+  ?REF        A reference to the value which will be dumped
+  LEVEL       The level passed as a flag, -verb for example.</pre>
+</dd>
+<dd>
+<p>Dump hash|array values.  ?REF? may not be a HASH or ARRAY reference, since
+this method is used to inspect variables.  In that case, it will treated like
+a scalar.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_err">err</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_flush">flush</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: flush
+ Usage: flush -tstamp =&gt; TIMESTAMP
+ flush -tee    =&gt; none|html|stdout|stderr</pre>
+</dd>
+<dd>
+<p>Write log messages to disk.</p>
+</dd>
+<dd>
+<p>Optionally tee these messages (to stdout or stderr or stdout wrapped with
+HTML comments).</p>
+</dd>
+<dd>
+<p>TIMESTAMP as from Time::HiRes::gettimeofday.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_lograw">logRaw</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_measurefrom">measurefrom</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_measureto">measureto</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_morte">morte</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: morte</pre>
+</dd>
+<dd>
+<p>Log the message as an error, flush the log file, and die with the message.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_msg">msg</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>Log a message at a specific level</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_new">new</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_out">out</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>write directly to standard out</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_refresh">refresh</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_set">set</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>Toggle output options</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_show">show</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>'all' will display all messages.  Otherwise, specify the message level
+(see 'msg' below.)</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_tee">tee</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>Append messages to stdout (0=no, 1=html, 2=raw)</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_trim_file">trim_file</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>keep the logfile below a certian size</p>
+</dd>
+<p></p></dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="internal">INTERNAL</a></h1>
+<table><tr><td>
+<a class="methlink" href="#item_destroy">DESTROY</a></td></tr></table><dl>
+<dt><strong><a name="item_destroy">DESTROY</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<p></p></dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Ryan Gies</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
+<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="updated">UPDATED</a></h1>
+<p>This file created by mkdocs.pl on 8/29/2006 at 2:07pm</p>
+<p><a href="#__index__"><small>Top</small></a></p>
+
+</body>
+
+</html>

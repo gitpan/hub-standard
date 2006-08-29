@@ -1,0 +1,57 @@
+=head1 NAME
+
+=begin html
+
+<p id="packagename">hubaddr - Data addresses</p>
+
+=end html
+
+=begin text
+
+hubaddr - Data addresses
+
+=end text
+
+
+=head1 SYNOPSIS
+
+An address points to a value nested inside hash structures.  It is 
+semantically equivilent to a how a pathname points to a file on your 
+hard-drive.
+
+A nested hash structure is a hash who's elements may be hashes, arrays, or
+scalars.  Sub-hashes and sub-arrays may also (recursively) contain these 
+elements.
+
+=head1 DESCRIPTION
+
+Given the nested structure:
+
+  %hash {                               # Hash
+      @fruit {                          # Array
+          % {                           # Anonymous hash at index 0
+              name  => apple
+              color => red
+              grown => Washington
+          }
+      }
+  }
+
+
+=head1 AUTHOR
+
+
+Ryan Gies
+
+=head1 COPYRIGHT
+
+
+Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+
+Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+
+=head1 UPDATED
+
+This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+
+=cut

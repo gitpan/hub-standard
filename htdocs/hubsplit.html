@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>hubsplit</title>
+<link rel="stylesheet" href="pod.css" type="text/css" />
+<link rev="made" href="mailto:gerrit@familiehaase.de" />
+</head>
+
+<body>
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#updated">UPDATED</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p id="packagename">hubsplit - Hub Variation of AutoSplit</p><p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>Hub modules are split using the <a href="#item__23_21bulksplit"><code>#!BulkSplit</code></a> and <a href="#item__23_21autosplit"><code>#!AutoSplit</code></a> directives.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<dl>
+<dt><strong><a name="item__23_21bulksplit">#!BulkSplit</a></strong><br />
+</dt>
+<dd>
+BulkSplit splits the module into two pieces, considered the HEADER and the
+CONTENT on the line where #!BulkSplit appears.  The intention is to delay loading
+the content of a module until it is needed, but don't split up every function.
+This is useful for optimizing modules which are used less frequently, but when 
+they are you might as well load the whole thing because you're going to need it.
+</dd>
+<dd>
+<p>Everything before the BulkSplit directive is the HEADER, and placed in the 
+normal .pm library file.  Everything below the directive is the CONTENT, and 
+placed in the auto/module_path/Module.al file.  Also, the 
+auto/module_path/Module.ix is created.</p>
+</dd>
+<dd>
+<p>Inserts method AUTOLOAD into the actual .pm file.</p>
+</dd>
+<dd>
+<p>Inserts a method with the <strong>same</strong> name as the package into the .al file:</p>
+</dd>
+<dd>
+<pre>
+  package My::Helper::Module;</pre>
+</dd>
+<dd>
+<p>Would have a routine:</p>
+</dd>
+<dd>
+<pre>
+  sub Module {
+  }</pre>
+</dd>
+<dd>
+<p>inserted into <code>auto/My/Helper/Module/Module.al</code>.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item__23_21autosplit">#!AutoSplit</a></strong><br />
+</dt>
+<dd>
+The AutoSplit directive also divides the file into HEADER and CONTENT.  But this
+time the content is also placed in the normal .pm file, just that it goes below
+the __END__ maker like it's suppose to.  This short cut to AutoSplit lets the code
+reside in it's ``normal'' place, instead of below the __END__ marker.  In my version
+of Vim, everything after __END__ is color-coded like a comment, so this helps me :)
+</dd>
+<p></p></dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Ryan Gies</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
+<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="updated">UPDATED</a></h1>
+<p>This file created by mkdocs.pl on 8/29/2006 at 2:07pm</p>
+<p><a href="#__index__"><small>Top</small></a></p>
+
+</body>
+
+</html>

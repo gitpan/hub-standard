@@ -1,0 +1,313 @@
+=head1 NAME
+
+Hub::Data::Meta - Interface for manipulating web-content meta-data
+
+
+Part of the L<Hub Library|hublib>
+
+=head1 SYNOPSIS
+
+
+    use Hub;
+    my $meta = Hub::mkinst( 'Meta' );
+
+    $new_global_id = $meta->create_id();
+
+    $meta->define_id("user", "u%30d", 5);
+    $new_user_id = $meta->create_id("user");
+    die unless $new_user_id eq "u005";
+    $next_user_id = $meta->create_id("user");
+    die unless $new_user_id eq "u006";
+
+    $meta->define_order("users", "ascending", "name");
+    $meta->order_items("users", @users)
+
+
+
+=head1 DESCRIPTION
+
+
+Provides interfaces for manipulating internal data elements.  These
+are defined as:
+
+    variable name           description
+
+    _id                     identifier which uniquely distinguishes this item
+                            in its container.
+
+    _sort                   numerical value which signifies item order within
+                            its container.
+
+    _created_by             user which has created this item
+
+    _last_modified_by       user which has last modified this item
+
+    _last_modified          last time this item was modified in seconds since
+                            the epoch
+
+
+
+=head1 METHODS
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item_create_id">create_id</a>
+
+</td><td>
+<a class="methlink" href="#item_get_id">get_id</a>
+
+</td><td>
+<a class="methlink" href="#item_inithash">initHash</a>
+
+</td><td>
+<a class="methlink" href="#item_order_items">order_items</a>
+
+</td><td>
+<a class="methlink" href="#item_touch">touch</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item_define_id">define_id</a>
+
+</td><td>
+<a class="methlink" href="#item_init">init</a>
+
+</td><td>
+<a class="methlink" href="#item_new">new</a>
+
+</td><td>
+<a class="methlink" href="#item_smart_compare">smart_compare</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item create_id
+
+B<>
+
+gets the next number for an id and returns the formmatted value.  file storage
+is saved as 'meta.hf'.
+
+
+
+example:
+
+
+  a) $meta->create_id();
+  b) $meta->create_id();
+  ...
+
+
+
+  c) $meta->create_id('abc','%d',10);
+
+
+returns:
+
+
+  a) 1
+  b) 2
+  ...
+
+
+
+  c) 11 (presuming the id 'abc' wasn't defined, it is initialized)
+
+
+
+
+=back
+
+=over 4
+
+=item define_id
+
+B<>
+
+define the format and initial value for an id
+
+
+example:
+
+
+  $meta->define_id('global', '%04d', 0);
+  $meta->define_id('folsiz', "p%d", 100);
+  $meta->define_id('bolmsk', "item%08d", 2000);
+
+
+will create ids of the form:
+
+
+  0164                where the value is 164 and starts at 0
+  p748                where the value is 748 and starts at 100
+  item00012148        where the value is 12148 and starts at 200
+
+
+
+
+=back
+
+=over 4
+
+=item get_id
+
+B<>
+
+return the stored id data, or create it with default values
+
+
+example:
+
+
+  $meta->get_id();
+  $meta->get_id('folsiz');
+
+
+returns a hash reference to:
+
+
+  the global id data
+  the id data for 'folsiz'
+
+
+
+
+=back
+
+=over 4
+
+=item init
+
+B<>
+
+ Usage: initialize
+
+
+
+
+=back
+
+=over 4
+
+=item initHash
+
+B<>
+
+initialize meta-data for the provided hash
+
+
+=back
+
+=over 4
+
+=item new
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item order_items
+
+B<>
+
+order the anon hashes within an array according to some hash key
+
+
+ Usage: order_items( $array_ref, 'hash_key', 'sort_key' );
+
+
+1) The 'sort_key' arguement (or literally '_sort' if no arg is provided)
+   will be assigned in the anon hash with the 0 ... n index which indicates
+   the correct sort order.
+
+
+
+2) sorting will use a numeric comparison when the data of the key to sort on
+   is purely digits.
+
+
+
+
+
+=back
+
+=over 4
+
+=item smart_compare
+
+B<>
+
+use 'cmp' or '<=>' depending on the data.  missing values are pushed to the
+end of the list
+
+
+
+
+=back
+
+=over 4
+
+=item touch
+
+B<>
+
+refresh meta-data in the provided hashref.
+
+
+
+example:
+
+
+  $meta->touch( { this => "is", a => "hashref" } );
+
+
+will:
+
+
+  {
+      _created_by         => guest,
+      _last_modified_by   => guest,
+      _created            => 1071712178,
+      _last_modified      => 1071712178,
+      this                => "is",
+      a                   => "hashref",
+  }
+
+
+=back
+
+
+=head1 INTERNAL
+
+=begin html
+
+
+
+=end html
+
+
+=head1 AUTHOR
+
+
+Ryan Gies
+
+=head1 COPYRIGHT
+
+
+Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+
+Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+
+=head1 UPDATED
+
+This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+
+=cut

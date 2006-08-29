@@ -1,0 +1,90 @@
+=head1 NAME
+
+Hub::Parse::FileParser - 
+
+Part of the L<Hub Library|hublib>
+
+=head1 SYNOPSIS
+
+
+
+=head1 DESCRIPTION
+
+
+
+=head1 METHODS
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item_new">new</a>
+
+</td><td>
+<a class="methlink" href="#item_parsefile">parsefile</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item new
+
+B<Constructor>
+
+
+
+
+ Usage: new FILESPEC
+
+This is a singleton.
+
+FILESPEC is an absolute path or a relative runtime path.
+
+
+
+=back
+
+=over 4
+
+=item parsefile
+
+B<Parse template file>
+
+
+
+
+Supports the FileCache interface.
+
+
+
+=back
+
+
+=head1 INTERNAL
+
+=begin html
+
+
+
+=end html
+
+
+=head1 AUTHOR
+
+
+Ryan Gies
+
+=head1 COPYRIGHT
+
+
+Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+
+Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+
+=head1 UPDATED
+
+This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+
+=cut

@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Hub::Data::Archive</title>
+<link rel="stylesheet" href="../../pod.css" type="text/css" />
+<link rev="made" href="mailto:gerrit@familiehaase.de" />
+</head>
+
+<body>
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<li><a href="#internal">INTERNAL</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#updated">UPDATED</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Hub::Data::Archive -</p>
+<p>Part of the <a href="../../hublib.html">Hub Library</a></p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<table><tr><td>
+<a class="methlink" href="#item_carch">carch</a></td><td>
+<a class="methlink" href="#item_larch">larch</a></td><td>
+<a class="methlink" href="#item_xarch">xarch</a></td></tr></table><dl>
+<dt><strong><a name="item_carch">carch</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: carch FILE, DIR, LIST</pre>
+</dd>
+<dd>
+<p>Create archive</p>
+</dd>
+<dd>
+<p>Where:</p>
+</dd>
+<dd>
+<pre>
+  FILE            absolute path to the archive
+  DIR             perform in this directory
+  LIST            array reference of filenames (relative to DIR or absolute)</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_larch">larch</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: larch FILE</pre>
+</dd>
+<dd>
+<p>List archive</p>
+</dd>
+<dd>
+<p>Where:</p>
+</dd>
+<dd>
+<pre>
+  FILE            absolute path to the archive</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_xarch">xarch</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: xarch FILE, DIR</pre>
+</dd>
+<dd>
+<p>Extract archive</p>
+</dd>
+<dd>
+<p>Where:</p>
+</dd>
+<dd>
+<pre>
+  FILE            absolute path to the archive
+  DIR             perform in this directory</pre>
+</dd>
+<p></p></dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="internal">INTERNAL</a></h1>
+<table><tr><td>
+<a class="methlink" href="#item__perform">_perform</a></td></tr></table><dl>
+<dt><strong><a name="item__perform">_perform</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: _perform ACTION, FILE, DIR, [MORE]</pre>
+</dd>
+<dd>
+<p>Perform Archive::Tar class method events.</p>
+</dd>
+<dd>
+<p>Where:</p>
+</dd>
+<dd>
+<pre>
+  ACTION          extract|create|list
+  FILE            absolute path to the archive
+  DIR             perform in this directory
+  MORE            for creating archives, this is an array reference</pre>
+</dd>
+<p></p></dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Ryan Gies</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
+<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="updated">UPDATED</a></h1>
+<p>This file created by mkdocs.pl on 8/29/2006 at 2:07pm</p>
+<p><a href="#__index__"><small>Top</small></a></p>
+
+</body>
+
+</html>

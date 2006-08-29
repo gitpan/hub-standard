@@ -1,0 +1,154 @@
+=head1 NAME
+
+=begin html
+
+<p id="packagename">hubtest - Hub Library Testcase Extraction</p>
+
+=end html
+
+=begin text
+
+hubtest - Hub Library Testcase Extraction
+
+=end text
+
+
+=head1 SYNOPSIS
+
+Test cases are embedded in source code, as the should be.  This helps code
+stability by allowing the maintainer to comprehend and update method APIs.
+Moreover, testcase extraction allows the correct usage to be detailed in the
+documentation (which is likely easier to understand than the author's
+description.)
+
+=head1 DESCRIPTION
+
+
+Tests are extracted from the source-code comments.  The beginning of the test 
+is identified by '#|test(...)', and continues on all consecutive lines which 
+begin with '#|':
+
+    #|test(false)   my $var = "abc";
+    #|              $var =~ /[A-Z]/;
+
+Alternatively, test blocks may be in POD syntax, as:
+
+    =test(false)
+
+        my $var = "abc";
+        $var =~ /[A-Z]/;
+
+    =cut
+
+=head2 Test types
+
+Test types (the word within parenthesis) are restricted to the following:
+
+    [!]true     returns a true value
+    [!]false    returns a false value
+    [!]undef    returns undefined
+    [!]abort    aborts via die|carp|croak|...
+    [!]match    (see below)
+
+When the type is [!]match, the result of the test is listed after the test,
+and prefixed with '#~'.  Decorative white-space is removed from lines which
+begin with '#|' or '#~':
+
+    #|test(match)   my ($state) = $address =~ /([A-Z][A-Z]), \\d+\\Z/;
+    #|              return $state;
+    #| 
+    #~              WA
+    #~
+
+Additionally, C<[!]match> test results may be written on the test-line:
+
+    #|test(match,ABC) uc('abc')
+
+=head2 POD Syntax
+
+Test blocks in POD syntax, use '=result' to specify the result:
+
+    =test(match)
+
+        uc('abc');
+
+    =result
+
+        ABC
+
+    =cut
+
+=head2 White space
+
+If the decorative white-space is critical in testing the return value, we use
+'#=' instead of '#~':
+
+    #|test(match)   my $fh = IO::File->new();
+    #|              open $fh, "</etc/passwd" or die "$\!: /etc/passwd";
+    #|              my @lines = <$fh>;
+    #|              close $fh;
+    #|              map { print $_ } @lines;
+    #~
+    #=SYSTEM:*:18:544:,S-1-5-18::
+    #=Administrators:*:544:544:,S-1-5-32-544::
+    #=...
+    #~
+
+POD syntax always removes the decorative white-space.
+
+The '#|', '#~', and '#=' identifiers must be at the beginning of the line.  This
+these considered a normal comments:
+
+    ##| Does not match "^#"
+      #| White-space (indenting) not honored
+
+=head2 Documentation
+
+For documentation purposes, the test may have a one-line summary, which is
+formed when either: The test-line only contains a comment
+
+    #|test(match) # Test for empty files
+    #|...
+
+Or, the test is a single line which ends with a comment:
+
+    #|test(true) my $s = "Abc"; $s =~ /\A[A-Z][a-z]+\Z/; # Capital word
+
+In this second case, the triggering pattern is C<';\s*#\s*(.*)\Z'>, meaning
+that the semicolon (;) before the comment is crucial.
+
+=head1 EXAMPLES
+
+
+Four ways to do the same thing:
+
+    #|test(match,ABC) uc('abc')
+
+    #|test(match) uc('abc')
+    #=ABC
+
+    =test(match,ABC) uc('abc')
+    =cut
+
+    =test(match) uc('abc')
+    =result ABC
+    =cut
+
+
+=head1 AUTHOR
+
+
+Ryan Gies
+
+=head1 COPYRIGHT
+
+
+Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+
+Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+
+=head1 UPDATED
+
+This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+
+=cut

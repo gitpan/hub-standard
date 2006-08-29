@@ -1,0 +1,544 @@
+=head1 NAME
+
+=begin html
+
+<p id="packagename">hublib - Hub Library Reference</p>
+
+=end html
+
+=begin text
+
+hublib - Hub Library Reference
+
+=end text
+
+
+=head1 MANUALS
+
+
+=begin html
+
+<a href="hublib.html">hublib</a> - Hub Library Reference<br />
+
+=end html
+
+=begin text
+
+hublib|hublib> - Hub Library Reference
+
+=end text
+
+=begin html
+
+<a href="hubuse.html">hubuse</a> - Using the Hub library<br />
+
+=end html
+
+=begin text
+
+hubuse|hubuse> - Using the Hub library
+
+=end text
+
+=begin html
+
+<a href="hubaddr.html">hubaddr</a> - Data addresses<br />
+
+=end html
+
+=begin text
+
+hubaddr|hubaddr> - Data addresses
+
+=end text
+
+=begin html
+
+<a href="hubsplit.html">hubsplit</a> - Hub Variation of AutoSplit<br />
+
+=end html
+
+=begin text
+
+hubsplit|hubsplit> - Hub Variation of AutoSplit
+
+=end text
+
+=begin html
+
+<a href="hubtest.html">hubtest</a> - Hub Library Testcase Extraction<br />
+
+=end html
+
+=begin text
+
+hubtest|hubtest> - Hub Library Testcase Extraction
+
+=end text
+
+
+=head1 METHODS
+
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_abort">abort</a>
+
+</td><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_expect">expect</a>
+
+</td><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_getuid">getuid</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/Alias.html#item_lshow">lshow</a>
+
+</td><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_rmsubhash">rmsubhash</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub/Parse/Transform.html#item_abspath">abspath</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/FileCache.html#item_fattach">fattach</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/Handlers.html#item_happendv">happendv</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/Alias.html#item_lwarn">lwarn</a>
+
+</td><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_rmval">rmval</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub/Perl/Sort.html#item_anonsort">anonsort</a>
+
+</td><td>
+<a class="methlink" href="Hub/Parse/Transform.html#item_fcols">fcols</a>
+
+</td><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_hashget">hashget</a>
+
+</td><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_max">max</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/Alias.html#item_rpath">rpath</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_asa">asa</a>
+
+</td><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_fear">fear</a>
+
+</td><td>
+<a class="methlink" href="Hub/Parse/Transform.html#item_hashtoattrs">hashtoattrs</a>
+
+</td><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_merge">merge</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/File.html#item_safefn">safefn</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_asarray">asarray</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/FileCache.html#item_fhandler">fhandler</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/HashFile.html#item_hffmt">hffmt</a>
+
+</td><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_min">min</a>
+
+</td><td>
+<a class="methlink" href="Hub/Parse/Transform.html#item_safestr">safestr</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_ash">ash</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/File.html#item_fileclose">fileclose</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/HashFile.html#item_hfsync">hfsync</a>
+
+</td><td>
+<a class="methlink" href="Hub/Parse/Transform.html#item_mkabsdir">mkabsdir</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/Alias.html#item_setconst">setconst</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub/Parse/Transform.html#item_attrhash">attrhash</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/File.html#item_fileopen">fileopen</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/Handlers.html#item_hgetv">hgetv</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/File.html#item_mkdiras">mkdiras</a>
+
+</td><td>
+<a class="methlink" href="Hub/Parse/Transform.html#item_siteurl">siteurl</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_bestof">bestof</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/File.html#item_filescan">filescan</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/Handlers.html#item_hsetv">hsetv</a>
+
+</td><td>
+<a class="methlink" href="Hub.html#item_mkinst">mkinst</a>
+
+</td><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_sortkbyv">sortkbyv</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub.html#item_callback">callback</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/File.html#item_filetest">filetest</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/Handlers.html#item_htakev">htakev</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/Package.html#item_modexec">modexec</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/Alias.html#item_spath">spath</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub/Data/Archive.html#item_carch">carch</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/File.html#item_filetime">filetime</a>
+
+</td><td>
+<a class="methlink" href="Hub/Parse/Transform.html#item_indenttext">indenttext</a>
+
+</td><td>
+<a class="methlink" href="Hub/Parse/Transform.html#item_nbspstr">nbspstr</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/Alias.html#item_srcpath">srcpath</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_check">check</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/File.html#item_find">find</a>
+
+</td><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_intdiv">intdiv</a>
+
+</td><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_objopts">objopts</a>
+
+</td><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_subfield">subfield</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_checksum">checksum</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/File.html#item_find_files">find_files</a>
+
+</td><td>
+<a class="methlink" href="Hub/Parse/Transform.html#item_jsstr">jsstr</a>
+
+</td><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_opts">opts</a>
+
+</td><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_subhash">subhash</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub/Data/File.html#item_chperm">chperm</a>
+
+</td><td>
+<a class="methlink" href="Hub/Parse/Transform.html#item_fixpath">fixpath</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/Address.html#item_keydepth">keydepth</a>
+
+</td><td>
+<a class="methlink" href="Hub/Parse/Transform.html#item_packcgi">packcgi</a>
+
+</td><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_subst">subst</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_cmdopts">cmdopts</a>
+
+</td><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_flatten">flatten</a>
+
+</td><td>
+<a class="methlink" href="Hub/Perl/Sort.html#item_keydepthsort">keydepthsort</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/File.html#item_parsefile">parsefile</a>
+
+</td><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_touch">touch</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub/Perl/Compare.html#item_compare">compare</a>
+
+</td><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_flip">flip</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/Archive.html#item_larch">larch</a>
+
+</td><td>
+<a class="methlink" href="Hub/Knots/Defined.html#item_playnice">playnice</a>
+
+</td><td>
+<a class="methlink" href="Hub/Parse/Transform.html#item_trimcss">trimcss</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub/Data/File.html#item_cpdir">cpdir</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/FileCache.html#item_frefresh">frefresh</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/Alias.html#item_lbegm">lbegm</a>
+
+</td><td>
+<a class="methlink" href="Hub/Parse/Transform.html#item_polish">polish</a>
+
+</td><td>
+<a class="methlink" href="Hub/Parse/Transform.html#item_trimhtmlstyle">trimhtmlstyle</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub/Data/File.html#item_cpfile">cpfile</a>
+
+</td><td>
+<a class="methlink" href="Hub/Parse/Transform.html#item_fw">fw</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/Alias.html#item_ldie">ldie</a>
+
+</td><td>
+<a class="methlink" href="Hub/Parse/Transform.html#item_populate">populate</a>
+
+</td><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_uniq">uniq</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_cpref">cpref</a>
+
+</td><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_getbyname">getbyname</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/Alias.html#item_ldmp">ldmp</a>
+
+</td><td>
+<a class="methlink" href="Hub/Parse/Transform.html#item_ps">ps</a>
+
+</td><td>
+<a class="methlink" href="Hub/Parse/Transform.html#item_unpackcgi">unpackcgi</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub/Parse/Transform.html#item_datetime">datetime</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/Alias.html#item_getconst">getconst</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/Alias.html#item_lendm">lendm</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/File.html#item_readfile">readfile</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/Address.html#item_varname">varname</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub/Parse/Transform.html#item_dhms">dhms</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/File.html#item_getcrown">getcrown</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/Alias.html#item_lerr">lerr</a>
+
+</td><td>
+<a class="methlink" href="Hub.html#item_regns">regns</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/Address.html#item_varparent">varparent</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_dice">dice</a>
+
+</td><td>
+<a class="methlink" href="Hub/Parse/Transform.html#item_getext">getext</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/Alias.html#item_lflush">lflush</a>
+
+</td><td>
+<a class="methlink" href="Hub/Parse/Transform.html#item_relpath">relpath</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/Address.html#item_varroot">varroot</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_diff">diff</a>
+
+</td><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_getgid">getgid</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/Alias.html#item_lfresh">lfresh</a>
+
+</td><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_replace">replace</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/Address.html#item_vartype">vartype</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub/Perl/Language.html#item_digout">digout</a>
+
+</td><td>
+<a class="methlink" href="Hub/Parse/Transform.html#item_getname">getname</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/File.html#item_listfiles">listfiles</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/Alias.html#item_resdir">resdir</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/Alias.html#item_wpath">wpath</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub/Data/Address.html#item_dotaddr">dotaddr</a>
+
+</td><td>
+<a class="methlink" href="Hub.html#item_getns">getns</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/Alias.html#item_lmsg">lmsg</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/Alias.html#item_respath">respath</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/File.html#item_writefile">writefile</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub/Base/Alias.html#item_execconf">execconf</a>
+
+</td><td>
+<a class="methlink" href="Hub/Parse/Transform.html#item_getpath">getpath</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/Alias.html#item_lopt">lopt</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/File.html#item_rmdirrec">rmdirrec</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/Archive.html#item_xarch">xarch</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub/Data/Address.html#item_expand">expand</a>
+
+</td><td>
+<a class="methlink" href="Hub/Parse/Transform.html#item_getspec">getspec</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/Alias.html#item_lraw">lraw</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/File.html#item_rmfile">rmfile</a>
+
+</td></tr></table>
+
+=end html
+
+=head1 CLASSES
+
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="Hub/Base/Config.html#item_config">Config</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/HashFile.html#item_hashfile">HashFile</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/Meta.html#item_meta">Meta</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/Object.html#item_object">Object</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/Path.html#item_path">Path</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub/Parse/FileParser.html#item_fileparser">FileParser</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/Instance.html#item_instance">Instance</a>
+
+</td><td>
+<a class="methlink" href="Hub/Data/Nest.html#item_nest">Nest</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/Package.html#item_package">Package</a>
+
+</td><td>
+<a class="methlink" href="Hub/Parse/Template.html#item_template">Template</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="Hub/Data/HashData.html#item_hashdata">HashData</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/Logger.html#item_logger">Logger</a>
+
+</td><td>
+<a class="methlink" href="Hub/Base/NoOp.html#item_noop">NoOp</a>
+
+</td><td>
+<a class="methlink" href="Hub/Parse/Parser.html#item_parser">Parser</a>
+
+</td></tr></table>
+
+=end html
+
+
+=head1 AUTHOR
+
+
+Ryan Gies
+
+=head1 COPYRIGHT
+
+
+Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+
+Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+
+=head1 UPDATED
+
+This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+
+=cut

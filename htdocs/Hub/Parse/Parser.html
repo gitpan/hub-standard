@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Hub::Parse::Parser</title>
+<link rel="stylesheet" href="../../pod.css" type="text/css" />
+<link rev="made" href="mailto:gerrit@familiehaase.de" />
+</head>
+
+<body>
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<li><a href="#internal">INTERNAL</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#updated">UPDATED</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Hub::Parse::Parser -</p>
+<p>Part of the <a href="../../hublib.html">Hub Library</a></p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<table><tr><td>
+<a class="methlink" href="#item_new">new</a></td><td>
+<a class="methlink" href="#item_populate">populate</a></td><td>
+<a class="methlink" href="#item_refresh">refresh</a></td><td>
+<a class="methlink" href="#item_tweaker">tweaker</a></td></tr></table><dl>
+<dt><strong><a name="item_new">new</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: new</pre>
+</dd>
+<dd>
+<p>Constructor.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_populate">populate</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: populate \HASH+</pre>
+</dd>
+<dd>
+<p>Populate our template with provided variable definitions.</p>
+</dd>
+<dd>
+<p>PARAMETERS:</p>
+</dd>
+<dd>
+<pre>
+  \HASH               Variable name to definition map</pre>
+</dd>
+<dd>
+<p><strong>Example: This example</strong>:</p>
+</dd>
+<dd>
+<pre>
+    my $parser = mkinst( 'Parser', -template =&gt; 'Hello ' );
+              ${$parser-&gt;populate( { who =&gt; 'World' } )};</pre>
+</dd>
+<dd>
+<p><strong>matches</strong>:</p>
+</dd>
+<dd>
+<pre>
+    Hello World</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_refresh">refresh</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: refresh</pre>
+</dd>
+<dd>
+<p>Return instance to initial state.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_tweaker">tweaker</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: tweaker \$value, $tweak+</pre>
+</dd>
+<dd>
+<p>Tweaks allow modification to variable values.  This is expensive, and hence
+should be used only as a last resort.</p>
+</dd>
+<dd>
+<p>No spaces are allowed in the tweak name!</p>
+</dd>
+<dd>
+<p>Variables have to be specified as {#name} (not ) because of the use
+of s/name/value/g in the main populate routine.</p>
+</dd>
+<dd>
+<p>Implemented tweaks:</p>
+</dd>
+<dd>
+<pre>
+  !                   # Run command (custom tweak)</pre>
+</dd>
+<dd>
+<pre>
+  tr///               # transliterates search chars with replacement chars
+  lc                  # lower case
+  uc                  # upper case
+  lcfirst             # lower case first letter
+  ucfirst             # upper case first letter
+  x=                  # repeat the value so many times</pre>
+</dd>
+<dd>
+<pre>
+  esc                 # escape non-word characters
+  html                # replace '&lt;' and '&gt;' with '&amp;lt;' and '&amp;gt;'</pre>
+</dd>
+<dd>
+<pre>
+  num                 # number (will use zero '0' if empty)
+  dt(opts)            # datetime with options (see datetime).</pre>
+</dd>
+<dd>
+<pre>
+  dhms(opts)          # day/hour/min/sec with options (see dhms).</pre>
+</dd>
+<dd>
+<pre>
+  eq                  # equal
+  ne                  # not equal
+  gt                  # greater than
+  lt                  # less than
+  if                  # is greater than zero (or non-empty string)</pre>
+</dd>
+<dd>
+<pre>
+  -                   # minus
+  +                   # plus
+  *                   # multiply
+  /                   # divide
+  %                   # mod</pre>
+</dd>
+<p></p></dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="internal">INTERNAL</a></h1>
+<table><tr><td>
+<a class="methlink" href="#item__populate">_populate</a></td><td>
+<a class="methlink" href="#item__tweak">_tweak</a></td></tr></table><dl>
+<dt><strong><a name="item__populate">_populate</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: _populate [OPTIONS], \HASH+</pre>
+</dd>
+<dd>
+<p>Internal worker function.</p>
+</dd>
+<dd>
+<p>Recursive.</p>
+</dd>
+<dd>
+<p>PARAMETERS:</p>
+</dd>
+<dd>
+<pre>
+  \HASH               Variable name to definition map</pre>
+</dd>
+<dd>
+<p>OPTIONS:</p>
+</dd>
+<dd>
+<pre>
+  -text   \SCALAR     Template text to populate</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item__tweak">_tweak</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: _tweak</pre>
+</dd>
+<dd>
+<p>Internal function.</p>
+</dd>
+<dd>
+<p>Tweak values.</p>
+</dd>
+<dd>
+<p>Subroutine for tweaking must be provided in the constructor.</p>
+</dd>
+<p></p></dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Ryan Gies</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
+<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="updated">UPDATED</a></h1>
+<p>This file created by mkdocs.pl on 8/29/2006 at 2:07pm</p>
+<p><a href="#__index__"><small>Top</small></a></p>
+
+</body>
+
+</html>

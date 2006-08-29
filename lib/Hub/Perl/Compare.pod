@@ -1,0 +1,139 @@
+=head1 NAME
+
+Hub::Perl::Compare - 
+
+Part of the L<Hub Library|hublib>
+
+=head1 SYNOPSIS
+
+
+
+=head1 DESCRIPTION
+
+
+
+=head1 METHODS
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item_compare">compare</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item compare
+
+B<Wrapper for Perl's internal comparison operators.>
+
+
+
+
+
+ Usage: compare OPERATOR, LEFT_OPERAND, RIGHT_OPERAND
+
+
+OPERATOR's:
+
+
+  eq ne lt le gt ge == != < > <= >=
+
+
+Extended OPERATOR's:
+
+
+  eqic    Equal ignore case
+  neic    Not-equal ignore case
+
+
+The purpose here is twofold: a) support runtime comparison when the operator
+is held as string; and b) behave like Perl does when warnings are disabled.
+
+
+B<This example> returns: B<true>:
+
+    compare('eq','',undef);
+
+B<This example> returns: B<true>:
+
+    compare('eq','abc','abc');
+
+B<This example> returns: B<true>:
+
+    compare('ne','abc','Abc');
+
+B<This example> returns: B<false>:
+
+    compare('eq','abc',undef);
+
+B<This example> returns: B<true>:
+
+    compare('!~','abc','A');
+
+B<This example> returns: B<true>:
+
+    compare('=~','abc','a');
+
+B<This example> returns: B<true>:
+
+    compare('==',1234,1234);
+
+B<This example> returns: B<true>:
+
+    compare('>=',1234,1234);
+
+B<This example> returns: B<true>:
+
+    compare('eqic','abc','Abc');
+
+B<This example> returns: B<true>:
+
+    compare('==',undef,undef);
+
+B<This example> returns: B<true>:
+
+    compare('==',0,undef);
+
+B<Example: This example>:
+
+    my @numbers = ( 20, 1, 10, 2 );
+              join ';', sort { &compare('<=>',$a,$b) } @numbers;
+
+B<matches>:
+
+    1;2;10;20
+
+
+=back
+
+
+=head1 INTERNAL
+
+=begin html
+
+
+
+=end html
+
+
+=head1 AUTHOR
+
+
+Ryan Gies
+
+=head1 COPYRIGHT
+
+
+Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+
+Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+
+=head1 UPDATED
+
+This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+
+=cut

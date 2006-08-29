@@ -1,0 +1,1371 @@
+=head1 NAME
+
+Hub::Perl::Language - 
+
+Part of the L<Hub Library|hublib>
+
+=head1 SYNOPSIS
+
+
+
+=head1 DESCRIPTION
+
+
+
+=head1 METHODS
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item_abort">abort</a>
+
+</td><td>
+<a class="methlink" href="#item_cpref">cpref</a>
+
+</td><td>
+<a class="methlink" href="#item_getbyname">getbyname</a>
+
+</td><td>
+<a class="methlink" href="#item_min">min</a>
+
+</td><td>
+<a class="methlink" href="#item_subfield">subfield</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item_array">array</a>
+
+</td><td>
+<a class="methlink" href="#item_dice">dice</a>
+
+</td><td>
+<a class="methlink" href="#item_getgid">getgid</a>
+
+</td><td>
+<a class="methlink" href="#item_objopts">objopts</a>
+
+</td><td>
+<a class="methlink" href="#item_subhash">subhash</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item_asa">asa</a>
+
+</td><td>
+<a class="methlink" href="#item_diff">diff</a>
+
+</td><td>
+<a class="methlink" href="#item_getuid">getuid</a>
+
+</td><td>
+<a class="methlink" href="#item_opts">opts</a>
+
+</td><td>
+<a class="methlink" href="#item_subst">subst</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item_asarray">asarray</a>
+
+</td><td>
+<a class="methlink" href="#item_digout">digout</a>
+
+</td><td>
+<a class="methlink" href="#item_hash">hash</a>
+
+</td><td>
+<a class="methlink" href="#item_replace">replace</a>
+
+</td><td>
+<a class="methlink" href="#item_touch">touch</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item_bestof">bestof</a>
+
+</td><td>
+<a class="methlink" href="#item_expect">expect</a>
+
+</td><td>
+<a class="methlink" href="#item_hashget">hashget</a>
+
+</td><td>
+<a class="methlink" href="#item_rmsubhash">rmsubhash</a>
+
+</td><td>
+<a class="methlink" href="#item_uniq">uniq</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item_check">check</a>
+
+</td><td>
+<a class="methlink" href="#item_fear">fear</a>
+
+</td><td>
+<a class="methlink" href="#item_intdiv">intdiv</a>
+
+</td><td>
+<a class="methlink" href="#item_rmval">rmval</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item_checksum">checksum</a>
+
+</td><td>
+<a class="methlink" href="#item_flatten">flatten</a>
+
+</td><td>
+<a class="methlink" href="#item_max">max</a>
+
+</td><td>
+<a class="methlink" href="#item_scalar">scalar</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item_cmdopts">cmdopts</a>
+
+</td><td>
+<a class="methlink" href="#item_flip">flip</a>
+
+</td><td>
+<a class="methlink" href="#item_merge">merge</a>
+
+</td><td>
+<a class="methlink" href="#item_sortkbyv">sortkbyv</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item abort
+
+B<>
+
+ Usage: abort
+ Usage: abort -msg => 'Croak message'
+ Usage: abort -back => LEVEL
+
+Croak nicely.
+
+
+B<This example> returns: B<abort>:
+
+    abort( -msg => 'Goddamn hippies' );
+
+
+=back
+
+=over 4
+
+=item array
+
+B<>
+
+is the passed in thingy an ARRAY reference?
+
+
+
+
+=back
+
+=over 4
+
+=item asa
+
+B<As ARRAY>
+
+
+
+B<Example: This example>:
+
+    join 'X', asa(undef);
+
+B<matches>:
+
+
+
+
+=back
+
+=over 4
+
+=item asarray
+
+B<>
+
+ Usage: asarray HASHREF|ARRAYREF [KEY] [OPTIONS]
+
+Turn a hashref of hashref's, or an array of hashref's into an array.
+
+
+
+Sort by KEY
+
+
+OPTIONS
+
+
+ --asref              Return a reference instead
+ --lose               Lose the key (for hash references)
+ --filter:key=val     Only include items where key eq val
+
+
+Unless --lose is specified,  we will modify the provided hash, storing the
+outer key as '_id' of each subhash.
+
+
+
+=back
+
+=over 4
+
+=item bestof
+
+B<>
+
+ Usage: bestof @list
+ Usage: bestof @list, -by=max|min|def|len|gt|lt
+
+
+Best value by criteria (default 'def').
+
+
+
+=back
+
+=over 4
+
+=item check
+
+B<True if all items in list pass the test.>
+
+
+
+
+
+ Usage: check [OPTIONS], [TEST], LIST
+
+
+OPTIONS:
+
+
+  -opr    (or|and|xor)                            Operator  (default: 'and')
+
+
+TEST:
+
+
+  -test   (def|num|str|match|blessed|eval)        Test type (default: 'def')
+  -isa    EXPR
+  -ref    EXPR
+
+
+OPERATORS:
+
+
+  and             True when all items pass the test.
+
+  or              True when any single item passes the test.
+
+  xor             Alternation pattern. True unless two consecutive values
+                  both pass or fail the test.
+
+
+
+BASIC TEST:
+
+
+  def             Items are defined
+  num             Items are numeric
+  str             Items are *not* numeric
+
+
+OTHER TESTS:
+
+
+  match=EXPR      Items match EXPR
+  eval            Items are eval'd and truth is based on $@.  Note that the
+                  eval *actually* happens, so don't do anything that will
+                  break your code.  The intention of this check is for:
+
+
+
+B<This example> returns: B<abort>:
+
+    my $compression = check( '-test=eval', 'use IO::Zlib' ) ? 1 : 0;
+
+
+STRUCTURE TESTS:
+
+
+  blessed         Items are blessed
+  ref=EXPR        Item's ref matches EXPR (does *not* include @ISA)
+  isa=EXPR        Item's ref or @ISA match EXPR.  Much like UNIVERSAL::isa
+                  except allows regular expressions.
+
+
+
+
+B<none are defined> returns: B<false>:
+
+    check( undef, undef, undef );
+
+B<only one is defined> returns: B<false>:
+
+    check( 1, undef );
+
+B<both are defined> returns: B<true>:
+
+    check( 1, 1 );
+
+B<one is defined> returns: B<true>:
+
+    check( 1, undef, -opr => 'or' );
+
+B<This example> returns: B<false>:
+
+    check( -opr => 'xor', 1, 1 );
+
+B<This example> returns: B<false>:
+
+    check( -opr => 'xor', undef, undef );
+
+B<This example> returns: B<true>:
+
+    check( -opr => 'xor', undef, 1 );
+
+B<This example> returns: B<true>:
+
+    check( -opr => 'xor', 1, undef );
+
+B<This example> returns: B<true>:
+
+    check( -opr => 'xor', 1, undef, 1, undef );
+
+B<This example> returns: B<false>:
+
+    check( -opr => 'xor', 1, undef, 1, 1, undef );
+
+B<This example> returns: B<true>:
+
+    check( -opr => 'xor', undef, 1, undef, 1 );
+
+
+=back
+
+=over 4
+
+=item checksum
+
+B<>
+
+Hub::checksum( @params )
+
+
+Create a unique identifier for the provided data
+
+
+Params can be scalars, hash references, array references and the like.  We
+use the HashFile's print routine to transform nested structures into flat
+strings.  As for performance, improvements should be made in the HashFile
+module.  The only reason I create a new instance of HashFile each time is
+because I know there are symbol tables (such as the order of elements) in
+that class which get update when the print method is called.
+
+
+B<Example: This example>:
+
+
+  my $x = 'like catfood';
+  Hub::checksum( 'my', { cats => 'breath' }, ( 'smells', $x ) );
+
+B<matches>:
+
+    2023611966
+
+
+=back
+
+=over 4
+
+=item cmdopts
+
+B<Extract short and long options from @ARGV>
+
+
+ Usage: cmdopts \ARRAY
+ Usage: cmdopts \ARRAY, \HASH
+
+
+Convienence method which deals with short single-dash and long double-dash
+options.
+
+
+
+=back
+
+=over 4
+
+=item cpref
+
+B<Recursively clone the reference, returning a new reference.>
+
+
+
+
+
+The Clone module found on CPAN crashes under my mod_perl and FastCGI
+test servers...
+
+
+
+Note: Have not tested recursive references.
+
+
+
+=back
+
+=over 4
+
+=item dice
+
+B<Break apart the string>
+
+
+
+
+ Usage: dice STRING
+
+B<Example: This example>:
+
+    join( ';', dice( "a{b{c}}c{d}" ) );
+
+B<matches>:
+
+    a;{b{c}};c;{d}
+
+
+=back
+
+=over 4
+
+=item diff
+
+B<>
+
+ Usage: diff &HASH, &HASH
+
+
+Creates a nest of the differences between the two provided.  If a conflict of
+types (with the same key) is encounterred, the right-hand sturcture is used.
+
+
+
+NOTE: Although this routine compares contents, it returns references to the
+original hashes (use cpref on the result to detatch.)
+
+
+=back
+
+=over 4
+
+=item digout
+
+B<>
+
+ Usage: digout REF, ID
+
+Return an array of all nested values in an order that can be processed.
+
+
+
+NOTE! Scalar values are returned as references.
+
+See how 'packdata' uses this method to dereference.
+
+
+
+Arrays are ignored unless their members are hashes with an _id member.
+
+
+
+Reverse the results of this array to process data in a way that the children
+are affected before their parents.
+
+
+
+=back
+
+=over 4
+
+=item expect
+
+B<Croak if arguments do not match their expected type>
+
+
+ Usage: expect [OPTIONS], [TEST], LIST
+
+
+OPTIONS:
+
+
+  -back   \d      # Carp level (for reporting further up the callstack)
+  -not    0|1     # Invert the result
+
+
+TESTS:
+
+
+  -blessed        # All LIST items are blessed
+  -match=EXPR     # All LIST items match /EXPR/
+  -ref=EXPR       # All LIST items' ref match /EXPR/
+
+
+By default, LIST is made up of key/value pairs, where the key is the type
+(what ref() will return) and the value is what will be tested.  LIST may
+contain one or more key/value pairs such as:
+
+
+  HASH            => arg
+  REF             => arg
+  My::Package     => arg
+
+B<This example> returns: B<true>:
+
+    Hub::expect( -match => 'and|or|xor', 'and' );
+
+B<This example> returns: B<true>:
+
+    Hub::expect( HASH => {}, HASH => {} );
+
+B<This example> returns: B<abort>:
+
+    Hub::expect( -blessed => {} );
+
+B<This example> returns: B<true>:
+
+    Hub::expect( -blessed => mkinst( 'Object' ) );
+
+B<This example> returns: B<abort>:
+
+    Hub::expect( -match => 'and|or|xor', 'if', 'or', 'and' );
+
+B<This example> returns: B<abort>:
+
+    Hub::expect( ARRAY => {} );
+
+B<This example> returns: B<abort>:
+
+    Hub::expect( -blessed => 'abc' );
+
+B<This example> returns: B<true>:
+
+    Hub::expect( -ref => 'HASH', {} );
+
+B<This example> returns: B<true>:
+
+    Hub::expect( -ref => 'HASH', mkinst('Object') );
+
+
+=back
+
+=over 4
+
+=item fear
+
+B<>
+
+Croak if arguments match their feared type.
+
+This is a shortcut to L<expect> with a '-not=1' option.
+
+
+B<This example> returns: B<abort>:
+
+    Hub::fear( HASH => {} );
+
+B<This example> returns: B<true>:
+
+    Hub::fear( HASH => [] );
+
+
+=back
+
+=over 4
+
+=item flatten
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item flip
+
+B<>
+
+given a hash reference, swap keys with values and return a new hash reference.
+
+
+
+=back
+
+=over 4
+
+=item getbyname
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item getgid
+
+B<>
+
+ Usage: getgid
+
+Return the GID of the user of the provided login id.
+
+
+
+=back
+
+=over 4
+
+=item getuid
+
+B<>
+
+ Usage: getuid
+
+Return the UID of the user of the provided login id.
+
+
+
+=back
+
+=over 4
+
+=item hash
+
+B<>
+
+is the passed in thingy a HASH reference?
+
+
+
+
+=back
+
+=over 4
+
+=item hashget
+
+B<>
+
+ Usage: hashget KEY, HASHREF
+
+Get a nested hash member using the colon-delimited key format.
+
+
+
+=back
+
+=over 4
+
+=item intdiv
+
+B<Integer division>
+
+
+
+
+ Usage: intdiv $DIVIDEND, $DIVISOR
+
+
+Returns an array with the number of times the divisor is contained in the
+dividend, and the remainder.
+
+
+B<Example: 3 divided by 2 is 1R1>:
+
+    join(',',Hub::intdiv(3,2));
+
+B<matches>:
+
+    1,1
+
+
+=back
+
+=over 4
+
+=item max
+
+B<Maximum value>
+
+
+
+
+ Usage: max @LIST
+
+
+Returns the greatest element in a set.
+
+
+B<Example: Three decimal values>:
+
+    Hub::max(.009,-1.01,2,undef,0);
+
+B<matches>:
+
+    2
+
+
+=back
+
+=over 4
+
+=item merge
+
+B<>
+
+ Usage: merge TARGET_HREF, SOURCE_HREF..., OPTION...
+
+
+
+Merges the provided hashes.  The first argument (destination hash) has
+precedence (as in values are NOT overwritten) unless --overwrite is given.
+
+
+
+OPTIONS:
+
+
+  --overwrite             Overwrite values as they are encounterred.
+
+
+
+  --prune                 Gives the destination hash the same structure as
+                          the source hash (or the composite of all which is
+                          in common when multiple source hashes are provided).
+
+
+
+                          If the destination is missing a value, it is
+                          initialized from the source hash.
+
+
+
+                          If the destination has a value which is not in all
+                          of the source hashes, it is deleted.
+
+
+
+  --keeparrays            When the destination contains the same key as the
+                          source, but the destination is an array where the
+                          source is a hash, take all of the hash elements and
+                          merge them into the array.
+
+
+
+
+
+=back
+
+=over 4
+
+=item min
+
+B<Minimum value>
+
+
+
+
+ Usage: min @LIST
+
+
+Returns the least element in a set.
+
+
+B<Example: Two integers>:
+
+    Hub::min(1,2);
+
+B<matches>:
+
+    1
+
+B<Example: Three integers>:
+
+    Hub::min(2,1,3);
+
+B<matches>:
+
+    1
+
+B<Example: Three integers>:
+
+    Hub::min(2,-1,3);
+
+B<matches>:
+
+    -1
+
+B<Example: One integer>:
+
+    Hub::min(1);
+
+B<matches>:
+
+    1
+
+B<Example: Undefined value>:
+
+    Hub::min(1,undef);
+
+B<matches>:
+
+    1
+
+B<Example: Zero>:
+
+    Hub::min(undef,1,0);
+
+B<matches>:
+
+    0
+
+B<Example: Three decimal values>:
+
+    Hub::min(.009,1.001);
+
+B<matches>:
+
+    0.009
+
+
+=back
+
+=over 4
+
+=item objopts
+
+B<Split @_ into ($self,$opts), leaving @_ with remaining items.>
+
+
+
+ Usage: objopts \ARRAY
+
+Convienence method for splitting instance method parameters.
+
+Returns an array.
+
+
+B<Example: Test return value>:
+
+
+  my $obj = mkinst( 'Object' );
+  my @result = objopts( [ $obj ] );
+  join( ',', map { ref($_) } @result );
+
+B<matches>:
+
+    Hub::Base::Object,
+
+
+=back
+
+=over 4
+
+=item opts
+
+B<>
+
+ Usage: opts [OPTIONS], \ARRAY, [\HASH]
+
+
+Split parameter arrays into options and arguments.
+
+
+
+OPTIONS:
+
+
+  -prefix=EXPR            # specify option prefix, default is single dash (-).
+
+
+
+  -assign=EXPR            # specify assignment character, default is the
+                            equal sign (=).
+
+
+  -append=EXPR            # specify append character, default is the
+                            plus sign (+).
+
+
+
+In array context, we return two references.  Which may cause confusion:
+
+
+   my %opts = Hub::opts( \@_ );                # Wrong!
+   my $opts = Hub::opts( \@_ );                # Correct!
+   my ($opts,$args) = Hub::opts( \@_ );        # Correct!
+
+
+Options are extracted (via splice) from the referenced array. The advantage
+is both for performance (don't make a copy of the array), and so you may
+use @_ (or @ARGV, etc) normally, as data:
+
+
+
+B<Example: at-underscore contains everyting but the '-with' option>:
+
+
+   sub myjoin {
+      my $opts = Hub::opts( \@_ );
+      return join( $$opts{'with'}, @_ );
+   }
+
+   myjoin( 'a', 'b', '-with=;', 'c', 'd' );
+
+B<matches>:
+
+    a;b;c;d
+
+
+
+
+1. Arguments are elements which do *not* begin with a dash (-).
+
+
+
+2. Options are elements which begin with a B<single> dash (-) and are not
+   negative numbers.
+
+
+
+3. An option of '-opts' is reserved for passing in already parsed option
+   hashes.
+
+
+
+4. Options will have their leading dash (-) removed.
+
+
+
+5. Options values are formed as:
+
+
+  Given:                  opt1 will be:       because:
+
+
+  -opt1=value             'value'             contains an equal sign
+  -opt1 nextelem          'nextelem'          next element is *not* an option
+  -opt1 -option2          1                   next element is also an option
+  -opt1                   1                   it is the last element
+  -opt1                   1                   it is the last element
+  -opt1=a -opt1=b         b                   last one wins
+  -opt1=a +opt1=b         [ 'a', 'b' ]        it was specified using '+'
+  +opt1=a +opt1=b         [ 'a', 'b' ]        they can both be '+'
+
+
+
+For example:
+
+
+  my($opts,$args) = Hub::opts( [ 'a', 'b', '-c' => 'c', '-x', '-o=out' ] );
+
+  print "Opts:\n", Hub::hffmt( $opts );
+  print "Args:\n", Hub::hffmt( $args );
+
+
+Will print:
+
+
+  Opts:
+  c => c
+  o => out
+  x => 1
+  Args:
+  a
+  b
+
+
+
+=back
+
+=over 4
+
+=item replace
+
+B<>
+
+ Usage: replace MATCHING_REGEX, SUBSTITUTION_REGEX, TEXT
+
+Do a s/// operation on a given segment of the string.
+
+
+
+For example, say we want to remove the ': ;' pattern from the style portion,
+but not from the data portion:
+
+
+  <div style="font-family: ;">keep this: ;stuff</div>
+
+
+Use this method as:
+
+
+  $text = Hub::replace( "style=\".*?\"", "s/[\\w\\-]+\\s*:\\s*;//g", $text );
+
+
+
+
+=back
+
+=over 4
+
+=item rmsubhash
+
+B<>
+
+remove an element from an array of hash refs, by some key's value
+
+
+
+
+=back
+
+=over 4
+
+=item rmval
+
+B<>
+
+remove an element from a hash or array, by value
+
+
+
+
+=back
+
+=over 4
+
+=item scalar
+
+B<>
+
+is the passed in thingy a SCALAR?  NOTE: This does not mean a SCALAR ref!
+
+
+
+
+=back
+
+=over 4
+
+=item sortkbyv
+
+B<>
+
+given a hash reference, return an array of its keys sorted by their values.
+
+
+
+
+
+=back
+
+=over 4
+
+=item subfield
+
+B<>
+
+ Usage: subfield POS, DELIMITER, STRING
+
+Given a delimited string, return the substring given a field position (zero
+based).
+
+
+
+=back
+
+=over 4
+
+=item subhash
+
+B<>
+
+ Usage: subhash REF, KEY, VALUE
+
+
+Return the matching subhashes, which have KEY eq VALUE
+
+VALUE can be:
+
+
+  'exactmatch'
+  '~regex'
+
+
+The '~' is used to make the determination.
+
+
+
+Return value:
+
+
+  When there *are* matches:
+      wantarray ? all matches
+      otherwise   the first match
+  otherwise,
+      wantarray ? an emtpy list
+      otherwise,  undef
+
+
+=back
+
+=over 4
+
+=item subst
+
+B<>
+
+ Usage: subst
+
+Call to perl's substitution operator.  Represented here as a function to
+facilitate transformation by reducing the need for temporaries.  In essence,
+the goal is to reduce:
+
+
+  my $bakname = getfilename();
+  $bakname =~ s/\.db$/\.bak/;
+
+
+to:
+
+
+  my $bakname = Hub::subst( getfilename(), '\.db$', '.bak' );
+
+
+without modifying the original string returned by getfilename().
+
+
+
+=back
+
+=over 4
+
+=item touch
+
+B<>
+
+ Usage: touch LIST
+
+Changes the access and modification times on each file of a list of files.
+
+
+
+=back
+
+=over 4
+
+=item uniq
+
+B<>
+
+given an array or hash reference, return the a new reference to an identical
+array, minus the duplicates.  if a hash reference is passed, the hash's keys
+are used to determine uniqueness.
+
+
+
+return structure is sorted.
+
+
+
+
+
+=back
+
+
+=head1 INTERNAL
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item__assignopt">_assignopt</a>
+
+</td><td>
+<a class="methlink" href="#item__diff_arrays">_diff_arrays</a>
+
+</td><td>
+<a class="methlink" href="#item__getid">_getId</a>
+
+</td><td>
+<a class="methlink" href="#item__mergeelement">_mergeElement</a>
+
+</td><td>
+<a class="methlink" href="#item__prioritysort">_prioritysort</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item__compscalar">_compscalar</a>
+
+</td><td>
+<a class="methlink" href="#item__diff_hashes">_diff_hashes</a>
+
+</td><td>
+<a class="methlink" href="#item__mergearray">_mergeArray</a>
+
+</td><td>
+<a class="methlink" href="#item__mergehash">_mergeHash</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item _assignopt
+
+B<>
+
+ Usage: _assignopt \%, $key, $val
+
+Assign an option value.
+
+
+
+=back
+
+=over 4
+
+=item _compscalar
+
+B<>
+
+ Usage: _compscalar
+
+Use cmp or <=> if the data is all numbers (decimal points included)
+
+
+=back
+
+=over 4
+
+=item _diff_arrays
+
+B<>
+
+ Usage: _diff_arrays &ARRAY, &ARRAY
+
+Difference between two arrays.
+
+
+
+=back
+
+=over 4
+
+=item _diff_hashes
+
+B<>
+
+ Usage: _diff_hashes &HASH, &HASH
+
+Difference between two hashes.
+
+
+
+=back
+
+=over 4
+
+=item _getId
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item _mergeArray
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item _mergeElement
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item _mergeHash
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item _prioritysort
+
+B<>
+
+ Usage: _prioritysort
+
+Sorts by a key, with the intention of re-ordering.  In order to do so, the
+secondary sort key is set to the *old* value of the item.  For instance, we
+have three items, with sort values 1, 1, and 2:
+
+
+  item1: 0
+  item2: 1
+  item3: 2
+
+
+So, to move item1 to the second position, set the _sort key to 1, and the
+_sort2 key to 0 (it's old value).
+
+
+
+=back
+
+
+=head1 AUTHOR
+
+
+Ryan Gies
+
+=head1 COPYRIGHT
+
+
+Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+
+Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+
+=head1 UPDATED
+
+This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+
+=cut

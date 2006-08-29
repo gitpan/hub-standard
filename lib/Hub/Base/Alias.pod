@@ -1,0 +1,328 @@
+=head1 NAME
+
+Hub::Base::Alias - 
+
+Part of the L<Hub Library|hublib>
+
+=head1 SYNOPSIS
+
+
+
+=head1 DESCRIPTION
+
+
+
+=head1 METHODS
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item_execconf">execconf</a>
+
+</td><td>
+<a class="methlink" href="#item_lendm">lendm</a>
+
+</td><td>
+<a class="methlink" href="#item_lopt">lopt</a>
+
+</td><td>
+<a class="methlink" href="#item_respath">respath</a>
+
+</td><td>
+<a class="methlink" href="#item_wpath">wpath</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item_getconst">getconst</a>
+
+</td><td>
+<a class="methlink" href="#item_lerr">lerr</a>
+
+</td><td>
+<a class="methlink" href="#item_lraw">lraw</a>
+
+</td><td>
+<a class="methlink" href="#item_rpath">rpath</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item_lbegm">lbegm</a>
+
+</td><td>
+<a class="methlink" href="#item_lflush">lflush</a>
+
+</td><td>
+<a class="methlink" href="#item_lshow">lshow</a>
+
+</td><td>
+<a class="methlink" href="#item_setconst">setconst</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item_ldie">ldie</a>
+
+</td><td>
+<a class="methlink" href="#item_lfresh">lfresh</a>
+
+</td><td>
+<a class="methlink" href="#item_lwarn">lwarn</a>
+
+</td><td>
+<a class="methlink" href="#item_spath">spath</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item_ldmp">ldmp</a>
+
+</td><td>
+<a class="methlink" href="#item_lmsg">lmsg</a>
+
+</td><td>
+<a class="methlink" href="#item_resdir">resdir</a>
+
+</td><td>
+<a class="methlink" href="#item_srcpath">srcpath</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item execconf
+
+B<Execute the scripts configuration as a program.>
+
+
+
+
+
+=back
+
+=over 4
+
+=item getconst
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item lbegm
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item ldie
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item ldmp
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item lendm
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item lerr
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item lflush
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item lfresh
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item lmsg
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item lopt
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item lraw
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item lshow
+
+B<>
+
+Access to logger
+
+
+=back
+
+=over 4
+
+=item lwarn
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item resdir
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item respath
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item rpath
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item setconst
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item spath
+
+B<>
+
+Access path elements
+
+
+=back
+
+=over 4
+
+=item srcpath
+
+B<>
+
+Access to web constants
+
+
+=back
+
+=over 4
+
+=item wpath
+
+B<>
+
+
+
+=back
+
+
+=head1 INTERNAL
+
+=begin html
+
+
+
+=end html
+
+
+=head1 AUTHOR
+
+
+Ryan Gies
+
+=head1 COPYRIGHT
+
+
+Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+
+Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+
+=head1 UPDATED
+
+This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+
+=cut

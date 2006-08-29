@@ -1,0 +1,1376 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Hub::Perl::Language</title>
+<link rel="stylesheet" href="../../pod.css" type="text/css" />
+<link rev="made" href="mailto:gerrit@familiehaase.de" />
+</head>
+
+<body>
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<li><a href="#internal">INTERNAL</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#updated">UPDATED</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Hub::Perl::Language -</p>
+<p>Part of the <a href="../../hublib.html">Hub Library</a></p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<table><tr><td>
+<a class="methlink" href="#item_abort">abort</a></td><td>
+<a class="methlink" href="#item_cpref">cpref</a></td><td>
+<a class="methlink" href="#item_getbyname">getbyname</a></td><td>
+<a class="methlink" href="#item_min">min</a></td><td>
+<a class="methlink" href="#item_subfield">subfield</a></td></tr><tr><td>
+<a class="methlink" href="#item_array">array</a></td><td>
+<a class="methlink" href="#item_dice">dice</a></td><td>
+<a class="methlink" href="#item_getgid">getgid</a></td><td>
+<a class="methlink" href="#item_objopts">objopts</a></td><td>
+<a class="methlink" href="#item_subhash">subhash</a></td></tr><tr><td>
+<a class="methlink" href="#item_asa">asa</a></td><td>
+<a class="methlink" href="#item_diff">diff</a></td><td>
+<a class="methlink" href="#item_getuid">getuid</a></td><td>
+<a class="methlink" href="#item_opts">opts</a></td><td>
+<a class="methlink" href="#item_subst">subst</a></td></tr><tr><td>
+<a class="methlink" href="#item_asarray">asarray</a></td><td>
+<a class="methlink" href="#item_digout">digout</a></td><td>
+<a class="methlink" href="#item_hash">hash</a></td><td>
+<a class="methlink" href="#item_replace">replace</a></td><td>
+<a class="methlink" href="#item_touch">touch</a></td></tr><tr><td>
+<a class="methlink" href="#item_bestof">bestof</a></td><td>
+<a class="methlink" href="#item_expect">expect</a></td><td>
+<a class="methlink" href="#item_hashget">hashget</a></td><td>
+<a class="methlink" href="#item_rmsubhash">rmsubhash</a></td><td>
+<a class="methlink" href="#item_uniq">uniq</a></td></tr><tr><td>
+<a class="methlink" href="#item_check">check</a></td><td>
+<a class="methlink" href="#item_fear">fear</a></td><td>
+<a class="methlink" href="#item_intdiv">intdiv</a></td><td>
+<a class="methlink" href="#item_rmval">rmval</a></td></tr><tr><td>
+<a class="methlink" href="#item_checksum">checksum</a></td><td>
+<a class="methlink" href="#item_flatten">flatten</a></td><td>
+<a class="methlink" href="#item_max">max</a></td><td>
+<a class="methlink" href="#item_scalar">scalar</a></td></tr><tr><td>
+<a class="methlink" href="#item_cmdopts">cmdopts</a></td><td>
+<a class="methlink" href="#item_flip">flip</a></td><td>
+<a class="methlink" href="#item_merge">merge</a></td><td>
+<a class="methlink" href="#item_sortkbyv">sortkbyv</a></td></tr></table><dl>
+<dt><strong><a name="item_abort">abort</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: abort
+ Usage: abort -msg =&gt; 'Croak message'
+ Usage: abort -back =&gt; LEVEL</pre>
+</dd>
+<dd>
+<p>Croak nicely.</p>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>abort</strong>:</p>
+</dd>
+<dd>
+<pre>
+    abort( -msg =&gt; 'Goddamn hippies' );</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_array">array</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>is the passed in thingy an ARRAY reference?</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_asa">asa</a></strong><br />
+</dt>
+<dd>
+<strong>As ARRAY</strong>
+</dd>
+<dd>
+<p><strong>Example: This example</strong>:</p>
+</dd>
+<dd>
+<pre>
+    join 'X', asa(undef);</pre>
+</dd>
+<dd>
+<p><strong>matches</strong>:</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_asarray">asarray</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: asarray HASHREF|ARRAYREF [KEY] [OPTIONS]</pre>
+</dd>
+<dd>
+<p>Turn a hashref of hashref's, or an array of hashref's into an array.</p>
+</dd>
+<dd>
+<p>Sort by KEY</p>
+</dd>
+<dd>
+<p>OPTIONS</p>
+</dd>
+<dd>
+<pre>
+ --asref              Return a reference instead
+ --lose               Lose the key (for hash references)
+ --filter:key=val     Only include items where key eq val</pre>
+</dd>
+<dd>
+<p>Unless --lose is specified,  we will modify the provided hash, storing the
+outer key as '_id' of each subhash.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_bestof">bestof</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: bestof @list
+ Usage: bestof @list, -by=max|min|def|len|gt|lt</pre>
+</dd>
+<dd>
+<p>Best value by criteria (default 'def').</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_check">check</a></strong><br />
+</dt>
+<dd>
+<strong>True if all items in list pass the test.</strong>
+</dd>
+<dd>
+<pre>
+ Usage: check [OPTIONS], [TEST], LIST</pre>
+</dd>
+<dd>
+<p>OPTIONS:</p>
+</dd>
+<dd>
+<pre>
+  -opr    (or|and|xor)                            Operator  (default: 'and')</pre>
+</dd>
+<dd>
+<p>TEST:</p>
+</dd>
+<dd>
+<pre>
+  -test   (def|num|str|match|blessed|eval)        Test type (default: 'def')
+  -isa    EXPR
+  -ref    EXPR</pre>
+</dd>
+<dd>
+<p>OPERATORS:</p>
+</dd>
+<dd>
+<pre>
+  and             True when all items pass the test.</pre>
+</dd>
+<dd>
+<pre>
+  or              True when any single item passes the test.</pre>
+</dd>
+<dd>
+<pre>
+  xor             Alternation pattern. True unless two consecutive values
+                  both pass or fail the test.</pre>
+</dd>
+<dd>
+<p>BASIC TEST:</p>
+</dd>
+<dd>
+<pre>
+  def             Items are defined
+  num             Items are numeric
+  str             Items are *not* numeric</pre>
+</dd>
+<dd>
+<p>OTHER TESTS:</p>
+</dd>
+<dd>
+<pre>
+  match=EXPR      Items match EXPR
+  eval            Items are eval'd and truth is based on $@.  Note that the
+                  eval *actually* happens, so don't do anything that will
+                  break your code.  The intention of this check is for:</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>abort</strong>:</p>
+</dd>
+<dd>
+<pre>
+    my $compression = check( '-test=eval', 'use IO::Zlib' ) ? 1 : 0;</pre>
+</dd>
+<dd>
+<p>STRUCTURE TESTS:</p>
+</dd>
+<dd>
+<pre>
+  blessed         Items are blessed
+  ref=EXPR        Item's ref matches EXPR (does *not* include @ISA)
+  isa=EXPR        Item's ref or @ISA match EXPR.  Much like UNIVERSAL::isa
+                  except allows regular expressions.</pre>
+</dd>
+<dd>
+<p><strong>none are defined</strong> returns: <strong>false</strong>:</p>
+</dd>
+<dd>
+<pre>
+    check( undef, undef, undef );</pre>
+</dd>
+<dd>
+<p><strong>only one is defined</strong> returns: <strong>false</strong>:</p>
+</dd>
+<dd>
+<pre>
+    check( 1, undef );</pre>
+</dd>
+<dd>
+<p><strong>both are defined</strong> returns: <strong>true</strong>:</p>
+</dd>
+<dd>
+<pre>
+    check( 1, 1 );</pre>
+</dd>
+<dd>
+<p><strong>one is defined</strong> returns: <strong>true</strong>:</p>
+</dd>
+<dd>
+<pre>
+    check( 1, undef, -opr =&gt; 'or' );</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>false</strong>:</p>
+</dd>
+<dd>
+<pre>
+    check( -opr =&gt; 'xor', 1, 1 );</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>false</strong>:</p>
+</dd>
+<dd>
+<pre>
+    check( -opr =&gt; 'xor', undef, undef );</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+</dd>
+<dd>
+<pre>
+    check( -opr =&gt; 'xor', undef, 1 );</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+</dd>
+<dd>
+<pre>
+    check( -opr =&gt; 'xor', 1, undef );</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+</dd>
+<dd>
+<pre>
+    check( -opr =&gt; 'xor', 1, undef, 1, undef );</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>false</strong>:</p>
+</dd>
+<dd>
+<pre>
+    check( -opr =&gt; 'xor', 1, undef, 1, 1, undef );</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+</dd>
+<dd>
+<pre>
+    check( -opr =&gt; 'xor', undef, 1, undef, 1 );</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_checksum">checksum</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>Hub::checksum( @params )</p>
+</dd>
+<dd>
+<p>Create a unique identifier for the provided data</p>
+</dd>
+<dd>
+<p>Params can be scalars, hash references, array references and the like.  We
+use the HashFile's print routine to transform nested structures into flat
+strings.  As for performance, improvements should be made in the HashFile
+module.  The only reason I create a new instance of HashFile each time is
+because I know there are symbol tables (such as the order of elements) in
+that class which get update when the print method is called.</p>
+</dd>
+<dd>
+<p><strong>Example: This example</strong>:</p>
+</dd>
+<dd>
+<pre>
+  my $x = 'like catfood';
+  Hub::checksum( 'my', { cats =&gt; 'breath' }, ( 'smells', $x ) );</pre>
+</dd>
+<dd>
+<p><strong>matches</strong>:</p>
+</dd>
+<dd>
+<pre>
+    2023611966</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_cmdopts">cmdopts</a></strong><br />
+</dt>
+<dd>
+<strong>Extract short and long options from @ARGV</strong>
+</dd>
+<dd>
+<pre>
+ Usage: cmdopts \ARRAY
+ Usage: cmdopts \ARRAY, \HASH</pre>
+</dd>
+<dd>
+<p>Convienence method which deals with short single-dash and long double-dash
+options.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_cpref">cpref</a></strong><br />
+</dt>
+<dd>
+<strong>Recursively clone the reference, returning a new reference.</strong>
+</dd>
+<dd>
+<p>The Clone module found on CPAN crashes under my mod_perl and FastCGI
+test servers...</p>
+</dd>
+<dd>
+<p>Note: Have not tested recursive references.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_dice">dice</a></strong><br />
+</dt>
+<dd>
+<strong>Break apart the string</strong>
+</dd>
+<dd>
+<pre>
+ Usage: dice STRING</pre>
+</dd>
+<dd>
+<p><strong>Example: This example</strong>:</p>
+</dd>
+<dd>
+<pre>
+    join( ';', dice( &quot;a{b{c}}c{d}&quot; ) );</pre>
+</dd>
+<dd>
+<p><strong>matches</strong>:</p>
+</dd>
+<dd>
+<pre>
+    a;{b{c}};c;{d}</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_diff">diff</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: diff &amp;HASH, &amp;HASH</pre>
+</dd>
+<dd>
+<p>Creates a nest of the differences between the two provided.  If a conflict of
+types (with the same key) is encounterred, the right-hand sturcture is used.</p>
+</dd>
+<dd>
+<p>NOTE: Although this routine compares contents, it returns references to the
+original hashes (use cpref on the result to detatch.)</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_digout">digout</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: digout REF, ID</pre>
+</dd>
+<dd>
+<p>Return an array of all nested values in an order that can be processed.</p>
+</dd>
+<dd>
+<p>NOTE! Scalar values are returned as references.</p>
+</dd>
+<dd>
+<p>See how 'packdata' uses this method to dereference.</p>
+</dd>
+<dd>
+<p>Arrays are ignored unless their members are hashes with an _id member.</p>
+</dd>
+<dd>
+<p>Reverse the results of this array to process data in a way that the children
+are affected before their parents.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_expect">expect</a></strong><br />
+</dt>
+<dd>
+<strong>Croak if arguments do not match their expected type</strong>
+</dd>
+<dd>
+<pre>
+ Usage: expect [OPTIONS], [TEST], LIST</pre>
+</dd>
+<dd>
+<p>OPTIONS:</p>
+</dd>
+<dd>
+<pre>
+  -back   \d      # Carp level (for reporting further up the callstack)
+  -not    0|1     # Invert the result</pre>
+</dd>
+<dd>
+<p>TESTS:</p>
+</dd>
+<dd>
+<pre>
+  -blessed        # All LIST items are blessed
+  -match=EXPR     # All LIST items match /EXPR/
+  -ref=EXPR       # All LIST items' ref match /EXPR/</pre>
+</dd>
+<dd>
+<p>By default, LIST is made up of key/value pairs, where the key is the type
+(what <code>ref()</code> will return) and the value is what will be tested.  LIST may
+contain one or more key/value pairs such as:</p>
+</dd>
+<dd>
+<pre>
+  HASH            =&gt; arg
+  REF             =&gt; arg
+  My::Package     =&gt; arg</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+</dd>
+<dd>
+<pre>
+    Hub::expect( -match =&gt; 'and|or|xor', 'and' );</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+</dd>
+<dd>
+<pre>
+    Hub::expect( HASH =&gt; {}, HASH =&gt; {} );</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>abort</strong>:</p>
+</dd>
+<dd>
+<pre>
+    Hub::expect( -blessed =&gt; {} );</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+</dd>
+<dd>
+<pre>
+    Hub::expect( -blessed =&gt; mkinst( 'Object' ) );</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>abort</strong>:</p>
+</dd>
+<dd>
+<pre>
+    Hub::expect( -match =&gt; 'and|or|xor', 'if', 'or', 'and' );</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>abort</strong>:</p>
+</dd>
+<dd>
+<pre>
+    Hub::expect( ARRAY =&gt; {} );</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>abort</strong>:</p>
+</dd>
+<dd>
+<pre>
+    Hub::expect( -blessed =&gt; 'abc' );</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+</dd>
+<dd>
+<pre>
+    Hub::expect( -ref =&gt; 'HASH', {} );</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+</dd>
+<dd>
+<pre>
+    Hub::expect( -ref =&gt; 'HASH', mkinst('Object') );</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_fear">fear</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>Croak if arguments match their feared type.</p>
+</dd>
+<dd>
+<p>This is a shortcut to <a href="#item_expect">expect</a> with a '-not=1' option.</p>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>abort</strong>:</p>
+</dd>
+<dd>
+<pre>
+    Hub::fear( HASH =&gt; {} );</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+</dd>
+<dd>
+<pre>
+    Hub::fear( HASH =&gt; [] );</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_flatten">flatten</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_flip">flip</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>given a hash reference, swap keys with values and return a new hash reference.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_getbyname">getbyname</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_getgid">getgid</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: getgid</pre>
+</dd>
+<dd>
+<p>Return the GID of the user of the provided login id.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_getuid">getuid</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: getuid</pre>
+</dd>
+<dd>
+<p>Return the UID of the user of the provided login id.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_hash">hash</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>is the passed in thingy a HASH reference?</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_hashget">hashget</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: hashget KEY, HASHREF</pre>
+</dd>
+<dd>
+<p>Get a nested hash member using the colon-delimited key format.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_intdiv">intdiv</a></strong><br />
+</dt>
+<dd>
+<strong>Integer division</strong>
+</dd>
+<dd>
+<pre>
+ Usage: intdiv $DIVIDEND, $DIVISOR</pre>
+</dd>
+<dd>
+<p>Returns an array with the number of times the divisor is contained in the
+dividend, and the remainder.</p>
+</dd>
+<dd>
+<p><strong>Example: 3 divided by 2 is 1R1</strong>:</p>
+</dd>
+<dd>
+<pre>
+    join(',',Hub::intdiv(3,2));</pre>
+</dd>
+<dd>
+<p><strong>matches</strong>:</p>
+</dd>
+<dd>
+<pre>
+    1,1</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_max">max</a></strong><br />
+</dt>
+<dd>
+<strong>Maximum value</strong>
+</dd>
+<dd>
+<pre>
+ Usage: max @LIST</pre>
+</dd>
+<dd>
+<p>Returns the greatest element in a set.</p>
+</dd>
+<dd>
+<p><strong>Example: Three decimal values</strong>:</p>
+</dd>
+<dd>
+<pre>
+    Hub::max(.009,-1.01,2,undef,0);</pre>
+</dd>
+<dd>
+<p><strong>matches</strong>:</p>
+</dd>
+<dd>
+<pre>
+    2</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_merge">merge</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: merge TARGET_HREF, SOURCE_HREF..., OPTION...</pre>
+</dd>
+<dd>
+<p>Merges the provided hashes.  The first argument (destination hash) has
+precedence (as in values are NOT overwritten) unless --overwrite is given.</p>
+</dd>
+<dd>
+<p>OPTIONS:</p>
+</dd>
+<dd>
+<pre>
+  --overwrite             Overwrite values as they are encounterred.</pre>
+</dd>
+<dd>
+<pre>
+  --prune                 Gives the destination hash the same structure as
+                          the source hash (or the composite of all which is
+                          in common when multiple source hashes are provided).</pre>
+</dd>
+<dd>
+<pre>
+                          If the destination is missing a value, it is
+                          initialized from the source hash.</pre>
+</dd>
+<dd>
+<pre>
+                          If the destination has a value which is not in all
+                          of the source hashes, it is deleted.</pre>
+</dd>
+<dd>
+<pre>
+  --keeparrays            When the destination contains the same key as the
+                          source, but the destination is an array where the
+                          source is a hash, take all of the hash elements and
+                          merge them into the array.</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_min">min</a></strong><br />
+</dt>
+<dd>
+<strong>Minimum value</strong>
+</dd>
+<dd>
+<pre>
+ Usage: min @LIST</pre>
+</dd>
+<dd>
+<p>Returns the least element in a set.</p>
+</dd>
+<dd>
+<p><strong>Example: Two integers</strong>:</p>
+</dd>
+<dd>
+<pre>
+    Hub::min(1,2);</pre>
+</dd>
+<dd>
+<p><strong>matches</strong>:</p>
+</dd>
+<dd>
+<pre>
+    1</pre>
+</dd>
+<dd>
+<p><strong>Example: Three integers</strong>:</p>
+</dd>
+<dd>
+<pre>
+    Hub::min(2,1,3);</pre>
+</dd>
+<dd>
+<p><strong>matches</strong>:</p>
+</dd>
+<dd>
+<pre>
+    1</pre>
+</dd>
+<dd>
+<p><strong>Example: Three integers</strong>:</p>
+</dd>
+<dd>
+<pre>
+    Hub::min(2,-1,3);</pre>
+</dd>
+<dd>
+<p><strong>matches</strong>:</p>
+</dd>
+<dd>
+<pre>
+    -1</pre>
+</dd>
+<dd>
+<p><strong>Example: One integer</strong>:</p>
+</dd>
+<dd>
+<pre>
+    Hub::min(1);</pre>
+</dd>
+<dd>
+<p><strong>matches</strong>:</p>
+</dd>
+<dd>
+<pre>
+    1</pre>
+</dd>
+<dd>
+<p><strong>Example: Undefined value</strong>:</p>
+</dd>
+<dd>
+<pre>
+    Hub::min(1,undef);</pre>
+</dd>
+<dd>
+<p><strong>matches</strong>:</p>
+</dd>
+<dd>
+<pre>
+    1</pre>
+</dd>
+<dd>
+<p><strong>Example: Zero</strong>:</p>
+</dd>
+<dd>
+<pre>
+    Hub::min(undef,1,0);</pre>
+</dd>
+<dd>
+<p><strong>matches</strong>:</p>
+</dd>
+<dd>
+<pre>
+    0</pre>
+</dd>
+<dd>
+<p><strong>Example: Three decimal values</strong>:</p>
+</dd>
+<dd>
+<pre>
+    Hub::min(.009,1.001);</pre>
+</dd>
+<dd>
+<p><strong>matches</strong>:</p>
+</dd>
+<dd>
+<pre>
+    0.009</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_objopts">objopts</a></strong><br />
+</dt>
+<dd>
+<strong>Split @_ into ($self,$opts), leaving @_ with remaining items.</strong>
+</dd>
+<dd>
+<pre>
+ Usage: objopts \ARRAY</pre>
+</dd>
+<dd>
+<p>Convienence method for splitting instance method parameters.</p>
+</dd>
+<dd>
+<p>Returns an array.</p>
+</dd>
+<dd>
+<p><strong>Example: Test return value</strong>:</p>
+</dd>
+<dd>
+<pre>
+  my $obj = mkinst( 'Object' );
+  my @result = objopts( [ $obj ] );
+  join( ',', map { ref($_) } @result );</pre>
+</dd>
+<dd>
+<p><strong>matches</strong>:</p>
+</dd>
+<dd>
+<pre>
+    Hub::Base::Object,</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_opts">opts</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: opts [OPTIONS], \ARRAY, [\HASH]</pre>
+</dd>
+<dd>
+<p>Split parameter arrays into options and arguments.</p>
+</dd>
+<dd>
+<p>OPTIONS:</p>
+</dd>
+<dd>
+<pre>
+  -prefix=EXPR            # specify option prefix, default is single dash (-).</pre>
+</dd>
+<dd>
+<pre>
+  -assign=EXPR            # specify assignment character, default is the
+                            equal sign (=).</pre>
+</dd>
+<dd>
+<pre>
+  -append=EXPR            # specify append character, default is the
+                            plus sign (+).</pre>
+</dd>
+<dd>
+<p>In array context, we return two references.  Which may cause confusion:</p>
+</dd>
+<dd>
+<pre>
+   my %opts = Hub::opts( \@_ );                # Wrong!
+   my $opts = Hub::opts( \@_ );                # Correct!
+   my ($opts,$args) = Hub::opts( \@_ );        # Correct!</pre>
+</dd>
+<dd>
+<p>Options are extracted (via splice) from the referenced array. The advantage
+is both for performance (don't make a copy of the array), and so you may
+use @_ (or @ARGV, etc) normally, as data:</p>
+</dd>
+<dd>
+<p><strong>Example: at-underscore contains everyting but the '-with' option</strong>:</p>
+</dd>
+<dd>
+<pre>
+   sub myjoin {
+      my $opts = Hub::opts( \@_ );
+      return join( $$opts{'with'}, @_ );
+   }</pre>
+</dd>
+<dd>
+<pre>
+   myjoin( 'a', 'b', '-with=;', 'c', 'd' );</pre>
+</dd>
+<dd>
+<p><strong>matches</strong>:</p>
+</dd>
+<dd>
+<pre>
+    a;b;c;d</pre>
+</dd>
+<dd>
+<p>1. Arguments are elements which do *not* begin with a dash (-).</p>
+</dd>
+<dd>
+<p>2. Options are elements which begin with a <strong>single</strong> dash (-) and are not
+   negative numbers.</p>
+</dd>
+<dd>
+<p>3. An option of '-opts' is reserved for passing in already parsed option
+   hashes.</p>
+</dd>
+<dd>
+<p>4. Options will have their leading dash (-) removed.</p>
+</dd>
+<dd>
+<p>5. Options values are formed as:</p>
+</dd>
+<dd>
+<pre>
+  Given:                  opt1 will be:       because:</pre>
+</dd>
+<dd>
+<pre>
+  -opt1=value             'value'             contains an equal sign
+  -opt1 nextelem          'nextelem'          next element is *not* an option
+  -opt1 -option2          1                   next element is also an option
+  -opt1                   1                   it is the last element
+  -opt1                   1                   it is the last element
+  -opt1=a -opt1=b         b                   last one wins
+  -opt1=a +opt1=b         [ 'a', 'b' ]        it was specified using '+'
+  +opt1=a +opt1=b         [ 'a', 'b' ]        they can both be '+'</pre>
+</dd>
+<dd>
+<p>For example:</p>
+</dd>
+<dd>
+<pre>
+  my($opts,$args) = Hub::opts( [ 'a', 'b', '-c' =&gt; 'c', '-x', '-o=out' ] );</pre>
+</dd>
+<dd>
+<pre>
+  print &quot;Opts:\n&quot;, Hub::hffmt( $opts );
+  print &quot;Args:\n&quot;, Hub::hffmt( $args );</pre>
+</dd>
+<dd>
+<p>Will print:</p>
+</dd>
+<dd>
+<pre>
+  Opts:
+  c =&gt; c
+  o =&gt; out
+  x =&gt; 1
+  Args:
+  a
+  b</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_replace">replace</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: replace MATCHING_REGEX, SUBSTITUTION_REGEX, TEXT</pre>
+</dd>
+<dd>
+<p>Do a s/// operation on a given segment of the string.</p>
+</dd>
+<dd>
+<p>For example, say we want to remove the ': ;' pattern from the style portion,
+but not from the data portion:</p>
+</dd>
+<dd>
+<pre>
+  &lt;div style=&quot;font-family: ;&quot;&gt;keep this: ;stuff&lt;/div&gt;</pre>
+</dd>
+<dd>
+<p>Use this method as:</p>
+</dd>
+<dd>
+<pre>
+  $text = Hub::replace( &quot;style=\&quot;.*?\&quot;&quot;, &quot;s/[\\w\\-]+\\s*:\\s*;//g&quot;, $text );</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_rmsubhash">rmsubhash</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>remove an element from an array of hash refs, by some key's value</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_rmval">rmval</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>remove an element from a hash or array, by value</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_scalar">scalar</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>is the passed in thingy a SCALAR?  NOTE: This does not mean a SCALAR ref!</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_sortkbyv">sortkbyv</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>given a hash reference, return an array of its keys sorted by their values.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_subfield">subfield</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: subfield POS, DELIMITER, STRING</pre>
+</dd>
+<dd>
+<p>Given a delimited string, return the substring given a field position (zero
+based).</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_subhash">subhash</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: subhash REF, KEY, VALUE</pre>
+</dd>
+<dd>
+<p>Return the matching subhashes, which have KEY eq VALUE</p>
+</dd>
+<dd>
+<p>VALUE can be:</p>
+</dd>
+<dd>
+<pre>
+  'exactmatch'
+  '~regex'</pre>
+</dd>
+<dd>
+<p>The '~' is used to make the determination.</p>
+</dd>
+<dd>
+<p>Return value:</p>
+</dd>
+<dd>
+<pre>
+  When there *are* matches:
+      wantarray ? all matches
+      otherwise   the first match
+  otherwise,
+      wantarray ? an emtpy list
+      otherwise,  undef</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_subst">subst</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: subst</pre>
+</dd>
+<dd>
+<p>Call to perl's substitution operator.  Represented here as a function to
+facilitate transformation by reducing the need for temporaries.  In essence,
+the goal is to reduce:</p>
+</dd>
+<dd>
+<pre>
+  my $bakname = getfilename();
+  $bakname =~ s/\.db$/\.bak/;</pre>
+</dd>
+<dd>
+<p>to:</p>
+</dd>
+<dd>
+<pre>
+  my $bakname = Hub::subst( getfilename(), '\.db$', '.bak' );</pre>
+</dd>
+<dd>
+<p>without modifying the original string returned by getfilename().</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_touch">touch</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: touch LIST</pre>
+</dd>
+<dd>
+<p>Changes the access and modification times on each file of a list of files.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_uniq">uniq</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>given an array or hash reference, return the a new reference to an identical
+array, minus the duplicates.  if a hash reference is passed, the hash's keys
+are used to determine uniqueness.</p>
+</dd>
+<dd>
+<p>return structure is sorted.</p>
+</dd>
+<p></p></dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="internal">INTERNAL</a></h1>
+<table><tr><td>
+<a class="methlink" href="#item__assignopt">_assignopt</a></td><td>
+<a class="methlink" href="#item__diff_arrays">_diff_arrays</a></td><td>
+<a class="methlink" href="#item__getid">_getId</a></td><td>
+<a class="methlink" href="#item__mergeelement">_mergeElement</a></td><td>
+<a class="methlink" href="#item__prioritysort">_prioritysort</a></td></tr><tr><td>
+<a class="methlink" href="#item__compscalar">_compscalar</a></td><td>
+<a class="methlink" href="#item__diff_hashes">_diff_hashes</a></td><td>
+<a class="methlink" href="#item__mergearray">_mergeArray</a></td><td>
+<a class="methlink" href="#item__mergehash">_mergeHash</a></td></tr></table><dl>
+<dt><strong><a name="item__assignopt">_assignopt</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: _assignopt \%, $key, $val</pre>
+</dd>
+<dd>
+<p>Assign an option value.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item__compscalar">_compscalar</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: _compscalar</pre>
+</dd>
+<dd>
+<p>Use cmp or &lt;=&gt; if the data is all numbers (decimal points included)</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item__diff_arrays">_diff_arrays</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: _diff_arrays &amp;ARRAY, &amp;ARRAY</pre>
+</dd>
+<dd>
+<p>Difference between two arrays.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item__diff_hashes">_diff_hashes</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: _diff_hashes &amp;HASH, &amp;HASH</pre>
+</dd>
+<dd>
+<p>Difference between two hashes.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item__getid">_getId</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item__mergearray">_mergeArray</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item__mergeelement">_mergeElement</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item__mergehash">_mergeHash</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item__prioritysort">_prioritysort</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: _prioritysort</pre>
+</dd>
+<dd>
+<p>Sorts by a key, with the intention of re-ordering.  In order to do so, the
+secondary sort key is set to the *old* value of the item.  For instance, we
+have three items, with sort values 1, 1, and 2:</p>
+</dd>
+<dd>
+<pre>
+  item1: 0
+  item2: 1
+  item3: 2</pre>
+</dd>
+<dd>
+<p>So, to move item1 to the second position, set the _sort key to 1, and the
+_sort2 key to 0 (it's old value).</p>
+</dd>
+<p></p></dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Ryan Gies</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
+<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="updated">UPDATED</a></h1>
+<p>This file created by mkdocs.pl on 8/29/2006 at 2:07pm</p>
+<p><a href="#__index__"><small>Top</small></a></p>
+
+</body>
+
+</html>

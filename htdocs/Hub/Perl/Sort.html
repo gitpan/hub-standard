@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Hub::Perl::Sort</title>
+<link rel="stylesheet" href="../../pod.css" type="text/css" />
+<link rev="made" href="mailto:gerrit@familiehaase.de" />
+</head>
+
+<body>
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<li><a href="#internal">INTERNAL</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#updated">UPDATED</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Hub::Perl::Sort -</p>
+<p>Part of the <a href="../../hublib.html">Hub Library</a></p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<table><tr><td>
+<a class="methlink" href="#item_anonsort">anonsort</a></td><td>
+<a class="methlink" href="#item_keydepthsort">keydepthsort</a></td></tr></table><dl>
+<dt><strong><a name="item_anonsort">anonsort</a></strong><br />
+</dt>
+<dd>
+<strong>Anonymous value sort</strong>
+</dd>
+<dd>
+<pre>
+ Usage: anonsort [OPTIONS], \ARRAY</pre>
+</dd>
+<dd>
+<p>OPTIONS:</p>
+</dd>
+<dd>
+<pre>
+  -on     keyname         Only sort subhashes with this keyname.</pre>
+</dd>
+<dd>
+<pre>
+  -cmp    (&lt;=&gt;|cmp)       Comparison type (default is 'cmp'.)
+  -asr    (0|1)           Return a reference to the result array.</pre>
+</dd>
+<dd>
+<pre>
+  -modify (0|1)           Modify the provided array.</pre>
+</dd>
+<dd>
+<p><strong>Example: Simple (alphabetical) sort</strong>:</p>
+</dd>
+<dd>
+<pre>
+    my @months = qw/Jan Feb Mar/;
+    my @sorted = anonsort( \@months );
+    return join ',', @sorted;</pre>
+</dd>
+<dd>
+<p><strong>matches</strong>:</p>
+</dd>
+<dd>
+<pre>
+    Feb,Jan,Mar</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_keydepthsort">keydepthsort</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: keydepthsort</pre>
+</dd>
+<dd>
+<p>Sort by keydepth (for processing hashes and making sure parents don't smuther
+their children.)</p>
+</dd>
+<p></p></dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="internal">INTERNAL</a></h1>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Ryan Gies</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
+<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="updated">UPDATED</a></h1>
+<p>This file created by mkdocs.pl on 8/29/2006 at 2:07pm</p>
+<p><a href="#__index__"><small>Top</small></a></p>
+
+</body>
+
+</html>

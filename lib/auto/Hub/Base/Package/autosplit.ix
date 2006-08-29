@@ -1,0 +1,5 @@
+# Index created by LSN::Base::AutoSplit for /home/hub/build/out/split/Hub/Base/Package.pm
+#    (file acts as timestamp)
+package Hub::Base::Package;
+sub Package  ;
+1;

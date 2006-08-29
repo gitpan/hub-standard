@@ -1,0 +1,5 @@
+# Index created by LSN::Base::AutoSplit for /home/hub/build/out/split/Hub/Data/Meta.pm
+#    (file acts as timestamp)
+package Hub::Data::Meta;
+sub Meta  ;
+1;

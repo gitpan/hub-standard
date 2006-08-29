@@ -1,0 +1,100 @@
+=head1 NAME
+
+Hub::Data::HashData - 
+
+Part of the L<Hub Library|hublib>
+
+=head1 SYNOPSIS
+
+
+
+=head1 DESCRIPTION
+
+
+
+=head1 METHODS
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item_new">new</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item new
+
+B<>
+
+ Usage: new
+ Usage: new HASH
+
+Constructor
+
+
+=back
+
+
+=head1 INTERNAL
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item_autoload">AUTOLOAD</a>
+
+</td><td>
+<a class="methlink" href="#item_destroy">DESTROY</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item AUTOLOAD
+
+B<>
+
+ Usage: AUTOLOAD
+
+Method handler
+
+
+=back
+
+=over 4
+
+=item DESTROY
+
+B<>
+
+ Usage: DESTROY
+
+Defining this function prevents it from being searched in AUTOLOAD
+
+
+=back
+
+
+=head1 AUTHOR
+
+
+Ryan Gies
+
+=head1 COPYRIGHT
+
+
+Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+
+Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+
+=head1 UPDATED
+
+This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+
+=cut

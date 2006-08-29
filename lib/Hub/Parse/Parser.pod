@@ -1,0 +1,235 @@
+=head1 NAME
+
+Hub::Parse::Parser - 
+
+Part of the L<Hub Library|hublib>
+
+=head1 SYNOPSIS
+
+
+
+=head1 DESCRIPTION
+
+
+
+=head1 METHODS
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item_new">new</a>
+
+</td><td>
+<a class="methlink" href="#item_populate">populate</a>
+
+</td><td>
+<a class="methlink" href="#item_refresh">refresh</a>
+
+</td><td>
+<a class="methlink" href="#item_tweaker">tweaker</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item new
+
+B<>
+
+ Usage: new
+
+Constructor.
+
+
+
+=back
+
+=over 4
+
+=item populate
+
+B<>
+
+ Usage: populate \HASH+
+
+Populate our template with provided variable definitions.
+
+
+
+PARAMETERS:
+
+
+  \HASH               Variable name to definition map
+
+B<Example: This example>:
+
+    my $parser = mkinst( 'Parser', -template => 'Hello ' );
+              ${$parser->populate( { who => 'World' } )};
+
+B<matches>:
+
+    Hello World
+
+
+=back
+
+=over 4
+
+=item refresh
+
+B<>
+
+ Usage: refresh
+
+Return instance to initial state.
+
+
+
+=back
+
+=over 4
+
+=item tweaker
+
+B<>
+
+ Usage: tweaker \$value, $tweak+
+
+
+Tweaks allow modification to variable values.  This is expensive, and hence
+should be used only as a last resort.
+
+
+
+No spaces are allowed in the tweak name!
+
+
+Variables have to be specified as {#name} (not ) because of the use
+of s/name/value/g in the main populate routine.
+
+
+
+Implemented tweaks:
+
+
+  !                   # Run command (custom tweak)
+
+
+  tr///               # transliterates search chars with replacement chars
+  lc                  # lower case
+  uc                  # upper case
+  lcfirst             # lower case first letter
+  ucfirst             # upper case first letter
+  x=                  # repeat the value so many times
+
+
+  esc                 # escape non-word characters
+  html                # replace '<' and '>' with '&lt;' and '&gt;'
+
+
+  num                 # number (will use zero '0' if empty)
+  dt(opts)            # datetime with options (see datetime).
+
+  dhms(opts)          # day/hour/min/sec with options (see dhms).
+
+
+
+  eq                  # equal
+  ne                  # not equal
+  gt                  # greater than
+  lt                  # less than
+  if                  # is greater than zero (or non-empty string)
+
+
+  -                   # minus
+  +                   # plus
+  *                   # multiply
+  /                   # divide
+  %                   # mod
+
+
+=back
+
+
+=head1 INTERNAL
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item__populate">_populate</a>
+
+</td><td>
+<a class="methlink" href="#item__tweak">_tweak</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item _populate
+
+B<>
+
+ Usage: _populate [OPTIONS], \HASH+
+
+Internal worker function.
+
+Recursive.
+
+
+
+PARAMETERS:
+
+
+  \HASH               Variable name to definition map
+
+
+OPTIONS:
+
+
+  -text   \SCALAR     Template text to populate
+
+
+=back
+
+=over 4
+
+=item _tweak
+
+B<>
+
+ Usage: _tweak
+
+Internal function.
+
+Tweak values.
+
+Subroutine for tweaking must be provided in the constructor.
+
+
+
+=back
+
+
+=head1 AUTHOR
+
+
+Ryan Gies
+
+=head1 COPYRIGHT
+
+
+Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+
+Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+
+=head1 UPDATED
+
+This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+
+=cut

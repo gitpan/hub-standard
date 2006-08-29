@@ -1,0 +1,256 @@
+=head1 NAME
+
+Hub - Hub Library Interface
+
+
+Part of the L<Hub Library|hublib>
+
+=head1 SYNOPSIS
+
+
+We pollute our symbol table with all of our internal libraries EXPORT_OK symbols
+so you don't have to.
+
+    use Hub; # nothing imported
+    print 'Why hello there, mister ', Hub::getname( $0 ), "\n";
+
+    use Hub ':standard';
+    print 'Excuse me, mister', getname( $0 ), "\n";
+
+In both cases, C<Hub::Data::File::getname(...)> is the implementing method.
+
+
+
+=head1 DESCRIPTION
+
+
+
+=head1 METHODS
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item_callback">callback</a>
+
+</td><td>
+<a class="methlink" href="#item_getns">getns</a>
+
+</td><td>
+<a class="methlink" href="#item_mkinst">mkinst</a>
+
+</td><td>
+<a class="methlink" href="#item_regns">regns</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item callback
+
+B<>
+
+ Usage: callback SUB
+
+
+Main invocation method.
+
+
+
+=back
+
+=over 4
+
+=item getns
+
+B<>
+
+ Usage: getns NAME, [ADDRESS]
+
+Get namespace.
+
+I<Intended for Hub library modules only.>
+
+
+=back
+
+=over 4
+
+=item mkinst
+
+B<>
+
+ Usage: mkinst SHORTNAME
+
+
+Create an instance (object) by its short name.
+
+See also L<hubuse>.
+
+
+B<This example> returns: B<true>:
+
+    ref( mkinst( 'Logger' ) ) eq 'Hub::Base::Logger';
+
+B<This example> returns: B<abort>:
+
+    mkinst( 'DoesNotExist' );
+
+
+=back
+
+=over 4
+
+=item regns
+
+B<>
+
+ Usage: regns NAME, [VALUE]
+
+Register namespace.
+
+Intended for Hub library modules only.>
+
+
+=back
+
+
+=head1 INTERNAL
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item_end">END</a>
+
+</td><td>
+<a class="methlink" href="#item__load_external_libs">_load_external_libs</a>
+
+</td><td>
+<a class="methlink" href="#item__sigwarn">_sigwarn</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item__findmodules">_findmodules</a>
+
+</td><td>
+<a class="methlink" href="#item__load_internal_libs">_load_internal_libs</a>
+
+</td><td>
+<a class="methlink" href="#item__tagname">_tagname</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item END
+
+B<>
+
+ Usage: END
+
+Finish library wheel.
+
+
+
+=back
+
+=over 4
+
+=item _findmodules
+
+B<>
+
+ Usage: _findmodules DIRECTORY, PACKAGENAME
+
+Searches in the sub-directory of this top-level-module for all library files
+to represent.
+
+
+
+Recursive.
+
+
+
+=back
+
+=over 4
+
+=item _load_external_libs
+
+B<Load external modules.>
+
+
+
+
+
+Share minimal list of standard functions which every module in its right mind
+would use.
+
+
+
+=back
+
+=over 4
+
+=item _load_internal_libs
+
+B<>
+
+ Usage: _load_internal_libs
+
+We want to import all EXPORT_OK methods from packages.
+
+
+
+=back
+
+=over 4
+
+=item _sigwarn
+
+B<>
+
+ Usage: _sigwarn
+
+Warning handler.  Supresses annoyances.
+
+
+
+=back
+
+=over 4
+
+=item _tagname
+
+B<>
+
+ Usage: _tagname MODULENAME
+
+Control which EXPORT_TAGS tag is used depending on module location.
+
+
+
+=back
+
+
+=head1 AUTHOR
+
+
+Ryan Gies
+
+=head1 COPYRIGHT
+
+
+Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+
+Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+
+=head1 UPDATED
+
+This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+
+=cut

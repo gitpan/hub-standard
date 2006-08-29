@@ -1,0 +1,138 @@
+=head1 NAME
+
+Hub::Parse::Template - 
+
+Part of the L<Hub Library|hublib>
+
+=head1 SYNOPSIS
+
+
+
+=head1 DESCRIPTION
+
+
+
+=head1 METHODS
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item_compdv">compdv</a>
+
+</td><td>
+<a class="methlink" href="#item_compfv">compfv</a>
+
+</td><td>
+<a class="methlink" href="#item_comptv">comptv</a>
+
+</td><td>
+<a class="methlink" href="#item_populate">populate</a>
+
+</td><td>
+<a class="methlink" href="#item_refresh">refresh</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item compdv
+
+B<Compose data value>
+
+
+
+
+ Usage: compdv ADDRESS, VALUE...
+
+
+
+=back
+
+=over 4
+
+=item compfv
+
+B<Compose formatted value>
+
+
+
+
+ Usage: compfv ADDRESS, FORMAT, [VALUE]
+
+
+=back
+
+=over 4
+
+=item comptv
+
+B<Compose template value>
+
+
+
+
+ Usage: comptv ADDRESS, FILESPEC, [VALUE]
+
+
+=back
+
+=over 4
+
+=item populate
+
+B<Return a populated version of this template.>
+
+
+
+
+
+ Usage: populate [\HASH]...
+
+
+
+=back
+
+=over 4
+
+=item refresh
+
+B<>
+
+new - Constructor
+
+
+new FILESPEC
+
+
+=back
+
+
+=head1 INTERNAL
+
+=begin html
+
+
+
+=end html
+
+
+=head1 AUTHOR
+
+
+Ryan Gies
+
+=head1 COPYRIGHT
+
+
+Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+
+Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+
+=head1 UPDATED
+
+This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+
+=cut

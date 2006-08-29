@@ -1,0 +1,5 @@
+# Index created by LSN::Base::AutoSplit for /home/hub/build/out/split/Hub/Parse/Transform.pm
+#    (file acts as timestamp)
+package Hub::Parse::Transform;
+sub Transform  ;
+1;

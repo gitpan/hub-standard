@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>hubuse</title>
+<link rel="stylesheet" href="pod.css" type="text/css" />
+<link rev="made" href="mailto:gerrit@familiehaase.de" />
+</head>
+
+<body>
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#module_directory_structure">Module Directory Structure</a></li>
+	</ul>
+
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#updated">UPDATED</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p id="packagename">hubuse - Using the Hub library</p><p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>The Hub module represents functions and classes which are implemented in 
+descendant packages.  Hub dynamically loads modules according to the parameters
+it is <em>use</em>d with.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Don't use the underlying modules directly:</p>
+<pre>
+  use Hub::Base::Logger;        # Wrong
+  use Hub;                      # Correct</pre>
+<pre>
+  my $logger = Hub::Base::Logger-&gt;new( 'my.log' );    # Wrong
+  my $logger = Hub::mkinst( 'Logger', 'my.log' );     # Correct</pre>
+<p>Without getting into gory detail, this non-standard approach is in place for
+two reasons:</p>
+<pre>
+  1) Allow the library to be refactored (maintained) without impacting existing
+     code.</pre>
+<pre>
+  2) We don't want to short-circut Perl's built-in require functionality which
+     would be necessary.</pre>
+<p>
+</p>
+<h2><a name="module_directory_structure">Module Directory Structure</a></h2>
+<p>By default, Hub tries to be as efficient as possible, only loading packages
+which are necessary.  Descendant packages are BulkSplit so that when it is
+required, only the header (dependancies and export lists) are loaded, and
+the body is AutoLoaded on the first call to a subroutine.
+See <a href="hubsplit.html">the hubsplit manpage</a> for details.</p>
+<p>Subdirectories are used to group exported modules.  Underneath the
+root (Hub) directory, are sub-directories which represent the export tag
+of which the underlying modules should be represented.</p>
+<pre>
+    Hub/:
+      |-Base/:
+      |-Util/:
+      `-Webapp/:</pre>
+<p>Descendant packages maintain their exported symbols in the EXPORT_OK array.
+The Hub module proxies these exported symbols, thus requiring all descendant-
+exported symbols to be unique.</p>
+<p>Classes are created with the Hub::mkinst using their short-name.  Thus
+requiring them to be unique (to other classes):</p>
+<pre>
+  1. Hub::Custom::Class.pm       # defines function 'new'
+  2. Hub::Another::Class.pm      # doesn't define 'new'
+  3. Hub::Yetagain::Class.pm     # also defines 'new'</pre>
+<p>#1 and #3 will clash because they are both classes, but either can be used
+with #2 simultaneously.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Ryan Gies</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
+<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="updated">UPDATED</a></h1>
+<p>This file created by mkdocs.pl on 8/29/2006 at 2:07pm</p>
+<p><a href="#__index__"><small>Top</small></a></p>
+
+</body>
+
+</html>

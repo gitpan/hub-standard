@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Hub::Perl::Compare</title>
+<link rel="stylesheet" href="../../pod.css" type="text/css" />
+<link rev="made" href="mailto:gerrit@familiehaase.de" />
+</head>
+
+<body>
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<li><a href="#internal">INTERNAL</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#updated">UPDATED</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Hub::Perl::Compare -</p>
+<p>Part of the <a href="../../hublib.html">Hub Library</a></p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<table><tr><td>
+<a class="methlink" href="#item_compare">compare</a></td></tr></table><dl>
+<dt><strong><a name="item_compare">compare</a></strong><br />
+</dt>
+<dd>
+<strong>Wrapper for Perl's internal comparison operators.</strong>
+</dd>
+<dd>
+<pre>
+ Usage: compare OPERATOR, LEFT_OPERAND, RIGHT_OPERAND</pre>
+</dd>
+<dd>
+<p>OPERATOR's:</p>
+</dd>
+<dd>
+<pre>
+  eq ne lt le gt ge == != &lt; &gt; &lt;= &gt;=</pre>
+</dd>
+<dd>
+<p>Extended OPERATOR's:</p>
+</dd>
+<dd>
+<pre>
+  eqic    Equal ignore case
+  neic    Not-equal ignore case</pre>
+</dd>
+<dd>
+<p>The purpose here is twofold: a) support runtime comparison when the operator
+is held as string; and b) behave like Perl does when warnings are disabled.</p>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+</dd>
+<dd>
+<pre>
+    compare('eq','',undef);</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+</dd>
+<dd>
+<pre>
+    compare('eq','abc','abc');</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+</dd>
+<dd>
+<pre>
+    compare('ne','abc','Abc');</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>false</strong>:</p>
+</dd>
+<dd>
+<pre>
+    compare('eq','abc',undef);</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+</dd>
+<dd>
+<pre>
+    compare('!~','abc','A');</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+</dd>
+<dd>
+<pre>
+    compare('=~','abc','a');</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+</dd>
+<dd>
+<pre>
+    compare('==',1234,1234);</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+</dd>
+<dd>
+<pre>
+    compare('&gt;=',1234,1234);</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+</dd>
+<dd>
+<pre>
+    compare('eqic','abc','Abc');</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+</dd>
+<dd>
+<pre>
+    compare('==',undef,undef);</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+</dd>
+<dd>
+<pre>
+    compare('==',0,undef);</pre>
+</dd>
+<dd>
+<p><strong>Example: This example</strong>:</p>
+</dd>
+<dd>
+<pre>
+    my @numbers = ( 20, 1, 10, 2 );
+              join ';', sort { &amp;compare('&lt;=&gt;',$a,$b) } @numbers;</pre>
+</dd>
+<dd>
+<p><strong>matches</strong>:</p>
+</dd>
+<dd>
+<pre>
+    1;2;10;20</pre>
+</dd>
+<p></p></dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="internal">INTERNAL</a></h1>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Ryan Gies</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
+<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="updated">UPDATED</a></h1>
+<p>This file created by mkdocs.pl on 8/29/2006 at 2:07pm</p>
+<p><a href="#__index__"><small>Top</small></a></p>
+
+</body>
+
+</html>

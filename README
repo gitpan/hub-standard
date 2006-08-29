@@ -1,0 +1,41 @@
+Hub version 03.01.002
+=====================
+
+INSTALLATION
+------------
+
+To install this module type the following:
+
+   perl Makefile.PL
+   make
+   make test
+   make install
+
+DEPENDENCIES
+------------
+
+This module requires these other modules and libraries:
+
+File::Copy                    v2.08
+Scalar::Util                  v1.14
+Compress::Zlib                v1.41
+IO::Zlib                      v1.04
+IO::File                      v1.11
+Fcntl                         v1.05
+Time::HiRes                   v1.66
+Exporter                      v5.58
+Carp                          v1.04
+Archive::Tar                  v1.26
+File::stat                    v1.00
+Cwd                           v3.05
+
+AUTHORS
+-------
+
+Ryan Gies (ryangies@livesite.net)
+
+COPYRIGHT AND LICENSE
+---------------------
+
+Copyright (C) 2006 by Livesite Networks, LLC. All rights reserved.
+Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.

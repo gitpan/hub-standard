@@ -1,0 +1,349 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Hub::Base::Config</title>
+<link rel="stylesheet" href="../../pod.css" type="text/css" />
+<link rev="made" href="mailto:gerrit@familiehaase.de" />
+</head>
+
+<body>
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<li><a href="#internal">INTERNAL</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#updated">UPDATED</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Hub::Base::Config -</p>
+<p>Part of the <a href="../../hublib.html">Hub Library</a></p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<table><tr><td>
+<a class="methlink" href="#item_addsourcepath">addSourcePath</a></td><td>
+<a class="methlink" href="#item_getimagepath">getImagePath</a></td><td>
+<a class="methlink" href="#item_getworkingdirs">getWorkingDirs</a></td><td>
+<a class="methlink" href="#item_popworkingdir">popWorkingDir</a></td><td>
+<a class="methlink" href="#item_setconst">setConst</a></td></tr><tr><td>
+<a class="methlink" href="#item_addtargetsourcepath">addTargetSourcePath</a></td><td>
+<a class="methlink" href="#item_getprops">getProps</a></td><td>
+<a class="methlink" href="#item_init">init</a></td><td>
+<a class="methlink" href="#item_pushworkingdir">pushWorkingDir</a></td><td>
+<a class="methlink" href="#item_swapworkingdirs">swapWorkingDirs</a></td></tr><tr><td>
+<a class="methlink" href="#item_get">get</a></td><td>
+<a class="methlink" href="#item_getresource">getResource</a></td><td>
+<a class="methlink" href="#item_loadconfigdir">loadConfigDir</a></td><td>
+<a class="methlink" href="#item_refresh">refresh</a></td></tr><tr><td>
+<a class="methlink" href="#item_getcommonimagepath">getCommonImagePath</a></td><td>
+<a class="methlink" href="#item_getresourcepath">getResourcePath</a></td><td>
+<a class="methlink" href="#item_loadconfigfile">loadConfigFile</a></td><td>
+<a class="methlink" href="#item_rmsourcepath">rmSourcePath</a></td></tr><tr><td>
+<a class="methlink" href="#item_getconst">getConst</a></td><td>
+<a class="methlink" href="#item_getsourcepath">getSourcePath</a></td><td>
+<a class="methlink" href="#item_new">new</a></td><td>
+<a class="methlink" href="#item_rmtargetsourcepath">rmTargetSourcePath</a></td></tr></table><dl>
+<dt><strong><a name="item_addsourcepath">addSourcePath</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+  Add a path to the list of source paths.  Call's to the getSourcePath()
+  will get files from these added paths.</pre>
+</dd>
+<dd>
+<pre>
+  Paths are added to the beginning of the list, thus having precedence to
+  existing paths.</pre>
+</dd>
+<dd>
+<pre>
+  $class-&gt;addSourcePath( path )</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_addtargetsourcepath">addTargetSourcePath</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>addTargetPath( $path )</p>
+</dd>
+<dd>
+<p>Add a path to the list of target paths.  Call's to the <a href="#item_getsourcepath"><code>getSourcePath()</code></a>
+will get files from these added paths.</p>
+</dd>
+<dd>
+<p>Paths are added to the beginning of the list, thus having precedence to
+existing paths.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_get">get</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+  Retreive a runtime constant</pre>
+</dd>
+<dd>
+<pre>
+  $class-&gt;get( &quot;key:subkey:subsubkey&quot; );
+  $class-&gt;get( &quot;key&quot;, &quot;default&quot; );</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_getcommonimagepath">getCommonImagePath</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_getconst">getConst</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+  Retreive a runtime constant</pre>
+</dd>
+<dd>
+<pre>
+  $class-&gt;getConst( key )
+  $class-&gt;getConst( key, default )</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_getimagepath">getImagePath</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>get a path to an existing image.  first try the website path, then the common
+one.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_getprops">getProps</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: getProps</pre>
+</dd>
+<dd>
+<p>return the properties hash reference</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_getresource">getResource</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: getResource( $type, $name, $filename )</pre>
+</dd>
+<dd>
+<p>Find the relative path to the specified resource.</p>
+</dd>
+<dd>
+<pre>
+  $type       Can be 'sound', 'image', 'video', or 'data'
+  $name       Is the source name such as: 'img-logo-main'
+  $filename   Is the filename of the resource.</pre>
+</dd>
+<dd>
+<p>If $name is empty, we will look in the base directory of all locations.</p>
+</dd>
+<dd>
+<p>If $filename is empty, we will return the first matching directory.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_getresourcepath">getResourcePath</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_getsourcepath">getSourcePath</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_getworkingdirs">getWorkingDirs</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_init">init</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_loadconfigdir">loadConfigDir</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_loadconfigfile">loadConfigFile</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_new">new</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_popworkingdir">popWorkingDir</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_pushworkingdir">pushWorkingDir</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_refresh">refresh</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: refresh()</pre>
+</dd>
+<dd>
+<p>Throughout the life of a request, many things get shoved in here.  Like
+screen values and user preferences.  Hence, this method to re-init is
+called at the beginning of each request.  Which is good, since it also
+re-reads the *.conf files from disk if they have been modified.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_rmsourcepath">rmSourcePath</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>Remove a source path</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_rmtargetsourcepath">rmTargetSourcePath</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>Remove a target source path</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_setconst">setConst</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+  Retreive a runtime constant</pre>
+</dd>
+<dd>
+<pre>
+  $class-&gt;setConst( key, value )</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_swapworkingdirs">swapWorkingDirs</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<p></p></dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="internal">INTERNAL</a></h1>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Ryan Gies</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
+<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="updated">UPDATED</a></h1>
+<p>This file created by mkdocs.pl on 8/29/2006 at 2:07pm</p>
+<p><a href="#__index__"><small>Top</small></a></p>
+
+</body>
+
+</html>

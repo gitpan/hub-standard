@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>hubtest</title>
+<link rel="stylesheet" href="pod.css" type="text/css" />
+<link rev="made" href="mailto:gerrit@familiehaase.de" />
+</head>
+
+<body>
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#test_types">Test types</a></li>
+		<li><a href="#pod_syntax">POD Syntax</a></li>
+		<li><a href="#white_space">White space</a></li>
+		<li><a href="#documentation">Documentation</a></li>
+	</ul>
+
+	<li><a href="#examples">EXAMPLES</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#updated">UPDATED</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p id="packagename">hubtest - Hub Library Testcase Extraction</p><p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>Test cases are embedded in source code, as the should be.  This helps code
+stability by allowing the maintainer to comprehend and update method APIs.
+Moreover, testcase extraction allows the correct usage to be detailed in the
+documentation (which is likely easier to understand than the author's
+description.)</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Tests are extracted from the source-code comments.  The beginning of the test 
+is identified by '#|test(...)', and continues on all consecutive lines which 
+begin with '#|':</p>
+<pre>
+    #|test(false)   my $var = &quot;abc&quot;;
+    #|              $var =~ /[A-Z]/;</pre>
+<p>Alternatively, test blocks may be in POD syntax, as:</p>
+<pre>
+    =test(false)</pre>
+<pre>
+        my $var = &quot;abc&quot;;
+        $var =~ /[A-Z]/;</pre>
+<pre>
+    =cut</pre>
+<p>
+</p>
+<h2><a name="test_types">Test types</a></h2>
+<p>Test types (the word within parenthesis) are restricted to the following:</p>
+<pre>
+    [!]true     returns a true value
+    [!]false    returns a false value
+    [!]undef    returns undefined
+    [!]abort    aborts via die|carp|croak|...
+    [!]match    (see below)</pre>
+<p>When the type is [!]match, the result of the test is listed after the test,
+and prefixed with '#~'.  Decorative white-space is removed from lines which
+begin with '#|' or '#~':</p>
+<pre>
+    #|test(match)   my ($state) = $address =~ /([A-Z][A-Z]), \\d+\\Z/;
+    #|              return $state;
+    #| 
+    #~              WA
+    #~</pre>
+<p>Additionally, <code>[!]match</code> test results may be written on the test-line:</p>
+<pre>
+    #|test(match,ABC) uc('abc')</pre>
+<p>
+</p>
+<h2><a name="pod_syntax">POD Syntax</a></h2>
+<p>Test blocks in POD syntax, use '=result' to specify the result:</p>
+<pre>
+    =test(match)</pre>
+<pre>
+        uc('abc');</pre>
+<pre>
+    =result</pre>
+<pre>
+        ABC</pre>
+<pre>
+    =cut</pre>
+<p>
+</p>
+<h2><a name="white_space">White space</a></h2>
+<p>If the decorative white-space is critical in testing the return value, we use
+'#=' instead of '#~':</p>
+<pre>
+    #|test(match)   my $fh = IO::File-&gt;new();
+    #|              open $fh, &quot;&lt;/etc/passwd&quot; or die &quot;$\!: /etc/passwd&quot;;
+    #|              my @lines = &lt;$fh&gt;;
+    #|              close $fh;
+    #|              map { print $_ } @lines;
+    #~
+    #=SYSTEM:*:18:544:,S-1-5-18::
+    #=Administrators:*:544:544:,S-1-5-32-544::
+    #=...
+    #~</pre>
+<p>POD syntax always removes the decorative white-space.</p>
+<p>The '#|', '#~', and '#=' identifiers must be at the beginning of the line.  This
+these considered a normal comments:</p>
+<pre>
+    ##| Does not match &quot;^#&quot;
+      #| White-space (indenting) not honored</pre>
+<p>
+</p>
+<h2><a name="documentation">Documentation</a></h2>
+<p>For documentation purposes, the test may have a one-line summary, which is
+formed when either: The test-line only contains a comment</p>
+<pre>
+    #|test(match) # Test for empty files
+    #|...</pre>
+<p>Or, the test is a single line which ends with a comment:</p>
+<pre>
+    #|test(true) my $s = &quot;Abc&quot;; $s =~ /\A[A-Z][a-z]+\Z/; # Capital word</pre>
+<p>In this second case, the triggering pattern is <code>';\s*#\s*(.*)\Z'</code>, meaning
+that the semicolon (;) before the comment is crucial.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="examples">EXAMPLES</a></h1>
+<p>Four ways to do the same thing:</p>
+<pre>
+    #|test(match,ABC) uc('abc')</pre>
+<pre>
+    #|test(match) uc('abc')
+    #=ABC</pre>
+<pre>
+    =test(match,ABC) uc('abc')
+    =cut</pre>
+<pre>
+    =test(match) uc('abc')
+    =result ABC
+    =cut</pre>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Ryan Gies</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
+<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="updated">UPDATED</a></h1>
+<p>This file created by mkdocs.pl on 8/29/2006 at 2:07pm</p>
+<p><a href="#__index__"><small>Top</small></a></p>
+
+</body>
+
+</html>

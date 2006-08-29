@@ -1,0 +1,344 @@
+=head1 NAME
+
+Hub::Data::Address - 
+
+Part of the L<Hub Library|hublib>
+
+=head1 SYNOPSIS
+
+
+
+=head1 DESCRIPTION
+
+
+
+=head1 METHODS
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item_dotaddr">dotaddr</a>
+
+</td><td>
+<a class="methlink" href="#item_keydepth">keydepth</a>
+
+</td><td>
+<a class="methlink" href="#item_varparent">varparent</a>
+
+</td><td>
+<a class="methlink" href="#item_vartype">vartype</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item_expand">expand</a>
+
+</td><td>
+<a class="methlink" href="#item_varname">varname</a>
+
+</td><td>
+<a class="methlink" href="#item_varroot">varroot</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item dotaddr
+
+B<>
+
+ Usage: dotaddr VARADDR
+
+Replace address separators with dots.  In essence, protecting the address
+from expansion.
+
+
+B<Example: This example>:
+
+    dotaddr( "p004:proj:1000" );
+
+B<matches>:
+
+    p004.proj.1000
+
+B<Example: This example>:
+
+    dotaddr( "p004:proj:1000:name" );
+
+B<matches>:
+
+    p004.proj.1000.name
+
+B<Example: This example>:
+
+    dotaddr( "p001" );
+
+B<matches>:
+
+    p001
+
+B<Example: This example>:
+
+    dotaddr( "" );
+
+B<matches>:
+
+
+
+
+=back
+
+=over 4
+
+=item expand
+
+B<>
+
+ Usage: expand HASHREF, [OPTIONS]
+
+
+Expands keys which are formatted as names (see naming.txt) into subhashes
+and subarrays as necessary.
+
+
+
+OPTIONS:
+
+
+  meta    => 1                # add '_address' and '_id' metadata to hashes
+  root    => SCALAR           # use this as a prefix for '_address'
+
+Returns HASHREF
+
+
+=back
+
+=over 4
+
+=item keydepth
+
+B<>
+
+ Usage: keydepth
+
+For sorting parents and children, this simpley lets you know how deep the key
+is named.
+
+
+B<Example: This example>:
+
+    keydepth( 'and:then:came:the:rain' )
+
+B<matches>:
+
+    4
+
+
+=back
+
+=over 4
+
+=item varname
+
+B<>
+
+ Usage: varname VARADDR
+
+
+
+B<Example: This example>:
+
+    varname( "p001:items:1002:text-desc" );
+
+B<matches>:
+
+    text-desc
+
+B<Example: This example>:
+
+    varname( "p001" );
+
+B<matches>:
+
+    p001
+
+
+=back
+
+=over 4
+
+=item varparent
+
+B<>
+
+ Usage: varparent VARADDR
+
+
+Parent address.
+
+
+B<Example: This example>:
+
+    varparent( "p001:items:12:1000" );
+
+B<matches>:
+
+    p001:items:12
+
+B<Example: This example>:
+
+    varparent( "p001:items:10:subs:100" );
+
+B<matches>:
+
+    p001:items:10:subs
+
+B<Example: This example>:
+
+    varparent( "p001" );
+
+B<matches>:
+
+
+
+
+=back
+
+=over 4
+
+=item varroot
+
+B<>
+
+ Usage: varroot VARADDR
+
+
+The root portion of the address.
+
+
+B<Example: This example>:
+
+    varroot( "p001:items:1002:text-description" );
+
+B<matches>:
+
+    p001
+
+B<Example: This example>:
+
+    varroot( "p001" );
+
+B<matches>:
+
+    p001
+
+
+=back
+
+=over 4
+
+=item vartype
+
+B<>
+
+ Usage: vartype VARADDR, [DEFAULT]
+
+
+Return a variables type (or a default value).
+
+
+B<Example: This example>:
+
+    vartype( );
+
+B<matches>:
+
+
+
+B<Example: This example>:
+
+    vartype( "clr-bg" );
+
+B<matches>:
+
+    clr
+
+B<Example: This example>:
+
+    vartype( "clr-bg", "default" );
+
+B<matches>:
+
+    clr
+
+B<Example: This example>:
+
+    vartype( "whatev", "default" );
+
+B<matches>:
+
+    default
+
+B<Example: This example>:
+
+    vartype( "whatev" );
+
+B<matches>:
+
+
+
+B<Example: This example>:
+
+    vartype( "a:b:c" );
+
+B<matches>:
+
+
+
+B<Example: This example>:
+
+    vartype( "x-a:b:c" );
+
+B<matches>:
+
+    x
+
+B<Example: This example>:
+
+    vartype( "a:b:x-c" );
+
+B<matches>:
+
+    x
+
+
+=back
+
+
+=head1 INTERNAL
+
+=begin html
+
+
+
+=end html
+
+
+=head1 AUTHOR
+
+
+Ryan Gies
+
+=head1 COPYRIGHT
+
+
+Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+
+Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+
+=head1 UPDATED
+
+This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+
+=cut

@@ -1,0 +1,209 @@
+=head1 NAME
+
+Hub::Knots::Defined - 
+
+Part of the L<Hub Library|hublib>
+
+=head1 SYNOPSIS
+
+
+
+=head1 DESCRIPTION
+
+
+
+=head1 METHODS
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item_playnice">playnice</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item playnice
+
+B<>
+
+
+B<Example: This example>:
+
+
+    my $h = {};
+
+    playnice( $h );
+
+    $$h{'foo'} = 'bar';
+
+    $$h{'foo'};
+
+B<matches>:
+
+    bar
+
+
+=back
+
+
+=head1 INTERNAL
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item_clear">CLEAR</a>
+
+</td><td>
+<a class="methlink" href="#item_exists">EXISTS</a>
+
+</td><td>
+<a class="methlink" href="#item_firstkey">FIRSTKEY</a>
+
+</td><td>
+<a class="methlink" href="#item_scalar">SCALAR</a>
+
+</td><td>
+<a class="methlink" href="#item_tiehash">TIEHASH</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item_delete">DELETE</a>
+
+</td><td>
+<a class="methlink" href="#item_fetch">FETCH</a>
+
+</td><td>
+<a class="methlink" href="#item_nextkey">NEXTKEY</a>
+
+</td><td>
+<a class="methlink" href="#item_store">STORE</a>
+
+</td><td>
+<a class="methlink" href="#item_untie">UNTIE</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item CLEAR
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item DELETE
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item EXISTS
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item FETCH
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item FIRSTKEY
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item NEXTKEY
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item SCALAR
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item STORE
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item TIEHASH
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item UNTIE
+
+B<>
+
+
+
+=back
+
+
+=head1 AUTHOR
+
+
+Ryan Gies
+
+=head1 COPYRIGHT
+
+
+Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+
+Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+
+=head1 UPDATED
+
+This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+
+=cut

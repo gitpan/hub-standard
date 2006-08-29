@@ -1,0 +1,262 @@
+=head1 NAME
+
+Hub::Knots::TiedObject - Tied object
+
+
+Part of the L<Hub Library|hublib>
+
+=head1 SYNOPSIS
+
+
+In your class:
+
+    package __Package_Name__;
+
+    use Hub qw(:lib);
+
+    sub new {
+
+        my $self = shift;
+
+        my $class = ref( $self ) || $self;
+
+        my $obj = bless {}, $class;
+
+        tie %$obj, 'Hub::Knots::TiedObject', '__Tie_Package__';
+
+        return $obj;
+
+    }#new
+
+
+
+=head1 DESCRIPTION
+
+
+Perl5 does not let one implement tie methods for a normal blessed package.  To 
+get around this, the above constructor ties the blessed reference to this
+package, providing '__Tie_Package__' as the package which should implement the
+tie methods.
+
+=head2 Intention
+
+To transparently provide `tie' methods inline with an existing class.  For
+example, one may have a User class which supports several methods, such as
+`print', and we wish to update the database on the fly...
+
+    my $user = new User( $conn, 'mary', 'alzxjVT8kR.aU' );
+    $user->{'lname'} = "Lopez";
+    $user->print();
+
+=head2 Implementation
+
+TiedObject simply provides two hashes for the object: `public' and `private'.
+When data members are accessed, the 'public' hash is acted upon.  If the index
+begins with an asterisk (*) then the private hash is used.  The only value
+currently in the private hash is the reference to the tied object.  In the
+above class '__Package_Name__':
+
+    $self->{'*tied'};
+
+Points to the reference returned by tie-ing '__Tie_Package__' to the public
+hash.
+
+=head2 See also:
+
+L<Hub::Data::Nest>
+
+
+
+=head1 METHODS
+
+=begin html
+
+
+
+=end html
+
+
+=head1 INTERNAL
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item_clear">CLEAR</a>
+
+</td><td>
+<a class="methlink" href="#item_fetch">FETCH</a>
+
+</td><td>
+<a class="methlink" href="#item_scalar">SCALAR</a>
+
+</td><td>
+<a class="methlink" href="#item_untie">UNTIE</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item_delete">DELETE</a>
+
+</td><td>
+<a class="methlink" href="#item_firstkey">FIRSTKEY</a>
+
+</td><td>
+<a class="methlink" href="#item_store">STORE</a>
+
+</td><td>
+<a class="methlink" href="#item__key">_key</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item_exists">EXISTS</a>
+
+</td><td>
+<a class="methlink" href="#item_nextkey">NEXTKEY</a>
+
+</td><td>
+<a class="methlink" href="#item_tiehash">TIEHASH</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item CLEAR
+
+B<Tie interface method>
+
+
+
+
+=back
+
+=over 4
+
+=item DELETE
+
+B<Tie interface method>
+
+
+
+
+=back
+
+=over 4
+
+=item EXISTS
+
+B<Tie interface method>
+
+
+
+
+=back
+
+=over 4
+
+=item FETCH
+
+B<Tie interface method>
+
+
+
+
+=back
+
+=over 4
+
+=item FIRSTKEY
+
+B<Tie interface method>
+
+
+
+
+=back
+
+=over 4
+
+=item NEXTKEY
+
+B<Tie interface method>
+
+
+
+
+=back
+
+=over 4
+
+=item SCALAR
+
+B<Tie interface method>
+
+
+
+
+=back
+
+=over 4
+
+=item STORE
+
+B<Tie interface method>
+
+
+
+
+=back
+
+=over 4
+
+=item TIEHASH
+
+B<Tie interface method>
+
+
+
+
+ Usage: TIEHASH 'Hub::Knots::TiedObject', $PACKAGE
+
+
+=back
+
+=over 4
+
+=item UNTIE
+
+B<Tie interface method>
+
+
+
+
+=back
+
+=over 4
+
+=item _key
+
+B<Determine which key (public or private) to use>
+
+
+
+
+=back
+
+
+=head1 AUTHOR
+
+
+Ryan Gies
+
+=head1 COPYRIGHT
+
+
+Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+
+Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+
+=head1 UPDATED
+
+This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+
+=cut

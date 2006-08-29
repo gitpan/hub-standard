@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Hub</title>
+<link rel="stylesheet" href="pod.css" type="text/css" />
+<link rev="made" href="mailto:gerrit@familiehaase.de" />
+</head>
+
+<body>
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<li><a href="#internal">INTERNAL</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#updated">UPDATED</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Hub - Hub Library Interface</p>
+<p>Part of the <a href="hublib.html">Hub Library</a></p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>We pollute our symbol table with all of our internal libraries EXPORT_OK symbols
+so you don't have to.</p>
+<pre>
+    use Hub; # nothing imported
+    print 'Why hello there, mister ', Hub::getname( $0 ), &quot;\n&quot;;</pre>
+<pre>
+    use Hub ':standard';
+    print 'Excuse me, mister', getname( $0 ), &quot;\n&quot;;</pre>
+<p>In both cases, <code>Hub::Data::File::getname(...)</code> is the implementing method.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<table><tr><td>
+<a class="methlink" href="#item_callback">callback</a></td><td>
+<a class="methlink" href="#item_getns">getns</a></td><td>
+<a class="methlink" href="#item_mkinst">mkinst</a></td><td>
+<a class="methlink" href="#item_regns">regns</a></td></tr></table><dl>
+<dt><strong><a name="item_callback">callback</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: callback SUB</pre>
+</dd>
+<dd>
+<p>Main invocation method.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_getns">getns</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: getns NAME, [ADDRESS]</pre>
+</dd>
+<dd>
+<p>Get namespace.</p>
+</dd>
+<dd>
+<p><em>Intended for Hub library modules only.</em></p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_mkinst">mkinst</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: mkinst SHORTNAME</pre>
+</dd>
+<dd>
+<p>Create an instance (object) by its short name.</p>
+</dd>
+<dd>
+<p>See also <a href="hubuse.html">the hubuse manpage</a>.</p>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+</dd>
+<dd>
+<pre>
+    ref( mkinst( 'Logger' ) ) eq 'Hub::Base::Logger';</pre>
+</dd>
+<dd>
+<p><strong>This example</strong> returns: <strong>abort</strong>:</p>
+</dd>
+<dd>
+<pre>
+    mkinst( 'DoesNotExist' );</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_regns">regns</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: regns NAME, [VALUE]</pre>
+</dd>
+<dd>
+<p>Register namespace.</p>
+</dd>
+<dd>
+<p>Intended for Hub library modules only.&gt;</p>
+</dd>
+<p></p></dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="internal">INTERNAL</a></h1>
+<table><tr><td>
+<a class="methlink" href="#item_end">END</a></td><td>
+<a class="methlink" href="#item__load_external_libs">_load_external_libs</a></td><td>
+<a class="methlink" href="#item__sigwarn">_sigwarn</a></td></tr><tr><td>
+<a class="methlink" href="#item__findmodules">_findmodules</a></td><td>
+<a class="methlink" href="#item__load_internal_libs">_load_internal_libs</a></td><td>
+<a class="methlink" href="#item__tagname">_tagname</a></td></tr></table><dl>
+<dt><strong><a name="item_end">END</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: END</pre>
+</dd>
+<dd>
+<p>Finish library wheel.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item__findmodules">_findmodules</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: _findmodules DIRECTORY, PACKAGENAME</pre>
+</dd>
+<dd>
+<p>Searches in the sub-directory of this top-level-module for all library files
+to represent.</p>
+</dd>
+<dd>
+<p>Recursive.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item__load_external_libs">_load_external_libs</a></strong><br />
+</dt>
+<dd>
+<strong>Load external modules.</strong>
+</dd>
+<dd>
+<p>Share minimal list of standard functions which every module in its right mind
+would use.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item__load_internal_libs">_load_internal_libs</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: _load_internal_libs</pre>
+</dd>
+<dd>
+<p>We want to import all EXPORT_OK methods from packages.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item__sigwarn">_sigwarn</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: _sigwarn</pre>
+</dd>
+<dd>
+<p>Warning handler.  Supresses annoyances.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item__tagname">_tagname</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: _tagname MODULENAME</pre>
+</dd>
+<dd>
+<p>Control which EXPORT_TAGS tag is used depending on module location.</p>
+</dd>
+<p></p></dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Ryan Gies</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
+<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="updated">UPDATED</a></h1>
+<p>This file created by mkdocs.pl on 8/29/2006 at 2:07pm</p>
+<p><a href="#__index__"><small>Top</small></a></p>
+
+</body>
+
+</html>

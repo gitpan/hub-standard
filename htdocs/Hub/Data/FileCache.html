@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Hub::Data::FileCache</title>
+<link rel="stylesheet" href="../../pod.css" type="text/css" />
+<link rev="made" href="mailto:gerrit@familiehaase.de" />
+</head>
+
+<body>
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<li><a href="#internal">INTERNAL</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#updated">UPDATED</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Hub::Data::FileCache -</p>
+<p>Part of the <a href="../../hublib.html">Hub Library</a></p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<table><tr><td>
+<a class="methlink" href="#item_fattach">fattach</a></td><td>
+<a class="methlink" href="#item_fhandler">fhandler</a></td><td>
+<a class="methlink" href="#item_frefresh">frefresh</a></td></tr></table><dl>
+<dt><strong><a name="item_fattach">fattach</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: fattach FILENAME, CLASS</pre>
+</dd>
+<dd>
+<p>Attach an instance of a class (which has a corresponding 'parsefile' method)
+to a file.</p>
+</dd>
+<dd>
+<p>Returns an instance, which is a hash with members:</p>
+</dd>
+<dd>
+<pre>
+  lastread    # mod time last time we read it
+  filename    # name
+  lines       # ARRAY of lines in the file
+  handlers    # HASH of attached classes</pre>
+</dd>
+<dd>
+<p>The instance is a singleton.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_fhandler">fhandler</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: fhandler FILENAME, CLASSNAME</pre>
+</dd>
+<dd>
+<p>Find the instance of a particular class which is attached to the file</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_frefresh">frefresh</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: frefresh</pre>
+</dd>
+<dd>
+<p>Signal all instances to check to see if their file on disk has been modified.</p>
+</dd>
+<dd>
+<p>If so, re-read the file and tell all your handlers to reparse themselves.</p>
+</dd>
+<p></p></dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="internal">INTERNAL</a></h1>
+<table><tr><td>
+<a class="methlink" href="#item__read_from_disk">_read_from_disk</a></td></tr></table><dl>
+<dt><strong><a name="item__read_from_disk">_read_from_disk</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: _read_from_disk</pre>
+</dd>
+<dd>
+<p>Modify the provided instance to reflect what is on disk.</p>
+</dd>
+<p></p></dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Ryan Gies</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
+<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="updated">UPDATED</a></h1>
+<p>This file created by mkdocs.pl on 8/29/2006 at 2:07pm</p>
+<p><a href="#__index__"><small>Top</small></a></p>
+
+</body>
+
+</html>

@@ -1,0 +1,347 @@
+=head1 NAME
+
+Hub::Data::Handlers - Nested data handlers
+
+
+Part of the L<Hub Library|hublib>
+
+=head1 SYNOPSIS
+
+
+    use Hub qw(:standard);
+    my $h = {};
+    hsetv( $h, "/user1/fname",  "Steve" );
+    hsetv( $h, "/user2/fname",  "Mandy" );
+
+
+
+=head1 DESCRIPTION
+
+
+See also L<hubaddr>
+
+
+
+=head1 METHODS
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item_happendv">happendv</a>
+
+</td><td>
+<a class="methlink" href="#item_hgetv">hgetv</a>
+
+</td><td>
+<a class="methlink" href="#item_hsetv">hsetv</a>
+
+</td><td>
+<a class="methlink" href="#item_htakev">htakev</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item happendv
+
+B<Hash Append Value>
+
+
+
+
+ Usage: happendv \HASH, $ADDRESS, VALUE, OPTIONS*
+
+Append to an existing value and return like L<hgetv>.
+
+
+
+OPTIONS:
+
+
+  -asa=1      Force value as array (transforms existing scalars.)
+
+
+=back
+
+=over 4
+
+=item hgetv
+
+B<Hash Get Value>
+
+
+
+
+ Usage: hgetv \%HASH, $ADDRESS, [OPTIONS]
+ Usage: hgetv \%HASH, \@ADDRESSES, [OPTIONS]
+
+
+In its first form, hgetv will return the value specified by $ADDRESS.
+
+
+
+In its second form, an array of values is returned for each @ADDRESS.  In
+scalar context the array is returned as a reference.
+
+
+
+OPTIONS:
+
+
+  -sdref=0    Do *not* de-reference scalar values.
+
+
+
+=back
+
+=over 4
+
+=item hsetv
+
+B<Hash Set Value>
+
+
+
+
+ Usage: hsetv \%HASH, $ADDRESS, $VALUE
+ Usage: hsetv \%HASH, \%ADDRESS
+
+
+In its first form, VALUE is set in \%HASH at $ADDRESS.
+
+
+
+In its second form, \%ADDRESS is presumed to be ADDRESS/VALUE pairs, and each
+is set in turn.
+
+
+
+=back
+
+=over 4
+
+=item htakev
+
+B<Hash Take Value>
+
+
+
+
+ Usage: htakev \%HASH, $ADDRESS
+ Usage: htakev \%HASH, \@ADDRESSES
+
+Remove and return the value (like L<hgetv>.)
+
+
+In its second form, the removed values are returned as an array reference.
+
+
+
+=back
+
+
+=head1 INTERNAL
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item__appendvasa">_appendvasa</a>
+
+</td><td>
+<a class="methlink" href="#item__hqueryv">_hqueryv</a>
+
+</td><td>
+<a class="methlink" href="#item__hseekv">_hseekv</a>
+
+</td><td>
+<a class="methlink" href="#item__hselectv">_hselectv</a>
+
+</td><td>
+<a class="methlink" href="#item__lookup">_lookup</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item _appendvasa
+
+B<Append value as array.>
+
+
+
+
+
+ Usage: _appendvasa \%HASH, $ADDRESS, $VALUE
+
+Append value onto the array at $key.  If the value at $key exists as a scalar,
+transform it into an ARRAY, whos first element is its current value.
+
+
+
+=back
+
+=over 4
+
+=item _hqueryv
+
+B<Hash Query Value>
+
+
+
+
+ Usage: _hqueryv \%HASH, $ADDRESS, [OPTIONS]
+
+
+This method returns all resulting records in \HASH specified by $ADDRESS.
+
+
+
+OPTIONS:
+
+
+  -av     Autovivify (contstucts necessary segments)
+
+
+=back
+
+=over 4
+
+=item _hseekv
+
+B<Hash Seek Value (Seek to the specified address)>
+
+
+
+
+ Usage: _hseekv \%HASH, $ADDRESS, [OPTIONS]
+
+
+OPTIONS:
+
+
+  -av     Autovivify (contstucts necessary segments)
+
+
+This is an optimization and as such $ADDRESS may *not* contain selectors.
+
+
+
+Autovivification will return a SCALAR reference on nodes which are unkown.
+
+Such that calling:
+
+
+  my $c = _hseekv( \%hash, '/a/b/c', '-av' );
+
+
+May become an array by subsequently:
+
+
+  @$$c = qw/fourteen hair/;
+
+
+And seeking again will return an ARRAY reference:
+
+
+  my $c2 = _hseekv( \%hash, '/a/b/c' );
+
+
+Such that:
+
+
+  push @$c2, 'dryers';
+
+
+
+
+=back
+
+=over 4
+
+=item _hselectv
+
+B<Hash Select Value>
+
+
+
+
+ Usage: _hselectv \%HASH, \%ROOT_HASH, $SELECTOR, [OPTIONS]
+
+
+This method interprets SELECTOR and returns the matching record(s).
+
+
+
+Where:
+
+
+  \%HASH          Look for SELECTOR in this hash
+  \%ROOT_HASH     Used when SELECTOR contains a reference
+  $SELECTOR       The select clause
+
+
+OPTIONS:
+
+
+  -av             Autovivify (contstucts necessary segments)
+
+
+=back
+
+=over 4
+
+=item _lookup
+
+B<Lookup array item (must be a hash) by member value.>
+
+
+
+
+
+ Usage: _lookup \@ARRAY, $VALUE, [OPTIONS]
+
+
+OPTIONS:
+
+
+  Name        Type        Default                 Description
+  ----------- ----------- ----------------------- ----------------------------
+  -by         \@ARRAY     \['_id','id','name']    Fields to search by
+  -cmp        eq|ne|...   eq                      Comparator
+  -asindex    0|1         0                       Return the array index(s)
+  -first      0|1         1                       Return first match
+
+VALUE:
+
+
+  Regarless of the '-by' option, if value is formatted as: \[\d\], then it
+  is considered an index into the array.
+
+
+
+=back
+
+
+=head1 AUTHOR
+
+
+Ryan Gies
+
+=head1 COPYRIGHT
+
+
+Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+
+Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+
+=head1 UPDATED
+
+This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+
+=cut

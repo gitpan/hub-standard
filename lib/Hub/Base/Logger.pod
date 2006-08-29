@@ -1,0 +1,351 @@
+=head1 NAME
+
+Hub::Base::Logger - 
+    use Hub;
+    my $log = Hub::mkinst( 'Logger', "/var/log/service.log" );
+    $log->show( "warn, info, foo" );
+
+    $log->msg( "I will print b/c level 'info' is specified", 'info' );
+    $log->msg( "I will print b/c there is no type" );
+    $log->err( "$!: $filename" );
+    $log->msg( "I will not print", "kmfdm" );
+
+    $log->flush(); # write to file (also called on DESTROY)
+
+
+
+Part of the L<Hub Library|hublib>
+
+=head1 SYNOPSIS
+
+Record log messages, write them to file and append to stdout.
+
+
+=head1 DESCRIPTION
+
+
+This logger is used by this library.  Logging levels are not standardized,
+but you can specify show( 'all' ) to see what gets used.
+
+Always available:
+
+          Unspecified messages
+
+  err     Error, fatal errors such as configuration issues. (always 
+          print, unless 'opressed' is set)
+
+THese are used by this library, and may also server as examples:
+
+  info    Informational, users will set this as the default to get a warm
+          fuzzy of program flow.
+
+  warn    Warning, non-fatal errors such as configuration issues.
+
+  verb    Verbose, programmers will look at this output to determine where to 
+          start debugging an error.
+
+  dbg     Debug, these messages are useless unless you know what you're
+          looking for.
+
+
+
+=head1 METHODS
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item_disable">disable</a>
+
+</td><td>
+<a class="methlink" href="#item_lograw">logRaw</a>
+
+</td><td>
+<a class="methlink" href="#item_msg">msg</a>
+
+</td><td>
+<a class="methlink" href="#item_set">set</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item_dump">dump</a>
+
+</td><td>
+<a class="methlink" href="#item_measurefrom">measurefrom</a>
+
+</td><td>
+<a class="methlink" href="#item_new">new</a>
+
+</td><td>
+<a class="methlink" href="#item_show">show</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item_err">err</a>
+
+</td><td>
+<a class="methlink" href="#item_measureto">measureto</a>
+
+</td><td>
+<a class="methlink" href="#item_out">out</a>
+
+</td><td>
+<a class="methlink" href="#item_tee">tee</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item_flush">flush</a>
+
+</td><td>
+<a class="methlink" href="#item_morte">morte</a>
+
+</td><td>
+<a class="methlink" href="#item_refresh">refresh</a>
+
+</td><td>
+<a class="methlink" href="#item_trim_file">trim_file</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item disable
+
+B<>
+
+No logging
+
+
+=back
+
+=over 4
+
+=item dump
+
+B<>
+
+ Usage: dump [MESSAGE], ?REF, [LEVEL]
+
+
+Where:
+
+
+  MESSAGE     An optional message to prefix the output
+  ?REF        A reference to the value which will be dumped
+  LEVEL       The level passed as a flag, -verb for example.
+
+
+Dump hash|array values.  ?REF? may not be a HASH or ARRAY reference, since
+this method is used to inspect variables.  In that case, it will treated like
+a scalar.
+
+
+
+=back
+
+=over 4
+
+=item err
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item flush
+
+B<>
+
+ Usage: flush
+ Usage: flush -tstamp => TIMESTAMP
+ flush -tee    => none|html|stdout|stderr
+
+Write log messages to disk.
+
+
+
+Optionally tee these messages (to stdout or stderr or stdout wrapped with
+HTML comments).
+
+
+
+TIMESTAMP as from Time::HiRes::gettimeofday.
+
+
+
+=back
+
+=over 4
+
+=item logRaw
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item measurefrom
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item measureto
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item morte
+
+B<>
+
+ Usage: morte
+
+Log the message as an error, flush the log file, and die with the message.
+
+
+
+=back
+
+=over 4
+
+=item msg
+
+B<>
+
+Log a message at a specific level
+
+
+=back
+
+=over 4
+
+=item new
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item out
+
+B<>
+
+write directly to standard out
+
+
+=back
+
+=over 4
+
+=item refresh
+
+B<>
+
+
+
+=back
+
+=over 4
+
+=item set
+
+B<>
+
+Toggle output options
+
+
+=back
+
+=over 4
+
+=item show
+
+B<>
+
+'all' will display all messages.  Otherwise, specify the message level
+(see 'msg' below.)
+
+
+=back
+
+=over 4
+
+=item tee
+
+B<>
+
+Append messages to stdout (0=no, 1=html, 2=raw)
+
+
+=back
+
+=over 4
+
+=item trim_file
+
+B<>
+
+keep the logfile below a certian size
+
+
+=back
+
+
+=head1 INTERNAL
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item_destroy">DESTROY</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item DESTROY
+
+B<>
+
+
+
+=back
+
+
+=head1 AUTHOR
+
+
+Ryan Gies
+
+=head1 COPYRIGHT
+
+
+Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+
+Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+
+=head1 UPDATED
+
+This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+
+=cut

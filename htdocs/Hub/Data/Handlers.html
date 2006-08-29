@@ -1,0 +1,324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Hub::Data::Handlers</title>
+<link rel="stylesheet" href="../../pod.css" type="text/css" />
+<link rev="made" href="mailto:gerrit@familiehaase.de" />
+</head>
+
+<body>
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<li><a href="#internal">INTERNAL</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#updated">UPDATED</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Hub::Data::Handlers - Nested data handlers</p>
+<p>Part of the <a href="../../hublib.html">Hub Library</a></p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    use Hub qw(:standard);
+    my $h = {};
+    hsetv( $h, &quot;/user1/fname&quot;,  &quot;Steve&quot; );
+    hsetv( $h, &quot;/user2/fname&quot;,  &quot;Mandy&quot; );</pre>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>See also <a href="../../hubaddr.html">the hubaddr manpage</a></p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<table><tr><td>
+<a class="methlink" href="#item_happendv">happendv</a></td><td>
+<a class="methlink" href="#item_hgetv">hgetv</a></td><td>
+<a class="methlink" href="#item_hsetv">hsetv</a></td><td>
+<a class="methlink" href="#item_htakev">htakev</a></td></tr></table><dl>
+<dt><strong><a name="item_happendv">happendv</a></strong><br />
+</dt>
+<dd>
+<strong>Hash Append Value</strong>
+</dd>
+<dd>
+<pre>
+ Usage: happendv \HASH, $ADDRESS, VALUE, OPTIONS*</pre>
+</dd>
+<dd>
+<p>Append to an existing value and return like <a href="#item_hgetv">hgetv</a>.</p>
+</dd>
+<dd>
+<p>OPTIONS:</p>
+</dd>
+<dd>
+<pre>
+  -asa=1      Force value as array (transforms existing scalars.)</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_hgetv">hgetv</a></strong><br />
+</dt>
+<dd>
+<strong>Hash Get Value</strong>
+</dd>
+<dd>
+<pre>
+ Usage: hgetv \%HASH, $ADDRESS, [OPTIONS]
+ Usage: hgetv \%HASH, \@ADDRESSES, [OPTIONS]</pre>
+</dd>
+<dd>
+<p>In its first form, hgetv will return the value specified by $ADDRESS.</p>
+</dd>
+<dd>
+<p>In its second form, an array of values is returned for each @ADDRESS.  In
+scalar context the array is returned as a reference.</p>
+</dd>
+<dd>
+<p>OPTIONS:</p>
+</dd>
+<dd>
+<pre>
+  -sdref=0    Do *not* de-reference scalar values.</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_hsetv">hsetv</a></strong><br />
+</dt>
+<dd>
+<strong>Hash Set Value</strong>
+</dd>
+<dd>
+<pre>
+ Usage: hsetv \%HASH, $ADDRESS, $VALUE
+ Usage: hsetv \%HASH, \%ADDRESS</pre>
+</dd>
+<dd>
+<p>In its first form, VALUE is set in \%HASH at $ADDRESS.</p>
+</dd>
+<dd>
+<p>In its second form, \%ADDRESS is presumed to be ADDRESS/VALUE pairs, and each
+is set in turn.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_htakev">htakev</a></strong><br />
+</dt>
+<dd>
+<strong>Hash Take Value</strong>
+</dd>
+<dd>
+<pre>
+ Usage: htakev \%HASH, $ADDRESS
+ Usage: htakev \%HASH, \@ADDRESSES</pre>
+</dd>
+<dd>
+<p>Remove and return the value (like <a href="#item_hgetv">hgetv</a>.)</p>
+</dd>
+<dd>
+<p>In its second form, the removed values are returned as an array reference.</p>
+</dd>
+<p></p></dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="internal">INTERNAL</a></h1>
+<table><tr><td>
+<a class="methlink" href="#item__appendvasa">_appendvasa</a></td><td>
+<a class="methlink" href="#item__hqueryv">_hqueryv</a></td><td>
+<a class="methlink" href="#item__hseekv">_hseekv</a></td><td>
+<a class="methlink" href="#item__hselectv">_hselectv</a></td><td>
+<a class="methlink" href="#item__lookup">_lookup</a></td></tr></table><dl>
+<dt><strong><a name="item__appendvasa">_appendvasa</a></strong><br />
+</dt>
+<dd>
+<strong>Append value as array.</strong>
+</dd>
+<dd>
+<pre>
+ Usage: _appendvasa \%HASH, $ADDRESS, $VALUE</pre>
+</dd>
+<dd>
+<p>Append value onto the array at $key.  If the value at $key exists as a scalar,
+transform it into an ARRAY, whos first element is its current value.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item__hqueryv">_hqueryv</a></strong><br />
+</dt>
+<dd>
+<strong>Hash Query Value</strong>
+</dd>
+<dd>
+<pre>
+ Usage: _hqueryv \%HASH, $ADDRESS, [OPTIONS]</pre>
+</dd>
+<dd>
+<p>This method returns all resulting records in \HASH specified by $ADDRESS.</p>
+</dd>
+<dd>
+<p>OPTIONS:</p>
+</dd>
+<dd>
+<pre>
+  -av     Autovivify (contstucts necessary segments)</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item__hseekv">_hseekv</a></strong><br />
+</dt>
+<dd>
+<strong>Hash Seek Value (Seek to the specified address)</strong>
+</dd>
+<dd>
+<pre>
+ Usage: _hseekv \%HASH, $ADDRESS, [OPTIONS]</pre>
+</dd>
+<dd>
+<p>OPTIONS:</p>
+</dd>
+<dd>
+<pre>
+  -av     Autovivify (contstucts necessary segments)</pre>
+</dd>
+<dd>
+<p>This is an optimization and as such $ADDRESS may *not* contain selectors.</p>
+</dd>
+<dd>
+<p>Autovivification will return a SCALAR reference on nodes which are unkown.</p>
+</dd>
+<dd>
+<p>Such that calling:</p>
+</dd>
+<dd>
+<pre>
+  my $c = _hseekv( \%hash, '/a/b/c', '-av' );</pre>
+</dd>
+<dd>
+<p>May become an array by subsequently:</p>
+</dd>
+<dd>
+<pre>
+  @$$c = qw/fourteen hair/;</pre>
+</dd>
+<dd>
+<p>And seeking again will return an ARRAY reference:</p>
+</dd>
+<dd>
+<pre>
+  my $c2 = _hseekv( \%hash, '/a/b/c' );</pre>
+</dd>
+<dd>
+<p>Such that:</p>
+</dd>
+<dd>
+<pre>
+  push @$c2, 'dryers';</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item__hselectv">_hselectv</a></strong><br />
+</dt>
+<dd>
+<strong>Hash Select Value</strong>
+</dd>
+<dd>
+<pre>
+ Usage: _hselectv \%HASH, \%ROOT_HASH, $SELECTOR, [OPTIONS]</pre>
+</dd>
+<dd>
+<p>This method interprets SELECTOR and returns the matching record(s).</p>
+</dd>
+<dd>
+<p>Where:</p>
+</dd>
+<dd>
+<pre>
+  \%HASH          Look for SELECTOR in this hash
+  \%ROOT_HASH     Used when SELECTOR contains a reference
+  $SELECTOR       The select clause</pre>
+</dd>
+<dd>
+<p>OPTIONS:</p>
+</dd>
+<dd>
+<pre>
+  -av             Autovivify (contstucts necessary segments)</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item__lookup">_lookup</a></strong><br />
+</dt>
+<dd>
+<strong>Lookup array item (must be a hash) by member value.</strong>
+</dd>
+<dd>
+<pre>
+ Usage: _lookup \@ARRAY, $VALUE, [OPTIONS]</pre>
+</dd>
+<dd>
+<p>OPTIONS:</p>
+</dd>
+<dd>
+<pre>
+  Name        Type        Default                 Description
+  ----------- ----------- ----------------------- ----------------------------
+  -by         \@ARRAY     \['_id','id','name']    Fields to search by
+  -cmp        eq|ne|...   eq                      Comparator
+  -asindex    0|1         0                       Return the array index(s)
+  -first      0|1         1                       Return first match</pre>
+</dd>
+<dd>
+<p>VALUE:</p>
+</dd>
+<dd>
+<pre>
+  Regarless of the '-by' option, if value is formatted as: \[\d\], then it
+  is considered an index into the array.</pre>
+</dd>
+<p></p></dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Ryan Gies</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
+<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="updated">UPDATED</a></h1>
+<p>This file created by mkdocs.pl on 8/29/2006 at 2:07pm</p>
+<p><a href="#__index__"><small>Top</small></a></p>
+
+</body>
+
+</html>
