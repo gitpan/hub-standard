@@ -2,7 +2,6 @@
 
 Hub::Data::Handlers - Nested data handlers
 
-
 Part of the L<Hub Library|hublib>
 
 =head1 SYNOPSIS
@@ -14,12 +13,10 @@ Part of the L<Hub Library|hublib>
     hsetv( $h, "/user2/fname",  "Mandy" );
 
 
-
 =head1 DESCRIPTION
 
 
 See also L<hubaddr>
-
 
 
 =head1 METHODS
@@ -63,7 +60,6 @@ OPTIONS:
 
   -asa=1      Force value as array (transforms existing scalars.)
 
-
 =back
 
 =over 4
@@ -94,7 +90,6 @@ OPTIONS:
   -sdref=0    Do *not* de-reference scalar values.
 
 
-
 =back
 
 =over 4
@@ -118,7 +113,6 @@ In its second form, \%ADDRESS is presumed to be ADDRESS/VALUE pairs, and each
 is set in turn.
 
 
-
 =back
 
 =over 4
@@ -139,9 +133,7 @@ Remove and return the value (like L<hgetv>.)
 In its second form, the removed values are returned as an array reference.
 
 
-
 =back
-
 
 =head1 INTERNAL
 
@@ -183,7 +175,6 @@ Append value onto the array at $key.  If the value at $key exists as a scalar,
 transform it into an ARRAY, whos first element is its current value.
 
 
-
 =back
 
 =over 4
@@ -206,7 +197,6 @@ OPTIONS:
 
 
   -av     Autovivify (contstucts necessary segments)
-
 
 =back
 
@@ -259,7 +249,6 @@ Such that:
 
 
 
-
 =back
 
 =over 4
@@ -290,7 +279,6 @@ OPTIONS:
 
 
   -av             Autovivify (contstucts necessary segments)
-
 
 =back
 
@@ -324,16 +312,16 @@ VALUE:
   is considered an index into the array.
 
 
-
 =back
 
-
 =head1 AUTHOR
+
 
 
 Ryan Gies
 
 =head1 COPYRIGHT
+
 
 
 Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
@@ -342,6 +330,6 @@ Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
 
 =head1 UPDATED
 
-This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+This file created by  on  at 
 
 =cut

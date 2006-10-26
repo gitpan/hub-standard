@@ -2,16 +2,13 @@
 
 Hub::Knots::Addressable - Addressable Hash
 
-
 Part of the L<Hub Library|hublib>
 
 =head1 SYNOPSIS
 
 
 
-
 =head1 DESCRIPTION
-
 
 
 
@@ -22,7 +19,6 @@ Part of the L<Hub Library|hublib>
 
 
 =end html
-
 
 =head1 INTERNAL
 
@@ -71,7 +67,6 @@ B<Tie interface method>
 
 
 
-
 =back
 
 =over 4
@@ -79,7 +74,6 @@ B<Tie interface method>
 =item DELETE
 
 B<Tie interface method>
-
 
 
 
@@ -93,7 +87,6 @@ B<Tie interface method>
 
 
 
-
 =back
 
 =over 4
@@ -101,7 +94,6 @@ B<Tie interface method>
 =item FETCH
 
 B<Tie interface method>
-
 
 
 
@@ -115,7 +107,6 @@ B<Tie interface method>
 
 
 
-
 =back
 
 =over 4
@@ -123,7 +114,6 @@ B<Tie interface method>
 =item NEXTKEY
 
 B<Tie interface method>
-
 
 
 
@@ -137,7 +127,6 @@ B<Tie interface method>
 
 
 
-
 =back
 
 =over 4
@@ -145,7 +134,6 @@ B<Tie interface method>
 =item STORE
 
 B<Tie interface method>
-
 
 
 
@@ -159,7 +147,6 @@ B<Tie interface method>
 
 
 
-
 =back
 
 =over 4
@@ -170,16 +157,16 @@ B<Tie interface method>
 
 
 
-
 =back
 
-
 =head1 AUTHOR
+
 
 
 Ryan Gies
 
 =head1 COPYRIGHT
+
 
 
 Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
@@ -188,6 +175,6 @@ Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
 
 =head1 UPDATED
 
-This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+This file created by  on  at 
 
 =cut

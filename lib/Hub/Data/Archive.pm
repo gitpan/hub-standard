@@ -11,44 +11,179 @@ use warnings;
 
 use Hub qw/:lib/;
 
+our $VERSION        = '3.01048';
 our @EXPORT         = qw//;
 our @EXPORT_OK      = qw/carch larch xarch/;
 
+#!BulkSplit
 
-sub carch ;
-sub larch ;
-sub xarch ;
-sub _perform ;
+use Archive::Tar;
+use IO::Zlib;
+use constant        COMPRESSION => 5;
 
 # ------------------------------------------------------------------------------
-# AUTOLOAD
+# carch FILE, DIR, LIST
+# 
+# Create archive
 #
-# We intend to attempt AUTOLOADing the module just once.
+# Where:
 #
-# This has been inserted as part of the BulkSplit structure.  We use AutoLoader
-# to load the module body.
-#
-# When the module defines it's own AUTOLOAD, it will become redefined, and this 
-# method will not be hit again.
+#   FILE            absolute path to the archive
+#   DIR             perform in this directory
+#   LIST            array reference of filenames (relative to DIR or absolute)
 # ------------------------------------------------------------------------------
-sub AUTOLOAD {
-    use AutoLoader qw//;
-    my $name = $Hub::Data::Archive::AUTOLOAD;
-	return if substr($name,-9) eq '::DESTROY';
-    use Carp qw/croak/;
-    croak "Undefined subroutine: $name" if defined &Hub::Data::Archive::Archive;
-    $AutoLoader::AUTOLOAD = "Hub::Data::Archive::Archive";
-    local $SIG{__WARN__} = sub {
-        warn $_[0] unless $_[0] =~ "Subroutine AUTOLOAD redefined";
-    };
-    AutoLoader::AUTOLOAD();
-    foreach my $pkg ( @Hub::Data::Archive::ISA ) {
-        my ($pkgname) = $pkg =~ /.*::(\w+)$/;
-        eval("${pkg}::Archive");
-    }
-    goto &$name;
-}
 
-1;
+sub carch {
 
-__END__
+    my $file = shift;
+    my $in = shift;
+    my $files = shift;
+
+    return _perform( "create", $file, $in, $files );
+
+}#carch
+
+# ------------------------------------------------------------------------------
+# larch FILE
+# 
+# List archive
+#
+# Where:
+#
+#   FILE            absolute path to the archive
+# ------------------------------------------------------------------------------
+
+sub larch {
+
+    my $file = shift;
+
+    return _perform( "list", $file );
+
+}#larch
+
+# ------------------------------------------------------------------------------
+# xarch FILE, DIR
+# 
+# Extract archive
+#
+# Where:
+#
+#   FILE            absolute path to the archive
+#   DIR             perform in this directory
+# ------------------------------------------------------------------------------
+
+sub xarch {
+
+    my $file = shift;
+    my $in = shift;
+
+    return _perform( "extract", $file, $in );
+
+}#xarch
+
+# ------------------------------------------------------------------------------
+# _perform ACTION, FILE, DIR, [MORE]
+# 
+# Perform Archive::Tar class method events.
+#
+# Where:
+#
+#   ACTION          extract|create|list
+#   FILE            absolute path to the archive
+#   DIR             perform in this directory
+#   MORE            for creating archives, this is an array reference
+# ------------------------------------------------------------------------------
+
+sub _perform {
+
+    my $action = shift;
+    my $file = shift;
+    my $in = shift;
+
+    my $owd = cwd();
+
+    my $ret = ();
+
+    $in ||= $owd;
+
+    if( Hub::filetest( $in, '-d' ) ) {
+
+        my $ok = 1;
+
+        chdir $in;
+
+        if( $action eq "extract" ) {
+
+            @$ret = Archive::Tar->extract_archive( $file, COMPRESSION );
+
+            $ok = 0 if( $#$ret < 0 );
+
+            if( $ok ) {
+
+                Hub::touch( @$ret );
+
+            }#if
+
+        } elsif( $action eq "create" ) {
+
+            my $list = ();
+
+            my $files = shift;
+
+            if( ref($files) eq 'ARRAY' ) {
+
+                $list = $files;
+
+            } elsif( ref($files) eq 'HASH' ) {
+
+                @$list = Hub::find( '.', $files );
+
+            } elsif( $files ) {
+
+                @$list = Hub::find( '.', -include => [ $files ] );
+
+            } else {
+
+                $ok = 0;
+
+            }#if
+
+            Archive::Tar->create_archive( $file, COMPRESSION, @$list );
+
+            if( $Archive::Tar::error ) {
+            
+                $ok = 0;
+
+            } else {
+
+                $ret = $file;
+
+            }#if
+
+        } elsif( $action eq "list" ) {
+
+            @$ret = Archive::Tar->list_archive( $file, COMPRESSION );
+
+            $ok = 0 if( $#$ret < 0 );
+
+        }#if
+
+        unless( $ok ) {
+
+            Hub::lerr( Archive::Tar->error() );
+
+            $Archive::Tar::error = "";
+
+        }#unless
+
+        chdir $owd;
+
+    }#if
+
+    return $ret;
+
+}#_perform
+
+# ------------------------------------------------------------------------------
+
+'???';

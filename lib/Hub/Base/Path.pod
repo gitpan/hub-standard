@@ -58,7 +58,6 @@ B<>
 
 Constructor
 
-
 =back
 
 =over 4
@@ -70,7 +69,6 @@ B<>
  Usage: popsp
 
 Pop path from source directory stack
-
 
 =back
 
@@ -84,7 +82,6 @@ B<>
 
 Pop path from working directory stack
 
-
 =back
 
 =over 4
@@ -96,7 +93,6 @@ B<>
  Usage: pushsp
 
 Push path onto source directory stack
-
 
 =back
 
@@ -110,7 +106,6 @@ B<>
 
 Push path onto working directory stack
 
-
 =back
 
 =over 4
@@ -122,7 +117,6 @@ B<>
  Usage: refresh
 
 Initialize
-
 
 =back
 
@@ -136,7 +130,6 @@ B<>
 
 Resource directory
 
-
 =back
 
 =over 4
@@ -149,22 +142,24 @@ B<>
 
 Resource file
 
-
 =back
 
 =over 4
 
 =item srcpath
 
-B<>
+B<Source path>
 
- Usage: srcpath
 
-Source path
+
+
+ Usage: srcpath $FILE
+
+
+Return the source path to $FILE.
 
 
 =back
-
 
 =head1 INTERNAL
 
@@ -174,13 +169,14 @@ Source path
 
 =end html
 
-
 =head1 AUTHOR
+
 
 
 Ryan Gies
 
 =head1 COPYRIGHT
+
 
 
 Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
@@ -189,6 +185,6 @@ Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
 
 =head1 UPDATED
 
-This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+This file created by  on  at 
 
 =cut

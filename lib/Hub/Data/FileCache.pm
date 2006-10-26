@@ -10,45 +10,153 @@ use strict;
 
 use Hub qw/:lib/;
 
+our $VERSION        = '3.01048';
 our @EXPORT         = qw//;
 our @EXPORT_OK      = qw/fattach fhandler frefresh/;
 our $NAMESPACE      = Hub::regns( 'filecache' );
 
-
-sub fattach ;
-sub fhandler ;
-sub frefresh ;
-sub _read_from_disk ;
+#!BulkSplit
 
 # ------------------------------------------------------------------------------
-# AUTOLOAD
+# fattach FILENAME, CLASS
+# 
+# Attach an instance of a class (which has a corresponding 'parsefile' method)
+# to a file.
 #
-# We intend to attempt AUTOLOADing the module just once.
+# Returns an instance, which is a hash with members:
 #
-# This has been inserted as part of the BulkSplit structure.  We use AutoLoader
-# to load the module body.
+#   lastread    # mod time last time we read it
+#   filename    # name
+#   lines       # ARRAY of lines in the file
+#   handlers    # HASH of attached classes
 #
-# When the module defines it's own AUTOLOAD, it will become redefined, and this 
-# method will not be hit again.
+# The instance is a singleton.
 # ------------------------------------------------------------------------------
-sub AUTOLOAD {
-    use AutoLoader qw//;
-    my $name = $Hub::Data::FileCache::AUTOLOAD;
-	return if substr($name,-9) eq '::DESTROY';
-    use Carp qw/croak/;
-    croak "Undefined subroutine: $name" if defined &Hub::Data::FileCache::FileCache;
-    $AutoLoader::AUTOLOAD = "Hub::Data::FileCache::FileCache";
-    local $SIG{__WARN__} = sub {
-        warn $_[0] unless $_[0] =~ "Subroutine AUTOLOAD redefined";
-    };
-    AutoLoader::AUTOLOAD();
-    foreach my $pkg ( @Hub::Data::FileCache::ISA ) {
-        my ($pkgname) = $pkg =~ /.*::(\w+)$/;
-        eval("${pkg}::FileCache");
-    }
-    goto &$name;
-}
 
-1;
+sub fattach {
 
-__END__
+    my $opts = Hub::opts( \@_ );
+    my $filename = shift or croak "Filename required";
+    my $handler = shift;
+
+    croak "Object expected" unless ref($handler);
+
+    $filename = Hub::abspath( $filename );
+
+    my $instance = $$NAMESPACE{$filename};
+
+    if( defined $instance ) {
+
+        if( $instance->{'handlers'}{$handler} ) {
+
+            croak "Already attached";
+
+        } else {
+
+            $instance->{'handlers'}{$handler} = $handler;
+
+            $handler->parsefile( $instance );
+
+        }#if
+
+    } else {
+
+        $instance = {
+
+            'filename'  => $filename,
+            'handlers'  => { $handler => $handler, },
+
+        };
+
+        _read_from_disk( $instance );
+
+    }#unless
+
+    return $instance;
+
+}#fattach
+
+# ------------------------------------------------------------------------------
+# fhandler FILENAME, CLASSNAME
+# 
+# Find the instance of a particular class which is attached to the file
+# ------------------------------------------------------------------------------
+
+sub fhandler {
+
+    my $filename = shift or croak "Filename required";
+    my $classname = shift or croak "Classname required";
+    my @handlers = ();
+    my $instance = $$NAMESPACE{Hub::abspath($filename)};
+
+    if( defined $instance ) {
+
+        map { push @handlers, $_ if ref($_) eq $classname }
+            values %{$instance->{'handlers'}};
+
+    }#if
+
+    wantarray and return @handlers;
+
+    return pop @handlers;
+
+}#fhandler
+
+# ------------------------------------------------------------------------------
+# frefresh
+# 
+# Signal all instances to check to see if their file on disk has been modified.
+# If so, re-read the file and tell all your handlers to reparse themselves.
+# ------------------------------------------------------------------------------
+
+sub frefresh {
+
+    foreach my $instance ( values %$NAMESPACE ) {
+
+        my @stats = stat $instance->{'filename'};
+
+        if( $stats[9] == 0 ) {
+
+            # file no longer exists
+
+            delete $NAMESPACE->{$instance->{'filename'}};
+
+        } elsif( $stats[9] > $instance->{'lastread'} ) {
+
+            _read_from_disk( $instance );
+
+        }#if
+
+    }#foreach
+
+}#frefresh
+
+# ------------------------------------------------------------------------------
+# _read_from_disk
+# 
+# Modify the provided instance to reflect what is on disk.
+# ------------------------------------------------------------------------------
+
+sub _read_from_disk {
+
+    my $instance    = shift;
+    my $filename    = $instance->{'filename'};
+    my @contents    = Hub::readfile( $filename, '-asa=1' );
+    my @stats       = stat $filename;
+
+    $instance->{'lastread'} = $stats[9];
+    $instance->{'filename'} = $filename;
+    $instance->{'lines'}    = [ @contents ];
+    $instance->{'contents'} = '';
+
+    map { $instance->{'contents'} .= $_ } @contents;
+
+    map { $_->parsefile( $instance ); } values %{$instance->{'handlers'}};
+
+    $$NAMESPACE{$filename} = $instance;
+    
+}#_read_from_disk
+
+# ------------------------------------------------------------------------------
+
+'???';

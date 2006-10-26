@@ -48,7 +48,6 @@ B<Compose data value>
  Usage: compdv ADDRESS, VALUE...
 
 
-
 =back
 
 =over 4
@@ -62,7 +61,6 @@ B<Compose formatted value>
 
  Usage: compfv ADDRESS, FORMAT, [VALUE]
 
-
 =back
 
 =over 4
@@ -75,7 +73,6 @@ B<Compose template value>
 
 
  Usage: comptv ADDRESS, FILESPEC, [VALUE]
-
 
 =back
 
@@ -92,23 +89,20 @@ B<Return a populated version of this template.>
  Usage: populate [\HASH]...
 
 
-
 =back
 
 =over 4
 
 =item refresh
 
-B<>
-
-new - Constructor
+B<Reset to initial state (persistent object method)>
 
 
-new FILESPEC
 
+
+ Usage: refresh FILESPEC
 
 =back
-
 
 =head1 INTERNAL
 
@@ -118,13 +112,14 @@ new FILESPEC
 
 =end html
 
-
 =head1 AUTHOR
+
 
 
 Ryan Gies
 
 =head1 COPYRIGHT
+
 
 
 Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
@@ -133,6 +128,6 @@ Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
 
 =head1 UPDATED
 
-This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+This file created by  on  at 
 
 =cut

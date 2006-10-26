@@ -10,6 +10,7 @@ use strict;
 
 use Hub qw/:lib/;
 
+our $VERSION        = '3.01048';
 our @EXPORT     = qw//;
 our @EXPORT_OK  = qw//;
 
@@ -78,6 +79,5 @@ sub refresh {
 }#refresh
 
 # ------------------------------------------------------------------------------
-
 
 '???';

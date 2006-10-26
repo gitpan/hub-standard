@@ -2,7 +2,6 @@
 
 Hub::Data::Meta - Interface for manipulating web-content meta-data
 
-
 Part of the L<Hub Library|hublib>
 
 =head1 SYNOPSIS
@@ -21,7 +20,6 @@ Part of the L<Hub Library|hublib>
 
     $meta->define_order("users", "ascending", "name");
     $meta->order_items("users", @users)
-
 
 
 =head1 DESCRIPTION
@@ -44,7 +42,6 @@ are defined as:
 
     _last_modified          last time this item was modified in seconds since
                             the epoch
-
 
 
 =head1 METHODS
@@ -119,7 +116,6 @@ returns:
 
 
 
-
 =back
 
 =over 4
@@ -145,7 +141,6 @@ will create ids of the form:
   0164                where the value is 164 and starts at 0
   p748                where the value is 748 and starts at 100
   item00012148        where the value is 12148 and starts at 200
-
 
 
 
@@ -175,7 +170,6 @@ returns a hash reference to:
 
 
 
-
 =back
 
 =over 4
@@ -188,7 +182,6 @@ B<>
 
 
 
-
 =back
 
 =over 4
@@ -198,7 +191,6 @@ B<>
 B<>
 
 initialize meta-data for the provided hash
-
 
 =back
 
@@ -236,7 +228,6 @@ order the anon hashes within an array according to some hash key
 
 
 
-
 =back
 
 =over 4
@@ -247,7 +238,6 @@ B<>
 
 use 'cmp' or '<=>' depending on the data.  missing values are pushed to the
 end of the list
-
 
 
 
@@ -281,9 +271,7 @@ will:
       a                   => "hashref",
   }
 
-
 =back
-
 
 =head1 INTERNAL
 
@@ -293,13 +281,14 @@ will:
 
 =end html
 
-
 =head1 AUTHOR
+
 
 
 Ryan Gies
 
 =head1 COPYRIGHT
+
 
 
 Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
@@ -308,6 +297,6 @@ Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
 
 =head1 UPDATED
 
-This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+This file created by  on  at 
 
 =cut

@@ -29,7 +29,7 @@ Part of the L<Hub Library|hublib>
 <a class="methlink" href="#item_min">min</a>
 
 </td><td>
-<a class="methlink" href="#item_subfield">subfield</a>
+<a class="methlink" href="#item_sortkbyv">sortkbyv</a>
 
 </td></tr><tr><td>
 <a class="methlink" href="#item_array">array</a>
@@ -44,7 +44,7 @@ Part of the L<Hub Library|hublib>
 <a class="methlink" href="#item_objopts">objopts</a>
 
 </td><td>
-<a class="methlink" href="#item_subhash">subhash</a>
+<a class="methlink" href="#item_subfield">subfield</a>
 
 </td></tr><tr><td>
 <a class="methlink" href="#item_asa">asa</a>
@@ -59,7 +59,7 @@ Part of the L<Hub Library|hublib>
 <a class="methlink" href="#item_opts">opts</a>
 
 </td><td>
-<a class="methlink" href="#item_subst">subst</a>
+<a class="methlink" href="#item_subhash">subhash</a>
 
 </td></tr><tr><td>
 <a class="methlink" href="#item_asarray">asarray</a>
@@ -74,7 +74,7 @@ Part of the L<Hub Library|hublib>
 <a class="methlink" href="#item_replace">replace</a>
 
 </td><td>
-<a class="methlink" href="#item_touch">touch</a>
+<a class="methlink" href="#item_subst">subst</a>
 
 </td></tr><tr><td>
 <a class="methlink" href="#item_bestof">bestof</a>
@@ -89,7 +89,7 @@ Part of the L<Hub Library|hublib>
 <a class="methlink" href="#item_rmsubhash">rmsubhash</a>
 
 </td><td>
-<a class="methlink" href="#item_uniq">uniq</a>
+<a class="methlink" href="#item_touch">touch</a>
 
 </td></tr><tr><td>
 <a class="methlink" href="#item_check">check</a>
@@ -102,6 +102,9 @@ Part of the L<Hub Library|hublib>
 
 </td><td>
 <a class="methlink" href="#item_rmval">rmval</a>
+
+</td><td>
+<a class="methlink" href="#item_uniq">uniq</a>
 
 </td></tr><tr><td>
 <a class="methlink" href="#item_checksum">checksum</a>
@@ -125,7 +128,7 @@ Part of the L<Hub Library|hublib>
 <a class="methlink" href="#item_merge">merge</a>
 
 </td><td>
-<a class="methlink" href="#item_sortkbyv">sortkbyv</a>
+<a class="methlink" href="#item_sizeof">sizeof</a>
 
 </td></tr></table>
 
@@ -145,11 +148,6 @@ B<>
 Croak nicely.
 
 
-B<This example> returns: B<abort>:
-
-    abort( -msg => 'Goddamn hippies' );
-
-
 =back
 
 =over 4
@@ -159,7 +157,6 @@ B<This example> returns: B<abort>:
 B<>
 
 is the passed in thingy an ARRAY reference?
-
 
 
 
@@ -178,7 +175,6 @@ B<Example: This example>:
     join 'X', asa(undef);
 
 B<matches>:
-
 
 
 
@@ -211,7 +207,6 @@ Unless --lose is specified,  we will modify the provided hash, storing the
 outer key as '_id' of each subhash.
 
 
-
 =back
 
 =over 4
@@ -225,7 +220,6 @@ B<>
 
 
 Best value by criteria (default 'def').
-
 
 
 =back
@@ -319,6 +313,7 @@ B<one is defined> returns: B<true>:
 
     check( 1, undef, -opr => 'or' );
 
+
 B<This example> returns: B<false>:
 
     check( -opr => 'xor', 1, 1 );
@@ -327,6 +322,7 @@ B<This example> returns: B<false>:
 
     check( -opr => 'xor', undef, undef );
 
+
 B<This example> returns: B<true>:
 
     check( -opr => 'xor', undef, 1 );
@@ -334,6 +330,7 @@ B<This example> returns: B<true>:
 B<This example> returns: B<true>:
 
     check( -opr => 'xor', 1, undef );
+
 
 B<This example> returns: B<true>:
 
@@ -346,7 +343,6 @@ B<This example> returns: B<false>:
 B<This example> returns: B<true>:
 
     check( -opr => 'xor', undef, 1, undef, 1 );
-
 
 =back
 
@@ -370,17 +366,6 @@ because I know there are symbol tables (such as the order of elements) in
 that class which get update when the print method is called.
 
 
-B<Example: This example>:
-
-
-  my $x = 'like catfood';
-  Hub::checksum( 'my', { cats => 'breath' }, ( 'smells', $x ) );
-
-B<matches>:
-
-    2023611966
-
-
 =back
 
 =over 4
@@ -396,7 +381,6 @@ B<Extract short and long options from @ARGV>
 
 Convienence method which deals with short single-dash and long double-dash
 options.
-
 
 
 =back
@@ -419,7 +403,6 @@ test servers...
 Note: Have not tested recursive references.
 
 
-
 =back
 
 =over 4
@@ -432,15 +415,6 @@ B<Break apart the string>
 
 
  Usage: dice STRING
-
-B<Example: This example>:
-
-    join( ';', dice( "a{b{c}}c{d}" ) );
-
-B<matches>:
-
-    a;{b{c}};c;{d}
-
 
 =back
 
@@ -460,7 +434,6 @@ types (with the same key) is encounterred, the right-hand sturcture is used.
 
 NOTE: Although this routine compares contents, it returns references to the
 original hashes (use cpref on the result to detatch.)
-
 
 =back
 
@@ -488,7 +461,6 @@ Arrays are ignored unless their members are hashes with an _id member.
 
 Reverse the results of this array to process data in a way that the children
 are affected before their parents.
-
 
 
 =back
@@ -527,43 +499,6 @@ contain one or more key/value pairs such as:
   REF             => arg
   My::Package     => arg
 
-B<This example> returns: B<true>:
-
-    Hub::expect( -match => 'and|or|xor', 'and' );
-
-B<This example> returns: B<true>:
-
-    Hub::expect( HASH => {}, HASH => {} );
-
-B<This example> returns: B<abort>:
-
-    Hub::expect( -blessed => {} );
-
-B<This example> returns: B<true>:
-
-    Hub::expect( -blessed => mkinst( 'Object' ) );
-
-B<This example> returns: B<abort>:
-
-    Hub::expect( -match => 'and|or|xor', 'if', 'or', 'and' );
-
-B<This example> returns: B<abort>:
-
-    Hub::expect( ARRAY => {} );
-
-B<This example> returns: B<abort>:
-
-    Hub::expect( -blessed => 'abc' );
-
-B<This example> returns: B<true>:
-
-    Hub::expect( -ref => 'HASH', {} );
-
-B<This example> returns: B<true>:
-
-    Hub::expect( -ref => 'HASH', mkinst('Object') );
-
-
 =back
 
 =over 4
@@ -575,15 +510,6 @@ B<>
 Croak if arguments match their feared type.
 
 This is a shortcut to L<expect> with a '-not=1' option.
-
-
-B<This example> returns: B<abort>:
-
-    Hub::fear( HASH => {} );
-
-B<This example> returns: B<true>:
-
-    Hub::fear( HASH => [] );
 
 
 =back
@@ -605,7 +531,6 @@ B<>
 B<>
 
 given a hash reference, swap keys with values and return a new hash reference.
-
 
 
 =back
@@ -631,7 +556,6 @@ B<>
 Return the GID of the user of the provided login id.
 
 
-
 =back
 
 =over 4
@@ -643,7 +567,6 @@ B<>
  Usage: getuid
 
 Return the UID of the user of the provided login id.
-
 
 
 =back
@@ -658,7 +581,6 @@ is the passed in thingy a HASH reference?
 
 
 
-
 =back
 
 =over 4
@@ -670,7 +592,6 @@ B<>
  Usage: hashget KEY, HASHREF
 
 Get a nested hash member using the colon-delimited key format.
-
 
 
 =back
@@ -691,15 +612,6 @@ Returns an array with the number of times the divisor is contained in the
 dividend, and the remainder.
 
 
-B<Example: 3 divided by 2 is 1R1>:
-
-    join(',',Hub::intdiv(3,2));
-
-B<matches>:
-
-    1,1
-
-
 =back
 
 =over 4
@@ -715,15 +627,6 @@ B<Maximum value>
 
 
 Returns the greatest element in a set.
-
-
-B<Example: Three decimal values>:
-
-    Hub::max(.009,-1.01,2,undef,0);
-
-B<matches>:
-
-    2
 
 
 =back
@@ -774,7 +677,6 @@ OPTIONS:
 
 
 
-
 =back
 
 =over 4
@@ -792,63 +694,6 @@ B<Minimum value>
 Returns the least element in a set.
 
 
-B<Example: Two integers>:
-
-    Hub::min(1,2);
-
-B<matches>:
-
-    1
-
-B<Example: Three integers>:
-
-    Hub::min(2,1,3);
-
-B<matches>:
-
-    1
-
-B<Example: Three integers>:
-
-    Hub::min(2,-1,3);
-
-B<matches>:
-
-    -1
-
-B<Example: One integer>:
-
-    Hub::min(1);
-
-B<matches>:
-
-    1
-
-B<Example: Undefined value>:
-
-    Hub::min(1,undef);
-
-B<matches>:
-
-    1
-
-B<Example: Zero>:
-
-    Hub::min(undef,1,0);
-
-B<matches>:
-
-    0
-
-B<Example: Three decimal values>:
-
-    Hub::min(.009,1.001);
-
-B<matches>:
-
-    0.009
-
-
 =back
 
 =over 4
@@ -864,18 +709,6 @@ B<Split @_ into ($self,$opts), leaving @_ with remaining items.>
 Convienence method for splitting instance method parameters.
 
 Returns an array.
-
-
-B<Example: Test return value>:
-
-
-  my $obj = mkinst( 'Object' );
-  my @result = objopts( [ $obj ] );
-  join( ',', map { ref($_) } @result );
-
-B<matches>:
-
-    Hub::Base::Object,
 
 
 =back
@@ -926,12 +759,10 @@ use @_ (or @ARGV, etc) normally, as data:
 B<Example: at-underscore contains everyting but the '-with' option>:
 
 
-   sub myjoin {
-      my $opts = Hub::opts( \@_ );
-      return join( $$opts{'with'}, @_ );
-   }
 
-   myjoin( 'a', 'b', '-with=;', 'c', 'd' );
+   sub myjoin {
+      my $opts = Hub::opts( @_ );
+      return join( $$opts{'with'}, @_ );
 
 B<matches>:
 
@@ -996,7 +827,6 @@ Will print:
   b
 
 
-
 =back
 
 =over 4
@@ -1025,7 +855,6 @@ Use this method as:
 
 
 
-
 =back
 
 =over 4
@@ -1035,7 +864,6 @@ Use this method as:
 B<>
 
 remove an element from an array of hash refs, by some key's value
-
 
 
 
@@ -1051,7 +879,6 @@ remove an element from a hash or array, by value
 
 
 
-
 =back
 
 =over 4
@@ -1064,6 +891,82 @@ is the passed in thingy a SCALAR?  NOTE: This does not mean a SCALAR ref!
 
 
 
+=back
+
+=over 4
+
+=item sizeof
+
+B<Integer size of hashes, arrays, and scalars>
+
+
+
+
+ Usage: sizeof \%hash
+ Usage: sizeof \@array
+ Usage: sizeof \$scalar_ref
+ Usage: sizeof $scalar
+ Usage: sizeof \%more, @than, $one
+
+
+Sizes are computed as follows:
+
+
+  HASH    - Number of keys in the hash
+  ARRAY   - Number of elements
+  SCALAR  - Length as returned by C<length()>
+
+
+The total size of all arguments is returned.
+
+
+B<Example: Hash>:
+
+    sizeof( { a=>1, b=>2, c=>3 } );
+
+B<matches>:
+
+    3
+
+B<Example: Array>:
+
+    sizeof( [ 'a1', 'b2', 'c3' ] );
+
+B<matches>:
+
+    3
+
+B<Example: Scalar>:
+
+    sizeof( "abc"                );
+
+B<matches>:
+
+    3
+
+B<Example: Scalar (ref)>:
+
+    sizeof( \"abc"               );
+
+B<matches>:
+
+    3
+
+B<Example: Nothing>:
+
+    sizeof( undef                );
+
+B<matches>:
+
+    0
+
+B<Example: Multiple values>:
+
+    sizeof( "a", "b", "c"        );
+
+B<matches>:
+
+    3
 
 =back
 
@@ -1074,7 +977,6 @@ is the passed in thingy a SCALAR?  NOTE: This does not mean a SCALAR ref!
 B<>
 
 given a hash reference, return an array of its keys sorted by their values.
-
 
 
 
@@ -1091,7 +993,6 @@ B<>
 
 Given a delimited string, return the substring given a field position (zero
 based).
-
 
 
 =back
@@ -1128,7 +1029,6 @@ Return value:
       wantarray ? an emtpy list
       otherwise,  undef
 
-
 =back
 
 =over 4
@@ -1157,7 +1057,6 @@ to:
 without modifying the original string returned by getfilename().
 
 
-
 =back
 
 =over 4
@@ -1169,7 +1068,6 @@ B<>
  Usage: touch LIST
 
 Changes the access and modification times on each file of a list of files.
-
 
 
 =back
@@ -1191,9 +1089,7 @@ return structure is sorted.
 
 
 
-
 =back
-
 
 =head1 INTERNAL
 
@@ -1237,10 +1133,9 @@ return structure is sorted.
 
 B<>
 
- Usage: _assignopt \%, $key, $val
+ Usage: _assignopt \%options, \%, $key, $val
 
 Assign an option value.
-
 
 
 =back
@@ -1255,7 +1150,6 @@ B<>
 
 Use cmp or <=> if the data is all numbers (decimal points included)
 
-
 =back
 
 =over 4
@@ -1269,7 +1163,6 @@ B<>
 Difference between two arrays.
 
 
-
 =back
 
 =over 4
@@ -1281,7 +1174,6 @@ B<>
  Usage: _diff_hashes &HASH, &HASH
 
 Difference between two hashes.
-
 
 
 =back
@@ -1348,16 +1240,16 @@ So, to move item1 to the second position, set the _sort key to 1, and the
 _sort2 key to 0 (it's old value).
 
 
-
 =back
 
-
 =head1 AUTHOR
+
 
 
 Ryan Gies
 
 =head1 COPYRIGHT
+
 
 
 Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
@@ -1366,6 +1258,6 @@ Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
 
 =head1 UPDATED
 
-This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+This file created by  on  at 
 
 =cut

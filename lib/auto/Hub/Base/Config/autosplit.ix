@@ -1,5 +1,0 @@
-# Index created by LSN::Base::AutoSplit for /home/hub/build/out/split/Hub/Base/Config.pm
-#    (file acts as timestamp)
-package Hub::Base::Config;
-sub Config  ;
-1;

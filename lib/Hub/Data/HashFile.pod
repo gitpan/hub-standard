@@ -2,7 +2,6 @@
 
 Hub::Data::HashFile - Flat file data which supports nested perl structures.
 
-
 Part of the L<Hub Library|hublib>
 
 =head1 SYNOPSIS
@@ -15,7 +14,6 @@ Part of the L<Hub Library|hublib>
     $hf->save();                        # saves the file to disk
 
 
-
 =head1 DESCRIPTION
 
 
@@ -24,7 +22,6 @@ HashFiles are used for property files and small databases.
 There will be one and only one HashFile instance for each file.  If a second
 HashFile instance is created and is asked to load a file which is already 
 represented, this second instance is replaced with a reference to the first.
-
 
 
 =head1 METHODS
@@ -120,7 +117,6 @@ B<>
 
                            D E P R I C A T E D
 
-
 =back
 
 =over 4
@@ -130,7 +126,6 @@ B<>
 B<>
 
 depricated, please use method data()
-
 
 =back
 
@@ -172,7 +167,6 @@ B<>
 
 depricated, please use method data()
 
-
 =back
 
 =over 4
@@ -185,7 +179,6 @@ Static methods
 
 
 
-
 =back
 
 =over 4
@@ -195,7 +188,6 @@ Static methods
 B<>
 
 Sync all modified instances to disk
-
 
 
 
@@ -222,7 +214,6 @@ Read and parse the file from disk.
 
 
 This is a singleton per filename.
-
 
 
 
@@ -279,7 +270,6 @@ B<>
 
 Sync disk data into ourselves
 Hub object method
-
 
 =back
 
@@ -341,7 +331,6 @@ KEY can be:
 
 
 
-
 =back
 
 =over 4
@@ -363,7 +352,6 @@ B<>
 
 
 =back
-
 
 =head1 INTERNAL
 
@@ -393,7 +381,6 @@ B<>
 
 Data handlers: getv takev setv appendv
 
-
 =back
 
 =over 4
@@ -405,7 +392,6 @@ B<>
  Usage: DESTROY
 
 Defining this function prevents it from being searched in AUTOLOAD
-
 
 =back
 
@@ -419,13 +405,14 @@ B<>
 
 =back
 
-
 =head1 AUTHOR
+
 
 
 Ryan Gies
 
 =head1 COPYRIGHT
+
 
 
 Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
@@ -434,6 +421,6 @@ Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
 
 =head1 UPDATED
 
-This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+This file created by  on  at 
 
 =cut

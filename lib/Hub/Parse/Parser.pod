@@ -44,7 +44,6 @@ B<>
 Constructor.
 
 
-
 =back
 
 =over 4
@@ -67,12 +66,10 @@ PARAMETERS:
 B<Example: This example>:
 
     my $parser = mkinst( 'Parser', -template => 'Hello ' );
-              ${$parser->populate( { who => 'World' } )};
 
 B<matches>:
 
     Hello World
-
 
 =back
 
@@ -85,7 +82,6 @@ B<>
  Usage: refresh
 
 Return instance to initial state.
-
 
 
 =back
@@ -150,15 +146,16 @@ Implemented tweaks:
   /                   # divide
   %                   # mod
 
-
 =back
-
 
 =head1 INTERNAL
 
 =begin html
 
 <table><tr><td>
+<a class="methlink" href="#item__getv">_getv</a>
+
+</td><td>
 <a class="methlink" href="#item__populate">_populate</a>
 
 </td><td>
@@ -168,6 +165,16 @@ Implemented tweaks:
 
 =end html
 
+
+=over 4
+
+=item _getv
+
+B<Get a value from the current values array>
+
+
+
+=back
 
 =over 4
 
@@ -194,7 +201,6 @@ OPTIONS:
 
   -text   \SCALAR     Template text to populate
 
-
 =back
 
 =over 4
@@ -212,16 +218,16 @@ Tweak values.
 Subroutine for tweaking must be provided in the constructor.
 
 
-
 =back
 
-
 =head1 AUTHOR
+
 
 
 Ryan Gies
 
 =head1 COPYRIGHT
+
 
 
 Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
@@ -230,6 +236,6 @@ Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
 
 =head1 UPDATED
 
-This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+This file created by  on  at 
 
 =cut

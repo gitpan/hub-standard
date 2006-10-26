@@ -1,5 +1,0 @@
-# Index created by LSN::Base::AutoSplit for /home/hub/build/out/split/Hub/Perl/Language.pm
-#    (file acts as timestamp)
-package Hub::Perl::Language;
-sub Language  ;
-1;

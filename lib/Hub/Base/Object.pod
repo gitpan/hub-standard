@@ -2,7 +2,6 @@
 
 Hub::Base::Object - Standard object base class
 
-
 Part of the L<Hub Library|hublib>
 
 =head1 SYNOPSIS
@@ -12,7 +11,6 @@ Part of the L<Hub Library|hublib>
     use strict;
     use Hub qw(:base);
     our @ISA = qw(Hub::Base::Object);
-
 
 
 =head1 DESCRIPTION
@@ -60,7 +58,6 @@ data hashes by using the L<daccess> method:
     croak unless $$public{'name'} eq $$object{'name'};
 
 
-
 =head1 METHODS
 
 =begin html
@@ -98,7 +95,6 @@ KEYNAME:
   'private'       Private hash
   'internal'      Internal hash (used to tie things together)
 
-
 =back
 
 =over 4
@@ -115,7 +111,6 @@ B<Constructor.>
 
 
 Parameters are passed to the standard initialization method L<refresh>.
-
 
 
 =back
@@ -142,9 +137,7 @@ Called implictly by L<new>, and when persistent interpreters (such as
 mod_perl) would have called L<new>.
 
 
-
 =back
-
 
 =head1 INTERNAL
 
@@ -154,13 +147,14 @@ mod_perl) would have called L<new>.
 
 =end html
 
-
 =head1 AUTHOR
+
 
 
 Ryan Gies
 
 =head1 COPYRIGHT
+
 
 
 Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
@@ -169,6 +163,6 @@ Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
 
 =head1 UPDATED
 
-This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+This file created by  on  at 
 
 =cut

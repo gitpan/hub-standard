@@ -24,6 +24,8 @@ See also L<hubaddr>
 
 =cut
 
+our $VERSION        = '3.01048';
+
 our @EXPORT         = qw//;
 
 our @EXPORT_OK      = qw/
@@ -113,13 +115,21 @@ sub hsetv {
 
     while( my ($k,$v) = each %$addr ) {
 
-        my $p = _hqueryv( $hash, $k, -av );
+        my $av = defined($v) ? '-av=1' : ();
 
-        croak "Cannot autovivify '$k'" unless defined $p;
+        my $p = _hqueryv( $hash, $k, $av );
+
+        $av and croak "Cannot autovivify '$k'" unless defined $p;
+
+        !$av && !defined($v) and return; # deleting a non-existent value
 
         if( ref($p) eq 'ARRAY' ) {
         
             @$p = @$v;
+
+        } elsif( ref($p) =~ /HASH|::/ ) {
+
+            %$p = %$v;
 
         } else {
 
@@ -727,7 +737,6 @@ sub _appendvasa {
     return $tmp;
 
 }#_appendvasa
-
 
 
 '???';

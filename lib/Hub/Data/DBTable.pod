@@ -1,0 +1,265 @@
+=head1 NAME
+
+Hub::Data::DBTable - Wrapper for DBI (expecting a MySQL backend)
+
+Part of the L<Hub Library|hublib>
+
+=head1 SYNOPSIS
+
+
+    use Hub qw(:standard);
+    my $user = mkinst( 'DBTable', 'user' );
+    $user->select( -cmd => 'get_admin_user' );
+
+
+=head1 DESCRIPTION
+
+
+This is implemented for access to a database which is defined by
+
+    /sys/dbi/connect/dsn
+    /sys/dbi/connect/user
+    /sys/dbi/connect/clave
+
+And supported by files
+
+    db-struct.hf
+    db-commands.hf
+
+Which make it pretty specific to a runtime web application ;)
+
+
+=head1 METHODS
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item_do">do</a>
+
+</td><td>
+<a class="methlink" href="#item_new">new</a>
+
+</td><td>
+<a class="methlink" href="#item_select">select</a>
+
+</td><td>
+<a class="methlink" href="#item_update">update</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item_insert">insert</a>
+
+</td><td>
+<a class="methlink" href="#item_refresh">refresh</a>
+
+</td><td>
+<a class="methlink" href="#item_select_all">select_all</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item do
+
+B<Execute an SQL query>
+
+
+ Usage: do [options]
+ Usage: do query
+
+
+Uses the same -cmd and -data processing as L<select>
+
+=back
+
+=over 4
+
+=item insert
+
+B<Insert a record>
+
+
+ Usage: insert -data => \%hash, [options]
+
+
+options:
+  -nonull Convert undefined (NULL) values to ''
+  -forcenull  Convert empty ('') values to undefined (NULL)
+
+
+Where the keys of the data hash match the column names.
+
+
+=back
+
+=over 4
+
+=item new
+
+B<Constructor.>
+
+
+
+ Usage: new LIST
+
+
+Parameters are passed to the standard initialization method L<refresh>.
+
+
+=back
+
+=over 4
+
+=item refresh
+
+B<Return instance to initial state.>
+
+
+
+ Usage: refresh LIST
+
+
+Called implictly by L<new>, and when persistent interpreters (such as
+mod_perl) would have called L<new>.
+
+
+=back
+
+=over 4
+
+=item select
+
+B<Select records from the table>
+
+
+ Usage: select [options]
+ Usage: select query
+
+
+OPTIONS
+
+
+  -cmd        The command (which is read from db-commands.hf)
+  -data       The data used to populate the query
+
+
+Using the -cmd option allows you to store your SQL queries in the external
+file "db-commands.hf" rather than passing in the query.
+
+
+=back
+
+=over 4
+
+=item select_all
+
+B<Select all columns from a table>
+
+
+ Usage: select_all -by => \@columns, -using => \%column_to_value_hash
+ Usage: select_all [options]
+
+
+In the first form:
+
+
+  -by => [ "pkey" ], -using => { pkey => 1001 }
+
+
+Will build the where clause by extracing the key/val from "-using" for each
+column name in "-by".
+
+
+
+Or, each option is a WHERE condition.  For instance, the option:
+
+
+  -pkey => 1001
+
+
+Would add "WHERE pkey = '1001'" to the select query.
+
+
+=back
+
+=over 4
+
+=item update
+
+B<Update an existion record>
+
+
+
+
+ Usage: update -by => \@names, -set => \@names, -using => \%data, [options]
+
+
+where:
+  -by     Column names for the WHERE clause
+  -set    Column names for the SET clause (otherwise all columns)
+  -using  Data for -by and -set clauses
+options:
+  -nonull     Convert undefined (NULL) values to ''
+  -forcenull  Convert empty ('') values to undefined (NULL)
+
+=back
+
+=head1 INTERNAL
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item_destroy">DESTROY</a>
+
+</td><td>
+<a class="methlink" href="#item__esc">_esc</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item DESTROY
+
+B<Called implicitly by the framework.>
+
+
+
+Disconnect nicely.
+
+
+=back
+
+=over 4
+
+=item _esc
+
+B<>
+
+
+
+=back
+
+=head1 AUTHOR
+
+
+
+Ryan Gies
+
+=head1 COPYRIGHT
+
+
+
+Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+
+Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+
+=head1 UPDATED
+
+This file created by  on  at 
+
+=cut

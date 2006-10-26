@@ -10,14 +10,15 @@ use strict;
 
 use Hub qw/:lib/;
 
+our $VERSION        = '3.01048';
 our @ISA            = qw/Hub::Base::Object/;
 our @EXPORT         = qw//;
 our @EXPORT_OK      = qw//;
 
 # ------------------------------------------------------------------------------
-# new - Constructor
+# refresh - Reset to initial state (persistent object method)
 #
-# new FILESPEC
+# refresh FILESPEC
 # ------------------------------------------------------------------------------
 
 sub refresh {
@@ -30,7 +31,7 @@ sub refresh {
 
     Hub::merge( $self->{'public:'}, @_ ) if @_;
 
-}#new
+}#refresh
 
 # ------------------------------------------------------------------------------
 # comptv - Compose template value
@@ -112,6 +113,5 @@ sub populate {
 }#populate
 
 # ------------------------------------------------------------------------------
-
 
 '???';

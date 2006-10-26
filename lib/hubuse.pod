@@ -16,11 +16,13 @@ hubuse - Using the Hub library
 =head1 SYNOPSIS
 
 
+
 The Hub module represents functions and classes which are implemented in 
 descendant packages.  Hub dynamically loads modules according to the parameters
 it is I<use>d with.
 
 =head1 DESCRIPTION
+
 
 
 Don't use the underlying modules directly:
@@ -71,13 +73,14 @@ requiring them to be unique (to other classes):
 #1 and #3 will clash because they are both classes, but either can be used
 with #2 simultaneously.
 
-
 =head1 AUTHOR
+
 
 
 Ryan Gies
 
 =head1 COPYRIGHT
+
 
 
 Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
@@ -86,6 +89,6 @@ Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
 
 =head1 UPDATED
 
-This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+This file created by <#sys/proc/zname> on <#dt(nozeros,notime);sys/proc/tstamp> at <#dt(ampm,nosec,nozeros,nodate);sys/proc/tstamp>
 
 =cut

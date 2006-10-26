@@ -10,8 +10,9 @@ use strict;
 
 use Hub qw/:lib/;
 
-our ($VERSION,$AUTOLOAD);
+our ($AUTOLOAD);
 
+our $VERSION        = '3.01048';
 our @EXPORT         = qw//;
 our @EXPORT_OK      = qw//;
 
@@ -45,7 +46,6 @@ sub DESTROY {
     # Defining this function prevents it from being searched in AUTOLOAD
 
 }#DESTROY
-
 
 
 '???';

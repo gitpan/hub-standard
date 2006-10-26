@@ -10,8 +10,9 @@ use strict;
 
 use Hub qw/:lib/;
 
-our @EXPORT     = qw//;
-our @EXPORT_OK  = qw//;
+our $VERSION        = '3.01048';
+our @EXPORT         = qw//;
+our @EXPORT_OK      = qw//;
 
 # ------------------------------------------------------------------------------
 # _key - Determine which key (public or private) to use
@@ -187,6 +188,5 @@ sub UNTIE {
 }#UNTIE
 
 # ------------------------------------------------------------------------------
-
 
 '???';

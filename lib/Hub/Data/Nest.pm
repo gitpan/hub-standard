@@ -10,8 +10,8 @@ use strict;
 
 use Hub qw/:lib/;
 
-our ($VERSION,$AUTOLOAD);
-
+our $AUTOLOAD   = '';
+our $VERSION    = '3.01048';
 our @EXPORT     = qw//;
 our @EXPORT_OK  = qw//;
 
@@ -20,17 +20,12 @@ our @EXPORT_OK  = qw//;
 # ------------------------------------------------------------------------------
 
 sub new {
-
     my $self = shift;
-
     my $class = ref( $self ) || $self;
-
     my $obj = bless {}, $class;
-
     tie %$obj, 'Hub::Knots::TiedObject', 'Hub::Knots::Addressable';
-
+    Hub::merge( $$obj{'/'}, $_ ) for @_;
     return $obj;
-
 }#new
 
 # ------------------------------------------------------------------------------
@@ -43,18 +38,12 @@ sub new {
 # ------------------------------------------------------------------------------
 
 sub AUTOLOAD {
-
     my $self        = shift;
     my $classname   = ref($self) or die "Illegal call to instance method";
-
     my ($method) = $AUTOLOAD =~ /::([a-z]+)$/;
-
     my $action = 'Hub::h' . $method . 'v';
-
     unshift @_, $self->{'*tied'};
-
     goto &$action;
-
 }#AUTOLOAD
 
 # ------------------------------------------------------------------------------
@@ -64,10 +53,8 @@ sub AUTOLOAD {
 # ------------------------------------------------------------------------------
 
 sub DESTROY {
-
 }#DESTROY
 
 # ------------------------------------------------------------------------------
-
 
 '???';

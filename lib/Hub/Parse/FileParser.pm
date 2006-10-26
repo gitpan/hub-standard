@@ -10,9 +10,10 @@ use strict;
 
 use Hub qw/:lib/;
 
-our @ISA        = qw/Hub::Parse::Parser/;
-our @EXPORT     = qw//;
-our @EXPORT_OK  = qw//;
+our $VERSION        = '3.01048';
+our @ISA            = qw/Hub::Parse::Parser/;
+our @EXPORT         = qw//;
+our @EXPORT_OK      = qw//;
 
 # ------------------------------------------------------------------------------
 # new - Constructor
@@ -60,7 +61,6 @@ sub parsefile {
     $self->{'template'} = \$file->{'contents'};
 
 }#parsefile
-
 
 
 '???';

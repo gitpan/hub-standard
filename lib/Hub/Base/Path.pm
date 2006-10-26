@@ -10,6 +10,10 @@ use strict;
 
 use Hub qw/:lib/;
 
+our $VERSION        = '3.01048';
+our @EXPORT         = qw//;
+our @EXPORT_OK      = qw//;
+
 # ------------------------------------------------------------------------------
 # pushwp
 # 
@@ -51,7 +55,18 @@ sub pushsp {
     my $self        = shift;
     my $classname   = ref($self) or die "Illegal call to instance method";
 
-    push @{$$self{'srcpath'}}, @_;
+    map {
+
+        if( $_ ) {
+
+            my $spec = Hub::fixpath( Hub::abspath("$_") );
+
+            $spec and push @{$$self{'srcpath'}}, $spec;
+
+        }#if
+
+    } @_;
+
 
 }#pushsp
 
@@ -71,9 +86,11 @@ sub popsp {
 }#popsp
 
 # ------------------------------------------------------------------------------
-# srcpath
-# 
-# Source path
+# srcpath - Source path
+#
+# srcpath $FILE
+#
+# Return the source path to $FILE.
 # ------------------------------------------------------------------------------
 
 sub srcpath {
@@ -84,14 +101,18 @@ sub srcpath {
 
     my $unknown     = shift || return;
 
-    # it is already a valid path
+    Hub::lmsg( "? $unknown", "path" );
+
+    # it is already a valid path?
     Hub::filetest( $unknown ) and return $unknown;
 
-    for( @{$$self{'srcpath'}} ) {
+    for( @{$$self{'workpath'}}, @{$$self{'srcpath'}} ) {
 
         next unless $_;
 
         my $spec = Hub::fixpath( "$_/$unknown" );
+
+        Hub::lmsg( " - $spec", "path" );
 
         if( Hub::filetest( $spec ) ) {
 
@@ -160,10 +181,9 @@ sub refresh {
 
     $self->{'srcpath'}  = [ Hub::getpath($0), ];
     $self->{'workpath'} = [ Hub::getpath($0), ];
-    $self->{'respath'} = [ Hub::getpath($0), ];
+    $self->{'respath'}  = [ Hub::getpath($0), ];
 
 }#refresh
-
 
 
 '???';

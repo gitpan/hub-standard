@@ -11,11 +11,13 @@ use strict;
 use warnings;
 use Hub qw(:lib);
 
-our @EXPORT     = qw();
+our $VERSION        = '3.01048';
 
-our @EXPORT_OK  = qw(compare);
+our @EXPORT         = qw();
 
-our %COMPARISONS = (
+our @EXPORT_OK      = qw(compare);
+
+our %COMPARISONS    = (
 
     'eq'        => sub { $_[0] eq $_[1]; },
     'ne'        => sub { $_[0] ne $_[1]; },
@@ -88,6 +90,5 @@ sub compare {
 }#compare
 
 # ------------------------------------------------------------------------------
-
 
 '???';

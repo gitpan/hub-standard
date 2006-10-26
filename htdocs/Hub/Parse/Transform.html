@@ -46,11 +46,6 @@
 <hr />
 <h1><a name="methods">METHODS</a></h1>
 <table><tr><td>
-<a class="methlink" href="#item_xpopulate">Xpopulate</a></td><td>
-<a class="methlink" href="#item_findabsolutepath">findAbsolutePath</a></td><td>
-<a class="methlink" href="#item_getspec">getspec</a></td><td>
-<a class="methlink" href="#item_nbspstr">nbspstr</a></td><td>
-<a class="methlink" href="#item_safestr">safestr</a></td></tr><tr><td>
 <a class="methlink" href="#item_abspath">abspath</a></td><td>
 <a class="methlink" href="#item_fixpath">fixpath</a></td><td>
 <a class="methlink" href="#item_hashtoattrs">hashtoattrs</a></td><td>
@@ -74,14 +69,11 @@
 <a class="methlink" href="#item_fcols">fcols</a></td><td>
 <a class="methlink" href="#item_getpath">getpath</a></td><td>
 <a class="methlink" href="#item_mkabsdir">mkabsdir</a></td><td>
-<a class="methlink" href="#item_relpath">relpath</a></td></tr></table><dl>
-<dt><strong><a name="item_xpopulate">Xpopulate</a></strong><br />
-</dt>
-<dd>
-<strong></strong>
-</dd>
-<p></p></dl>
-<dl>
+<a class="methlink" href="#item_relpath">relpath</a></td></tr><tr><td>
+<a class="methlink" href="#item_findabsolutepath">findAbsolutePath</a></td><td>
+<a class="methlink" href="#item_getspec">getspec</a></td><td>
+<a class="methlink" href="#item_nbspstr">nbspstr</a></td><td>
+<a class="methlink" href="#item_safestr">safestr</a></td></tr></table><dl>
 <dt><strong><a name="item_abspath">abspath</a></strong><br />
 </dt>
 <dd>
@@ -133,164 +125,87 @@
     datetime( );</pre>
 </dd>
 <dd>
-<p><strong>Example: This example</strong>:</p>
+<p><strong>This example</strong> returns: <strong>regex</strong>:</p>
 </dd>
 <dd>
 <pre>
     datetime( 1045837284 );</pre>
 </dd>
 <dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    02/21/2003 06:21:24</pre>
-</dd>
-<dd>
-<p><strong>Example: This example</strong>:</p>
+<p><strong>This example</strong> returns: <strong>regex</strong>:</p>
 </dd>
 <dd>
 <pre>
     datetime( 1045837284, -nosec );</pre>
 </dd>
 <dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    02/21/2003 06:21</pre>
-</dd>
-<dd>
-<p><strong>Example: This example</strong>:</p>
+<p><strong>This example</strong> returns: <strong>regex</strong>:</p>
 </dd>
 <dd>
 <pre>
     datetime( 1045837284, -noyear );</pre>
 </dd>
 <dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    02/21 06:21:24</pre>
-</dd>
-<dd>
-<p><strong>Example: This example</strong>:</p>
+<p><strong>This example</strong> returns: <strong>regex</strong>:</p>
 </dd>
 <dd>
 <pre>
     datetime( 1045837284, -ampm );</pre>
 </dd>
 <dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    02/21/2003 06:21:24am</pre>
-</dd>
-<dd>
-<p><strong>Example: This example</strong>:</p>
+<p><strong>This example</strong> returns: <strong>regex</strong>:</p>
 </dd>
 <dd>
 <pre>
     datetime( 1045837284, -nozeros );</pre>
 </dd>
 <dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    2/21/2003 6:21:24</pre>
-</dd>
-<dd>
-<p><strong>Example: This example</strong>:</p>
+<p><strong>This example</strong> returns: <strong>regex</strong>:</p>
 </dd>
 <dd>
 <pre>
     datetime( 1045837284, -notime );</pre>
 </dd>
 <dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    02/21/2003</pre>
-</dd>
-<dd>
-<p><strong>Example: This example</strong>:</p>
+<p><strong>This example</strong> returns: <strong>regex</strong>:</p>
 </dd>
 <dd>
 <pre>
     datetime( 1045837284, -nodate );</pre>
 </dd>
 <dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    06:21:24</pre>
-</dd>
-<dd>
-<p><strong>Example: This example</strong>:</p>
+<p><strong>This example</strong> returns: <strong>regex</strong>:</p>
 </dd>
 <dd>
 <pre>
     datetime( 1045837284, -letter );</pre>
 </dd>
 <dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    February 21, 2003 06:21:24</pre>
-</dd>
-<dd>
 <p>Combining options</p>
 </dd>
 <dd>
-<p><strong>Example: This example</strong>:</p>
+<p><strong>This example</strong> returns: <strong>regex</strong>:</p>
 </dd>
 <dd>
 <pre>
     datetime( 1045837284, -ampm, -nosec );</pre>
 </dd>
 <dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    02/21/2003 06:21am</pre>
-</dd>
-<dd>
-<p><strong>Example: This example</strong>:</p>
+<p><strong>This example</strong> returns: <strong>regex</strong>:</p>
 </dd>
 <dd>
 <pre>
     datetime( 1045837284, -nosec, -nozeros, -noyear );</pre>
 </dd>
 <dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    2/21 6:21</pre>
-</dd>
-<dd>
 <p>Methods of passing options via tweaks (see Parser.pm)</p>
 </dd>
 <dd>
-<p><strong>Example: This example</strong>:</p>
+<p><strong>This example</strong> returns: <strong>regex</strong>:</p>
 </dd>
 <dd>
 <pre>
     datetime( 1045837284, &quot;nosec,noyear&quot; );</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    02/21 06:21</pre>
 </dd>
 <p></p></dl>
 <dl>
@@ -759,7 +674,7 @@ backslash continue-ator at the end of each line).</p>
 </dd>
 <dd>
 <pre>
- Usage: packcgi STRING</pre>
+ Usage: packcgi $string|\$string</pre>
 </dd>
 <dd>
 <p>Pack characters into those used for passing by the cgi.</p>
@@ -771,22 +686,78 @@ backslash continue-ator at the end of each line).</p>
 <dd>
 <strong>Remove undefined variables</strong>
 </dd>
+<dd>
+<p>We will chomp lines so that:</p>
+</dd>
+<dd>
+<pre>
+  In between two
+  lines with text
+  or when</pre>
+</dd>
+<dd>
+<pre>
+  surrounded spaced out..</pre>
+</dd>
+<dd>
+<p>Will become:</p>
+</dd>
+<dd>
+<pre>
+  In between two
+  lines with text
+  or when</pre>
+</dd>
+<dd>
+<pre>
+  surrounded spaced out..</pre>
+</dd>
 <p></p></dl>
 <dl>
 <dt><strong><a name="item_populate">populate</a></strong><br />
 </dt>
 <dd>
-<strong></strong>
+<strong>Populate template text with values</strong>
 </dd>
 <dd>
 <pre>
- Usage: populate TEXT, DEFINITIONS+</pre>
+ Usage: populate $text|\$text, \%values [,\%values...] [option]</pre>
 </dd>
 <dd>
-<p>Depricated.</p>
+<p>options:</p>
 </dd>
 <dd>
-<p>Populate TEXT with DEFINITIONS.</p>
+<pre>
+  -sdref=0                Turn off scalar dereferencing
+  -polish=1               Remove unpopulated variable references</pre>
+</dd>
+<dd>
+<p><strong>Example: This example</strong>:</p>
+</dd>
+<dd>
+<pre>
+    populate( 'mum', { foo =&gt; 'shroo' } );</pre>
+</dd>
+<dd>
+<p><strong>matches</strong>:</p>
+</dd>
+<dd>
+<pre>
+    mushroom</pre>
+</dd>
+<dd>
+<p><strong>Example: This example</strong>:</p>
+</dd>
+<dd>
+<pre>
+    ref( populate( 'ac', { b =&gt; 'bee' }, '-sdref=0' ) );</pre>
+</dd>
+<dd>
+<p><strong>matches</strong>:</p>
+</dd>
+<dd>
+<pre>
+    SCALAR</pre>
 </dd>
 <p></p></dl>
 <dl>
@@ -1110,7 +1081,7 @@ and the underscore.</p>
 </p>
 <hr />
 <h1><a name="updated">UPDATED</a></h1>
-<p>This file created by mkdocs.pl on 8/29/2006 at 2:07pm</p>
+<p>This file created by  on  at</p>
 <p><a href="#__index__"><small>Top</small></a></p>
 
 </body>

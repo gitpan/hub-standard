@@ -17,7 +17,7 @@ $SIG{__WARN__}      = \&_sigwarn; # note this is NOT declared local
 our @ISA            = qw/Exporter/;
 our @EXPORT         = qw//;
 our @EXPORT_OK      = qw/mkinst regns getns callback $Hub/;
-our $VERSION        = '3.01';
+our $VERSION        = '3.01048';
 
 our %METHODMAP      = (); # Maps method names to their implementing package
 our %OBJECTMAP      = (); # Maps package short names to full name
@@ -84,7 +84,7 @@ our $Hub            = (); # Hub instance for this thread
 our $REGISTRY       = {}; # The root symbol for all variables
 our $HUBSTACK       = regns( 'HUBSTACK', [] ); # Nested instance calls
 
-$Hub = mkinst( 'Instance', regns('LIBRARY') );
+$Hub = mkinst( 'Scope', regns('LIBRARY') );
 
 $Hub->prepare();
 
@@ -321,7 +321,7 @@ sub callback {
 
     push @$HUBSTACK, $Hub;
 
-    $Hub = mkinst( 'Instance', regns(Hub::abspath($0)) );
+    $Hub = mkinst( 'Scope', regns(Hub::abspath($0)) );
 
     my $ret = $Hub->run( @_ );
 
@@ -380,6 +380,5 @@ sub END {
 }#END
 
 # ------------------------------------------------------------------------------
-
 
 '???';

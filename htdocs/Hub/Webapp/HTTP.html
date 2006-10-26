@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Hub::Webapp::HTTP</title>
+<link rel="stylesheet" href="../../pod.css" type="text/css" />
+<link rev="made" href="mailto:gerrit@familiehaase.de" />
+</head>
+
+<body>
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<li><a href="#internal">INTERNAL</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#updated">UPDATED</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Hub::Webapp::HTTP - HTTP Connection Wrapper</p>
+<p>Part of the <a href="../../hublib.html">Hub Library</a></p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    use Hub qw(:standard);
+    callback( &amp;main );
+    sub main {
+        my $resp = httpget('<a href="http://my.server.ip">http://my.server.ip</a>');
+        print $$resp{'body'};
+    }</pre>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<table><tr><td>
+<a class="methlink" href="#item_http">http</a></td><td>
+<a class="methlink" href="#item_httpget">httpget</a></td></tr></table><dl>
+<dt><strong><a name="item_http">http</a></strong><br />
+</dt>
+<dd>
+<strong>HTTP Transmit and respond</strong>
+</dd>
+<dd>
+<pre>
+ Usage: http $uri, $content, [option]</pre>
+</dd>
+<dd>
+<p>options:</p>
+</dd>
+<dd>
+<pre>
+  -cookie_jar=$cookie_jar         Implements HTTP::Cookies
+  -raw                            Return the raw HTTP::Response object</pre>
+</dd>
+<dd>
+<pre>
+  -method=GET|POST                HTTP Method
+  -agent=$string                  User agent identifier
+  -content_type=$string           Content type</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_httpget">httpget</a></strong><br />
+</dt>
+<dd>
+<strong>HTTP Get</strong>
+</dd>
+<p></p></dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="internal">INTERNAL</a></h1>
+<table><tr><td>
+<a class="methlink" href="#item__uri_split">_uri_split</a></td></tr></table><dl>
+<dt><strong><a name="item__uri_split">_uri_split</a></strong><br />
+</dt>
+<dd>
+<strong>Obtain pieces of URI information</strong>
+</dd>
+<p></p></dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Ryan Gies</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
+<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="updated">UPDATED</a></h1>
+<p>This file created by  on  at</p>
+<p><a href="#__index__"><small>Top</small></a></p>
+
+</body>
+
+</html>

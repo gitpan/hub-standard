@@ -35,9 +35,7 @@ B<>
 
 Constructor
 
-
 =back
-
 
 =head1 INTERNAL
 
@@ -64,7 +62,6 @@ B<>
 
 Method handler
 
-
 =back
 
 =over 4
@@ -77,16 +74,16 @@ B<>
 
 Defining this function prevents it from being searched in AUTOLOAD
 
-
 =back
 
-
 =head1 AUTHOR
+
 
 
 Ryan Gies
 
 =head1 COPYRIGHT
+
 
 
 Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
@@ -95,6 +92,6 @@ Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
 
 =head1 UPDATED
 
-This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+This file created by  on  at 
 
 =cut

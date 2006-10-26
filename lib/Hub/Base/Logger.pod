@@ -13,13 +13,11 @@ Hub::Base::Logger -
     $log->flush(); # write to file (also called on DESTROY)
 
 
-
 Part of the L<Hub Library|hublib>
 
 =head1 SYNOPSIS
 
 Record log messages, write them to file and append to stdout.
-
 
 =head1 DESCRIPTION
 
@@ -34,7 +32,7 @@ Always available:
   err     Error, fatal errors such as configuration issues. (always 
           print, unless 'opressed' is set)
 
-THese are used by this library, and may also server as examples:
+These are used by this library, and may also server as examples:
 
   info    Informational, users will set this as the default to get a warm
           fuzzy of program flow.
@@ -46,7 +44,6 @@ THese are used by this library, and may also server as examples:
 
   dbg     Debug, these messages are useless unless you know what you're
           looking for.
-
 
 
 =head1 METHODS
@@ -114,7 +111,6 @@ B<>
 
 No logging
 
-
 =back
 
 =over 4
@@ -137,7 +133,6 @@ Where:
 Dump hash|array values.  ?REF? may not be a HASH or ARRAY reference, since
 this method is used to inspect variables.  In that case, it will treated like
 a scalar.
-
 
 
 =back
@@ -172,7 +167,6 @@ HTML comments).
 
 
 TIMESTAMP as from Time::HiRes::gettimeofday.
-
 
 
 =back
@@ -218,7 +212,6 @@ B<>
 Log the message as an error, flush the log file, and die with the message.
 
 
-
 =back
 
 =over 4
@@ -228,7 +221,6 @@ Log the message as an error, flush the log file, and die with the message.
 B<>
 
 Log a message at a specific level
-
 
 =back
 
@@ -250,7 +242,6 @@ B<>
 
 write directly to standard out
 
-
 =back
 
 =over 4
@@ -271,7 +262,6 @@ B<>
 
 Toggle output options
 
-
 =back
 
 =over 4
@@ -283,7 +273,6 @@ B<>
 'all' will display all messages.  Otherwise, specify the message level
 (see 'msg' below.)
 
-
 =back
 
 =over 4
@@ -293,7 +282,6 @@ B<>
 B<>
 
 Append messages to stdout (0=no, 1=html, 2=raw)
-
 
 =back
 
@@ -305,9 +293,7 @@ B<>
 
 keep the logfile below a certian size
 
-
 =back
-
 
 =head1 INTERNAL
 
@@ -331,13 +317,14 @@ B<>
 
 =back
 
-
 =head1 AUTHOR
+
 
 
 Ryan Gies
 
 =head1 COPYRIGHT
+
 
 
 Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
@@ -346,6 +333,6 @@ Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
 
 =head1 UPDATED
 
-This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+This file created by  on  at 
 
 =cut

@@ -105,7 +105,6 @@ B<>
 
   $class->addSourcePath( path )
 
-
 =back
 
 =over 4
@@ -126,7 +125,6 @@ Paths are added to the beginning of the list, thus having precedence to
 existing paths.
 
 
-
 =back
 
 =over 4
@@ -140,7 +138,6 @@ B<>
 
   $class->get( "key:subkey:subsubkey" );
   $class->get( "key", "default" );
-
 
 
 
@@ -170,7 +167,6 @@ B<>
 
 
 
-
 =back
 
 =over 4
@@ -181,7 +177,6 @@ B<>
 
 get a path to an existing image.  first try the website path, then the common
 one.
-
 
 
 =back
@@ -196,7 +191,6 @@ B<>
 
 
 return the properties hash reference
-
 
 =back
 
@@ -222,7 +216,6 @@ Find the relative path to the specified resource.
 If $name is empty, we will look in the base directory of all locations.
 
 If $filename is empty, we will return the first matching directory.
-
 
 
 =back
@@ -334,7 +327,6 @@ re-reads the *.conf files from disk if they have been modified.
 
 
 
-
 =back
 
 =over 4
@@ -347,7 +339,6 @@ Remove a source path
 
 
 
-
 =back
 
 =over 4
@@ -357,7 +348,6 @@ Remove a source path
 B<>
 
 Remove a target source path
-
 
 
 
@@ -376,7 +366,6 @@ B<>
 
 
 
-
 =back
 
 =over 4
@@ -389,7 +378,6 @@ B<>
 
 =back
 
-
 =head1 INTERNAL
 
 =begin html
@@ -398,13 +386,14 @@ B<>
 
 =end html
 
-
 =head1 AUTHOR
+
 
 
 Ryan Gies
 
 =head1 COPYRIGHT
+
 
 
 Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
@@ -413,6 +402,6 @@ Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
 
 =head1 UPDATED
 
-This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+This file created by  on  at 
 
 =cut

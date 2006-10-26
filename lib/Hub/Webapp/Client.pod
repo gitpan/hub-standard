@@ -1,0 +1,678 @@
+=head1 NAME
+
+Hub::Webapp::Client - 
+
+Part of the L<Hub Library|hublib>
+
+=head1 SYNOPSIS
+
+
+
+=head1 DESCRIPTION
+
+
+
+=head1 METHODS
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item_clean">clean</a>
+
+</td><td>
+<a class="methlink" href="#item_getclientcookie">getclientcookie</a>
+
+</td><td>
+<a class="methlink" href="#item_mkurl">mkurl</a>
+
+</td><td>
+<a class="methlink" href="#item_save">save</a>
+
+</td><td>
+<a class="methlink" href="#item_upload">upload</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item_clear">clear</a>
+
+</td><td>
+<a class="methlink" href="#item_has">has</a>
+
+</td><td>
+<a class="methlink" href="#item_new">new</a>
+
+</td><td>
+<a class="methlink" href="#item_set">set</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item_endreq">endreq</a>
+
+</td><td>
+<a class="methlink" href="#item_load">load</a>
+
+</td><td>
+<a class="methlink" href="#item_newreq">newreq</a>
+
+</td><td>
+<a class="methlink" href="#item_setrelay">setrelay</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item_get">get</a>
+
+</td><td>
+<a class="methlink" href="#item_logreq">logreq</a>
+
+</td><td>
+<a class="methlink" href="#item_restorereq">restorereq</a>
+
+</td><td>
+<a class="methlink" href="#item_take">take</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item clean
+
+B<>
+
+ Usage: clean
+
+Clear everything but in-use data
+
+=back
+
+=over 4
+
+=item clear
+
+B<>
+
+ Usage: clear
+
+Clear all session data
+
+=back
+
+=over 4
+
+=item endreq
+
+B<>
+
+ Usage: endreq
+
+Ends the request (saves session to disk)
+
+=back
+
+=over 4
+
+=item get
+
+B<>
+
+ Usage: get KEY
+
+Directly get by key
+
+=back
+
+=over 4
+
+=item getclientcookie
+
+B<>
+
+ Usage: getclientcookie
+
+Print the client key as a cookie
+
+=back
+
+=over 4
+
+=item has
+
+B<>
+
+ Usage: has KEY
+
+Return 1 if the specified element is defined, 0 if not.
+
+
+=back
+
+=over 4
+
+=item load
+
+B<>
+
+ Usage: load
+
+Load a session file.  Note that this *takes over* the current request. Most
+notably, this loaded file is resaved when endreq() is called.
+
+
+=back
+
+=over 4
+
+=item logreq
+
+B<>
+
+ Usage: logreq
+
+Log request state information
+
+=back
+
+=over 4
+
+=item mkurl
+
+B<>
+
+ Usage: mkurl CGIPARAMS, [OPTIONS]
+ Usage: mkurl OPTIONS
+ Usage: mkurl
+
+
+Create url with current context information.  Parameters encountered first
+take prescedence.
+
+
+
+Where, CGIPARAMS can be:
+
+
+  SCALAR          "name=George;_action=assisinate;time=yesterday"
+
+
+  HASHREF         {
+                      name    => "George",
+                      _action => "assasinate",
+                      time    => "yesterday",
+                  }
+
+
+  ARRAYREF        [
+                      "name="George",
+                      "_action="assasinate",
+                      "time="yesterday",
+                  ]
+
+
+And, OPTIONS can be:
+
+
+  --noparams      No parameters
+
+
+  --referrer      Create a link to the referring page
+
+
+  --lastreq       Link to the last request (even if it's the same handler)
+
+
+
+=back
+
+=over 4
+
+=item new
+
+B<>
+
+ Usage: new
+ Usage: new CLIENTDIR
+
+Constructor.
+
+
+=back
+
+=over 4
+
+=item newreq
+
+B<>
+
+ Usage: newreq
+ Usage: newreq CGI->new()
+ Usage: newreq "_display=login&s_username=ryan"
+ Usage: newreq "_display=login", "s_username=ryan"
+
+Come to life
+
+=back
+
+=over 4
+
+=item restorereq
+
+B<>
+
+ Usage: restorereq LEVEL
+
+Restore a request from the history.
+
+
+
+Where LEVEL can be:
+
+
+  0       Current request (no operation performed)
+  1       Last request
+  2       The one before the last
+  3       The one before that
+  4       The one before that
+  max     No-op, you cannot go back farther than: REQHISTORYSIZE - 1
+
+
+
+=back
+
+=over 4
+
+=item save
+
+B<>
+
+ Usage: save
+
+Write to disk
+
+=back
+
+=over 4
+
+=item set
+
+B<>
+
+ Usage: set KEY, DATA
+
+Directly set by key
+
+=back
+
+=over 4
+
+=item setrelay
+
+B<>
+
+ Usage: setrelay( "login" );
+ Usage: setrelay( "login", "username=ryan&password=" );
+ Usage: setrelay( "login", "username=ryan", "password=" );
+
+Set relay (next handler and parameters) data
+
+=back
+
+=over 4
+
+=item take
+
+B<>
+
+ Usage: take KEY
+
+Directly get by key, then delete it
+
+=back
+
+=over 4
+
+=item upload
+
+B<>
+
+ Usage: upload
+
+Upload multi-part form data
+
+=back
+
+=head1 INTERNAL
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item_autoload">AUTOLOAD</a>
+
+</td><td>
+<a class="methlink" href="#item__mkcgiinst">_mkcgiinst</a>
+
+</td><td>
+<a class="methlink" href="#item__refresh">_refresh</a>
+
+</td><td>
+<a class="methlink" href="#item__setreqkey">_setreqkey</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item_destroy">DESTROY</a>
+
+</td><td>
+<a class="methlink" href="#item__mkfilename">_mkfilename</a>
+
+</td><td>
+<a class="methlink" href="#item__setclientkey">_setclientkey</a>
+
+</td><td>
+<a class="methlink" href="#item__validate">_validate</a>
+
+</td></tr><tr><td>
+<a class="methlink" href="#item__init">_init</a>
+
+</td><td>
+<a class="methlink" href="#item__parsecgi">_parsecgi</a>
+
+</td><td>
+<a class="methlink" href="#item__setmeta">_setmeta</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item AUTOLOAD
+
+B<>
+
+ Usage: AUTOLOAD
+
+Autoload get/set/take/has calls and translate them into correct instance
+method calls.
+
+
+
+The method name is translated as:
+
+
+  $class->aaabbb( ... )
+
+
+  aaa     Is the method part, and can be:
+
+
+              get|set|take|has
+
+
+  bbb     Is the root identifier part.  I can be anything, but these
+          special ones are re-routed:
+
+
+              current|signal|base
+
+
+If the aaa part is not one of the four, an error is logged.
+
+
+
+If the bbb part is not of the two special ones, then it is considerred to be
+the id of the root hash whithin which we will handle data.
+
+
+
+A bbb part of 'current' sets the bbb part to the current handler.
+
+
+
+A bbb part of 'signal' is the same as 'current' in display context, but if we
+are inside an action request, 'signal' is re-routed to the action hash (where
+the action signals are stored.)
+
+
+Given that were invoked by a request of:
+
+
+  .=p001;..=index;_id=42;name=joe
+
+
+ Then                              Becomes                             Returns
+
+
+  getsignal( "id" )               get->( "p001:id" )                  42
+  setcurrent( "id", 1002 )        set->( "p001:id", 43 )
+
+
+and subsequently invoked with a request of:
+
+
+  .=p001;..=index;_action=print;_id=1001;name=jimmy
+
+
+ Then                              Becomes                             Returns
+
+
+  getsignal( "id" )               get->( "ACTION:id" )                1001
+  setcurrent( "id", 1002 )        set->( "p001:id", 1002 )
+  getcurrent( "name" )            get->( "p001:name" )                joe
+  getsignal( "name" )             get->( "ACTION:name" )              jimmy
+  getaction( "name" )             get->( "ACTION:name" )              jimmy
+
+
+And for any other bbb part:
+
+
+ This                              Becomes
+
+
+  getfoo( "id" )                  get->( "FOO:id" )
+  setFoo( "id", 1004 )            error!
+  set_Foo( "id", 1004 )           error!
+  set_foo( "id", 1004 )           error!
+  setfoo( "user:name", "joe" )    set->( "FOO:user:name", "joe" )
+  hasjunk( "mail" )               has->( "JUNK:mail" )
+  takeunk( "mail" )               has->( "JUNK:mail" )
+
+
+SUBREQUESTS
+
+
+A bbb part of 'base' sets the bbb part to the base handler hash.  This is
+use to share data in subrequests. Here are three requests, where the second
+two are subrequests:
+
+
+  1) .=p001;_view=ltr
+  2) .=p001:summary;_sort=date
+  3) .=p001:summary:print;_orientation=landscape
+
+
+In the third request, the following happens:
+
+
+  getbase( "view" )               ltr
+  getsignal( "orientation" )      landscape
+  getsignal( "sort" )
+  getmeta( "handler" )            p001:summary:print
+  getmeta( "baseid" )             p001
+  getmeta( "reqid1" )             summary
+  getmeta( "reqid2" )             print
+
+
+NOTE: The data hash for the above is:
+
+  %p001{
+      sort == 1
+      %summary{
+          %print{
+              orientation == landscape
+          }
+          sort == date
+      }
+      view == ltr
+  }
+
+
+The subrequest 'summary' is stored under the base request 'p001', which means
+that you would cause problems where you to:
+
+
+  .=p001;_summary=on
+
+
+  -or-
+
+
+  setbase( "summary", "on" )
+
+
+as you would be overwriting the nested data.
+
+
+
+=back
+
+=over 4
+
+=item DESTROY
+
+B<>
+
+          Hub::lmsg( "EVAL: $eval" );
+
+=back
+
+=over 4
+
+=item _init
+
+B<>
+
+ Usage: _init
+ Usage: _init CLIENTDIR
+
+Called by new, initialze members.
+
+
+=back
+
+=over 4
+
+=item _mkcgiinst
+
+B<>
+
+ Usage: _mkcgiinst
+
+Make CGI instance
+
+=back
+
+=over 4
+
+=item _mkfilename
+
+B<>
+
+ Usage: _mkfilename SUBDIR
+
+Make the path to the session file
+
+=back
+
+=over 4
+
+=item _parsecgi
+
+B<>
+
+ Usage: _parsecgi
+
+Populate ourselves with new data recieved through the CGI.  Also handle
+system (.) parameters.
+
+
+=back
+
+=over 4
+
+=item _refresh
+
+B<>
+
+ Usage: _refresh
+
+Called by newreq, initialize members
+
+=back
+
+=over 4
+
+=item _setclientkey
+
+B<>
+
+ Usage: _setclientkey
+
+1) Use the client key specified in a cookie
+2) Or, use the .clientkey CGI parameter
+3) Or, generate a new key
+
+=back
+
+=over 4
+
+=item _setmeta
+
+B<>
+
+ Usage: _setmeta
+
+Set metadata members
+
+=back
+
+=over 4
+
+=item _setreqkey
+
+B<>
+
+ Usage: _setreqkey
+
+Generate unique request key
+
+=back
+
+=over 4
+
+=item _validate
+
+B<>
+
+ Usage: _validate
+
+Check for timeout and misconfigurations
+
+=back
+
+=head1 AUTHOR
+
+
+
+Ryan Gies
+
+=head1 COPYRIGHT
+
+
+
+Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+
+Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+
+=head1 UPDATED
+
+This file created by  on  at 
+
+=cut

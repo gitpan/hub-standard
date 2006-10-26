@@ -48,7 +48,6 @@ Where:
   DIR             perform in this directory
   LIST            array reference of filenames (relative to DIR or absolute)
 
-
 =back
 
 =over 4
@@ -66,7 +65,6 @@ Where:
 
 
   FILE            absolute path to the archive
-
 
 =back
 
@@ -87,9 +85,7 @@ Where:
   FILE            absolute path to the archive
   DIR             perform in this directory
 
-
 =back
-
 
 =head1 INTERNAL
 
@@ -123,16 +119,16 @@ Where:
   DIR             perform in this directory
   MORE            for creating archives, this is an array reference
 
-
 =back
 
-
 =head1 AUTHOR
+
 
 
 Ryan Gies
 
 =head1 COPYRIGHT
+
 
 
 Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
@@ -141,6 +137,6 @@ Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
 
 =head1 UPDATED
 
-This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+This file created by  on  at 
 
 =cut

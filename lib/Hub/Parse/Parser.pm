@@ -10,8 +10,9 @@ use strict;
 
 use Hub qw/:lib/;
 
-our @EXPORT     = qw//;
-our @EXPORT_OK  = qw/
+our $VERSION        = '3.01048';
+our @EXPORT         = qw//;
+our @EXPORT_OK      = qw/
 
     PARSER_VAR_BEGIN
     PARSER_VAR_END
@@ -205,6 +206,9 @@ sub _populate {
                 # include the '<#' and '>' marks
                 my $outer_str = substr( $text, $p, (($p3 + length($END)) - $p) );
 
+                # 2 characters *after* the '>' mark (for condensing newlines)
+                my $trailing = substr( $text, $p3 + length($END), 2 );
+
                 if( index( $inner_str, $BEGIN ) == 0 ) {
 
                     # this is an embedded value which should resolve to a name
@@ -213,17 +217,7 @@ sub _populate {
                     if( $inner_val ) {
 
                         # replace
-
-                        # [A]
-                        #$text =~ s/$inner_str/$inner_val/g;
-
-                        # [B]
                         substr $text, $p + length($BEGIN), length($inner_str), $inner_val;
-
-                        # [C]
-                        #my $left = substr( $text, 0, ($p + 2) );
-                        #my $right = substr( $text, ($p + 2) + length($inner_str) );
-                        #$text = $left . $inner_val . $right;
 
                         next;
 
@@ -248,7 +242,7 @@ sub _populate {
                 # Maybe there are tweaks which we should perform
                 #
 
-                my @tweaks = split $self->{'tweak_char'}, $name;
+                my @tweaks = split /(?<!\\)$self->{'tweak_char'}/, $name;
 
                 $name = pop @tweaks;
 
@@ -296,24 +290,26 @@ sub _populate {
 
                                     }#unless
 
-                                    my $newval = ();
+                                    my $newval = '';
 
                                     foreach my $v ( @$value ) {
 
                                         next unless defined $v;
 
+                                        my $buf = '';
+
                                         if( Hub::check( '-test=blessed', $v ) ) {
 
-                                            $newval .= ${$v->populate()};
+                                            $buf = ${$v->populate()};
 
                                         } elsif( ref($v) eq 'HASH' ) {
 
-                                            $newval .= ${ $self->_populate(
+                                            $buf = ${ $self->_populate(
                                                 -text => $$v{'text'}, $$v{'value'} ) };
 
                                         } elsif( ref($v) eq 'SCALAR' ) {
 
-                                            $newval .= $$v;
+                                            $buf = $$v;
 
                                         } elsif( ref($v) ) {
 
@@ -321,32 +317,27 @@ sub _populate {
 
                                         } else {
 
-                                            $newval .= $v;
+                                            $buf = $v;
 
                                         }#if
+
+                                        if( $$scope{'_template'} ) {
+
+                                            # TODO Support the _template specification for
+                                            #   a) Data is a hash (key/value)
+                                            #   b) arg1...argX ???
+                                            my $t = $self->_getv( $$scope{'_template'}, @_ );
+
+                                            $t and $buf = ${$self->_populate( -text =>
+                                                $t, { arg1 => $buf }, $scope )};
+
+                                        }#if
+
+                                        $newval .= $buf;
 
                                     }#foreach
 
                                     $value = $newval;
-
-                                }#if
-
-                                if( defined $value && defined $scope && %$scope ) {
-
-                                    my $orig = $value;
-
-                                    $value = ${$self->_populate( -text => \$value, $scope )};
-
-                                    if( $orig eq $value ) {
-
-                                        my $attrs = Hub::hashtoattrs( $scope );
-
-                                        # If the value looks like an html tag, we insert
-                                        # the scope as attributes before any other attributes
-
-                                        $value =~ s/^(\s*<[\w]+)/$1 $attrs/;
-
-                                    }#if
 
                                 }#if
 
@@ -380,23 +371,25 @@ sub _populate {
 
                             $watch{$name}++;
 
-                            # [A]
-                            # this cannot be done with tweaks
-                            #$text =~ s/$outer_str/$value/g;
+                            if( substr($value,-1) eq "\n" ) {
 
-                            # [B]
-                            substr $text, $p, length($outer_str), $value;
+                                $trailing =~ s/[^\r\n]//g;
 
-                            # [C]
-                            #my $left = substr( $text, 0, $p );
-                            #my $right = substr( $text, $p + length($outer_str) );
-                            #$text = $left . $value . $right;
+                                my $extra = $trailing eq "\n\n" ? 1 : length($trailing);
+
+                                substr $text, $p, length($outer_str) + $extra, $value;
+
+                            } else {
+
+                                substr $text, $p, length($outer_str), $value;
+
+                            }#if
 
                         }#if
 
-                    } elsif( $name =~ /\.html$/ ) {
+                    } elsif( $name =~ /\.\w+$/ ) {
 
-                        my $path = Hub::abspath( $name );
+                        my $path = Hub::abspath( Hub::spath($name) );
 
                         if( $path ) {
 
@@ -406,7 +399,7 @@ sub _populate {
 
                         } else {
 
-                            Hub::lerr( "Parser cannot find: $name.html" );
+                            Hub::lerr( "Parser cannot find: $name" );
 
                         }#if
 
@@ -467,6 +460,34 @@ sub _populate {
     return \$text;
 
 }#_populate
+
+# ------------------------------------------------------------------------------
+# _getv - Get a value from the current values array
+# ------------------------------------------------------------------------------
+
+sub _getv {
+
+    my ($self,$opts) = Hub::objopts( \@_ );
+
+    my $name = shift or croak "No name provided";
+
+    my $result = undef;
+
+    foreach my $h ( @_, @{$self->{'values'}} ) {
+
+        if( Hub::check( '-ref=HASH', $h ) ) {
+
+            $result = Hub::hgetv( $h, $name );
+
+        }#if
+
+        last if defined $result;
+
+    }#foreach
+
+    return $result;
+
+}#_getv
 
 # ------------------------------------------------------------------------------
 # _tweak
@@ -554,7 +575,7 @@ sub tweaker {
             my ($module,$params) = ($1,$2);
 
             $value = Hub::modexec( '-in=tweaks', $module,
-                [ $value, split( /[=,]/, $params ) ] );
+                [ $value, split( /(?<!\\)[=,]/, $params ) ] );
 
         } elsif( $tweak =~ /^(lc|uc|ucfirst|lcfirst)$/ ) {
 
@@ -674,6 +695,5 @@ sub tweaker {
 
 # ------------------------------------------------------------------------------
 return 1;
-
 
 '???';

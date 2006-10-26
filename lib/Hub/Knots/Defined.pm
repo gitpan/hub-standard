@@ -10,8 +10,9 @@ use strict;
 
 use Hub qw/:lib/;
 
-our @EXPORT     = qw//;
-our @EXPORT_OK  = qw/playnice/;
+our $VERSION        = '3.01048';
+our @EXPORT         = qw//;
+our @EXPORT_OK      = qw/playnice/;
 
 =test(match)
 
@@ -161,6 +162,5 @@ sub UNTIE {
 }
 
 # ------------------------------------------------------------------------------
-
 
 '???';

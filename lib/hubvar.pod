@@ -1,0 +1,95 @@
+=head1 NAME
+
+=begin html
+
+<p id="packagename">hubvar - Hub variables</p>
+
+=end html
+
+=begin text
+
+hubvar - Hub variables
+
+=end text
+
+
+=head1 SYNOPSIS
+
+
+
+The Hub library uses a registry to store configuration information control 
+program flow.  This document is a dictionary of the implemented values and
+their meanings.
+
+=head1 DESCRIPTION
+
+
+
+All values used and set by the library exist under C</sys>.  Fields marked with
+an asterisk (*) indicate they are used mostly with CGI (webapp) programs.
+
+  /sys/proc                         Process information
+  /sys/proc/zname                   Name of the script
+  /sys/proc/tstamp                  Time script was invoked
+
+  /sys/DEBUG                        Honor debugging statements
+
+  /sys/log                          Default log file (.logfile)
+  /sys/log/max_size                 File size in bytes
+  /sys/log/level                    Comma separated list of levels
+  /sys/log/disable                  Disable completely
+  /sys/log/stack_depth              Show stack trace with each message
+  /sys/log/show_source              Show caller() of each message
+  /sys/log/tee                      Append messages as: stdout|stderr|html|none
+
+  /sys/path                         Reserved for filesystem path information
+  /sys/path/runtime                 Runtime path
+  /sys/path/client                * Where we can store client data (ie session files)
+
+  /sys/win32                        Windows 32 specific
+  /sys/win32/owner_name             ACL For setting owner permissions
+  /sys/win32/group_name             ACL For setting group permissions
+  /sys/win32/other_name             ACL For setting other permissions
+
+  /sys/timeout/lockfile             Number of seconds to wait on lock files
+  /sys/timeout/session            * How long to honor session data
+
+  /sys/response                   * Application response
+  /sys/response/template          * STDOUT starts here
+
+  /sys/uri                          Base URI's
+  /sys/uri/common                 * Common webapp (runtime) directory
+
+  /sys/idle_depth                   Template parsing
+  /sys/mirror_depth                 Template parsing
+
+  /usr                            * Webapp Client data (Session/Cgi)
+
+  /usr/BACKPAGE
+  /usr/REQPAGE
+  /usr/ACTION
+  /usr/LASTPAGEID
+  /usr/REQPAGEID
+  /usr/CLIENTKEY
+  /usr/BIN
+
+
+=head1 AUTHOR
+
+
+
+Ryan Gies
+
+=head1 COPYRIGHT
+
+
+
+Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+
+Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+
+=head1 UPDATED
+
+This file created by <#sys/proc/zname> on <#dt(nozeros,notime);sys/proc/tstamp> at <#dt(ampm,nosec,nozeros,nodate);sys/proc/tstamp>
+
+=cut

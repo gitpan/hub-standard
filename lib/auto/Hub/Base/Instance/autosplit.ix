@@ -1,5 +1,0 @@
-# Index created by LSN::Base::AutoSplit for /home/hub/build/out/split/Hub/Base/Instance.pm
-#    (file acts as timestamp)
-package Hub::Base::Instance;
-sub Instance  ;
-1;

@@ -50,31 +50,32 @@
 <a class="methlink" href="#item_cpref">cpref</a></td><td>
 <a class="methlink" href="#item_getbyname">getbyname</a></td><td>
 <a class="methlink" href="#item_min">min</a></td><td>
-<a class="methlink" href="#item_subfield">subfield</a></td></tr><tr><td>
+<a class="methlink" href="#item_sortkbyv">sortkbyv</a></td></tr><tr><td>
 <a class="methlink" href="#item_array">array</a></td><td>
 <a class="methlink" href="#item_dice">dice</a></td><td>
 <a class="methlink" href="#item_getgid">getgid</a></td><td>
 <a class="methlink" href="#item_objopts">objopts</a></td><td>
-<a class="methlink" href="#item_subhash">subhash</a></td></tr><tr><td>
+<a class="methlink" href="#item_subfield">subfield</a></td></tr><tr><td>
 <a class="methlink" href="#item_asa">asa</a></td><td>
 <a class="methlink" href="#item_diff">diff</a></td><td>
 <a class="methlink" href="#item_getuid">getuid</a></td><td>
 <a class="methlink" href="#item_opts">opts</a></td><td>
-<a class="methlink" href="#item_subst">subst</a></td></tr><tr><td>
+<a class="methlink" href="#item_subhash">subhash</a></td></tr><tr><td>
 <a class="methlink" href="#item_asarray">asarray</a></td><td>
 <a class="methlink" href="#item_digout">digout</a></td><td>
 <a class="methlink" href="#item_hash">hash</a></td><td>
 <a class="methlink" href="#item_replace">replace</a></td><td>
-<a class="methlink" href="#item_touch">touch</a></td></tr><tr><td>
+<a class="methlink" href="#item_subst">subst</a></td></tr><tr><td>
 <a class="methlink" href="#item_bestof">bestof</a></td><td>
 <a class="methlink" href="#item_expect">expect</a></td><td>
 <a class="methlink" href="#item_hashget">hashget</a></td><td>
 <a class="methlink" href="#item_rmsubhash">rmsubhash</a></td><td>
-<a class="methlink" href="#item_uniq">uniq</a></td></tr><tr><td>
+<a class="methlink" href="#item_touch">touch</a></td></tr><tr><td>
 <a class="methlink" href="#item_check">check</a></td><td>
 <a class="methlink" href="#item_fear">fear</a></td><td>
 <a class="methlink" href="#item_intdiv">intdiv</a></td><td>
-<a class="methlink" href="#item_rmval">rmval</a></td></tr><tr><td>
+<a class="methlink" href="#item_rmval">rmval</a></td><td>
+<a class="methlink" href="#item_uniq">uniq</a></td></tr><tr><td>
 <a class="methlink" href="#item_checksum">checksum</a></td><td>
 <a class="methlink" href="#item_flatten">flatten</a></td><td>
 <a class="methlink" href="#item_max">max</a></td><td>
@@ -82,7 +83,7 @@
 <a class="methlink" href="#item_cmdopts">cmdopts</a></td><td>
 <a class="methlink" href="#item_flip">flip</a></td><td>
 <a class="methlink" href="#item_merge">merge</a></td><td>
-<a class="methlink" href="#item_sortkbyv">sortkbyv</a></td></tr></table><dl>
+<a class="methlink" href="#item_sizeof">sizeof</a></td></tr></table><dl>
 <dt><strong><a name="item_abort">abort</a></strong><br />
 </dt>
 <dd>
@@ -96,13 +97,6 @@
 </dd>
 <dd>
 <p>Croak nicely.</p>
-</dd>
-<dd>
-<p><strong>This example</strong> returns: <strong>abort</strong>:</p>
-</dd>
-<dd>
-<pre>
-    abort( -msg =&gt; 'Goddamn hippies' );</pre>
 </dd>
 <p></p></dl>
 <dl>
@@ -353,21 +347,6 @@ module.  The only reason I create a new instance of HashFile each time is
 because I know there are symbol tables (such as the order of elements) in
 that class which get update when the print method is called.</p>
 </dd>
-<dd>
-<p><strong>Example: This example</strong>:</p>
-</dd>
-<dd>
-<pre>
-  my $x = 'like catfood';
-  Hub::checksum( 'my', { cats =&gt; 'breath' }, ( 'smells', $x ) );</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    2023611966</pre>
-</dd>
 <p></p></dl>
 <dl>
 <dt><strong><a name="item_cmdopts">cmdopts</a></strong><br />
@@ -408,20 +387,6 @@ test servers...</p>
 <dd>
 <pre>
  Usage: dice STRING</pre>
-</dd>
-<dd>
-<p><strong>Example: This example</strong>:</p>
-</dd>
-<dd>
-<pre>
-    join( ';', dice( &quot;a{b{c}}c{d}&quot; ) );</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    a;{b{c}};c;{d}</pre>
 </dd>
 <p></p></dl>
 <dl>
@@ -508,69 +473,6 @@ contain one or more key/value pairs such as:</p>
   REF             =&gt; arg
   My::Package     =&gt; arg</pre>
 </dd>
-<dd>
-<p><strong>This example</strong> returns: <strong>true</strong>:</p>
-</dd>
-<dd>
-<pre>
-    Hub::expect( -match =&gt; 'and|or|xor', 'and' );</pre>
-</dd>
-<dd>
-<p><strong>This example</strong> returns: <strong>true</strong>:</p>
-</dd>
-<dd>
-<pre>
-    Hub::expect( HASH =&gt; {}, HASH =&gt; {} );</pre>
-</dd>
-<dd>
-<p><strong>This example</strong> returns: <strong>abort</strong>:</p>
-</dd>
-<dd>
-<pre>
-    Hub::expect( -blessed =&gt; {} );</pre>
-</dd>
-<dd>
-<p><strong>This example</strong> returns: <strong>true</strong>:</p>
-</dd>
-<dd>
-<pre>
-    Hub::expect( -blessed =&gt; mkinst( 'Object' ) );</pre>
-</dd>
-<dd>
-<p><strong>This example</strong> returns: <strong>abort</strong>:</p>
-</dd>
-<dd>
-<pre>
-    Hub::expect( -match =&gt; 'and|or|xor', 'if', 'or', 'and' );</pre>
-</dd>
-<dd>
-<p><strong>This example</strong> returns: <strong>abort</strong>:</p>
-</dd>
-<dd>
-<pre>
-    Hub::expect( ARRAY =&gt; {} );</pre>
-</dd>
-<dd>
-<p><strong>This example</strong> returns: <strong>abort</strong>:</p>
-</dd>
-<dd>
-<pre>
-    Hub::expect( -blessed =&gt; 'abc' );</pre>
-</dd>
-<dd>
-<p><strong>This example</strong> returns: <strong>true</strong>:</p>
-</dd>
-<dd>
-<pre>
-    Hub::expect( -ref =&gt; 'HASH', {} );</pre>
-</dd>
-<dd>
-<p><strong>This example</strong> returns: <strong>true</strong>:</p>
-</dd>
-<dd>
-<pre>
-    Hub::expect( -ref =&gt; 'HASH', mkinst('Object') );</pre>
-</dd>
 <p></p></dl>
 <dl>
 <dt><strong><a name="item_fear">fear</a></strong><br />
@@ -583,20 +485,6 @@ contain one or more key/value pairs such as:</p>
 </dd>
 <dd>
 <p>This is a shortcut to <a href="#item_expect">expect</a> with a '-not=1' option.</p>
-</dd>
-<dd>
-<p><strong>This example</strong> returns: <strong>abort</strong>:</p>
-</dd>
-<dd>
-<pre>
-    Hub::fear( HASH =&gt; {} );</pre>
-</dd>
-<dd>
-<p><strong>This example</strong> returns: <strong>true</strong>:</p>
-</dd>
-<dd>
-<pre>
-    Hub::fear( HASH =&gt; [] );</pre>
 </dd>
 <p></p></dl>
 <dl>
@@ -689,20 +577,6 @@ contain one or more key/value pairs such as:</p>
 <p>Returns an array with the number of times the divisor is contained in the
 dividend, and the remainder.</p>
 </dd>
-<dd>
-<p><strong>Example: 3 divided by 2 is 1R1</strong>:</p>
-</dd>
-<dd>
-<pre>
-    join(',',Hub::intdiv(3,2));</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    1,1</pre>
-</dd>
 <p></p></dl>
 <dl>
 <dt><strong><a name="item_max">max</a></strong><br />
@@ -716,20 +590,6 @@ dividend, and the remainder.</p>
 </dd>
 <dd>
 <p>Returns the greatest element in a set.</p>
-</dd>
-<dd>
-<p><strong>Example: Three decimal values</strong>:</p>
-</dd>
-<dd>
-<pre>
-    Hub::max(.009,-1.01,2,undef,0);</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    2</pre>
 </dd>
 <p></p></dl>
 <dl>
@@ -790,104 +650,6 @@ precedence (as in values are NOT overwritten) unless --overwrite is given.</p>
 <dd>
 <p>Returns the least element in a set.</p>
 </dd>
-<dd>
-<p><strong>Example: Two integers</strong>:</p>
-</dd>
-<dd>
-<pre>
-    Hub::min(1,2);</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    1</pre>
-</dd>
-<dd>
-<p><strong>Example: Three integers</strong>:</p>
-</dd>
-<dd>
-<pre>
-    Hub::min(2,1,3);</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    1</pre>
-</dd>
-<dd>
-<p><strong>Example: Three integers</strong>:</p>
-</dd>
-<dd>
-<pre>
-    Hub::min(2,-1,3);</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    -1</pre>
-</dd>
-<dd>
-<p><strong>Example: One integer</strong>:</p>
-</dd>
-<dd>
-<pre>
-    Hub::min(1);</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    1</pre>
-</dd>
-<dd>
-<p><strong>Example: Undefined value</strong>:</p>
-</dd>
-<dd>
-<pre>
-    Hub::min(1,undef);</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    1</pre>
-</dd>
-<dd>
-<p><strong>Example: Zero</strong>:</p>
-</dd>
-<dd>
-<pre>
-    Hub::min(undef,1,0);</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    0</pre>
-</dd>
-<dd>
-<p><strong>Example: Three decimal values</strong>:</p>
-</dd>
-<dd>
-<pre>
-    Hub::min(.009,1.001);</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    0.009</pre>
-</dd>
 <p></p></dl>
 <dl>
 <dt><strong><a name="item_objopts">objopts</a></strong><br />
@@ -904,22 +666,6 @@ precedence (as in values are NOT overwritten) unless --overwrite is given.</p>
 </dd>
 <dd>
 <p>Returns an array.</p>
-</dd>
-<dd>
-<p><strong>Example: Test return value</strong>:</p>
-</dd>
-<dd>
-<pre>
-  my $obj = mkinst( 'Object' );
-  my @result = objopts( [ $obj ] );
-  join( ',', map { ref($_) } @result );</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    Hub::Base::Object,</pre>
 </dd>
 <p></p></dl>
 <dl>
@@ -972,13 +718,8 @@ use @_ (or @ARGV, etc) normally, as data:</p>
 <dd>
 <pre>
    sub myjoin {
-      my $opts = Hub::opts( \@_ );
-      return join( $$opts{'with'}, @_ );
-   }</pre>
-</dd>
-<dd>
-<pre>
-   myjoin( 'a', 'b', '-with=;', 'c', 'd' );</pre>
+      my $opts = Hub::opts( @_ );
+      return join( $$opts{'with'}, @_ );</pre>
 </dd>
 <dd>
 <p><strong>matches</strong>:</p>
@@ -1102,6 +843,117 @@ but not from the data portion:</p>
 </dd>
 <dd>
 <p>is the passed in thingy a SCALAR?  NOTE: This does not mean a SCALAR ref!</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_sizeof">sizeof</a></strong><br />
+</dt>
+<dd>
+<strong>Integer size of hashes, arrays, and scalars</strong>
+</dd>
+<dd>
+<pre>
+ Usage: sizeof \%hash
+ Usage: sizeof \@array
+ Usage: sizeof \$scalar_ref
+ Usage: sizeof $scalar
+ Usage: sizeof \%more, @than, $one</pre>
+</dd>
+<dd>
+<p>Sizes are computed as follows:</p>
+</dd>
+<dd>
+<pre>
+  HASH    - Number of keys in the hash
+  ARRAY   - Number of elements
+  SCALAR  - Length as returned by C&lt;length()&gt;</pre>
+</dd>
+<dd>
+<p>The total size of all arguments is returned.</p>
+</dd>
+<dd>
+<p><strong>Example: Hash</strong>:</p>
+</dd>
+<dd>
+<pre>
+    sizeof( { a=&gt;1, b=&gt;2, c=&gt;3 } );</pre>
+</dd>
+<dd>
+<p><strong>matches</strong>:</p>
+</dd>
+<dd>
+<pre>
+    3</pre>
+</dd>
+<dd>
+<p><strong>Example: Array</strong>:</p>
+</dd>
+<dd>
+<pre>
+    sizeof( [ 'a1', 'b2', 'c3' ] );</pre>
+</dd>
+<dd>
+<p><strong>matches</strong>:</p>
+</dd>
+<dd>
+<pre>
+    3</pre>
+</dd>
+<dd>
+<p><strong>Example: Scalar</strong>:</p>
+</dd>
+<dd>
+<pre>
+    sizeof( &quot;abc&quot;                );</pre>
+</dd>
+<dd>
+<p><strong>matches</strong>:</p>
+</dd>
+<dd>
+<pre>
+    3</pre>
+</dd>
+<dd>
+<p><strong>Example: Scalar (ref)</strong>:</p>
+</dd>
+<dd>
+<pre>
+    sizeof( \&quot;abc&quot;               );</pre>
+</dd>
+<dd>
+<p><strong>matches</strong>:</p>
+</dd>
+<dd>
+<pre>
+    3</pre>
+</dd>
+<dd>
+<p><strong>Example: Nothing</strong>:</p>
+</dd>
+<dd>
+<pre>
+    sizeof( undef                );</pre>
+</dd>
+<dd>
+<p><strong>matches</strong>:</p>
+</dd>
+<dd>
+<pre>
+    0</pre>
+</dd>
+<dd>
+<p><strong>Example: Multiple values</strong>:</p>
+</dd>
+<dd>
+<pre>
+    sizeof( &quot;a&quot;, &quot;b&quot;, &quot;c&quot;        );</pre>
+</dd>
+<dd>
+<p><strong>matches</strong>:</p>
+</dd>
+<dd>
+<pre>
+    3</pre>
 </dd>
 <p></p></dl>
 <dl>
@@ -1248,7 +1100,7 @@ are used to determine uniqueness.</p>
 </dd>
 <dd>
 <pre>
- Usage: _assignopt \%, $key, $val</pre>
+ Usage: _assignopt \%options, \%, $key, $val</pre>
 </dd>
 <dd>
 <p>Assign an option value.</p>
@@ -1368,7 +1220,7 @@ _sort2 key to 0 (it's old value).</p>
 </p>
 <hr />
 <h1><a name="updated">UPDATED</a></h1>
-<p>This file created by mkdocs.pl on 8/29/2006 at 2:07pm</p>
+<p>This file created by  on  at</p>
 <p><a href="#__index__"><small>Top</small></a></p>
 
 </body>

@@ -24,6 +24,7 @@ description.)
 =head1 DESCRIPTION
 
 
+
 Tests are extracted from the source-code comments.  The beginning of the test 
 is identified by '#|test(...)', and continues on all consecutive lines which 
 begin with '#|':
@@ -49,6 +50,7 @@ Test types (the word within parenthesis) are restricted to the following:
     [!]undef    returns undefined
     [!]abort    aborts via die|carp|croak|...
     [!]match    (see below)
+    [!]regex    like 'match', except the pattern is considered a regex
 
 When the type is [!]match, the result of the test is listed after the test,
 and prefixed with '#~'.  Decorative white-space is removed from lines which
@@ -120,6 +122,7 @@ that the semicolon (;) before the comment is crucial.
 =head1 EXAMPLES
 
 
+
 Four ways to do the same thing:
 
     #|test(match,ABC) uc('abc')
@@ -134,13 +137,14 @@ Four ways to do the same thing:
     =result ABC
     =cut
 
-
 =head1 AUTHOR
+
 
 
 Ryan Gies
 
 =head1 COPYRIGHT
+
 
 
 Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
@@ -149,6 +153,6 @@ Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
 
 =head1 UPDATED
 
-This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+This file created by <#sys/proc/zname> on <#dt(nozeros,notime);sys/proc/tstamp> at <#dt(ampm,nosec,nozeros,nodate);sys/proc/tstamp>
 
 =cut

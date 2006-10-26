@@ -1,4 +1,4 @@
-Hub version 03.01.002
+Hub version 03.01.048
 =====================
 
 INSTALLATION
@@ -16,19 +16,34 @@ DEPENDENCIES
 
 This module requires these other modules and libraries:
 
-File::Copy                    v2.08
+  Warning: prerequisite CGI 3.1 not found. We have 3.01.
+  Warning: prerequisite CGI::Fast 0.01 not found.
+  Warning: prerequisite Carp 1.04 not found. We have 1.01.
+  Warning: prerequisite Compress::Zlib 1.41 not found. We have 1.33.
+  Warning: prerequisite Cwd 3.05 not found. We have 2.12.
+  Warning: prerequisite Exporter 5.58 not found. We have 5.57.
+  Warning: prerequisite File::Copy 2.08 not found. We have 2.07.
+  Warning: prerequisite IO::File 1.11 not found. We have 1.10.
+  Warning: prerequisite Scalar::Util 1.14 not found. We have 1.13.
+  Warning: prerequisite Time::HiRes 1.66 not found. We have 1.55.
+
+CGI::Fast                     v0.01
 Scalar::Util                  v1.14
 Compress::Zlib                v1.41
-IO::Zlib                      v1.04
-IO::File                      v1.11
 Fcntl                         v1.05
+CGI                           v3.10
+Archive::Tar                  v1.26
+DBI                           v1.50
+Net::HTTP                     v1.00
+File::Copy                    v2.08
+IO::File                      v1.11
+IO::Zlib                      v1.04
 Time::HiRes                   v1.66
 Exporter                      v5.58
 Carp                          v1.04
-Archive::Tar                  v1.26
-File::stat                    v1.00
+LWP::UserAgent                v2.033
 Cwd                           v3.05
-
+File::stat                    v1.00
 AUTHORS
 -------
 

@@ -1,0 +1,109 @@
+=head1 NAME
+
+Hub::Webapp::Response - Response functions
+
+Part of the L<Hub Library|hublib>
+
+=head1 SYNOPSIS
+
+
+    use Hub qw(:standard);
+    callback( &main );
+    sub main {
+        respond();
+    }
+
+
+=head1 DESCRIPTION
+
+
+This class provides one method 'respond' which gleans all its information for
+the runtime symbol table $Hub.
+
+
+=head1 METHODS
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item_respond">respond</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item respond
+
+B<Print response to STDOUT>
+
+
+
+=back
+
+=head1 INTERNAL
+
+=begin html
+
+<table><tr><td>
+<a class="methlink" href="#item__get_headers">_get_headers</a>
+
+</td><td>
+<a class="methlink" href="#item__set_script">_set_script</a>
+
+</td></tr></table>
+
+=end html
+
+
+=over 4
+
+=item _get_headers
+
+B<>
+
+ Usage: _get_headers EXT
+
+
+Return an array where $_[0] = encoding and $_[1] = type
+
+=back
+
+=over 4
+
+=item _set_script
+
+B<Replace all of the  placeholders>
+
+
+
+
+Replace all of the  placeholders with the url to this script.
+
+It is important that each link to the server contains the _display=
+parameter so that those requests know what page/module they are on.
+
+
+=back
+
+=head1 AUTHOR
+
+
+
+Ryan Gies
+
+=head1 COPYRIGHT
+
+
+
+Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+
+Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+
+=head1 UPDATED
+
+This file created by  on  at 
+
+=cut

@@ -2,7 +2,6 @@
 
 Hub - Hub Library Interface
 
-
 Part of the L<Hub Library|hublib>
 
 =head1 SYNOPSIS
@@ -18,7 +17,6 @@ so you don't have to.
     print 'Excuse me, mister', getname( $0 ), "\n";
 
 In both cases, C<Hub::Data::File::getname(...)> is the implementing method.
-
 
 
 =head1 DESCRIPTION
@@ -58,7 +56,6 @@ B<>
 Main invocation method.
 
 
-
 =back
 
 =over 4
@@ -72,7 +69,6 @@ B<>
 Get namespace.
 
 I<Intended for Hub library modules only.>
-
 
 =back
 
@@ -98,7 +94,6 @@ B<This example> returns: B<abort>:
 
     mkinst( 'DoesNotExist' );
 
-
 =back
 
 =over 4
@@ -113,9 +108,7 @@ Register namespace.
 
 Intended for Hub library modules only.>
 
-
 =back
-
 
 =head1 INTERNAL
 
@@ -155,7 +148,6 @@ B<>
 Finish library wheel.
 
 
-
 =back
 
 =over 4
@@ -174,7 +166,6 @@ to represent.
 Recursive.
 
 
-
 =back
 
 =over 4
@@ -191,7 +182,6 @@ Share minimal list of standard functions which every module in its right mind
 would use.
 
 
-
 =back
 
 =over 4
@@ -203,7 +193,6 @@ B<>
  Usage: _load_internal_libs
 
 We want to import all EXPORT_OK methods from packages.
-
 
 
 =back
@@ -219,7 +208,6 @@ B<>
 Warning handler.  Supresses annoyances.
 
 
-
 =back
 
 =over 4
@@ -233,16 +221,16 @@ B<>
 Control which EXPORT_TAGS tag is used depending on module location.
 
 
-
 =back
 
-
 =head1 AUTHOR
+
 
 
 Ryan Gies
 
 =head1 COPYRIGHT
+
 
 
 Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
@@ -251,6 +239,6 @@ Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
 
 =head1 UPDATED
 
-This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+This file created by  on  at 
 
 =cut

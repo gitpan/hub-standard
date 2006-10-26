@@ -1,0 +1,387 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Hub::Data::Data</title>
+<link rel="stylesheet" href="../../pod.css" type="text/css" />
+<link rev="made" href="mailto:gerrit@familiehaase.de" />
+</head>
+
+<body>
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<li><a href="#internal">INTERNAL</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#updated">UPDATED</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Hub::Data::Data - Interface for storing and retrieving web-content</p>
+<p>Part of the <a href="../../hublib.html">Hub Library</a></p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    use Hub;
+    my $data = Hub::mkinst( 'Data' );</pre>
+<pre>
+    $data-&gt;store( $hash );              # stores data by implicit address
+    $data-&gt;store_at( $addr, $hash );    # stores data at address $addr
+    $data-&gt;get( $addr );                # returns data at address</pre>
+<pre>
+    $data-&gt;commit();                    # writes to disk</pre>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This class provides interfaces for storing and retrieving data.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<table><tr><td>
+<a class="methlink" href="#item_attach">attach</a></td><td>
+<a class="methlink" href="#item_define_id">define_id</a></td><td>
+<a class="methlink" href="#item_init">init</a></td><td>
+<a class="methlink" href="#item_refreshmeta">refreshmeta</a></td><td>
+<a class="methlink" href="#item_store">store</a></td></tr><tr><td>
+<a class="methlink" href="#item_commit">commit</a></td><td>
+<a class="methlink" href="#item_delete_at">delete_at</a></td><td>
+<a class="methlink" href="#item_new">new</a></td><td>
+<a class="methlink" href="#item_resort">resort</a></td><td>
+<a class="methlink" href="#item_store_at">store_at</a></td></tr><tr><td>
+<a class="methlink" href="#item_cp">cp</a></td><td>
+<a class="methlink" href="#item_get">get</a></td><td>
+<a class="methlink" href="#item_packdata">packdata</a></td><td>
+<a class="methlink" href="#item_set">set</a></td><td>
+<a class="methlink" href="#item_touch">touch</a></td></tr><tr><td>
+<a class="methlink" href="#item_create_id">create_id</a></td><td>
+<a class="methlink" href="#item_get_root">get_root</a></td><td>
+<a class="methlink" href="#item_refresh">refresh</a></td><td>
+<a class="methlink" href="#item_set_root">set_root</a></td></tr></table><dl>
+<dt><strong><a name="item_attach">attach</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: attach this data object to an existing HashFile instance</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_commit">commit</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>write to disk</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_cp">cp</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>get (return a copy) information</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_create_id">create_id</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>create id</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_define_id">define_id</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>define id</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_delete_at">delete_at</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>remove data</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_get">get</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: get information</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_get_root">get_root</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: get_root</pre>
+</dd>
+<dd>
+<p>Get the root of the data</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_init">init</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: initialize myself and load the disk files</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_new">new</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>constructor</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_packdata">packdata</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: packdata HASHREF</pre>
+</dd>
+<dd>
+<p>From the bottom up, pack each variable's data.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_refresh">refresh</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>reload from disk and reset any instance data</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_refreshmeta">refreshmeta</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: refreshmeta ID</pre>
+</dd>
+<dd>
+<p>Refresh the meta variables (which already exist) at point ID</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_resort">resort</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: resort( $address )</pre>
+</dd>
+<dd>
+<p>Before calling this method, set '_sort2' to a *number* on the
+subhashes which have priority.  This method will clear that property.</p>
+</dd>
+<dd>
+<p>Resorts the items which are peers at the given address.  If no address is
+given, we will resort all root items.  The sort value is stored in the
+subkey: '_sort'.</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_set">set</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: set information</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_set_root">set_root</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: set_root HASH</pre>
+</dd>
+<dd>
+<p>Set the root of the data!</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_store">store</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: store information in the embedded hashfile</pre>
+</dd>
+<dd>
+<p>examples</p>
+</dd>
+<dd>
+<pre>
+  1)  store( { _id =&gt; 'user1', name =&gt; 'Ryan', height =&gt; '5\'9\&quot;', } );</pre>
+</dd>
+<dd>
+<pre>
+      %user1{
+          name == Ryan
+          height == 5'9&quot;
+      }</pre>
+</dd>
+<dd>
+<pre>
+  2)  store( { name =&gt; &quot;Ryan&quot;, height =&gt; &quot;5\'9\&quot;&quot;, } );</pre>
+</dd>
+<dd>
+<pre>
+      name == Ryan
+      height == 5'9&quot;</pre>
+</dd>
+<dd>
+<pre>
+  2)  store( { user1:name =&gt; &quot;Ryan&quot;, user1:height =&gt; &quot;5\'9\&quot;&quot;, } );</pre>
+</dd>
+<dd>
+<pre>
+      name == Ryan
+      height == 5'9&quot;</pre>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_store_at">store_at</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<p>store information at the specified address</p>
+</dd>
+<p></p></dl>
+<dl>
+<dt><strong><a name="item_touch">touch</a></strong><br />
+</dt>
+<dd>
+<strong></strong>
+</dd>
+<dd>
+<pre>
+ Usage: touch($hashref)
+ Usage: touch($address)</pre>
+</dd>
+<dd>
+<p>Update meta-data.  See <a href="#item_touch"><code>touch()</code></a> in Meta.pm for what gets modified.</p>
+</dd>
+<dd>
+<pre>
+  Example:</pre>
+</dd>
+<dd>
+<pre>
+      touch( { a =&gt; &quot;aye&quot;, b =&gt; &quot;bee&quot; } )
+      touch( &quot;<a href="file:data&quot">file:data&quot</a>; )</pre>
+</dd>
+<dd>
+<pre>
+  Will:</pre>
+</dd>
+<dd>
+<pre>
+      update the hash provided
+      update the item at address '<a href="file:data">file:data</a>' if it is a hash</pre>
+</dd>
+<p></p></dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="internal">INTERNAL</a></h1>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Ryan Gies</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
+<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="updated">UPDATED</a></h1>
+<p>This file created by  on  at</p>
+<p><a href="#__index__"><small>Top</small></a></p>
+
+</body>
+
+</html>

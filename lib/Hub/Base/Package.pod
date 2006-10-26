@@ -44,7 +44,6 @@ B<>
 Call a method in the representing package
 Note that AUTOLOAD methods do not pass the 'defined' test
 
-
 =back
 
 =over 4
@@ -52,7 +51,6 @@ Note that AUTOLOAD methods do not pass the 'defined' test
 =item modexec
 
 B<Execute runtime module>
-
 
 
 
@@ -69,7 +67,6 @@ B<>
 Constructor
 This is a singleton
 
-
 =back
 
 =over 4
@@ -84,9 +81,7 @@ Called implicty on the first attachment or when the file has been modified
 on disk.
 
 
-
 =back
-
 
 =head1 INTERNAL
 
@@ -116,7 +111,6 @@ Note! Use the subroutine 'call' to access methods which are already
 implemented in this class (new|call|parsefile).
 
 
-
 =back
 
 =over 4
@@ -129,16 +123,16 @@ B<>
 
 Defining this function prevents it from being searched in AUTOLOAD
 
-
 =back
 
-
 =head1 AUTHOR
+
 
 
 Ryan Gies
 
 =head1 COPYRIGHT
+
 
 
 Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
@@ -147,6 +141,6 @@ Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
 
 =head1 UPDATED
 
-This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+This file created by  on  at 
 
 =cut

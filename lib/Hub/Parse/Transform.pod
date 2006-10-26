@@ -17,21 +17,6 @@ Part of the L<Hub Library|hublib>
 =begin html
 
 <table><tr><td>
-<a class="methlink" href="#item_xpopulate">Xpopulate</a>
-
-</td><td>
-<a class="methlink" href="#item_findabsolutepath">findAbsolutePath</a>
-
-</td><td>
-<a class="methlink" href="#item_getspec">getspec</a>
-
-</td><td>
-<a class="methlink" href="#item_nbspstr">nbspstr</a>
-
-</td><td>
-<a class="methlink" href="#item_safestr">safestr</a>
-
-</td></tr><tr><td>
 <a class="methlink" href="#item_abspath">abspath</a>
 
 </td><td>
@@ -103,20 +88,22 @@ Part of the L<Hub Library|hublib>
 </td><td>
 <a class="methlink" href="#item_relpath">relpath</a>
 
+</td></tr><tr><td>
+<a class="methlink" href="#item_findabsolutepath">findAbsolutePath</a>
+
+</td><td>
+<a class="methlink" href="#item_getspec">getspec</a>
+
+</td><td>
+<a class="methlink" href="#item_nbspstr">nbspstr</a>
+
+</td><td>
+<a class="methlink" href="#item_safestr">safestr</a>
+
 </td></tr></table>
 
 =end html
 
-
-=over 4
-
-=item Xpopulate
-
-B<>
-
-
-
-=back
 
 =over 4
 
@@ -129,7 +116,6 @@ B<>
 
 
 File must exist unless NOCHECK is specified.
-
 
 
 =back
@@ -166,106 +152,61 @@ B<This example> returns: B<true>:
 
     datetime( );
 
-B<Example: This example>:
+B<This example> returns: B<regex>:
 
     datetime( 1045837284 );
 
-B<matches>:
-
-    02/21/2003 06:21:24
-
-B<Example: This example>:
+B<This example> returns: B<regex>:
 
     datetime( 1045837284, -nosec );
 
-B<matches>:
-
-    02/21/2003 06:21
-
-B<Example: This example>:
+B<This example> returns: B<regex>:
 
     datetime( 1045837284, -noyear );
 
-B<matches>:
-
-    02/21 06:21:24
-
-B<Example: This example>:
+B<This example> returns: B<regex>:
 
     datetime( 1045837284, -ampm );
 
-B<matches>:
-
-    02/21/2003 06:21:24am
-
-B<Example: This example>:
+B<This example> returns: B<regex>:
 
     datetime( 1045837284, -nozeros );
 
-B<matches>:
-
-    2/21/2003 6:21:24
-
-B<Example: This example>:
+B<This example> returns: B<regex>:
 
     datetime( 1045837284, -notime );
 
-B<matches>:
-
-    02/21/2003
-
-B<Example: This example>:
+B<This example> returns: B<regex>:
 
     datetime( 1045837284, -nodate );
 
-B<matches>:
-
-    06:21:24
-
-B<Example: This example>:
+B<This example> returns: B<regex>:
 
     datetime( 1045837284, -letter );
-
-B<matches>:
-
-    February 21, 2003 06:21:24
 
 
 Combining options
 
 
 
-B<Example: This example>:
+B<This example> returns: B<regex>:
 
     datetime( 1045837284, -ampm, -nosec );              
 
-B<matches>:
-
-    02/21/2003 06:21am
 
 
-
-B<Example: This example>:
+B<This example> returns: B<regex>:
 
     datetime( 1045837284, -nosec, -nozeros, -noyear );
-
-B<matches>:
-
-    2/21 6:21
 
 
 Methods of passing options via tweaks (see Parser.pm)
 
 
 
-B<Example: This example>:
+B<This example> returns: B<regex>:
 
     datetime( 1045837284, "nosec,noyear" );
-
-B<matches>:
-
-    02/21 06:21
-
 
 =back
 
@@ -296,7 +237,6 @@ Format the provided number of seconds in days, hours, minutes, and seconds.
   Hub::dhms( 90071, "--nozeros" )                              1d:1h:1m:11s
   Hub::dhms( 90071, "--nozeros", "days ::" )   1days 1:1:11
   Hub::dhms( 90071, "days ::" )                01days 01:01:11
-
 
 
 =back
@@ -341,7 +281,6 @@ Examples:
 
 
 
-
 =back
 
 =over 4
@@ -357,7 +296,6 @@ B<>
 
 
   File may or may not exist
-
 
 
 
@@ -431,7 +369,6 @@ B<matches>:
 
     /out/doc/pod
 
-
 =back
 
 =over 4
@@ -470,7 +407,6 @@ usage examples:
 
 
 
-
 =back
 
 =over 4
@@ -494,7 +430,6 @@ B<>
 
       "ext"
       "cgi"
-
 
 
 
@@ -531,7 +466,6 @@ B<>
 
 
 
-
 =back
 
 =over 4
@@ -551,7 +485,6 @@ B<>
 
 
 
-
 =back
 
 =over 4
@@ -563,7 +496,6 @@ B<>
  Usage: getspec PATH
 
 Given a path to a file, return it's parts (directory, filename, extension);
-
 
 =back
 
@@ -593,7 +525,6 @@ Becomes:
 
 
 
-
 =back
 
 =over 4
@@ -612,7 +543,6 @@ B<>
 
 
 
-
 =back
 
 =over 4
@@ -624,7 +554,6 @@ B<>
  Usage: indenttext TEXT, NUM, [PADINGCHAR]
 
 Indent text
-
 
 =back
 
@@ -641,7 +570,6 @@ Format as one long string for use as the rval in javascript (ie put the
 backslash continue-ator at the end of each line).
 
 
-
 =back
 
 =over 4
@@ -653,7 +581,6 @@ B<>
  Usage: mkabsdir DIR
 
 Create the directory specified.
-
 
 
 =back
@@ -680,7 +607,6 @@ B<>
 
 
 
-
 =back
 
 =over 4
@@ -689,10 +615,9 @@ B<>
 
 B<>
 
- Usage: packcgi STRING
+ Usage: packcgi $string|\$string
 
 Pack characters into those used for passing by the cgi.
-
 
 
 =back
@@ -706,21 +631,65 @@ B<Remove undefined variables>
 
 
 
+We will chomp lines so that:
+
+
+  In between two
+  lines with text
+  or when
+
+
+
+  surrounded spaced out..
+
+
+
+Will become:
+
+
+  In between two
+  lines with text
+  or when
+
+
+  surrounded spaced out..
+
+
+
+
 =back
 
 =over 4
 
 =item populate
 
-B<>
-
- Usage: populate TEXT, DEFINITIONS+
-
-Depricated.
-
-Populate TEXT with DEFINITIONS.
+B<Populate template text with values>
 
 
+ Usage: populate $text|\$text, \%values [,\%values...] [option]
+
+
+options:
+
+
+  -sdref=0                Turn off scalar dereferencing
+  -polish=1               Remove unpopulated variable references
+
+B<Example: This example>:
+
+    populate( 'mum', { foo => 'shroo' } );
+
+B<matches>:
+
+    mushroom
+
+B<Example: This example>:
+
+    ref( populate( 'ac', { b => 'bee' }, '-sdref=0' ) );
+
+B<matches>:
+
+    SCALAR
 
 =back
 
@@ -748,6 +717,8 @@ B<Example: This example>:
 
     ps( 10, "this is really short but splits on ten chars" );
 
+
+
 B<matches>:
 
     this is re
@@ -760,6 +731,7 @@ B<Example: This example>:
 
     ps( 10, "this is really short but splits on ten chars", 3 );
 
+
 B<matches>:
 
     this is re
@@ -767,7 +739,6 @@ B<matches>:
     but split
    s on ten c
    hars
-
 
 =back
 
@@ -826,7 +797,6 @@ B<matches>:
 
     README.txt
 
-
 =back
 
 =over 4
@@ -849,7 +819,6 @@ B<matches>:
 
     Dogs_20__28_Waters_2c__20_Gilmour_29__20_17_3a_06
 
-
 =back
 
 =over 4
@@ -861,7 +830,6 @@ B<>
  Usage: siteurl
 
 Return the target website url.
-
 
 
 =back
@@ -876,7 +844,6 @@ B<>
 
 Remove empty css properties
 
-
 =back
 
 =over 4
@@ -888,7 +855,6 @@ B<>
  Usage: trimhtmlstyle
 
 Remove empty style declarations
-
 
 =back
 
@@ -902,9 +868,7 @@ B<>
 
 Unpack cgi characters into a kv hashref
 
-
 =back
-
 
 =head1 INTERNAL
 
@@ -992,16 +956,16 @@ Tweaks can be chained together, for example:
 
 
 
-
 =back
 
-
 =head1 AUTHOR
+
 
 
 Ryan Gies
 
 =head1 COPYRIGHT
+
 
 
 Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
@@ -1010,6 +974,6 @@ Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
 
 =head1 UPDATED
 
-This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+This file created by  on  at 
 
 =cut

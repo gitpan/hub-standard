@@ -107,7 +107,6 @@ OPTIONS
 
 
 
-
 =back
 
 =over 4
@@ -155,7 +154,6 @@ is newer (unless the 'force' option is set).
 
 
 
-
 =back
 
 =over 4
@@ -182,7 +180,6 @@ Where:
 
 See also: L<chperm>
 
-
 =back
 
 =over 4
@@ -197,7 +194,6 @@ B<>
 Unlock and close the file.
 
 Always remove the lockfile for a specified filename.
-
 
 
 =back
@@ -216,7 +212,6 @@ filename.  Waits for #winlock_timeout seconds if a lockfile exists (unless
 READONLY is specified).
 
 
-
 =back
 
 =over 4
@@ -230,7 +225,6 @@ B<>
 
 Clear the list of recognized files, then find all nodes in the specified
 path(s) and mark them as existing.
-
 
 
 =back
@@ -250,7 +244,6 @@ idea behind this logic is that it is faster to build a list of existing files
 once then check the list as the program progresses, than it is to make the -e,
 -f and -d perl calls.  The frequency with which the list of known files is
 updated is left to user configuration. (see filescan)
-
 
 =back
 
@@ -276,14 +269,16 @@ Where:
   OPTIONS -max        Return greatest value (default)
           -min         least value
 
-
 =back
 
 =over 4
 
 =item find
 
-B<>
+B<Find files on disk>
+
+
+
 
  Usage: find DIRECTORY, OPTIONS
 
@@ -304,7 +299,6 @@ B<>
 
 
  NOTES         . and .. are always ignored.
-
 
 
 =back
@@ -340,7 +334,6 @@ Returns and array of:
   /var/run/sshd.pid
   /var/run/utmp
 
-
 =back
 
 =over 4
@@ -352,7 +345,6 @@ B<>
  Usage: getcrown
 
 Return the first line of a file
-
 
 =back
 
@@ -368,7 +360,6 @@ B<>
 List files in a directory.
 
 
-
 =back
 
 =over 4
@@ -381,7 +372,6 @@ B<>
 
 Make a directy with specified permissions
 
-
 =back
 
 =over 4
@@ -393,7 +383,6 @@ B<>
  Usage: mvfile
 
 Move (rename) a file
-
 
 =back
 
@@ -424,7 +413,6 @@ B<>
 Populate a file with runtime data.
 
 
-
 =back
 
 =over 4
@@ -436,7 +424,6 @@ B<>
  Usage: readfile PATH
 
 Read and return the contents of a file.
-
 
 
 =back
@@ -452,7 +439,6 @@ B<>
 Recursively remove a directory.
 
 
-
 =back
 
 =over 4
@@ -465,7 +451,6 @@ B<>
 
 
 We rely on server security and file permissions to prevent tamperring.
-
 
 
 =back
@@ -492,7 +477,6 @@ B<matches>:
 
     alsk_2f_lsdkfj
 
-
 =back
 
 =over 4
@@ -509,9 +493,7 @@ Write CONTENTS to FILEPATH which is openned with FLAGS.  Default FLAGS is '>'.
 Sets the correct file permissions.
 
 
-
 =back
-
 
 =head1 INTERNAL
 
@@ -561,13 +543,14 @@ B<>
 
 =back
 
-
 =head1 AUTHOR
+
 
 
 Ryan Gies
 
 =head1 COPYRIGHT
+
 
 
 Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
@@ -576,6 +559,6 @@ Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
 
 =head1 UPDATED
 
-This file created by mkdocs.pl on 8/29/2006 at 2:07pm
+This file created by  on  at 
 
 =cut
