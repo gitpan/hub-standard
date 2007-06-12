@@ -1,58 +1,119 @@
 =head1 NAME
 
-=begin html
-
-<p id="packagename">hubaddr - Data addresses</p>
-
-=end html
-
-=begin text
-
 hubaddr - Data addresses
-
-=end text
-
 
 =head1 SYNOPSIS
 
-An address points to a value nested inside hash structures.  It is 
-semantically equivilent to a how a pathname points to a file on your 
-hard-drive.
+      use Hub;
+      tie my %data, Hub::knot('Nest');
+      $data{'/root'} = {
+        list => [qw(A B C)],
+      };
 
-A nested hash structure is a hash who's elements may be hashes, arrays, or
-scalars.  Sub-hashes and sub-arrays may also (recursively) contain these 
-elements.
+      # Add a value to the array
+      $$data{'/root/list/3'} = 'D';
+
+      # Get a value from the array
+      print "First element is: $$data{'/root/list/0'}\n";
 
 =head1 DESCRIPTION
 
-Given the nested structure:
+Addresses are the syntax used to reference nested data.  Addresses are delimited
+by the solidus (/) character.  Where an element of a nested perl data structure 
+may be referred to as:
 
-  %hash {                               # Hash
-      @fruit {                          # Array
-          % {                           # Anonymous hash at index 0
-              name  => apple
-              color => red
-              grown => Washington
-          }
-      }
-  }
+  $hash->{'h1'}->{'h2'}->{'name'}
+
+The same value would be addressed as:
+
+  /h1/h2/name
+
+Array elements are accessed by thier index:
+
+  $data{'/array'} = ['zero', 'one', 'two'];
+  die unless 'one' eq $data{'/array/1'};
+
+The Hub library exports the variable $Hub by default.  It is an extension of
+the nested data type which transcends the filesystem.  Meaning that you may
+access files beneath your current working directory in this same manner:
+
+  $$Hub{'/conf/somefile.conf'}
+
+Would return the File object for the file C<./conf/somefile.conf>.  When using
+L<selectors|selectors>, one may iterate over an array of files by specifying
+
+  $$Hub{'/conf/{.conf$}'}
+
+
+
+=head1 SELECTORS
+
+Selectors are used to match keys in the address.  A selector takes the forms:
+
+  {keyname comparator value}
+  {regex}
+
+Where:
+
+  keyname     Name of the element to compare
+  comparator  Comparison operator*
+  value       Comparison value
+  regex       A regular expression
+
+*See L<Hub::compare|Hub::Perl::Compare/compare>
+
+Given:
+
+
 
 =head1 AUTHOR
 
+Ryan Gies (ryangies@livesite.net)
 
-
-Ryan Gies
 
 =head1 COPYRIGHT
 
+Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.
+
+Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.
 
 
-Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:
 
-Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.
+
+* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.
+
+* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.
+
+* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.
+
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.
+
+To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.
+
 
 =head1 UPDATED
 
-This file created by <#sys/proc/zname> on <#dt(nozeros,notime);sys/proc/tstamp> at <#dt(ampm,nosec,nozeros,nodate);sys/proc/tstamp>
+06/09/2007
 
 =cut

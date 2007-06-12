@@ -1,0 +1,232 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Hub::Misc::Time</title>
+<link rel="stylesheet" href="../../styles.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
+</head>
+
+<body>
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#public_methods">PUBLIC METHODS</a></li>
+	<ul>
+
+		<li><a href="#datetime">datetime</a></li>
+		<li><a href="#dhms">dhms</a></li>
+	</ul>
+
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#updated">UPDATED</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Hub::Misc::Time -</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="public_methods">PUBLIC METHODS</a></h1>
+<p>
+</p>
+<h2><a name="datetime">datetime</a></h2>
+<dl>
+<dt><strong><a name="item_friendly_date_2dtime_formats_of_seconds_2dsince_2d">Friendly date-time formats of seconds-since-the-epoch timestamps.</a></strong>
+
+<dd>
+<pre>
+ Usage: datetime [$timestamp], [options]</pre>
+</dd>
+<dd>
+<p>Default is the current time formatted as: MM/DD/YYYY hh:mm:ss.</p>
+</dd>
+<dd>
+<p>The decimal portion of HiRest time is truncated.</p>
+</dd>
+<dd>
+<p>Uses `localtime` to localize.</p>
+</dd>
+<dd>
+<p><strong>Example</strong> returns: <strong>true</strong>:</p>
+</dd>
+<dd>
+<pre>
+    datetime( );</pre>
+</dd>
+<dd>
+<p><strong>Example</strong> returns: <strong>regex</strong>:</p>
+</dd>
+<dd>
+<pre>
+    datetime( 1045837284 );</pre>
+</dd>
+<dd>
+<p><strong>Example</strong> returns: <strong>regex</strong>:</p>
+</dd>
+<dd>
+<pre>
+    datetime( 1045837284, -nosec );</pre>
+</dd>
+<dd>
+<p><strong>Example</strong> returns: <strong>regex</strong>:</p>
+</dd>
+<dd>
+<pre>
+    datetime( 1045837284, -noyear );</pre>
+</dd>
+<dd>
+<p><strong>Example</strong> returns: <strong>regex</strong>:</p>
+</dd>
+<dd>
+<pre>
+    datetime( 1045837284, -ampm );</pre>
+</dd>
+<dd>
+<p><strong>Example</strong> returns: <strong>regex</strong>:</p>
+</dd>
+<dd>
+<pre>
+    datetime( 1045837284, -nozeros );</pre>
+</dd>
+<dd>
+<p><strong>Example</strong> returns: <strong>regex</strong>:</p>
+</dd>
+<dd>
+<pre>
+    datetime( 1045837284, -notime );</pre>
+</dd>
+<dd>
+<p><strong>Example</strong> returns: <strong>regex</strong>:</p>
+</dd>
+<dd>
+<pre>
+    datetime( 1045837284, -nodate );</pre>
+</dd>
+<dd>
+<p><strong>Example</strong> returns: <strong>regex</strong>:</p>
+</dd>
+<dd>
+<pre>
+    datetime( 1045837284, -letter );</pre>
+</dd>
+<dd>
+<p>Combining options</p>
+</dd>
+<dd>
+<p><strong>Example</strong> returns: <strong>regex</strong>:</p>
+</dd>
+<dd>
+<pre>
+    datetime( 1045837284, -ampm, -nosec );</pre>
+</dd>
+<dd>
+<p><strong>Example</strong> returns: <strong>regex</strong>:</p>
+</dd>
+<dd>
+<pre>
+    datetime( 1045837284, -nosec, -nozeros, -noyear );</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="dhms">dhms</a></h2>
+<dl>
+<dt>
+<dd>
+<p>Hub::dhms( $seconds, $options, $format )</p>
+</dd>
+<dd>
+<p>Format the provided number of seconds in days, hours, minutes, and seconds.</p>
+</dd>
+<dd>
+<pre>
+  Examples:                                               Returns:
+  ------------------------------------------------------- --------------------
+  Hub::dhms( 10 )                                              00d:00h:00m:10s
+  Hub::dhms( 60 )                                              00d:00h:01m:00s
+  Hub::dhms( 3600 )                                            00d:01h:00m:00s
+  Hub::dhms( 86400 )                                           01d:00h:00m:00s
+  Hub::dhms( 11 )                                              00d:00h:00m:11s
+  Hub::dhms( 71 )                                              00d:00h:01m:11s
+  Hub::dhms( 3671 )                                            00d:01h:01m:11s
+  Hub::dhms( 90071 )                                           01d:01h:01m:11s
+  Hub::dhms( 90071, &quot;--nozeros&quot; )                              1d:1h:1m:11s
+  Hub::dhms( 90071, &quot;--nozeros&quot; )                              1d:1h:1m:11s
+  Hub::dhms( 90071, &quot;--nozeros&quot;, &quot;[#d]days [#h]:[#m]:[#s]&quot; )   1days 1:1:11
+  Hub::dhms( 90071, &quot;[#d]days [#h]:[#m]:[#s]&quot; )                01days 01:01:11</pre>
+</dd>
+</li>
+</dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Ryan Gies (<a href="mailto:ryangies@livesite.net">ryangies@livesite.net</a>)</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.</p>
+<p>Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.</p>
+<p>Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:</p>
+<p>* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.</p>
+<p>* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.</p>
+<p>* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.</p>
+<p>* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.</p>
+<p>THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.</p>
+<p>To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="updated">UPDATED</a></h1>
+<p>06/09/2007</p>
+<p><a href="#__index__"><small>Top</small></a></p>
+
+</body>
+
+</html>

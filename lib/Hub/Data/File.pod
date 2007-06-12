@@ -1,564 +1,195 @@
 =head1 NAME
 
-Hub::Data::File - 
+Hub::Data::File - File
 
-Part of the L<Hub Library|hublib>
 
 =head1 SYNOPSIS
+
+
+  use Hub qw(:standard);
+  my $file = mkinst('File', 'foo.txt');
+  print ${$file->get_content()};
 
 
 
 =head1 DESCRIPTION
 
 
+A basic file which can be written and saved.  It acts as a singleton
+and is integrated into the filecache system (supports refresh).
 
-=head1 METHODS
+=head2 Intention
 
-=begin html
+The L<FileSystem::snapshot> method creates an image of the file
+system.  Each file is an instance of this class.  We delay reading from disk
+until it is necessary.  We do not keep a file handle open.
 
-<table><tr><td>
-<a class="methlink" href="#item_chperm">chperm</a>
 
-</td><td>
-<a class="methlink" href="#item_fileopen">fileopen</a>
 
-</td><td>
-<a class="methlink" href="#item_find">find</a>
+=head1 PUBLIC METHODS
 
-</td><td>
-<a class="methlink" href="#item_mkdiras">mkdiras</a>
-
-</td><td>
-<a class="methlink" href="#item_rmdirrec">rmdirrec</a>
-
-</td></tr><tr><td>
-<a class="methlink" href="#item_cpdir">cpdir</a>
-
-</td><td>
-<a class="methlink" href="#item_filescan">filescan</a>
-
-</td><td>
-<a class="methlink" href="#item_find_files">find_files</a>
-
-</td><td>
-<a class="methlink" href="#item_mvfile">mvfile</a>
-
-</td><td>
-<a class="methlink" href="#item_rmfile">rmfile</a>
-
-</td></tr><tr><td>
-<a class="methlink" href="#item_cpfile">cpfile</a>
-
-</td><td>
-<a class="methlink" href="#item_filetest">filetest</a>
-
-</td><td>
-<a class="methlink" href="#item_getcrown">getcrown</a>
-
-</td><td>
-<a class="methlink" href="#item_parsefile">parsefile</a>
-
-</td><td>
-<a class="methlink" href="#item_safefn">safefn</a>
-
-</td></tr><tr><td>
-<a class="methlink" href="#item_fileclose">fileclose</a>
-
-</td><td>
-<a class="methlink" href="#item_filetime">filetime</a>
-
-</td><td>
-<a class="methlink" href="#item_listfiles">listfiles</a>
-
-</td><td>
-<a class="methlink" href="#item_readfile">readfile</a>
-
-</td><td>
-<a class="methlink" href="#item_writefile">writefile</a>
-
-</td></tr></table>
-
-=end html
-
+=head2 new
 
 =over 4
 
-=item chperm
-
-B<>
-
- Usage: chperm PATH OPTIONS
-
-Change permissions of a file or directory
+=item Constructor.
 
 
-OPTIONS
-
-
-
-
-  {
-      # see find and cpdir
-
-      'recperms'   => 1,       # will recurse if PATH is a directory
-
-
-  }
 
 
 
 =back
 
+=head2 delay_reading
+
 =over 4
 
-=item cpdir
+=item Instruct L<FileCache> to delay reading from disk
 
-B<>
-
- Usage: cpdir SOURCE_DIR, TARGET_DIR, [OPTIONS]
-
-Copy a directory.  Files are only copied when the source file's modified time
-is newer (unless the 'force' option is set).
-
-
-
- SOURCE_DIR    SCALAR, Source directory
-
-
- TARGET_DIR    SCALAR, Destination *parent* directory
-
-
- OPTIONS       HASHREF, Options:
-
-
-              {
-                  include => [ ".*" ],
-                  ignore  => [ "CVS", "\.cvsignore", "README" ],
-                  force   => 1,
-
-
-                  uid     => Hub::getuid( "username" ),    # user id
-                  gid     => Hub::getgid( "username" ),    # group id
-
-
-                  dmode   => 0775,
-                  fmode   => {            # fmode can ref a hash of extensions
-                      '*'     => 0644,    # '*' is used for unmatched
-                      'cgi'   => 0755,    # specific cgi file extension
-                      'dll'   => "SKIP",  # do not update dll files
-                  }
-                  fmode   => 0655,        # or, fmode can be used for all files
-
-
-              }
 
 
 
 =back
 
-=over 4
-
-=item cpfile
-
-B<Copy a file and apply permissions and mode>
-
-
-
-
- Usage: cpfile $SOURCE, $TARGET, [\%PERMISSIONS], [OPTIONS]
-
-
-Where:
-
-
-  $SOURCE         File to be copied
-  $TARGET         Target path (file or directory)
-  \%PERMISSIONS   Permission hash (see Hub::chperm)
-  OPTIONS         -newer      Only copy when the source is newer (mtime) than
-                              the target
-
-
-See also: L<chperm>
-
-=back
+=head2 reload
 
 =over 4
 
-=item fileclose
+=item Callback from L<FileCache> when a read from disk is performed
 
-B<>
-
- Usage: fileclose HANDLE, [FILENAME]
-
-
-Unlock and close the file.
-
-Always remove the lockfile for a specified filename.
-
-
-=back
-
-=over 4
-
-=item fileopen
-
-B<>
-
- Usage: fileopen FILENAME [PARAMS]
-
-
-For platforms which don't flock, create a lockfile for a specified
-filename.  Waits for #winlock_timeout seconds if a lockfile exists (unless
-READONLY is specified).
-
-
-=back
-
-=over 4
-
-=item filescan
-
-B<>
-
- Usage: filescan PATH, [PATH] ...
-
-
-Clear the list of recognized files, then find all nodes in the specified
-path(s) and mark them as existing.
-
-
-=back
-
-=over 4
-
-=item filetest
-
-B<>
-
- Usage: filetest PATH
- Usage: filetest PATH TEST
-
-
-Returns 1 if PATH is an element which we recognize as existing on disk.  The
-idea behind this logic is that it is faster to build a list of existing files
-once then check the list as the program progresses, than it is to make the -e,
--f and -d perl calls.  The frequency with which the list of known files is
-updated is left to user configuration. (see filescan)
-
-=back
-
-=over 4
-
-=item filetime
-
-B<Return file's timestamp>
-
-
-
-
- Usage: filetime LIST, [OPTIONS]
-
-
-Where:
-
-
-  LIST                A list of valid path names or file handles
-  OPTIONS -mtime      Return last-modified time (default)
-          -atime       last-accessed time
-          -ctime       creation time
-  OPTIONS -max        Return greatest value (default)
-          -min         least value
-
-=back
-
-=over 4
-
-=item find
-
-B<Find files on disk>
-
-
-
-
- Usage: find DIRECTORY, OPTIONS
-
-
- DIRECTORY     SCALAR, Can be an absolute or relative path.
-
-
-
- OPTIONS       HASH {
-                  ignore_path  => [ "CVS", ],
-                  ignore       => [ ".cvsignore$" ],
-                  include      => [ "pl$", "pm$" ],
-                  filesonly    => 0,
-              }
-
-
- RETURNS       ARRAY
-
-
- NOTES         . and .. are always ignored.
-
-
-=back
-
-=over 4
-
-=item find_files
-
-B<>
-
-Hub::find_files( $directory )
-
-
-$directory can be absolute or relative.  Trim the trailing slash before
-calling this method.
-
-
-
-Example:
-
-
-  Hub::find_files( '/var' );
-
-
-Returns and array of:
-
-
-  /var/log/lastlog
-  /var/log/setup.log
-  /var/log/setup.log.full
-  /var/log/sshd.log
-  /var/log/wtmp
-  /var/run/sshd.pid
-  /var/run/utmp
-
-=back
-
-=over 4
-
-=item getcrown
-
-B<>
-
- Usage: getcrown
-
-Return the first line of a file
-
-=back
-
-=over 4
-
-=item listfiles
-
-B<>
-
- Usage: listfiles
-
-
-List files in a directory.
-
-
-=back
-
-=over 4
-
-=item mkdiras
-
-B<>
-
- Usage: mkdiras
-
-Make a directy with specified permissions
-
-=back
-
-=over 4
-
-=item mvfile
-
-B<>
-
- Usage: mvfile
-
-Move (rename) a file
-
-=back
-
-=over 4
-
-=item parsefile
-
-B<>
-
- Usage: parsefile FILENAME, [DATA], [OPTIONS]
-
-
- FILENAME:     File to parse as a template.
-
-
-
- [DATA]:       Hashref of name/value pairs.
-
-
-
-[OPTIONS]:
-
-
-  -sdref      Return a scalar copy (not a reference)
-  -alone      Do not include configuration and instance values
-  -inline     Update the template on disk!
-
-Populate a file with runtime data.
-
-
-=back
-
-=over 4
-
-=item readfile
-
-B<>
-
- Usage: readfile PATH
-
-Read and return the contents of a file.
-
-
-=back
-
-=over 4
-
-=item rmdirrec
-
-B<>
-
- Usage: rmdirrec TARGET_DIR
-
-Recursively remove a directory.
-
-
-=back
-
-=over 4
-
-=item rmfile
-
-B<>
-
- Usage: rmfile
-
-
-We rely on server security and file permissions to prevent tamperring.
-
-
-=back
-
-=over 4
-
-=item safefn
-
-B<>
-
- Usage: safefn EXPR
-
-
-Create a name which is safe for using as a filename.
-
-
-
-
-B<Example: This example>:
-
-    safefn( 'alsk/lsdkfj' );
-
-B<matches>:
-
-    alsk_2f_lsdkfj
-
-=back
-
-=over 4
-
-=item writefile
-
-B<>
-
- Usage: writefile FILEPATH, CONTENTS, [FLAGS]
-
-
-Write CONTENTS to FILEPATH which is openned with FLAGS.  Default FLAGS is '>'.
-
-Sets the correct file permissions.
-
-
-=back
-
-=head1 INTERNAL
-
-=begin html
-
-<table><tr><td>
-<a class="methlink" href="#item__chperm">_chperm</a>
-
-</td><td>
-<a class="methlink" href="#item__chperm_normal">_chperm_normal</a>
-
-</td><td>
-<a class="methlink" href="#item__chperm_win32">_chperm_win32</a>
-
-</td></tr></table>
-
-=end html
-
-
-=over 4
-
-=item _chperm
-
-B<>
 
 
 
 =back
 
+=head2 get_data
+
 =over 4
 
-=item _chperm_normal
+=item Get a reference to the hash data defined in this file
 
-B<>
 
 
 
 =back
 
+=head2 get_content
+
 =over 4
 
-=item _chperm_win32
+=item Return file contents
 
-B<>
+
+ Usage: get_content [options]
+
+
+options:
+
+
+  -as_ref => 1         # Return a reference
+
+
+=back
+
+=head2 set_content
+
+=over 4
+
+=item Set file contents
+
 
 
 
 =back
+
+=head2 save
+
+=over 4
+
+=item Save file contents to disk
+
+
+ Usage: save [options]
+
+
+options:
+  -priority => 'content'    Content values presceed data values
+
+
+=back
+
+=head2 set_sort_order
+
+=over 4
+
+=item 
+
+
+
+=back
+
+
+=head1 INTERNAL METHODS
+
+=head2 _merge_data_into_content
+
+=over 4
+
+=item 
+
+
+
+=back
+
 
 =head1 AUTHOR
 
+Ryan Gies (ryangies@livesite.net)
 
-
-Ryan Gies
 
 =head1 COPYRIGHT
 
+Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.
+
+Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.
 
 
-Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:
 
-Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.
+
+* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.
+
+* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.
+
+* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.
+
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.
+
+To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.
+
 
 =head1 UPDATED
 
-This file created by  on  at 
+06/09/2007
 
 =cut

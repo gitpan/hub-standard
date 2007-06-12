@@ -1,9 +1,11 @@
+<?xml version="1.0" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>hubaddr</title>
-<link rel="stylesheet" href="pod.css" type="text/css" />
-<link rev="made" href="mailto:gerrit@familiehaase.de" />
+<link rel="stylesheet" href="styles.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
 </head>
 
 <body>
@@ -16,6 +18,7 @@
 	<li><a href="#name">NAME</a></li>
 	<li><a href="#synopsis">SYNOPSIS</a></li>
 	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#selectors">SELECTORS</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#updated">UPDATED</a></li>
@@ -26,52 +29,111 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p id="packagename">hubaddr - Data addresses</p><p>
+<p>hubaddr - Data addresses</p>
+<p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
-<p>An address points to a value nested inside hash structures.  It is 
-semantically equivilent to a how a pathname points to a file on your 
-hard-drive.</p>
-<p>A nested hash structure is a hash who's elements may be hashes, arrays, or
-scalars.  Sub-hashes and sub-arrays may also (recursively) contain these 
-elements.</p>
+<pre>
+      use Hub;
+      tie my %data, Hub::knot('Nest');
+      $data{'/root'} = {
+        list =&gt; [qw(A B C)],
+      };</pre>
+<pre>
+      # Add a value to the array
+      $$data{'/root/list/3'} = 'D';</pre>
+<pre>
+      # Get a value from the array
+      print &quot;First element is: $$data{'/root/list/0'}\n&quot;;</pre>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
-<p>Given the nested structure:</p>
+<p>Addresses are the syntax used to reference nested data.  Addresses are delimited
+by the solidus (/) character.  Where an element of a nested perl data structure 
+may be referred to as:</p>
 <pre>
-  %hash {                               # Hash
-      @fruit {                          # Array
-          % {                           # Anonymous hash at index 0
-              name  =&gt; apple
-              color =&gt; red
-              grown =&gt; Washington
-          }
-      }
-  }</pre>
+  $hash-&gt;{'h1'}-&gt;{'h2'}-&gt;{'name'}</pre>
+<p>The same value would be addressed as:</p>
+<pre>
+  /h1/h2/name</pre>
+<p>Array elements are accessed by thier index:</p>
+<pre>
+  $data{'/array'} = ['zero', 'one', 'two'];
+  die unless 'one' eq $data{'/array/1'};</pre>
+<p>The Hub library exports the variable $Hub by default.  It is an extension of
+the nested data type which transcends the filesystem.  Meaning that you may
+access files beneath your current working directory in this same manner:</p>
+<pre>
+  $$Hub{'/conf/somefile.conf'}</pre>
+<p>Would return the File object for the file <code>./conf/somefile.conf</code>.  When using
+<a href="#selectors">selectors</a>, one may iterate over an array of files by specifying</p>
+<pre>
+  $$Hub{'/conf/{.conf$}'}</pre>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="selectors">SELECTORS</a></h1>
+<p>Selectors are used to match keys in the address.  A selector takes the forms:</p>
+<pre>
+  {keyname comparator value}
+  {regex}</pre>
+<p>Where:</p>
+<pre>
+  keyname     Name of the element to compare
+  comparator  Comparison operator*
+  value       Comparison value
+  regex       A regular expression</pre>
+<p>*See <a href="Hub/Perl/Compare.html#compare">Hub::compare</a></p>
+<p>Given:</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="author">AUTHOR</a></h1>
-<p>Ryan Gies</p>
+<p>Ryan Gies (<a href="mailto:ryangies@livesite.net">ryangies@livesite.net</a>)</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="copyright">COPYRIGHT</a></h1>
-<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
-<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.</p>
+<p>Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.</p>
+<p>Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:</p>
+<p>* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.</p>
+<p>* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.</p>
+<p>* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.</p>
+<p>* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.</p>
+<p>THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.</p>
+<p>To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="updated">UPDATED</a></h1>
-<p>This file created by &lt;#sys/proc/zname&gt; on &lt;#dt(nozeros,notime);sys/proc/tstamp&gt; at &lt;#dt(ampm,nosec,nozeros,nodate);sys/proc/tstamp&gt;</p>
+<p>06/09/2007</p>
 <p><a href="#__index__"><small>Top</small></a></p>
 
 </body>

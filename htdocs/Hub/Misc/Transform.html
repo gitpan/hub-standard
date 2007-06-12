@@ -1,0 +1,259 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Hub::Misc::Transform</title>
+<link rel="stylesheet" href="../../styles.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
+</head>
+
+<body>
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#intention">Intention</a></li>
+	</ul>
+
+	<li><a href="#public_methods">PUBLIC METHODS</a></li>
+	<ul>
+
+		<li><a href="#safestr">safestr</a></li>
+		<li><a href="#packcgi">packcgi</a></li>
+		<li><a href="#unpackcgi">unpackcgi</a></li>
+		<li><a href="#nbspstr">nbspstr</a></li>
+		<li><a href="#jsstr">jsstr</a></li>
+		<li><a href="#populate">populate</a></li>
+		<li><a href="#hashtoattrs">hashtoattrs</a></li>
+	</ul>
+
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#updated">UPDATED</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Hub::Misc::Transform - Utility methods for transforming data</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  use Hub qw(:standard);</pre>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>
+</p>
+<h2><a name="intention">Intention</a></h2>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="public_methods">PUBLIC METHODS</a></h1>
+<p>
+</p>
+<h2><a name="safestr">safestr</a></h2>
+<dl>
+<dt>
+</dl>
+<p>
+</p>
+<h2><a name="packcgi">packcgi</a></h2>
+<dl>
+<dt>
+<dd>
+<pre>
+ Usage: packcgi $string|\$string</pre>
+</dd>
+<dd>
+<p>Pack characters into those used for passing by the cgi.</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="unpackcgi">unpackcgi</a></h2>
+<dl>
+<dt>
+<dd>
+<pre>
+ Usage: unpackcgi QUERY</pre>
+</dd>
+<dd>
+<p>Unpack cgi characters into a kv hashref</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="nbspstr">nbspstr</a></h2>
+<dl>
+<dt><strong><a name="item_format_a_string_2c_replacing_spaces_with__27_26nbs">Format a string, replacing spaces with '&amp;nbsp;'</a></strong>
+
+<dd>
+<pre>
+ Usage: nbspstr - $text</pre>
+</dd>
+<dd>
+<p>For example:</p>
+</dd>
+<dd>
+<pre>
+  nbspstr( &quot;Hello &lt;not html tags&gt; world!&quot; )</pre>
+</dd>
+<dd>
+<p>would return:</p>
+</dd>
+<dd>
+<pre>
+  &quot;Hello&amp;nbsp;&lt;not html tags&gt;&amp;nbsp;World&quot;</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="jsstr">jsstr</a></h2>
+<dl>
+<dt>
+<dd>
+<pre>
+ Usage: jsstr</pre>
+</dd>
+<dd>
+<p>Format as one long string for use as the rval in javascript (ie put the
+backslash continue-ator at the end of each line).</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="populate">populate</a></h2>
+<dl>
+<dt><strong><a name="item_populate_template_text_with_values">Populate template text with values</a></strong>
+
+<dd>
+<pre>
+ Usage: populate $text|\$text, \%values [,\%values...] [option]</pre>
+</dd>
+<dd>
+<p>options:</p>
+</dd>
+<dd>
+<pre>
+  -as_ref=1               Return a reference</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    populate('mu[#foo]m', { foo =&gt; 'shroo' });</pre>
+</dd>
+<dd>
+<pre>
+    mushroom</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    ref(populate('a[#b]c', { b =&gt; 'bee' }, '-as_ref=1'));</pre>
+</dd>
+<dd>
+<pre>
+    SCALAR</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="hashtoattrs">hashtoattrs</a></h2>
+<dl>
+<dt><strong><a name="item_turn_the_given_hash_into_an_key_3d_22value_22_stri">Turn the given hash into an key=``value'' string.</a></strong>
+
+<dd>
+<pre>
+ Usage: hashtoattrs \%hash, [\@ignore_keys]</pre>
+</dd>
+<dd>
+<p>When <code>ignore_keys</code> is provided, matching hash keys will not be converted.</p>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+  my $hash = {
+    'class'   =&gt; &quot;foodidly&quot;,
+    'name'    =&gt; &quot;bobsmith&quot;,
+    'height'  =&gt; &quot;5px&quot;,
+    'junk'    =&gt; &quot;ignore me&quot;,
+  };
+  hashtoattrs($hash, ['junk']);</pre>
+</dd>
+<dd>
+<pre>
+    class=\&quot;foodidly\&quot; height=\&quot;5px\&quot; name=\&quot;bobsmith\&quot;</pre>
+</dd>
+</dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Ryan Gies (<a href="mailto:ryangies@livesite.net">ryangies@livesite.net</a>)</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.</p>
+<p>Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.</p>
+<p>Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:</p>
+<p>* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.</p>
+<p>* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.</p>
+<p>* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.</p>
+<p>* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.</p>
+<p>THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.</p>
+<p>To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="updated">UPDATED</a></h1>
+<p>06/09/2007</p>
+<p><a href="#__index__"><small>Top</small></a></p>
+
+</body>
+
+</html>

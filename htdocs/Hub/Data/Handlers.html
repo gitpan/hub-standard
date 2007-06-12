@@ -1,9 +1,11 @@
+<?xml version="1.0" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Hub::Data::Handlers</title>
-<link rel="stylesheet" href="../../pod.css" type="text/css" />
-<link rev="made" href="mailto:gerrit@familiehaase.de" />
+<link rel="stylesheet" href="../../styles.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
 </head>
 
 <body>
@@ -16,8 +18,29 @@
 	<li><a href="#name">NAME</a></li>
 	<li><a href="#synopsis">SYNOPSIS</a></li>
 	<li><a href="#description">DESCRIPTION</a></li>
-	<li><a href="#methods">METHODS</a></li>
-	<li><a href="#internal">INTERNAL</a></li>
+	<li><a href="#public_methods">PUBLIC METHODS</a></li>
+	<ul>
+
+		<li><a href="#fetch">fetch</a></li>
+		<li><a href="#store">store</a></li>
+		<li><a href="#getv">getv</a></li>
+		<li><a href="#setv">setv</a></li>
+		<li><a href="#delete">delete</a></li>
+	</ul>
+
+	<li><a href="#internal_methods">INTERNAL METHODS</a></li>
+	<ul>
+
+		<li><a href="#_get">_get</a></li>
+		<li><a href="#_set">_set</a></li>
+		<li><a href="#_delete">_delete</a></li>
+		<li><a href="#_autovivify">_autovivify</a></li>
+		<li><a href="#_traverse">_traverse</a></li>
+		<li><a href="#_transcend">_transcend</a></li>
+		<li><a href="#_get_parser">_get_parser</a></li>
+		<li><a href="#_split">_split</a></li>
+	</ul>
+
 	<li><a href="#author">AUTHOR</a></li>
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#updated">UPDATED</a></li>
@@ -28,295 +51,217 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p>Hub::Data::Handlers - Nested data handlers</p>
-<p>Part of the <a href="../../hublib.html">Hub Library</a></p>
+<p>Hub::Data::Handlers - Access nested data</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
-<pre>
-    use Hub qw(:standard);
-    my $h = {};
-    hsetv( $h, &quot;/user1/fname&quot;,  &quot;Steve&quot; );
-    hsetv( $h, &quot;/user2/fname&quot;,  &quot;Mandy&quot; );</pre>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
-<p>See also <a href="../../hubaddr.html">the hubaddr manpage</a></p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
-<h1><a name="methods">METHODS</a></h1>
-<table><tr><td>
-<a class="methlink" href="#item_happendv">happendv</a></td><td>
-<a class="methlink" href="#item_hgetv">hgetv</a></td><td>
-<a class="methlink" href="#item_hsetv">hsetv</a></td><td>
-<a class="methlink" href="#item_htakev">htakev</a></td></tr></table><dl>
-<dt><strong><a name="item_happendv">happendv</a></strong><br />
-</dt>
-<dd>
-<strong>Hash Append Value</strong>
-</dd>
-<dd>
-<pre>
- Usage: happendv \HASH, $ADDRESS, VALUE, OPTIONS*</pre>
-</dd>
-<dd>
-<p>Append to an existing value and return like <a href="#item_hgetv">hgetv</a>.</p>
-</dd>
-<dd>
-<p>OPTIONS:</p>
-</dd>
-<dd>
-<pre>
-  -asa=1      Force value as array (transforms existing scalars.)</pre>
-</dd>
-<p></p></dl>
+<h1><a name="public_methods">PUBLIC METHODS</a></h1>
+<p>
+</p>
+<h2><a name="fetch">fetch</a></h2>
 <dl>
-<dt><strong><a name="item_hgetv">hgetv</a></strong><br />
-</dt>
-<dd>
-<strong>Hash Get Value</strong>
-</dd>
+<dt><strong><a name="item_get_a_nested_value_whose_parent_may_need_to_be_loa">Get a nested value whose parent may need to be loaded from disk</a></strong>
+
 <dd>
 <pre>
- Usage: hgetv \%HASH, $ADDRESS, [OPTIONS]
- Usage: hgetv \%HASH, \@ADDRESSES, [OPTIONS]</pre>
+ Usage: fetch \%data, $index</pre>
 </dd>
-<dd>
-<p>In its first form, hgetv will return the value specified by $ADDRESS.</p>
-</dd>
-<dd>
-<p>In its second form, an array of values is returned for each @ADDRESS.  In
-scalar context the array is returned as a reference.</p>
-</dd>
-<dd>
-<p>OPTIONS:</p>
-</dd>
-<dd>
-<pre>
-  -sdref=0    Do *not* de-reference scalar values.</pre>
-</dd>
-<p></p></dl>
+</dl>
+<p>
+</p>
+<h2><a name="store">store</a></h2>
 <dl>
-<dt><strong><a name="item_hsetv">hsetv</a></strong><br />
-</dt>
-<dd>
-<strong>Hash Set Value</strong>
-</dd>
+<dt><strong><a name="item_store_a_nested_value_whose_parent_may_need_to_be_l">Store a nested value whose parent may need to be loaded from disk</a></strong>
+
 <dd>
 <pre>
- Usage: hsetv \%HASH, $ADDRESS, $VALUE
- Usage: hsetv \%HASH, \%ADDRESS</pre>
+ Usage: store \%data, $index, ?value</pre>
 </dd>
-<dd>
-<p>In its first form, VALUE is set in \%HASH at $ADDRESS.</p>
-</dd>
-<dd>
-<p>In its second form, \%ADDRESS is presumed to be ADDRESS/VALUE pairs, and each
-is set in turn.</p>
-</dd>
-<p></p></dl>
+</dl>
+<p>
+</p>
+<h2><a name="getv">getv</a></h2>
 <dl>
-<dt><strong><a name="item_htakev">htakev</a></strong><br />
-</dt>
-<dd>
-<strong>Hash Take Value</strong>
-</dd>
+<dt><strong><a name="item_get_a_nested_value">Get a nested value</a></strong>
+
 <dd>
 <pre>
- Usage: htakev \%HASH, $ADDRESS
- Usage: htakev \%HASH, \@ADDRESSES</pre>
+ Usage: getv \%data, $index
+ Usage: getv \@data, $index</pre>
 </dd>
+</dl>
+<p>
+</p>
+<h2><a name="setv">setv</a></h2>
+<dl>
+<dt><strong><a name="item_store_a_nested_value">Store a nested value</a></strong>
+
 <dd>
-<p>Remove and return the value (like <a href="#item_hgetv">hgetv</a>.)</p>
+<pre>
+ Usage: setv \%data, $index, ?value
+ Usage: setv \@data, $index, ?value</pre>
 </dd>
+</dl>
+<p>
+</p>
+<h2><a name="delete">delete</a></h2>
+<dl>
+<dt><strong><a name="item_remove_a_nested_value">Remove a nested value</a></strong>
+
 <dd>
-<p>In its second form, the removed values are returned as an array reference.</p>
+<pre>
+ Usage: delete \%data, $index
+ Usage: delete \@data, $index</pre>
 </dd>
-<p></p></dl>
+</dl>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
-<h1><a name="internal">INTERNAL</a></h1>
-<table><tr><td>
-<a class="methlink" href="#item__appendvasa">_appendvasa</a></td><td>
-<a class="methlink" href="#item__hqueryv">_hqueryv</a></td><td>
-<a class="methlink" href="#item__hseekv">_hseekv</a></td><td>
-<a class="methlink" href="#item__hselectv">_hselectv</a></td><td>
-<a class="methlink" href="#item__lookup">_lookup</a></td></tr></table><dl>
-<dt><strong><a name="item__appendvasa">_appendvasa</a></strong><br />
-</dt>
-<dd>
-<strong>Append value as array.</strong>
-</dd>
-<dd>
-<pre>
- Usage: _appendvasa \%HASH, $ADDRESS, $VALUE</pre>
-</dd>
-<dd>
-<p>Append value onto the array at $key.  If the value at $key exists as a scalar,
-transform it into an ARRAY, whos first element is its current value.</p>
-</dd>
-<p></p></dl>
+<h1><a name="internal_methods">INTERNAL METHODS</a></h1>
+<p>
+</p>
+<h2><a name="_get">_get</a></h2>
 <dl>
-<dt><strong><a name="item__hqueryv">_hqueryv</a></strong><br />
-</dt>
-<dd>
-<strong>Hash Query Value</strong>
-</dd>
+<dt><strong><a name="item_get_node_value_from_an_array_or_hash">Get node value from an array or hash</a></strong>
+
 <dd>
 <pre>
- Usage: _hqueryv \%HASH, $ADDRESS, [OPTIONS]</pre>
+ Usage: _get \%data, $node
+ Usage: _get \@data, $node</pre>
 </dd>
-<dd>
-<p>This method returns all resulting records in \HASH specified by $ADDRESS.</p>
-</dd>
-<dd>
-<p>OPTIONS:</p>
-</dd>
-<dd>
-<pre>
-  -av     Autovivify (contstucts necessary segments)</pre>
-</dd>
-<p></p></dl>
+</dl>
+<p>
+</p>
+<h2><a name="_set">_set</a></h2>
 <dl>
-<dt><strong><a name="item__hseekv">_hseekv</a></strong><br />
-</dt>
-<dd>
-<strong>Hash Seek Value (Seek to the specified address)</strong>
-</dd>
+<dt><strong><a name="item_set_a_node_value_on_an_array_or_hash">Set a node value on an array or hash</a></strong>
+
 <dd>
 <pre>
- Usage: _hseekv \%HASH, $ADDRESS, [OPTIONS]</pre>
+ Usage: _set \%data, $node, $value
+ Usage: _set \@data, $node, $value</pre>
 </dd>
-<dd>
-<p>OPTIONS:</p>
-</dd>
-<dd>
-<pre>
-  -av     Autovivify (contstucts necessary segments)</pre>
-</dd>
-<dd>
-<p>This is an optimization and as such $ADDRESS may *not* contain selectors.</p>
-</dd>
-<dd>
-<p>Autovivification will return a SCALAR reference on nodes which are unkown.</p>
-</dd>
-<dd>
-<p>Such that calling:</p>
-</dd>
-<dd>
-<pre>
-  my $c = _hseekv( \%hash, '/a/b/c', '-av' );</pre>
-</dd>
-<dd>
-<p>May become an array by subsequently:</p>
-</dd>
-<dd>
-<pre>
-  @$$c = qw/fourteen hair/;</pre>
-</dd>
-<dd>
-<p>And seeking again will return an ARRAY reference:</p>
-</dd>
-<dd>
-<pre>
-  my $c2 = _hseekv( \%hash, '/a/b/c' );</pre>
-</dd>
-<dd>
-<p>Such that:</p>
-</dd>
-<dd>
-<pre>
-  push @$c2, 'dryers';</pre>
-</dd>
-<p></p></dl>
+</dl>
+<p>
+</p>
+<h2><a name="_delete">_delete</a></h2>
 <dl>
-<dt><strong><a name="item__hselectv">_hselectv</a></strong><br />
-</dt>
-<dd>
-<strong>Hash Select Value</strong>
-</dd>
+<dt><strong><a name="item_remove_a_node_from_an_array_or_hash">Remove a node from an array or hash</a></strong>
+
 <dd>
 <pre>
- Usage: _hselectv \%HASH, \%ROOT_HASH, $SELECTOR, [OPTIONS]</pre>
+ Usage: _delete - \%data, $node
+ Usage: _delete - \@data, $node</pre>
 </dd>
-<dd>
-<p>This method interprets SELECTOR and returns the matching record(s).</p>
-</dd>
-<dd>
-<p>Where:</p>
-</dd>
-<dd>
-<pre>
-  \%HASH          Look for SELECTOR in this hash
-  \%ROOT_HASH     Used when SELECTOR contains a reference
-  $SELECTOR       The select clause</pre>
-</dd>
-<dd>
-<p>OPTIONS:</p>
-</dd>
-<dd>
-<pre>
-  -av             Autovivify (contstucts necessary segments)</pre>
-</dd>
-<p></p></dl>
+</dl>
+<p>
+</p>
+<h2><a name="_autovivify">_autovivify</a></h2>
 <dl>
-<dt><strong><a name="item__lookup">_lookup</a></strong><br />
-</dt>
-<dd>
-<strong>Lookup array item (must be a hash) by member value.</strong>
-</dd>
+<dt><strong><a name="item_create_missing_parent_nodes">Create missing parent nodes</a></strong>
+
 <dd>
 <pre>
- Usage: _lookup \@ARRAY, $VALUE, [OPTIONS]</pre>
+ Usage: _autovivify \%result</pre>
 </dd>
-<dd>
-<p>OPTIONS:</p>
-</dd>
-<dd>
-<pre>
-  Name        Type        Default                 Description
-  ----------- ----------- ----------------------- ----------------------------
-  -by         \@ARRAY     \['_id','id','name']    Fields to search by
-  -cmp        eq|ne|...   eq                      Comparator
-  -asindex    0|1         0                       Return the array index(s)
-  -first      0|1         1                       Return first match</pre>
-</dd>
-<dd>
-<p>VALUE:</p>
-</dd>
+</dl>
+<p>
+</p>
+<h2><a name="_traverse">_traverse</a></h2>
+<dl>
+<dt><strong><a name="item_step_into_the_nested_data_structure_one_index_node">Step into the nested data structure one index node at a time</a></strong>
+
 <dd>
 <pre>
-  Regarless of the '-by' option, if value is formatted as: \[\d\], then it
-  is considered an index into the array.</pre>
+ Usage: _traverse \%data, $index
+ Usage: _traverse \@data, $index</pre>
 </dd>
-<p></p></dl>
+</dl>
+<p>
+</p>
+<h2><a name="_transcend">_transcend</a></h2>
+<dl>
+<dt><strong><a name="item_extend_the_search_to_the_file_system">Extend the search to the file system</a></strong>
+
+<dd>
+<pre>
+ Usage: _transcend \%result</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="_get_parser">_get_parser</a></h2>
+<dl>
+<dt><strong><a name="item_get_the_parser_for_a_given_file">Get the parser for a given file</a></strong>
+
+</dl>
+<p>
+</p>
+<h2><a name="_split">_split</a></h2>
+<dl>
+<dt><strong><a name="item_split_an_index_into_nodes_2c_removing_empty_ones">Split an index into nodes, removing empty ones</a></strong>
+
+<dd>
+<pre>
+ Usage: _split - $index</pre>
+</dd>
+</dl>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="author">AUTHOR</a></h1>
-<p>Ryan Gies</p>
+<p>Ryan Gies (<a href="mailto:ryangies@livesite.net">ryangies@livesite.net</a>)</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="copyright">COPYRIGHT</a></h1>
-<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
-<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.</p>
+<p>Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.</p>
+<p>Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:</p>
+<p>* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.</p>
+<p>* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.</p>
+<p>* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.</p>
+<p>* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.</p>
+<p>THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.</p>
+<p>To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="updated">UPDATED</a></h1>
-<p>This file created by  on  at</p>
+<p>06/09/2007</p>
 <p><a href="#__index__"><small>Top</small></a></p>
 
 </body>

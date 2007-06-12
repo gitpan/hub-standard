@@ -1,0 +1,182 @@
+=head1 NAME
+
+Hub::Misc::Time - 
+
+=head1 SYNOPSIS
+
+
+
+=head1 DESCRIPTION
+
+
+
+=head1 PUBLIC METHODS
+
+=head2 datetime
+
+=over 4
+
+=item Friendly date-time formats of seconds-since-the-epoch timestamps.
+
+
+
+ Usage: datetime [$timestamp], [options]
+
+
+Default is the current time formatted as: MM/DD/YYYY hh:mm:ss.
+
+The decimal portion of HiRest time is truncated.
+
+Uses `localtime` to localize.
+
+
+B<Example> returns: B<true>:
+
+    datetime( );
+
+
+B<Example> returns: B<regex>:
+
+    datetime( 1045837284 );
+
+
+B<Example> returns: B<regex>:
+
+    datetime( 1045837284, -nosec );
+
+
+B<Example> returns: B<regex>:
+
+    datetime( 1045837284, -noyear );
+
+
+B<Example> returns: B<regex>:
+
+    datetime( 1045837284, -ampm );
+
+
+B<Example> returns: B<regex>:
+
+    datetime( 1045837284, -nozeros );
+
+
+B<Example> returns: B<regex>:
+
+    datetime( 1045837284, -notime );
+
+
+B<Example> returns: B<regex>:
+
+    datetime( 1045837284, -nodate );
+
+
+B<Example> returns: B<regex>:
+
+    datetime( 1045837284, -letter );
+
+
+
+Combining options
+
+
+
+B<Example> returns: B<regex>:
+
+    datetime( 1045837284, -ampm, -nosec );              
+
+
+
+
+B<Example> returns: B<regex>:
+
+    datetime( 1045837284, -nosec, -nozeros, -noyear );
+
+
+
+=back
+
+=head2 dhms
+
+=over 4
+
+=item 
+
+Hub::dhms( $seconds, $options, $format )
+
+
+Format the provided number of seconds in days, hours, minutes, and seconds.
+
+
+
+  Examples:                                               Returns:
+  ------------------------------------------------------- --------------------
+  Hub::dhms( 10 )                                              00d:00h:00m:10s
+  Hub::dhms( 60 )                                              00d:00h:01m:00s
+  Hub::dhms( 3600 )                                            00d:01h:00m:00s
+  Hub::dhms( 86400 )                                           01d:00h:00m:00s
+  Hub::dhms( 11 )                                              00d:00h:00m:11s
+  Hub::dhms( 71 )                                              00d:00h:01m:11s
+  Hub::dhms( 3671 )                                            00d:01h:01m:11s
+  Hub::dhms( 90071 )                                           01d:01h:01m:11s
+  Hub::dhms( 90071, "--nozeros" )                              1d:1h:1m:11s
+  Hub::dhms( 90071, "--nozeros" )                              1d:1h:1m:11s
+  Hub::dhms( 90071, "--nozeros", "[#d]days [#h]:[#m]:[#s]" )   1days 1:1:11
+  Hub::dhms( 90071, "[#d]days [#h]:[#m]:[#s]" )                01days 01:01:11
+
+
+
+=back
+
+
+
+=head1 AUTHOR
+
+Ryan Gies (ryangies@livesite.net)
+
+
+=head1 COPYRIGHT
+
+Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.
+
+Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.
+
+
+Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.
+
+* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.
+
+* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.
+
+* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.
+
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.
+
+To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.
+
+
+=head1 UPDATED
+
+06/09/2007
+
+=cut

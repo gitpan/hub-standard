@@ -1,0 +1,1000 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Hub::Base::FileSystem</title>
+<link rel="stylesheet" href="../../styles.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
+</head>
+
+<body>
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#intention">Intention</a></li>
+	</ul>
+
+	<li><a href="#public_methods">PUBLIC METHODS</a></li>
+	<ul>
+
+		<li><a href="#fileopen">fileopen</a></li>
+		<li><a href="#fileclose">fileclose</a></li>
+		<li><a href="#filetime">filetime</a></li>
+		<li><a href="#find">find</a></li>
+		<li><a href="#cpdir">cpdir</a></li>
+		<li><a href="#cpfile">cpfile</a></li>
+		<li><a href="#rmfile">rmfile</a></li>
+		<li><a href="#mvfile">mvfile</a></li>
+		<li><a href="#rmdirrec">rmdirrec</a></li>
+		<li><a href="#chperm">chperm</a></li>
+		<li><a href="#mkdiras">mkdiras</a></li>
+		<li><a href="#getcrown">getcrown</a></li>
+		<li><a href="#readdir">readdir</a></li>
+		<li><a href="#sort_dir_list">sort_dir_list</a></li>
+		<li><a href="#readfile">readfile</a></li>
+		<li><a href="#writefile">writefile</a></li>
+		<li><a href="#parsefile">parsefile</a></li>
+		<li><a href="#pushwp">pushwp</a></li>
+		<li><a href="#popwp">popwp</a></li>
+		<li><a href="#srcpath">srcpath</a></li>
+		<li><a href="#fixpath">fixpath</a></li>
+		<li><a href="#getaddr">getaddr</a></li>
+		<li><a href="#getpath">getpath</a></li>
+		<li><a href="#getspec">getspec</a></li>
+		<li><a href="#getname">getname</a></li>
+		<li><a href="#getext">getext</a></li>
+		<li><a href="#realpath">realpath</a></li>
+		<li><a href="#abspath">abspath</a></li>
+		<li><a href="#relpath">relpath</a></li>
+		<li><a href="#mkabsdir">mkabsdir</a></li>
+	</ul>
+
+	<li><a href="#internal_methods">INTERNAL METHODS</a></li>
+	<ul>
+
+		<li><a href="#_find">_find</a></li>
+		<li><a href="#_chperm">_chperm</a></li>
+		<li><a href="#_chperm_normal">_chperm_normal</a></li>
+		<li><a href="#_chperm_win32">_chperm_win32</a></li>
+		<li><a href="#_find_abspath">_find_abspath</a></li>
+	</ul>
+
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#updated">UPDATED</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Hub::Base::FileSystem - Utility methods for working with the file system</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  use Hub qw(:standard);</pre>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>
+</p>
+<h2><a name="intention">Intention</a></h2>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="public_methods">PUBLIC METHODS</a></h1>
+<p>
+</p>
+<h2><a name="fileopen">fileopen</a></h2>
+<dl>
+<dt>
+<dd>
+<pre>
+ Usage: fileopen FILENAME [PARAMS]</pre>
+</dd>
+<dd>
+<p>For platforms which don't flock, create a lockfile for a specified
+filename.  Waits for #winlock_timeout seconds if a lockfile exists (unless
+READONLY is specified).</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="fileclose">fileclose</a></h2>
+<dl>
+<dt>
+<dd>
+<pre>
+ Usage: fileclose HANDLE, [FILENAME]</pre>
+</dd>
+<dd>
+<p>Unlock and close the file.</p>
+</dd>
+<dd>
+<p>Always remove the lockfile for a specified filename.</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="filetime">filetime</a></h2>
+<dl>
+<dt><strong><a name="item_return_file_27s_timestamp">Return file's timestamp</a></strong>
+
+<dd>
+<pre>
+ Usage: filetime LIST, [OPTIONS]</pre>
+</dd>
+<dd>
+<p>Where:</p>
+</dd>
+<dd>
+<pre>
+  LIST                A list of valid path names or file handles
+  OPTIONS -mtime      Return last-modified time (default)
+          -atime       last-accessed time
+          -ctime       creation time
+  OPTIONS -max        Return greatest value (default)
+          -min         least value</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="find">find</a></h2>
+<dl>
+<dt><strong><a name="item_find_files_on_disk">Find files on disk</a></strong>
+
+<dd>
+<pre>
+ Usage: find $directory, [options]</pre>
+</dd>
+<dd>
+<p>The directory entries '.' and '..' are always suppressed.</p>
+</dd>
+<dd>
+<p>No sorting is done here, entries appear in directory order with the directory
+listing coming before its sub-directory's listings.</p>
+</dd>
+<dd>
+<p>Options:</p>
+</dd>
+<dd>
+<pre>
+  -name         =&gt; \@list|$list   Filename patterns to include
+  -include      =&gt; \@list|$list   Path patterns to include
+  -exclude      =&gt; \@list|$list   Path patterns to ignore.</pre>
+</dd>
+<dd>
+<pre>
+  -ignore       =&gt; \@list|$list   Path patterns to ignore
+  -filesonly    =&gt; 0|1            Omit directory entries from the result
+  -dirsonly     =&gt; 0|1            Omit file entries from the result</pre>
+</dd>
+<dd>
+<p>Examples:</p>
+</dd>
+<dd>
+<pre>
+  # Return the whole mess
+  find('/var/www/html');</pre>
+</dd>
+<dd>
+<pre>
+  # Wild-card search
+  my @list = find('/var/www/html/*.css');</pre>
+</dd>
+<dd>
+<pre>
+  # Find by filename
+  my @list = find('/var/www/html', -name =&gt; '\.htaccess;\.htpasswd');</pre>
+</dd>
+<dd>
+<pre>
+  # Ignore these paths
+  my @list = find('/var/www/html', -ignore =&gt; &quot;.bak;.swp&quot;);</pre>
+</dd>
+<dd>
+<pre>
+  # Ignore these paths AND do not recurse into them
+  my @list = find('/var/www/html', -exclude =&gt; &quot;CVS;.svn&quot;);</pre>
+</dd>
+<dd>
+<pre>
+  # Just find these paths
+  # This would also match a directories named &quot;.gif&quot;!
+  my @list = find('/var/www/html', -include =&gt; &quot;.gif;.jp?g;.png&quot;);</pre>
+</dd>
+<dd>
+<pre>
+  # Omit directory entries from the result
+  my @list = find('/var/www/html', -filesonly =&gt; 1);</pre>
+</dd>
+<dd>
+<pre>
+  # Omit file entries from the result
+  my @list = find('/var/www/html', -dirsonly =&gt; 1);</pre>
+</dd>
+<dd>
+<p>The options:</p>
+</dd>
+<dd>
+<pre>
+  -name
+  -include
+  -exclude
+  -ignore</pre>
+</dd>
+<dd>
+<p>Can be provided as array references, meaning:</p>
+</dd>
+<dd>
+<pre>
+  my @patterns = qw(1024x768.gif 800x600.jpe?g)
+  my @list = find('/var/www/html', -include =&gt; \@patterns);</pre>
+</dd>
+<dd>
+<p>is equivelent to:</p>
+</dd>
+<dd>
+<pre>
+  my @list = find('/var/www/html', -include =&gt; &quot;1024x768.gif;800x600.jpe?g&quot;);</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="cpdir">cpdir</a></h2>
+<dl>
+<dt><strong><a name="item_copy_a_directory">Copy a directory</a></strong>
+
+<dd>
+<pre>
+ Usage: cpdir $source_dir, $target_dir, [filters], [permissions], [options]</pre>
+</dd>
+<dd>
+<p><strong>WARNING</strong> this function does *not* behave like your shell's <code>cp -r</code> command!
+It differs in that when the target directory exists, the *contents* of the
+source directory are copied.  This is done so that the default operation is:</p>
+</dd>
+<dd>
+<pre>
+  # don't create /home/$username/newuser!
+  cpdir('templates/newuser', &quot;/home/$username&quot;);</pre>
+</dd>
+<dd>
+<p>To get the same behavior as <code>cp -r</code>, use the '-as_subdir' flag.</p>
+</dd>
+<dd>
+<p>Files are only copied when the source file's modified time is newer
+(unless the 'force' option is set).</p>
+</dd>
+<dd>
+<p><code>filters</code>: See <a href="#find">the find manpage</a></p>
+</dd>
+<dd>
+<p><code>permissions</code>: See <a href="#chperm">chperm</a></p>
+</dd>
+<dd>
+<p><code>options</code>:</p>
+</dd>
+<dd>
+<pre>
+  -force =&gt; 1               # Always perform the copy
+  -as_subdir =&gt; 1           # Copy as a sub-directory of $target
+  -peers =&gt; 1               # The $source and $target are peers (may be
+                              different names)</pre>
+</dd>
+<dd>
+<pre>
+  -peers and -as_subdir are mutually exclusive</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="cpfile">cpfile</a></h2>
+<dl>
+<dt><strong><a name="item_copy_a_file_and_apply_permissions_and_mode">Copy a file and apply permissions and mode</a></strong>
+
+<dd>
+<pre>
+ Usage: cpfile $SOURCE, $TARGET, [\%PERMISSIONS], [OPTIONS]</pre>
+</dd>
+<dd>
+<p>Where:</p>
+</dd>
+<dd>
+<pre>
+  $SOURCE         File to be copied
+  $TARGET         Target path (file or directory)
+  \%PERMISSIONS   Permission hash (see Hub::chperm)
+  OPTIONS         -newer      Only copy when the source is newer (mtime) than
+                              the target</pre>
+</dd>
+<dd>
+<p>See also: <a href="#chperm">chperm</a></p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="rmfile">rmfile</a></h2>
+<dl>
+<dt><strong><a name="item_remove_file">Remove file</a></strong>
+
+</dl>
+<p>
+</p>
+<h2><a name="mvfile">mvfile</a></h2>
+<dl>
+<dt><strong><a name="item_move">Move (rename) a file</a></strong>
+
+</dl>
+<p>
+</p>
+<h2><a name="rmdirrec">rmdirrec</a></h2>
+<dl>
+<dt>
+<dd>
+<pre>
+ Usage: rmdirrec TARGET_DIR</pre>
+</dd>
+<dd>
+<p>Recursively remove a directory.</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="chperm">chperm</a></h2>
+<dl>
+<dt><strong><a name="item_change_permissions_of_a_file_or_directory">Change permissions of a file or directory</a></strong>
+
+<dd>
+<pre>
+ Usage: chperm $path, [filters], [permissions], [options]</pre>
+</dd>
+<dd>
+<p>options:</p>
+</dd>
+<dd>
+<pre>
+  recperms=1        # will recurse if  is a directory</pre>
+</dd>
+<dd>
+<p>filters: Used when recperms is set.  See <a href="#find">find</a>.</p>
+</dd>
+<dd>
+<p>permissions:</p>
+</dd>
+<dd>
+<pre>
+  uid     =&gt; Hub::getuid( &quot;username&quot; ),    # user id
+  gid     =&gt; Hub::getgid( &quot;username&quot; ),    # group id
+  dmode   =&gt; 0775,
+  fmode   =&gt; {            # fmode can ref a hash of extensions
+      '*'     =&gt; 0644,    # '*' is used for unmatched
+      'cgi'   =&gt; 0755,    # specific cgi file extension
+      'dll'   =&gt; 'SKIP',  # do not update dll files
+  }
+  fmode   =&gt; 0655,        # or, fmode can be used for all files</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="mkdiras">mkdiras</a></h2>
+<dl>
+<dt><strong><a name="item_make_a_directy_with_specified_permissions">Make a directy with specified permissions</a></strong>
+
+<dd>
+<pre>
+ Usage: mkdiras $path, [permissions]</pre>
+</dd>
+<dd>
+<p>permissions: See <a href="#chperm">the chperm manpage</a></p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="getcrown">getcrown</a></h2>
+<dl>
+<dt><strong><a name="item_return_the_first_line_of_a_file">Return the first line of a file</a></strong>
+
+<dd>
+<pre>
+ Usage: getcrown $file_path</pre>
+</dd>
+<dd>
+<p>Returns empty-string when $file_path does not exist</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="readdir">readdir</a></h2>
+<dl>
+<dt><strong><a name="item_read_a_directory_in_proper_order">Read a directory in proper order</a></strong>
+
+<dd>
+<pre>
+ Usage: readdir $dir</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="sort_dir_list">sort_dir_list</a></h2>
+<dl>
+<dt><strong><a name="item_sort_the_provided_directory_listing">Sort the provided directory listing</a></strong>
+
+<dd>
+<pre>
+ Usage: sort_dir_list $dir, \@listing</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="readfile">readfile</a></h2>
+<dl>
+<dt>
+<dd>
+<pre>
+ Usage: readfile PATH</pre>
+</dd>
+<dd>
+<p>Read and return the contents of a file.</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="writefile">writefile</a></h2>
+<dl>
+<dt><strong><a name="item_write__24contents_to__24path">Write $contents to $path</a></strong>
+
+<dd>
+<pre>
+ Usage: writefile $path, \$contents, [options]
+ Usage: writefile $path, $contents, [options]</pre>
+</dd>
+<dd>
+<p>options:</p>
+</dd>
+<dd>
+<pre>
+  -mode   =&gt; 0644     Set/update file's mode
+  -flags  =&gt; &gt;|&gt;&gt;     Flags used to open the file</pre>
+</dd>
+<dd>
+<p>Returns 1 if the file could be openned and written to, otherwise 0.</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="parsefile">parsefile</a></h2>
+<dl>
+<dt><strong><a name="item_populate_a_file_with_runtime_data_2e">Populate a file with runtime data.</a></strong>
+
+<dd>
+<pre>
+ Usage: parsefile $filename, [options]
+ Usage: parsefile $filename, \%data, [\%more_data..], [options]</pre>
+</dd>
+<dd>
+<p>parameters:</p>
+</dd>
+<dd>
+<pre>
+  $filename   File to parse as a template.</pre>
+</dd>
+<dd>
+<pre>
+  \%data      Hashref of name/value pairs.</pre>
+</dd>
+<dd>
+<p>options:</p>
+</dd>
+<dd>
+<pre>
+  -as_ref=1   Return a scalar reference
+  -alone      Do not include configuration and instance values
+  -inline     Update the file on disk!</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="pushwp">pushwp</a></h2>
+<dl>
+<dt><strong><a name="item_push_path_onto_working_directory_stack">Push path onto working directory stack</a></strong>
+
+</dl>
+<p>
+</p>
+<h2><a name="popwp">popwp</a></h2>
+<dl>
+<dt><strong><a name="item_pop_path_from_working_directory_stack">Pop path from working directory stack</a></strong>
+
+</dl>
+<p>
+</p>
+<h2><a name="srcpath">srcpath</a></h2>
+<dl>
+<dt><strong><a name="item_search_the_working_path_for__24file">Search the working path for $file</a></strong>
+
+<dd>
+<pre>
+ Usage: srcpath $file</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="fixpath">fixpath</a></h2>
+<dl>
+<dt><strong><a name="item_paths">Clean up malformed paths (usually due to concatenation logic).</a></strong>
+
+<dd>
+<pre>
+ Usage: fixpath $path</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    fixpath( &quot;../../../users/newuser/web/bin/../src/screens&quot; );</pre>
+</dd>
+<dd>
+<pre>
+    ../../../users/newuser/web/src/screens</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    fixpath( &quot;users/newuser/web/&quot; );</pre>
+</dd>
+<dd>
+<pre>
+    users/newuser/web</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    fixpath( &quot;users/../web/bin/../src&quot; );</pre>
+</dd>
+<dd>
+<pre>
+    web/src</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    fixpath( &quot;users//newuser&quot; );</pre>
+</dd>
+<dd>
+<pre>
+    users/newuser</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    fixpath( &quot;users//newuser/./files&quot; );</pre>
+</dd>
+<dd>
+<pre>
+    users/newuser/files</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    fixpath( &quot;<a href="http://site/users//newuser&quot">http://site/users//newuser&quot</a>; );</pre>
+</dd>
+<dd>
+<pre>
+    <a href="http://site/users/newuser">http://site/users/newuser</a></pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    fixpath( '/home/hub/build/../../../out/doc/pod' );</pre>
+</dd>
+<dd>
+<pre>
+    /out/doc/pod</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="getaddr">getaddr</a></h2>
+<dl>
+<dt><strong><a name="item_get_the_hub_address_for_a_file">Get the Hub address for a file</a></strong>
+
+<dd>
+<pre>
+ Usage: getaddr $filename</pre>
+</dd>
+<dd>
+<p><code>$filename</code> may be relative to the running module (see <a href="../modexec.html">the Hub::modexec manpage</a>)</p>
+</dd>
+<dd>
+<p>For the inverse, see <a href="../realpath.html">the Hub::realpath manpage</a></p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="getpath">getpath</a></h2>
+<dl>
+<dt><strong><a name="item_exract_the_parent_from_the_given_filepath">Exract the parent from the given filepath</a></strong>
+
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    getpath( &quot;/etc/passwd&quot; )</pre>
+</dd>
+<dd>
+<pre>
+    /etc</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    getpath( &quot;/usr/local/bin&quot; )</pre>
+</dd>
+<dd>
+<pre>
+    /usr/local</pre>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<h2><a name="getspec">getspec</a></h2>
+<dl>
+<dt><strong><a name="item_return">Given a path to a file, return (directory, filename, extension)</a></strong>
+
+<dd>
+<pre>
+ Usage: getspec $path</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="getname">getname</a></h2>
+<dl>
+<dt>
+<dd>
+<pre>
+ Usage: getname Return the file name (last element) of given path
+ Usage: getname $path
+Note, if the given path is a full directory path, the last directory is
+still considerred a filename.</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    getname(&quot;../../../users/newuser/web/data/p001/batman-small.jpg&quot;);</pre>
+</dd>
+<dd>
+<pre>
+    batman-small.jpg</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    getname(&quot;../../../users/newuser/web/data/p001&quot;);</pre>
+</dd>
+<dd>
+<pre>
+    p001</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    getname(&quot;/var/log/*.log&quot;);</pre>
+</dd>
+<dd>
+<pre>
+    *.log</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="getext">getext</a></h2>
+<dl>
+<dt><strong><a name="item_return_the_file_extension_at_the_given_path">Return the file extension at the given path</a></strong>
+
+<dd>
+<pre>
+ Usage: getext $path</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    getext( &quot;/foo/bar/filename.ext&quot; )</pre>
+</dd>
+<dd>
+<pre>
+    ext</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    getext( &quot;filename.cgi&quot; )</pre>
+</dd>
+<dd>
+<pre>
+    cgi</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="realpath">realpath</a></h2>
+<dl>
+<dt><strong><a name="item_resolve_the_address_to_it_27s_real_file_on_disk_2e">Resolve the address to it's real file on disk.</a></strong>
+
+<dd>
+<pre>
+ Usage: realpath $address</pre>
+</dd>
+<dd>
+<p>Used to translate our Hub system addresses into real filesystem paths.</p>
+</dd>
+<dd>
+<p>When /foo/bar.txt is really cwd().'/foo/bar.txt', we strip the beginning /.</p>
+</dd>
+<dd>
+<p>When using mounts, return the file's real path.</p>
+</dd>
+<dd>
+<p>For the inverse, see <a href="../getaddr.html">the Hub::getaddr manpage</a></p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="abspath">abspath</a></h2>
+<dl>
+<dt><strong><a name="item_return_the_absolute_path">Return the absolute path</a></strong>
+
+<dd>
+<pre>
+ Usage: abspath $node, [options]
+options:
+  -must_exist=0   Allow paths which don't exist</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="relpath">relpath</a></h2>
+<dl>
+<dt><strong><a name="item_relative_path">Relative path</a></strong>
+
+<dd>
+<pre>
+ Usage: relpath $path, $from_dir</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    relpath(&quot;/home/docs&quot;, &quot;/home/docs/install&quot;);</pre>
+</dd>
+<dd>
+<pre>
+    ..</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    relpath(&quot;/home/src&quot;, &quot;/home/docs/install&quot;);</pre>
+</dd>
+<dd>
+<pre>
+    ../../src</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    relpath(&quot;/home/docs/README.txt&quot;, &quot;/home/docs&quot;);</pre>
+</dd>
+<dd>
+<pre>
+    README.txt</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    relpath(&quot;README.txt&quot;, &quot;/DEBUG&quot;);</pre>
+</dd>
+<dd>
+<pre>
+    README.txt</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="mkabsdir">mkabsdir</a></h2>
+<dl>
+<dt><strong><a name="item_create_the_directory_specified_2c_including_parent">Create the directory specified, including parent directories.</a></strong>
+
+<dd>
+<pre>
+ Usage: mkabsdir $dir, [permissions]
+See L&lt;hubperms&gt;</pre>
+</dd>
+</dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="internal_methods">INTERNAL METHODS</a></h1>
+<p>
+</p>
+<h2><a name="_find">_find</a></h2>
+<dl>
+<dt>
+</dl>
+<p>
+</p>
+<h2><a name="_chperm">_chperm</a></h2>
+<dl>
+<dt><strong><a name="item_proxy">Change permission proxy (splits between Win32 and normal routines)</a></strong>
+
+<dd>
+<pre>
+ Usage: _chperm $user, $group, $mode, @targets</pre>
+</dd>
+<dd>
+<p><code>$user</code> may be either the numeric uid, or the user name</p>
+</dd>
+<dd>
+<p><code>$group</code> may be either the numeric gid, or the group name</p>
+</dd>
+<dd>
+<p><code>$mode</code> may be either the octal value (such as 0755) or the string value
+(such as '755')</p>
+</dd>
+<dd>
+<p>On win32, default permissions are taken from the configuration file (by
+default, '.conf' in the current directory):</p>
+</dd>
+<dd>
+<pre>
+  group = /conf/win32/group_name
+  owner = /conf/win32/owner_name
+  other = /conf/win32/other_name</pre>
+</dd>
+<dd>
+<p>When not specified in the configuration, these values will be</p>
+</dd>
+<dd>
+<pre>
+  group = Win32::LoginName
+  owner = the same as 'other'
+  other = Everyone</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="_chperm_normal">_chperm_normal</a></h2>
+<dl>
+<dt><strong><a name="item_use_chmod_and_chown_to_change_permissions">Use chmod and chown to change permissions</a></strong>
+
+<dd>
+<pre>
+ Usage: _chperm_normal $user, $group, $mode, $target</pre>
+</dd>
+<dd>
+<p>See <a href="#_chperm">the _chperm manpage</a> for $user, $group, and $mode settings</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="_chperm_win32">_chperm_win32</a></h2>
+<dl>
+<dt><strong><a name="item_change_permissions_on_win32">Change permissions on Win32</a></strong>
+
+<dd>
+<p>On Win32, we still don't ``really'' change the owner (Anybody know how?)</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<h2><a name="_find_abspath">_find_abspath</a></h2>
+<dl>
+<dt><strong><a name="item_path">Get the absolute path (may or may not exist)</a></strong>
+
+<dd>
+<pre>
+ Usage: _find_abspath $node</pre>
+</dd>
+</dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Ryan Gies (<a href="mailto:ryangies@livesite.net">ryangies@livesite.net</a>)</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.</p>
+<p>Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.</p>
+<p>Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:</p>
+<p>* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.</p>
+<p>* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.</p>
+<p>* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.</p>
+<p>* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.</p>
+<p>THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.</p>
+<p>To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="updated">UPDATED</a></h1>
+<p>06/09/2007</p>
+<p><a href="#__index__"><small>Top</small></a></p>
+
+</body>
+
+</html>

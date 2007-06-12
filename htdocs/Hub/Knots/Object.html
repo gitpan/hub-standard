@@ -1,9 +1,11 @@
+<?xml version="1.0" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Hub::Knots::Object</title>
-<link rel="stylesheet" href="../../pod.css" type="text/css" />
-<link rev="made" href="mailto:gerrit@familiehaase.de" />
+<link rel="stylesheet" href="../../styles.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
 </head>
 
 <body>
@@ -16,8 +18,23 @@
 	<li><a href="#name">NAME</a></li>
 	<li><a href="#synopsis">SYNOPSIS</a></li>
 	<li><a href="#description">DESCRIPTION</a></li>
-	<li><a href="#methods">METHODS</a></li>
-	<li><a href="#internal">INTERNAL</a></li>
+	<li><a href="#internal_methods">INTERNAL METHODS</a></li>
+	<ul>
+
+		<li><a href="#_access">_access</a></li>
+		<li><a href="#_keyname">_keyname</a></li>
+		<li><a href="#tiehash">TIEHASH</a></li>
+		<li><a href="#fetch">FETCH</a></li>
+		<li><a href="#store">STORE</a></li>
+		<li><a href="#delete">DELETE</a></li>
+		<li><a href="#clear">CLEAR</a></li>
+		<li><a href="#exists">EXISTS</a></li>
+		<li><a href="#firstkey">FIRSTKEY</a></li>
+		<li><a href="#nextkey">NEXTKEY</a></li>
+		<li><a href="#scalar">SCALAR</a></li>
+		<li><a href="#untie">UNTIE</a></li>
+	</ul>
+
 	<li><a href="#author">AUTHOR</a></li>
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#updated">UPDATED</a></li>
@@ -28,8 +45,7 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p>Hub::Knots::Object -</p>
-<p>Part of the <a href="../../hublib.html">Hub Library</a></p>
+<p>Hub::Knots::Object - Nested data structure</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
@@ -44,127 +60,135 @@
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
-<h1><a name="methods">METHODS</a></h1>
+<h1><a name="internal_methods">INTERNAL METHODS</a></h1>
 <p>
-<a href="#__index__"><small>Top</small></a>
 </p>
-<hr />
-<h1><a name="internal">INTERNAL</a></h1>
-<table><tr><td>
-<a class="methlink" href="#item_clear">CLEAR</a></td><td>
-<a class="methlink" href="#item_fetch">FETCH</a></td><td>
-<a class="methlink" href="#item_scalar">SCALAR</a></td><td>
-<a class="methlink" href="#item_untie">UNTIE</a></td></tr><tr><td>
-<a class="methlink" href="#item_delete">DELETE</a></td><td>
-<a class="methlink" href="#item_firstkey">FIRSTKEY</a></td><td>
-<a class="methlink" href="#item_store">STORE</a></td><td>
-<a class="methlink" href="#item__access">_access</a></td></tr><tr><td>
-<a class="methlink" href="#item_exists">EXISTS</a></td><td>
-<a class="methlink" href="#item_nextkey">NEXTKEY</a></td><td>
-<a class="methlink" href="#item_tiehash">TIEHASH</a></td><td>
-<a class="methlink" href="#item__keyname">_keyname</a></td></tr></table><dl>
-<dt><strong><a name="item_clear">CLEAR</a></strong><br />
-</dt>
-<dd>
-<strong>Tie interface method</strong>
-</dd>
-<p></p></dl>
+<h2><a name="_access">_access</a></h2>
 <dl>
-<dt><strong><a name="item_delete">DELETE</a></strong><br />
-</dt>
-<dd>
-<strong>Tie interface method</strong>
-</dd>
-<p></p></dl>
+<dt><strong><a name="item_direct_access_to_members">Direct access to members</a></strong>
+
+</dl>
+<p>
+</p>
+<h2><a name="_keyname">_keyname</a></h2>
 <dl>
-<dt><strong><a name="item_exists">EXISTS</a></strong><br />
-</dt>
-<dd>
-<strong>Tie interface method</strong>
-</dd>
-<p></p></dl>
+<dt><strong><a name="item_key">Determine which key (public or private) to use</a></strong>
+
+</dl>
+<p>
+</p>
+<h2><a name="tiehash">TIEHASH</a></h2>
 <dl>
-<dt><strong><a name="item_fetch">FETCH</a></strong><br />
-</dt>
-<dd>
-<strong>Tie interface method</strong>
-</dd>
-<p></p></dl>
+<dt><strong><a name="item_tie_interface_method">Tie interface method</a></strong>
+
+</dl>
+<p>
+</p>
+<h2><a name="fetch">FETCH</a></h2>
 <dl>
-<dt><strong><a name="item_firstkey">FIRSTKEY</a></strong><br />
-</dt>
-<dd>
-<strong>Tie interface method</strong>
-</dd>
-<p></p></dl>
+<dt><strong>Tie interface method</strong>
+
+</dl>
+<p>
+</p>
+<h2><a name="store">STORE</a></h2>
 <dl>
-<dt><strong><a name="item_nextkey">NEXTKEY</a></strong><br />
-</dt>
-<dd>
-<strong>Tie interface method</strong>
-</dd>
-<p></p></dl>
+<dt><strong>Tie interface method</strong>
+
+</dl>
+<p>
+</p>
+<h2><a name="delete">DELETE</a></h2>
 <dl>
-<dt><strong><a name="item_scalar">SCALAR</a></strong><br />
-</dt>
-<dd>
-<strong>Tie interface method</strong>
-</dd>
-<p></p></dl>
+<dt><strong>Tie interface method</strong>
+
+</dl>
+<p>
+</p>
+<h2><a name="clear">CLEAR</a></h2>
 <dl>
-<dt><strong><a name="item_store">STORE</a></strong><br />
-</dt>
-<dd>
-<strong>Tie interface method</strong>
-</dd>
-<p></p></dl>
+<dt><strong>Tie interface method</strong>
+
+</dl>
+<p>
+</p>
+<h2><a name="exists">EXISTS</a></h2>
 <dl>
-<dt><strong><a name="item_tiehash">TIEHASH</a></strong><br />
-</dt>
-<dd>
-<strong>Tie interface method</strong>
-</dd>
-<p></p></dl>
+<dt><strong>Tie interface method</strong>
+
+</dl>
+<p>
+</p>
+<h2><a name="firstkey">FIRSTKEY</a></h2>
 <dl>
-<dt><strong><a name="item_untie">UNTIE</a></strong><br />
-</dt>
-<dd>
-<strong>Tie interface method</strong>
-</dd>
-<p></p></dl>
+<dt><strong>Tie interface method</strong>
+
+</dl>
+<p>
+</p>
+<h2><a name="nextkey">NEXTKEY</a></h2>
 <dl>
-<dt><strong><a name="item__access">_access</a></strong><br />
-</dt>
-<dd>
-<strong>Direct access to members</strong>
-</dd>
-<p></p></dl>
+<dt><strong>Tie interface method</strong>
+
+</dl>
+<p>
+</p>
+<h2><a name="scalar">SCALAR</a></h2>
 <dl>
-<dt><strong><a name="item__keyname">_keyname</a></strong><br />
-</dt>
-<dd>
-<strong>Determine which key (public or private) to use</strong>
-</dd>
-<p></p></dl>
+<dt><strong>Tie interface method</strong>
+
+</dl>
+<p>
+</p>
+<h2><a name="untie">UNTIE</a></h2>
+<dl>
+<dt><strong>Tie interface method</strong>
+
+</dl>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="author">AUTHOR</a></h1>
-<p>Ryan Gies</p>
+<p>Ryan Gies (<a href="mailto:ryangies@livesite.net">ryangies@livesite.net</a>)</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="copyright">COPYRIGHT</a></h1>
-<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
-<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.</p>
+<p>Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.</p>
+<p>Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:</p>
+<p>* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.</p>
+<p>* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.</p>
+<p>* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.</p>
+<p>* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.</p>
+<p>THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.</p>
+<p>To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="updated">UPDATED</a></h1>
-<p>This file created by  on  at</p>
+<p>06/09/2007</p>
 <p><a href="#__index__"><small>Top</small></a></p>
 
 </body>

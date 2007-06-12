@@ -1,9 +1,11 @@
+<?xml version="1.0" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Hub::Parse::Parser</title>
-<link rel="stylesheet" href="../../pod.css" type="text/css" />
-<link rev="made" href="mailto:gerrit@familiehaase.de" />
+<link rel="stylesheet" href="../../styles.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
 </head>
 
 <body>
@@ -16,8 +18,36 @@
 	<li><a href="#name">NAME</a></li>
 	<li><a href="#synopsis">SYNOPSIS</a></li>
 	<li><a href="#description">DESCRIPTION</a></li>
-	<li><a href="#methods">METHODS</a></li>
-	<li><a href="#internal">INTERNAL</a></li>
+	<ul>
+
+		<li><a href="#intention">Intention</a></li>
+	</ul>
+
+	<li><a href="#public_methods">PUBLIC METHODS</a></li>
+	<ul>
+
+		<li><a href="#new">new</a></li>
+		<li><a href="#refresh">refresh</a></li>
+		<li><a href="#populate">populate</a></li>
+		<li><a href="#get_evaluator">get_evaluator</a></li>
+		<li><a href="#resolve">resolve</a></li>
+		<li><a href="#get_hint">get_hint</a></li>
+		<li><a href="#remove_variables">remove_variables</a></li>
+	</ul>
+
+	<li><a href="#internal_methods">INTERNAL METHODS</a></li>
+	<ul>
+
+		<li><a href="#_populate">_populate</a></li>
+		<li><a href="#_evaluate">_evaluate</a></li>
+		<li><a href="#_to_string">_to_string</a></li>
+		<li><a href="#_get_block">_get_block</a></li>
+		<li><a href="#_find_point">_find_point</a></li>
+		<li><a href="#_find_end_point">_find_end_point</a></li>
+		<li><a href="#_padding">_padding</a></li>
+		<li><a href="#_split_if_else">_split_if_else</a></li>
+	</ul>
+
 	<li><a href="#author">AUTHOR</a></li>
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#updated">UPDATED</a></li>
@@ -28,47 +58,74 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p>Hub::Parse::Parser -</p>
-<p>Part of the <a href="../../hublib.html">Hub Library</a></p>
+<p>Hub::Parse::Parser - Template parser</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  use Hub qw(:standard);</pre>
+<pre>
+  my $text = 'Hello [#/user], it is [#/date/month]';
+  my $values = {
+    user =&gt; ryan,
+    date =&gt; {
+      year =&gt; 2007,
+      day =&gt; 10,
+      month =&gt; March
+    },
+  };</pre>
+<pre>
+  my $parser = mkinst('Parser', -tempate =&gt; \$text);
+  print $parser-&gt;parse($values);</pre>
+<p>Will produce the result:</p>
+<pre>
+  Hello ryan, it is March</pre>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
 <p>
+</p>
+<h2><a name="intention">Intention</a></h2>
+<p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
-<h1><a name="methods">METHODS</a></h1>
-<table><tr><td>
-<a class="methlink" href="#item_new">new</a></td><td>
-<a class="methlink" href="#item_populate">populate</a></td><td>
-<a class="methlink" href="#item_refresh">refresh</a></td><td>
-<a class="methlink" href="#item_tweaker">tweaker</a></td></tr></table><dl>
-<dt><strong><a name="item_new">new</a></strong><br />
-</dt>
+<h1><a name="public_methods">PUBLIC METHODS</a></h1>
+<p>
+</p>
+<h2><a name="new">new</a></h2>
+<dl>
+<dt><strong><a name="item_construct_a_new_instance">Construct a new instance</a></strong>
+
 <dd>
-<strong></strong>
+<pre>
+ Usage: new -template =&gt; \$text|$text, [options]</pre>
+</dd>
+<dd>
+<p>options:</p>
 </dd>
 <dd>
 <pre>
- Usage: new</pre>
+  -var_begin =&gt; $string     # Identifies beginning of a variable (no regexp)
+  -var_end =&gt; $string       # Identifies the end of a variable (no regexp)</pre>
 </dd>
-<dd>
-<p>Constructor.</p>
-</dd>
-<p></p></dl>
+</dl>
+<p>
+</p>
+<h2><a name="refresh">refresh</a></h2>
 <dl>
-<dt><strong><a name="item_populate">populate</a></strong><br />
-</dt>
-<dd>
-<strong></strong>
-</dd>
+<dt><strong><a name="item_return_instance_to_initial_state">Return instance to initial state</a></strong>
+
+</dl>
+<p>
+</p>
+<h2><a name="populate">populate</a></h2>
+<dl>
+<dt>
 <dd>
 <pre>
  Usage: populate \HASH+</pre>
@@ -84,123 +141,89 @@
   \HASH               Variable name to definition map</pre>
 </dd>
 <dd>
-<p><strong>Example: This example</strong>:</p>
+<p><strong>Example</strong>: (matches)</p>
 </dd>
 <dd>
 <pre>
-    my $parser = mkinst( 'Parser', -template =&gt; 'Hello ' );</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
+    my $parser = mkinst( 'Parser', -template =&gt; 'Hello [#who]' );
+              ${$parser-&gt;populate( { who =&gt; 'World' } )};</pre>
 </dd>
 <dd>
 <pre>
     Hello World</pre>
 </dd>
-<p></p></dl>
+</dl>
+<p>
+</p>
+<h2><a name="get_evaluator">get_evaluator</a></h2>
 <dl>
-<dt><strong><a name="item_refresh">refresh</a></strong><br />
-</dt>
+<dt><strong><a name="item_hook_into_evaluator_loop_by_overriding_this_method">Hook into evaluator loop by overriding this method.</a></strong>
+
 <dd>
-<strong></strong>
+<pre>
+ Usage: get_evaluator $directive</pre>
+</dd>
+<dd>
+<p>Returns a subroutine (CODE) reference.</p>
+</dd>
+<dd>
+<p>This method is used by this base class to get the evaluator when a particular
+directive is incountered.  For instance, if the template contains:</p>
 </dd>
 <dd>
 <pre>
- Usage: refresh</pre>
+  Hello  Usage: get_evaluator('if') will be called.  See L&lt;Hub::Parse::StandardParser&gt; for
+an example of how this class is extended.</pre>
 </dd>
-<dd>
-<p>Return instance to initial state.</p>
-</dd>
-<p></p></dl>
+</dl>
 <dl>
-<dt><strong><a name="item_tweaker">tweaker</a></strong><br />
-</dt>
-<dd>
-<strong></strong>
-</dd>
+<dt><strong><a name="item_search_the_provided_hashes_for_a_value">Search the provided hashes for a value</a></strong>
+
 <dd>
 <pre>
- Usage: tweaker \$value, $tweak+</pre>
+ Usage: get_value $name, $hash, [$hash..]</pre>
 </dd>
-<dd>
-<p>Tweaks allow modification to variable values.  This is expensive, and hence
-should be used only as a last resort.</p>
-</dd>
-<dd>
-<p>No spaces are allowed in the tweak name!</p>
-</dd>
-<dd>
-<p>Variables have to be specified as {#name} (not ) because of the use
-of s/name/value/g in the main populate routine.</p>
-</dd>
-<dd>
-<p>Implemented tweaks:</p>
-</dd>
-<dd>
-<pre>
-  !                   # Run command (custom tweak)</pre>
-</dd>
+</dl>
+<p>
+</p>
+<h2><a name="resolve">resolve</a></h2>
+<dl>
+<dt><strong><a name="item_get_a_string_representation_of_a_value">Get a string representation of a value</a></strong>
+
+</dl>
+<p>
+</p>
+<h2><a name="get_hint">get_hint</a></h2>
+<dl>
+<dt><strong><a name="item_show_where_we_are_in_parsing_the_text">Show where we are in parsing the text</a></strong>
+
 <dd>
 <pre>
-  tr///               # transliterates search chars with replacement chars
-  lc                  # lower case
-  uc                  # upper case
-  lcfirst             # lower case first letter
-  ucfirst             # upper case first letter
-  x=                  # repeat the value so many times</pre>
+ Usage: get_hint $position, \$text</pre>
 </dd>
+</dl>
+<p>
+</p>
+<h2><a name="remove_variables">remove_variables</a></h2>
+<dl>
+<dt><strong><a name="item_remove_variable_statements_from_the_text">Remove variable statements from the text</a></strong>
+
 <dd>
 <pre>
-  esc                 # escape non-word characters
-  html                # replace '&lt;' and '&gt;' with '&amp;lt;' and '&amp;gt;'</pre>
+ Usage: remove_variables \$text
+This will *not* remove parents of nested variables.</pre>
 </dd>
-<dd>
-<pre>
-  num                 # number (will use zero '0' if empty)
-  dt(opts)            # datetime with options (see datetime).</pre>
-</dd>
-<dd>
-<pre>
-  dhms(opts)          # day/hour/min/sec with options (see dhms).</pre>
-</dd>
-<dd>
-<pre>
-  eq                  # equal
-  ne                  # not equal
-  gt                  # greater than
-  lt                  # less than
-  if                  # is greater than zero (or non-empty string)</pre>
-</dd>
-<dd>
-<pre>
-  -                   # minus
-  +                   # plus
-  *                   # multiply
-  /                   # divide
-  %                   # mod</pre>
-</dd>
-<p></p></dl>
+</dl>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
-<h1><a name="internal">INTERNAL</a></h1>
-<table><tr><td>
-<a class="methlink" href="#item__getv">_getv</a></td><td>
-<a class="methlink" href="#item__populate">_populate</a></td><td>
-<a class="methlink" href="#item__tweak">_tweak</a></td></tr></table><dl>
-<dt><strong><a name="item__getv">_getv</a></strong><br />
-</dt>
-<dd>
-<strong>Get a value from the current values array</strong>
-</dd>
-<p></p></dl>
+<h1><a name="internal_methods">INTERNAL METHODS</a></h1>
+<p>
+</p>
+<h2><a name="_populate">_populate</a></h2>
 <dl>
-<dt><strong><a name="item__populate">_populate</a></strong><br />
-</dt>
-<dd>
-<strong></strong>
-</dd>
+<dt>
 <dd>
 <pre>
  Usage: _populate [OPTIONS], \HASH+</pre>
@@ -225,46 +248,164 @@ of s/name/value/g in the main populate routine.</p>
 <pre>
   -text   \SCALAR     Template text to populate</pre>
 </dd>
-<p></p></dl>
+</dl>
+<p>
+</p>
+<h2><a name="_evaluate">_evaluate</a></h2>
 <dl>
-<dt><strong><a name="item__tweak">_tweak</a></strong><br />
-</dt>
+<dt><strong><a name="item_evaluate_the_expression">Evaluate the expression</a></strong>
+
 <dd>
-<strong></strong>
+<pre>
+ Usage: _evaluate \@value_data, @parameters</pre>
+</dd>
+<dd>
+<p>Where @parameters are:</p>
 </dd>
 <dd>
 <pre>
- Usage: _tweak</pre>
+  -fields     =&gt; \@fields
+  -outer_str  =&gt; $outer_str
+  -pos        =&gt; $position
+  -text       =&gt; \$text</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="_to_string">_to_string</a></h2>
+<dl>
+<dt>
+<dd>
+<p>_value_of - The default string value of an object</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<h2><a name="_get_block">_get_block</a></h2>
+<dl>
+<dt><strong><a name="item_find_the_block_for_a_given_directive">Find the block for a given directive</a></strong>
+
+<dd>
+<pre>
+ Usage: _get_block $start_position, \$text, $type</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="_find_point">_find_point</a></h2>
+<dl>
+<dt><strong><a name="item_find_the_next_occurance_of_a_single_argument_direc">Find the next occurance of a single argument directive</a></strong>
+
+<dd>
+<pre>
+ Usage: _find_point \$text, $begin_point, $directive_name, $argument_value</pre>
 </dd>
 <dd>
-<p>Internal function.</p>
+<p>If you are looking for:  then you would use this method as:</p>
 </dd>
 <dd>
-<p>Tweak values.</p>
+<pre>
+  _find_point($text, $pos, 'parser', 'on');</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="_find_end_point">_find_end_point</a></h2>
+<dl>
+<dt><strong><a name="item_find_the__27_27_marker">Find the '' marker</a></strong>
+
+<dd>
+<pre>
+ Usage: _find_end_point - \$text, $begin_point, $type</pre>
 </dd>
 <dd>
-<p>Subroutine for tweaking must be provided in the constructor.</p>
+<p>Returns the beg</p>
 </dd>
-<p></p></dl>
+</dl>
+<p>
+</p>
+<h2><a name="_padding">_padding</a></h2>
+<dl>
+<dt><strong><a name="item_get_number_of_preceeding_and_trailing_whitespace_c">Get number of preceeding and trailing whitespace characters</a></strong>
+
+<dd>
+<pre>
+ Usage: _padding \$text, $pos, $width</pre>
+</dd>
+<dd>
+<pre>
+  \$text    template
+  $pos      current position in $$text
+  $width    width of the current match</pre>
+</dd>
+<dd>
+<p>Returns an array of widths: ($w1, $w2)</p>
+</dd>
+<dd>
+<pre>
+  $w1 = Number of preceeding whitespace characters
+  $w2 = Number of trailing whitespace characters</pre>
+</dd>
+<dd>
+<p>Returns an empty array if non-whitespace characters are found in the
+preceeding or trailing regions.</p>
+</dd>
+<dd>
+<p>We will look up to 80 characters in front of the current position (ie, 80
+character indent maximum.)</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="_split_if_else">_split_if_else</a></h2>
+<dl>
+<dt>
+</dl>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="author">AUTHOR</a></h1>
-<p>Ryan Gies</p>
+<p>Ryan Gies (<a href="mailto:ryangies@livesite.net">ryangies@livesite.net</a>)</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="copyright">COPYRIGHT</a></h1>
-<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
-<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.</p>
+<p>Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.</p>
+<p>Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:</p>
+<p>* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.</p>
+<p>* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.</p>
+<p>* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.</p>
+<p>* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.</p>
+<p>THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.</p>
+<p>To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="updated">UPDATED</a></h1>
-<p>This file created by  on  at</p>
+<p>06/09/2007</p>
 <p><a href="#__index__"><small>Top</small></a></p>
 
 </body>

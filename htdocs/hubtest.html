@@ -1,9 +1,11 @@
+<?xml version="1.0" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>hubtest</title>
-<link rel="stylesheet" href="pod.css" type="text/css" />
-<link rev="made" href="mailto:gerrit@familiehaase.de" />
+<link rel="stylesheet" href="styles.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
 </head>
 
 <body>
@@ -35,16 +37,16 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p id="packagename">hubtest - Hub Library Testcase Extraction</p><p>
+<p>hubtest - Hub Library Testcase Extraction</p>
+<p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
-<p>Test cases are embedded in source code, as the should be.  This helps code
-stability by allowing the maintainer to comprehend and update method APIs.
-Moreover, testcase extraction allows the correct usage to be detailed in the
-documentation (which is likely easier to understand than the author's
-description.)</p>
+<p>Test cases are embedded in source code.  This helps code stability by allowing 
+the maintainer to comprehend and update method APIs.  Moreover, testcase 
+extraction allows the correct usage to be detailed in the documentation (which 
+is likely easier to understand than the author's description.)</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
@@ -71,7 +73,7 @@ begin with '#|':</p>
 <pre>
     [!]true     returns a true value
     [!]false    returns a false value
-    [!]undef    returns undefined
+    [!]defined  returns a defined value
     [!]abort    aborts via die|carp|croak|...
     [!]match    (see below)
     [!]regex    like 'match', except the pattern is considered a regex</pre>
@@ -159,20 +161,45 @@ that the semicolon (;) before the comment is crucial.</p>
 </p>
 <hr />
 <h1><a name="author">AUTHOR</a></h1>
-<p>Ryan Gies</p>
+<p>Ryan Gies (<a href="mailto:ryangies@livesite.net">ryangies@livesite.net</a>)</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="copyright">COPYRIGHT</a></h1>
-<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
-<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.</p>
+<p>Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.</p>
+<p>Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:</p>
+<p>* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.</p>
+<p>* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.</p>
+<p>* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.</p>
+<p>* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.</p>
+<p>THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.</p>
+<p>To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="updated">UPDATED</a></h1>
-<p>This file created by &lt;#sys/proc/zname&gt; on &lt;#dt(nozeros,notime);sys/proc/tstamp&gt; at &lt;#dt(ampm,nosec,nozeros,nodate);sys/proc/tstamp&gt;</p>
+<p>06/09/2007</p>
 <p><a href="#__index__"><small>Top</small></a></p>
 
 </body>

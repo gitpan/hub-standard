@@ -1,0 +1,43 @@
+Hub version [#/rundata/ver/dot]
+=====================
+
+INSTALLATION
+------------
+
+To install this module type the following:
+
+   perl Makefile.PL
+   make
+   make test
+   make install
+
+DEPENDENCIES
+------------
+
+This module requires these other modules and libraries:
+
+  CGI 						3.11
+  Carp 						1.01.
+  Compress::Zlib 	1.33.
+  Cwd 						2.12.
+  Exporter 				5.57.
+  File::Copy 			2.07.
+  IO::File 				1.10.
+  Time::HiRes 		1.55.
+
+For :webapp functions
+
+	Bundle::Apache2
+	Image::Size
+
+AUTHORS
+-------
+
+[#/props/authors]
+
+COPYRIGHT AND LICENSE
+---------------------
+
+[#/props/copyright/perl]
+
+[#/props/copyright/lsnllc]

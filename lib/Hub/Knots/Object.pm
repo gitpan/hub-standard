@@ -1,31 +1,18 @@
 package Hub::Knots::Object;
-
-#-------------------------------------------------------------------------------
-# Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
-# Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
-#-------------------------------------------------------------------------------
-
-#line 2
 use strict;
-
 use Hub qw/:lib/;
-
-our $VERSION        = '3.01048';
-our @EXPORT         = qw//;
-our @EXPORT_OK      = qw//;
+our $VERSION = '4.00012';
+our @EXPORT = qw//;
+our @EXPORT_OK = qw//;
 
 # ------------------------------------------------------------------------------
 # _access - Direct access to members
 # ------------------------------------------------------------------------------
 
 sub _access {
-
-    my $self = shift;
-
-    my $index = shift;
-
-    return $self->{$index};
-
+  my $self = shift;
+  my $index = shift;
+  return $self->{$index};
 }#_access
 
 # ------------------------------------------------------------------------------
@@ -33,18 +20,13 @@ sub _access {
 # ------------------------------------------------------------------------------
 
 sub _keyname {
-
-    my $self = shift;
-
-    my $index = shift;
-
-    my $datakey = defined $index &&
-        $$index =~ s/^(internal|public|private):// ? $1 : ();
-
-    $datakey ||= caller(1) eq ref($self->{'internal'}{'impl'}) ? 'private' : 'public';
-
-    return $datakey;
-
+  my $self = shift;
+  my $index = shift;
+  my $datakey = defined $index &&
+    $$index =~ s/^(internal|public|private):// ? $1 : ();
+  my $called_from = caller(1);
+  $datakey ||= $self->{'internal'}{'impl'}->isa($called_from) ? 'private' : 'public';
+  return $datakey;
 }#_keyname
 
 # ------------------------------------------------------------------------------
@@ -52,21 +34,14 @@ sub _keyname {
 # ------------------------------------------------------------------------------
 
 sub TIEHASH {
-
-    my $self = shift;
-
-    my $impl = shift;
-
-    my $obj = bless {
-    
-        'internal'  => { impl => $impl }, # neither public or private
-        'public'    => {},
-        'private'   => {},
-        
-    }, $self;
-
-    return $obj;
-
+  my $self = shift;
+  my $impl = shift;
+  my $obj = bless {
+    'internal'  => { impl => $impl }, # neither public or private
+    'public'    => {},
+    'private'   => {},
+  }, $self;
+  return $obj;
 }#TIEHASH
 
 # ------------------------------------------------------------------------------
@@ -74,15 +49,10 @@ sub TIEHASH {
 # ------------------------------------------------------------------------------
 
 sub FETCH {
-
-    my $self = shift;
-
-    my $index = shift;
-
-    my $datakey = $self->_keyname( \$index );
-
-    return $index ? $self->{$datakey}->{$index} : $self->{$datakey};
-
+  my $self = shift;
+  my $index = shift;
+  my $datakey = $self->_keyname( \$index );
+  return $index ? $self->{$datakey}->{$index} : $self->{$datakey};
 }#FETCH
 
 # ------------------------------------------------------------------------------
@@ -90,17 +60,11 @@ sub FETCH {
 # ------------------------------------------------------------------------------
 
 sub STORE {
-
-    my $self = shift;
-
-    my $index = shift;
-
-    my $value = shift;
-
-    my $datakey = $self->_keyname( \$index );
-
-    $index ? $self->{$datakey}->{$index} = $value : $self->{$datakey} = $value;
-
+  my $self = shift;
+  my $index = shift;
+  my $value = shift;
+  my $datakey = $self->_keyname( \$index );
+  $index ? $self->{$datakey}->{$index} = $value : $self->{$datakey} = $value;
 }#STORE
 
 # ------------------------------------------------------------------------------
@@ -108,15 +72,10 @@ sub STORE {
 # ------------------------------------------------------------------------------
 
 sub DELETE {
-
-    my $self = shift;
-
-    my $index = shift;
-
-    my $datakey = $self->_keyname( \$index );
-
-    delete $self->{$datakey}->{$index};
-
+  my $self = shift;
+  my $index = shift;
+  my $datakey = $self->_keyname( \$index );
+  delete $self->{$datakey}->{$index};
 }#DELETE
 
 # ------------------------------------------------------------------------------
@@ -124,15 +83,10 @@ sub DELETE {
 # ------------------------------------------------------------------------------
 
 sub CLEAR {
-
-    my $self = shift;
-
-    my $datakey = $self->_keyname();
-
-    my @reset = keys %{$self->{$datakey}};
-
-    map { delete $self->{$datakey}->{$_} } keys %{$self->{$datakey}};
-
+  my $self = shift;
+  my $datakey = $self->_keyname();
+  my @reset = keys %{$self->{$datakey}};
+  map { delete $self->{$datakey}->{$_} } keys %{$self->{$datakey}};
 }#CLEAR
 
 # ------------------------------------------------------------------------------
@@ -140,15 +94,10 @@ sub CLEAR {
 # ------------------------------------------------------------------------------
 
 sub EXISTS {
-
-    my $self = shift;
-
-    my $index = shift;
-
-    my $datakey = $self->_keyname( \$index );
-
-    exists $self->{$datakey}->{$index};
-
+  my $self = shift;
+  my $index = shift;
+  my $datakey = $self->_keyname( \$index );
+  exists $self->{$datakey}->{$index};
 }#EXISTS
 
 # ------------------------------------------------------------------------------
@@ -156,15 +105,10 @@ sub EXISTS {
 # ------------------------------------------------------------------------------
 
 sub FIRSTKEY {
-
-    my $self = shift;
-
-    my $datakey = $self->_keyname();
-
-    my @reset = keys %{$self->{$datakey}};
-
-    each %{$self->{$datakey}};
-
+  my $self = shift;
+  my $datakey = $self->_keyname();
+  my @reset = keys %{$self->{$datakey}};
+  each %{$self->{$datakey}};
 }#FIRSTKEY
 
 # ------------------------------------------------------------------------------
@@ -172,15 +116,10 @@ sub FIRSTKEY {
 # ------------------------------------------------------------------------------
 
 sub NEXTKEY {
-
-    my $self = shift;
-
-    my $lastindex = shift;
-
-    my $datakey = $self->_keyname();
-
-    each %{$self->{$datakey}};
-
+  my $self = shift;
+  my $lastindex = shift;
+  my $datakey = $self->_keyname();
+  each %{$self->{$datakey}};
 }#NEXTKEY
 
 # ------------------------------------------------------------------------------
@@ -188,13 +127,9 @@ sub NEXTKEY {
 # ------------------------------------------------------------------------------
 
 sub SCALAR {
-
-    my $self = shift;
-
-    my $datakey = $self->_keyname();
-
-    scalar %{$self->{$datakey}};
-
+  my $self = shift;
+  my $datakey = $self->_keyname();
+  scalar %{$self->{$datakey}};
 }#SCALAR
 
 # ------------------------------------------------------------------------------
@@ -202,15 +137,19 @@ sub SCALAR {
 # ------------------------------------------------------------------------------
 
 sub UNTIE {
-
-    my $self = shift;
-
-    my $count = shift || 0;
-
-    my $datakey = $self->_keyname();
-
+  my $self = shift;
+  my $count = shift || 0;
+  my $datakey = $self->_keyname();
 }#UNTIE
 
-# ------------------------------------------------------------------------------
+1;
 
-'???';
+__END__
+
+=pod:summary Nested data structure
+
+=pod:synopsis
+
+=pod:description
+
+=cut

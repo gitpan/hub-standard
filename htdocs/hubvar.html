@@ -1,9 +1,11 @@
+<?xml version="1.0" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>hubvar</title>
-<link rel="stylesheet" href="pod.css" type="text/css" />
-<link rev="made" href="mailto:gerrit@familiehaase.de" />
+<link rel="stylesheet" href="styles.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
 </head>
 
 <body>
@@ -16,6 +18,21 @@
 	<li><a href="#name">NAME</a></li>
 	<li><a href="#synopsis">SYNOPSIS</a></li>
 	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#system__sys">System <strong>/sys</strong></a></li>
+		<li><a href="#runtime_configuration__conf">Runtime Configuration <strong>/conf</strong></a></li>
+		<ul>
+
+			<li><a href="#apache2_request_configuration__conf_request">Apache2 request configuration <strong>/conf/request</strong></a></li>
+			<li><a href="#content_file_manager__conf_cms">Content File Manager <strong>/conf/cms</strong></a></li>
+			<li><a href="#parser_setting__conf_parser">Parser setting <strong>/conf/parser</strong></a></li>
+			<li><a href="#windows_32_specific__conf_win32">Windows 32 specific <strong>/conf/win32</strong></a></li>
+		</ul>
+
+		<li><a href="#cgi_parameters__cgi">CGI parameters <strong>/cgi</strong></a></li>
+	</ul>
+
 	<li><a href="#author">AUTHOR</a></li>
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#updated">UPDATED</a></li>
@@ -26,7 +43,8 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p id="packagename">hubvar - Hub variables</p><p>
+<p>hubvar - Hub variables</p>
+<p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
@@ -42,69 +60,130 @@ their meanings.</p>
 <p>All values used and set by the library exist under <code>/sys</code>.  Fields marked with
 an asterisk (*) indicate they are used mostly with CGI (webapp) programs.</p>
 <pre>
-  /sys/proc                         Process information
-  /sys/proc/zname                   Name of the script
-  /sys/proc/tstamp                  Time script was invoked</pre>
+  A     h = Hash, a = Array, o = Object (otherwise a scalar)
+  B     * = Web application specific</pre>
+<p>
+</p>
+<h2><a name="system__sys">System <strong>/sys</strong></a></h2>
 <pre>
-  /sys/DEBUG                        Honor debugging statements</pre>
+  VARIABLE NAME                 A B DESCRIPTION</pre>
 <pre>
-  /sys/log                          Default log file (.logfile)
-  /sys/log/max_size                 File size in bytes
-  /sys/log/level                    Comma separated list of levels
-  /sys/log/disable                  Disable completely
-  /sys/log/stack_depth              Show stack trace with each message
-  /sys/log/show_source              Show caller() of each message
-  /sys/log/tee                      Append messages as: stdout|stderr|html|none</pre>
+  /sys/OPTS                     h   Command-line options
+  /sys/ARGV                     a   Command-line arguments (w/o options)
+  /sys/PATH                     a   Working directory stack
+  /sys/CGI                      o * Apache2::Request or CGI object (See /sys/ENV/USE_MOD_APREQ2)
+  /sys/ENV                      h   Copy of %ENV</pre>
 <pre>
-  /sys/path                         Reserved for filesystem path information
-  /sys/path/runtime                 Runtime path
-  /sys/path/client                * Where we can store client data (ie session files)</pre>
+  /sys/ENV/CONF_FILE                Configuration filename (instead of '.conf')
+  /sys/ENV/WORKING_DIR              Working directory
+  /sys/ENV/DEBUG                    Honor debugging statements
+  /sys/ENV/GLOBAL_EXCLUDE           Semicolon list of dirs (Hub::find)
+  /sys/ENV/GLOBAL_IGNORE            Semicolon list of patterns (Hub::find)
+  /sys/ENV/USE_MOD_APREQ2           Use Apache2 module: mod_libapreq2</pre>
 <pre>
-  /sys/win32                        Windows 32 specific
-  /sys/win32/owner_name             ACL For setting owner permissions
-  /sys/win32/group_name             ACL For setting group permissions
-  /sys/win32/other_name             ACL For setting other permissions</pre>
+  /sys/response/headers         a * Generated headers
+  /sys/response/template          * Response template</pre>
+<p>
+</p>
+<h2><a name="runtime_configuration__conf">Runtime Configuration <strong>/conf</strong></a></h2>
+<p>These values are defined in a file named .conf or per environment variable 
+CONF_FILE.</p>
 <pre>
-  /sys/timeout/lockfile             Number of seconds to wait on lock files
-  /sys/timeout/session            * How long to honor session data</pre>
+  VARIABLE NAME                 A B DESCRIPTION</pre>
 <pre>
-  /sys/response                   * Application response
-  /sys/response/template          * STDOUT starts here</pre>
+  /conf/path/users              a * Writable directory for user/session data
+  /conf/path/script               * Writable directory for user/session data</pre>
 <pre>
-  /sys/uri                          Base URI's
-  /sys/uri/common                 * Common webapp (runtime) directory</pre>
+  /conf/timeout/lockfile            Seconds to wait on lock files
+  /conf/timeout/session           * Seconds to honor session files</pre>
 <pre>
-  /sys/idle_depth                   Template parsing
-  /sys/mirror_depth                 Template parsing</pre>
+  /conf/content_types             * File extension to MIME type map</pre>
 <pre>
-  /usr                            * Webapp Client data (Session/Cgi)</pre>
+  /conf/not_found               h * Not-found documents
+  /conf/not_found/html            * When a .html file is not found
+  /conf/not_found/css             * When a .css file is not found
+  /conf/not_found/js              * When a .js file is not found
+  /conf/not_found/???             * User configured value
+  /conf/not_found/other           * All other document extensions</pre>
+<p>
+</p>
+<h3><a name="apache2_request_configuration__conf_request">Apache2 request configuration <strong>/conf/request</strong></a></h3>
 <pre>
-  /usr/BACKPAGE
-  /usr/REQPAGE
-  /usr/ACTION
-  /usr/LASTPAGEID
-  /usr/REQPAGEID
-  /usr/CLIENTKEY
-  /usr/BIN</pre>
+  /conf/request/POST_MAX          * Maximum allowed post size
+  /conf/request/DISABLE_UPLOADS   * Disable file uploads
+  /conf/request/TEMP_DIR          * 
+  /conf/request/HOOK_DATA         * 
+  /conf/request/UPLOAD_HOOK       *</pre>
+<p>(See <a href="Apache2/Request.html#new">new in the Apache2::Request manpage</a>)</p>
+<p>
+</p>
+<h3><a name="content_file_manager__conf_cms">Content File Manager <strong>/conf/cms</strong></a></h3>
+<pre>
+  /conf/cms/deny                a * List off address (regex) to deny
+  /conf/cms/root                  * Restricted to this directory</pre>
+<p>
+</p>
+<h3><a name="parser_setting__conf_parser">Parser setting <strong>/conf/parser</strong></a></h3>
+<pre>
+  /conf/parser/max_depth            Infinite recursion control</pre>
+<p>
+</p>
+<h3><a name="windows_32_specific__conf_win32">Windows 32 specific <strong>/conf/win32</strong></a></h3>
+<pre>
+  /conf/win32/owner_name            ACL For setting owner permissions
+  /conf/win32/group_name            ACL For setting group permissions
+  /conf/win32/other_name            ACL For setting other permissions</pre>
+<p>
+</p>
+<h2><a name="cgi_parameters__cgi">CGI parameters <strong>/cgi</strong></a></h2>
+<pre>
+  VARIABLE NAME                 A B DESCRIPTION</pre>
+<pre>
+  /cgi/?                          * Submitted parameter ?</pre>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="author">AUTHOR</a></h1>
-<p>Ryan Gies</p>
+<p>Ryan Gies (<a href="mailto:ryangies@livesite.net">ryangies@livesite.net</a>)</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="copyright">COPYRIGHT</a></h1>
-<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
-<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.</p>
+<p>Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.</p>
+<p>Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:</p>
+<p>* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.</p>
+<p>* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.</p>
+<p>* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.</p>
+<p>* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.</p>
+<p>THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.</p>
+<p>To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="updated">UPDATED</a></h1>
-<p>This file created by &lt;#sys/proc/zname&gt; on &lt;#dt(nozeros,notime);sys/proc/tstamp&gt; at &lt;#dt(ampm,nosec,nozeros,nodate);sys/proc/tstamp&gt;</p>
+<p>06/09/2007</p>
 <p><a href="#__index__"><small>Top</small></a></p>
 
 </body>

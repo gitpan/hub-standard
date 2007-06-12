@@ -1,9 +1,11 @@
+<?xml version="1.0" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>hubuse</title>
-<link rel="stylesheet" href="pod.css" type="text/css" />
-<link rev="made" href="mailto:gerrit@familiehaase.de" />
+<link rel="stylesheet" href="styles.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
 </head>
 
 <body>
@@ -31,7 +33,8 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p id="packagename">hubuse - Using the Hub library</p><p>
+<p>hubuse - Using the Hub library</p>
+<p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
@@ -46,27 +49,28 @@ it is <em>use</em>d with.</p>
 <h1><a name="description">DESCRIPTION</a></h1>
 <p>Don't use the underlying modules directly:</p>
 <pre>
-  use Hub::Base::Logger;        # Wrong
+  use Hub::Base::FileSystem;    # Wrong
   use Hub;                      # Correct</pre>
 <pre>
-  my $logger = Hub::Base::Logger-&gt;new( 'my.log' );    # Wrong
-  my $logger = Hub::mkinst( 'Logger', 'my.log' );     # Correct</pre>
+  my $parser = Hub::Parse::FileParser-&gt;new('my.template');    # Wrong
+  my $parser = Hub::mkinst('FileParser', 'my.template');      # Correct</pre>
 <p>Without getting into gory detail, this non-standard approach is in place for
-two reasons:</p>
+three reasons:</p>
 <pre>
-  1) Allow the library to be refactored (maintained) without impacting existing
-     code.</pre>
+  1)  Allow the library to be refactored (maintained) without impacting existing
+      code.</pre>
 <pre>
-  2) We don't want to short-circut Perl's built-in require functionality which
-     would be necessary.</pre>
+  2)  We don't want to short-circut Perl's built-in require functionality which
+      would be necessary, were we to support direct underlying module usage.</pre>
+<pre>
+  3)  We only want to load underlying modules when they are needed.  We want to
+      group related modules in the same subdirectory. The subdirectory name 
+      will then be used as the import tag which loads its modules.</pre>
 <p>
 </p>
 <h2><a name="module_directory_structure">Module Directory Structure</a></h2>
 <p>By default, Hub tries to be as efficient as possible, only loading packages
-which are necessary.  Descendant packages are BulkSplit so that when it is
-required, only the header (dependancies and export lists) are loaded, and
-the body is AutoLoaded on the first call to a subroutine.
-See <a href="hubsplit.html">the hubsplit manpage</a> for details.</p>
+which are necessary.</p>
 <p>Subdirectories are used to group exported modules.  Underneath the
 root (Hub) directory, are sub-directories which represent the export tag
 of which the underlying modules should be represented.</p>
@@ -75,7 +79,7 @@ of which the underlying modules should be represented.</p>
       |-Base/:
       |-Util/:
       `-Webapp/:</pre>
-<p>Descendant packages maintain their exported symbols in the EXPORT_OK array.
+<p>Descendant packages maintain their exported symbols in their EXPORT_OK array.
 The Hub module proxies these exported symbols, thus requiring all descendant-
 exported symbols to be unique.</p>
 <p>Classes are created with the Hub::mkinst using their short-name.  Thus
@@ -91,20 +95,45 @@ with #2 simultaneously.</p>
 </p>
 <hr />
 <h1><a name="author">AUTHOR</a></h1>
-<p>Ryan Gies</p>
+<p>Ryan Gies (<a href="mailto:ryangies@livesite.net">ryangies@livesite.net</a>)</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="copyright">COPYRIGHT</a></h1>
-<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
-<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.</p>
+<p>Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.</p>
+<p>Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:</p>
+<p>* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.</p>
+<p>* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.</p>
+<p>* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.</p>
+<p>* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.</p>
+<p>THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.</p>
+<p>To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="updated">UPDATED</a></h1>
-<p>This file created by &lt;#sys/proc/zname&gt; on &lt;#dt(nozeros,notime);sys/proc/tstamp&gt; at &lt;#dt(ampm,nosec,nozeros,nodate);sys/proc/tstamp&gt;</p>
+<p>06/09/2007</p>
 <p><a href="#__index__"><small>Top</small></a></p>
 
 </body>

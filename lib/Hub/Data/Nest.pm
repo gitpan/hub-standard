@@ -1,19 +1,10 @@
 package Hub::Data::Nest;
-
-#-------------------------------------------------------------------------------
-# Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
-# Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
-#-------------------------------------------------------------------------------
-
-#line 2
 use strict;
-
 use Hub qw/:lib/;
-
-our $AUTOLOAD   = '';
-our $VERSION    = '3.01048';
-our @EXPORT     = qw//;
-our @EXPORT_OK  = qw//;
+our $AUTOLOAD = '';
+our $VERSION = '4.00012';
+our @EXPORT = qw//;
+our @EXPORT_OK = qw//;
 
 # ------------------------------------------------------------------------------
 # new - Constructor.
@@ -23,38 +14,41 @@ sub new {
     my $self = shift;
     my $class = ref( $self ) || $self;
     my $obj = bless {}, $class;
-    tie %$obj, 'Hub::Knots::TiedObject', 'Hub::Knots::Addressable';
-    Hub::merge( $$obj{'/'}, $_ ) for @_;
+    tie %$obj, 'Hub::Knots::TiedObject', 'Hub::Knots::Nest';
+    Hub::merge($$obj{'/'}, $_) for @_;
     return $obj;
 }#new
 
 # ------------------------------------------------------------------------------
-# AUTOLOAD - Proxy for data handler methods
-#
-#   get         # fetch
-#   set         # store
-#   append      # special store
-#   take        # delete
-# ------------------------------------------------------------------------------
+1;
 
-sub AUTOLOAD {
-    my $self        = shift;
-    my $classname   = ref($self) or die "Illegal call to instance method";
-    my ($method) = $AUTOLOAD =~ /::([a-z]+)$/;
-    my $action = 'Hub::h' . $method . 'v';
-    unshift @_, $self->{'*tied'};
-    goto &$action;
-}#AUTOLOAD
+__END__
 
-# ------------------------------------------------------------------------------
-# DESTROY
-# 
-# Defining this function prevents it from being searched in AUTOLOAD
-# ------------------------------------------------------------------------------
+=pod:summary Nested data object
 
-sub DESTROY {
-}#DESTROY
+=pod:synopsis
 
-# ------------------------------------------------------------------------------
+  use Hub qw(:standard);
+  my $nest = mkinst( 'Nest' );
+  $$nest{'colors'} = {
+    white => 'fff',
+    black => '000',
+  };
+  print '#', $$nest{'colors/black'}, "\n";
 
-'???';
+=pod:description
+
+This virtual base class ties itself to
+L<Hub::Knots::Nest|Hub::Knots::Nest> in order to hook into member 
+access routines.
+
+=head2 Intention
+
+We wish to have a single hash which behaves as the root element of a 
+hierarchical data structure.
+
+=head2 See also:
+
+L<hubaddr>
+
+=cut

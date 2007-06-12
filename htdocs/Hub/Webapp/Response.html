@@ -1,9 +1,11 @@
+<?xml version="1.0" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Hub::Webapp::Response</title>
-<link rel="stylesheet" href="../../pod.css" type="text/css" />
-<link rev="made" href="mailto:gerrit@familiehaase.de" />
+<link rel="stylesheet" href="../../styles.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
 </head>
 
 <body>
@@ -16,8 +18,18 @@
 	<li><a href="#name">NAME</a></li>
 	<li><a href="#synopsis">SYNOPSIS</a></li>
 	<li><a href="#description">DESCRIPTION</a></li>
-	<li><a href="#methods">METHODS</a></li>
-	<li><a href="#internal">INTERNAL</a></li>
+	<li><a href="#public_methods">PUBLIC METHODS</a></li>
+	<ul>
+
+		<li><a href="#respond">respond</a></li>
+	</ul>
+
+	<li><a href="#internal_methods">INTERNAL METHODS</a></li>
+	<ul>
+
+		<li><a href="#_get_headers">_get_headers</a></li>
+	</ul>
+
 	<li><a href="#author">AUTHOR</a></li>
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#updated">UPDATED</a></li>
@@ -29,92 +41,97 @@
 </p>
 <h1><a name="name">NAME</a></h1>
 <p>Hub::Webapp::Response - Response functions</p>
-<p>Part of the <a href="../../hublib.html">Hub Library</a></p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
 <pre>
-    use Hub qw(:standard);
-    callback( &amp;main );
-    sub main {
-        respond();
-    }</pre>
+  use Hub qw(:standard :webapp);
+  callback(&amp;main);
+  sub main {
+    respond(&quot;index.html&quot;);
+  }</pre>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
-<p>This class provides one method 'respond' which gleans all its information for
-the runtime symbol table $Hub.</p>
+<p>This class provides one method 'respond' which populates the response template
+with values from the registry.</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
-<h1><a name="methods">METHODS</a></h1>
-<table><tr><td>
-<a class="methlink" href="#item_respond">respond</a></td></tr></table><dl>
-<dt><strong><a name="item_respond">respond</a></strong><br />
-</dt>
-<dd>
-<strong>Print response to STDOUT</strong>
-</dd>
-<p></p></dl>
+<h1><a name="public_methods">PUBLIC METHODS</a></h1>
+<p>
+</p>
+<h2><a name="respond">respond</a></h2>
+<dl>
+<dt><strong><a name="item_print_response_to_stdout">Print response to STDOUT</a></strong>
+
+</dl>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
-<h1><a name="internal">INTERNAL</a></h1>
-<table><tr><td>
-<a class="methlink" href="#item__get_headers">_get_headers</a></td><td>
-<a class="methlink" href="#item__set_script">_set_script</a></td></tr></table><dl>
-<dt><strong><a name="item__get_headers">_get_headers</a></strong><br />
-</dt>
-<dd>
-<strong></strong>
-</dd>
+<h1><a name="internal_methods">INTERNAL METHODS</a></h1>
+<p>
+</p>
+<h2><a name="_get_headers">_get_headers</a></h2>
+<dl>
+<dt><strong><a name="item_standard_http_headers_by_file_extension">Standard HTTP headers by file extension</a></strong>
+
 <dd>
 <pre>
- Usage: _get_headers EXT</pre>
+ Usage: _get_headers $ext
+Return an array of headers ($content_encoding, $content_type, [other..])</pre>
 </dd>
-<dd>
-<p>Return an array where $_[0] = encoding and $_[1] = type</p>
-</dd>
-<p></p></dl>
-<dl>
-<dt><strong><a name="item__set_script">_set_script</a></strong><br />
-</dt>
-<dd>
-<strong>Replace all of the  placeholders</strong>
-</dd>
-<dd>
-<p>Replace all of the  placeholders with the url to this script.</p>
-</dd>
-<dd>
-<p>It is important that each link to the server contains the _display=
-parameter so that those requests know what page/module they are on.</p>
-</dd>
-<p></p></dl>
+</dl>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="author">AUTHOR</a></h1>
-<p>Ryan Gies</p>
+<p>Ryan Gies (<a href="mailto:ryangies@livesite.net">ryangies@livesite.net</a>)</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="copyright">COPYRIGHT</a></h1>
-<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
-<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.</p>
+<p>Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.</p>
+<p>Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:</p>
+<p>* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.</p>
+<p>* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.</p>
+<p>* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.</p>
+<p>* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.</p>
+<p>THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.</p>
+<p>To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="updated">UPDATED</a></h1>
-<p>This file created by  on  at</p>
+<p>06/09/2007</p>
 <p><a href="#__index__"><small>Top</small></a></p>
 
 </body>

@@ -1,56 +1,76 @@
 =head1 NAME
 
-Hub::Parse::Parser - 
+Hub::Parse::Parser - Template parser
 
-Part of the L<Hub Library|hublib>
 
 =head1 SYNOPSIS
+
+
+  use Hub qw(:standard);
+
+  my $text = 'Hello [#/user], it is [#/date/month]';
+  my $values = {
+    user => ryan,
+    date => {
+      year => 2007,
+      day => 10,
+      month => March
+    },
+  };
+
+  my $parser = mkinst('Parser', -tempate => \$text);
+  print $parser->parse($values);
+
+Will produce the result:
+
+  Hello ryan, it is March
 
 
 
 =head1 DESCRIPTION
 
 
+=head2 Intention
 
-=head1 METHODS
 
-=begin html
 
-<table><tr><td>
-<a class="methlink" href="#item_new">new</a>
+=head1 PUBLIC METHODS
 
-</td><td>
-<a class="methlink" href="#item_populate">populate</a>
-
-</td><td>
-<a class="methlink" href="#item_refresh">refresh</a>
-
-</td><td>
-<a class="methlink" href="#item_tweaker">tweaker</a>
-
-</td></tr></table>
-
-=end html
-
+=head2 new
 
 =over 4
 
-=item new
+=item Construct a new instance
 
-B<>
 
- Usage: new
+ Usage: new -template => \$text|$text, [options]
 
-Constructor.
+
+options:
+
+
+  -var_begin => $string     # Identifies beginning of a variable (no regexp)
+  -var_end => $string       # Identifies the end of a variable (no regexp)
 
 
 =back
 
+=head2 refresh
+
 =over 4
 
-=item populate
+=item Return instance to initial state
 
-B<>
+
+
+
+=back
+
+=head2 populate
+
+=over 4
+
+=item 
 
  Usage: populate \HASH+
 
@@ -63,124 +83,99 @@ PARAMETERS:
 
   \HASH               Variable name to definition map
 
-B<Example: This example>:
+B<Example>: (matches)
 
-    my $parser = mkinst( 'Parser', -template => 'Hello ' );
+    my $parser = mkinst( 'Parser', -template => 'Hello [#who]' );
+              ${$parser->populate( { who => 'World' } )};
 
-B<matches>:
 
     Hello World
 
-=back
-
-=over 4
-
-=item refresh
-
-B<>
-
- Usage: refresh
-
-Return instance to initial state.
-
 
 =back
 
+=head2 get_evaluator
+
 =over 4
 
-=item tweaker
-
-B<>
-
- Usage: tweaker \$value, $tweak+
-
-
-Tweaks allow modification to variable values.  This is expensive, and hence
-should be used only as a last resort.
+=item Hook into evaluator loop by overriding this method.
 
 
 
-No spaces are allowed in the tweak name!
+ Usage: get_evaluator $directive
 
 
-Variables have to be specified as {#name} (not ) because of the use
-of s/name/value/g in the main populate routine.
-
-
-
-Implemented tweaks:
-
-
-  !                   # Run command (custom tweak)
-
-
-  tr///               # transliterates search chars with replacement chars
-  lc                  # lower case
-  uc                  # upper case
-  lcfirst             # lower case first letter
-  ucfirst             # upper case first letter
-  x=                  # repeat the value so many times
-
-
-  esc                 # escape non-word characters
-  html                # replace '<' and '>' with '&lt;' and '&gt;'
-
-
-  num                 # number (will use zero '0' if empty)
-  dt(opts)            # datetime with options (see datetime).
-
-  dhms(opts)          # day/hour/min/sec with options (see dhms).
+Returns a subroutine (CODE) reference.
 
 
 
-  eq                  # equal
-  ne                  # not equal
-  gt                  # greater than
-  lt                  # less than
-  if                  # is greater than zero (or non-empty string)
+This method is used by this base class to get the evaluator when a particular
+directive is incountered.  For instance, if the template contains:
 
 
-  -                   # minus
-  +                   # plus
-  *                   # multiply
-  /                   # divide
-  %                   # mod
+  Hello  Usage: get_evaluator('if') will be called.  See L<Hub::Parse::StandardParser> for
+an example of how this class is extended.
+
+
+
+=back
+=head2 get_value
+
+=over 4
+
+=item Search the provided hashes for a value
+
+
+ Usage: get_value $name, $hash, [$hash..]
+
 
 =back
 
-=head1 INTERNAL
-
-=begin html
-
-<table><tr><td>
-<a class="methlink" href="#item__getv">_getv</a>
-
-</td><td>
-<a class="methlink" href="#item__populate">_populate</a>
-
-</td><td>
-<a class="methlink" href="#item__tweak">_tweak</a>
-
-</td></tr></table>
-
-=end html
-
+=head2 resolve
 
 =over 4
 
-=item _getv
+=item Get a string representation of a value
 
-B<Get a value from the current values array>
 
 
 
 =back
 
+=head2 get_hint
+
 =over 4
 
-=item _populate
+=item Show where we are in parsing the text
 
-B<>
+
+ Usage: get_hint $position, \$text
+
+
+=back
+
+=head2 remove_variables
+
+=over 4
+
+=item Remove variable statements from the text
+
+
+ Usage: remove_variables \$text
+This will *not* remove parents of nested variables.
+
+
+
+=back
+
+
+=head1 INTERNAL METHODS
+
+=head2 _populate
+
+=over 4
+
+=item 
 
  Usage: _populate [OPTIONS], \HASH+
 
@@ -201,41 +196,178 @@ OPTIONS:
 
   -text   \SCALAR     Template text to populate
 
+
 =back
+
+=head2 _evaluate
 
 =over 4
 
-=item _tweak
+=item Evaluate the expression
 
-B<>
 
- Usage: _tweak
+ Usage: _evaluate \@value_data, @parameters
 
-Internal function.
 
-Tweak values.
+Where @parameters are:
 
-Subroutine for tweaking must be provided in the constructor.
+
+  -fields     => \@fields
+  -outer_str  => $outer_str
+  -pos        => $position
+  -text       => \$text
 
 
 =back
 
+=head2 _to_string
+
+=over 4
+
+=item 
+
+_value_of - The default string value of an object
+
+
+=back
+
+=head2 _get_block
+
+=over 4
+
+=item Find the block for a given directive
+
+
+ Usage: _get_block $start_position, \$text, $type
+
+
+=back
+
+=head2 _find_point
+
+=over 4
+
+=item Find the next occurance of a single argument directive
+
+
+ Usage: _find_point \$text, $begin_point, $directive_name, $argument_value
+
+
+If you are looking for:  then you would use this method as:
+
+
+  _find_point($text, $pos, 'parser', 'on');
+
+
+=back
+
+=head2 _find_end_point
+
+=over 4
+
+=item Find the '' marker
+
+
+ Usage: _find_end_point - \$text, $begin_point, $type
+
+
+Returns the beg
+
+
+=back
+
+=head2 _padding
+
+=over 4
+
+=item Get number of preceeding and trailing whitespace characters
+
+
+ Usage: _padding \$text, $pos, $width
+
+
+  \$text    template
+  $pos      current position in $$text
+  $width    width of the current match
+
+
+Returns an array of widths: ($w1, $w2)
+
+
+  $w1 = Number of preceeding whitespace characters
+  $w2 = Number of trailing whitespace characters
+
+
+Returns an empty array if non-whitespace characters are found in the
+preceeding or trailing regions.
+
+
+
+We will look up to 80 characters in front of the current position (ie, 80
+character indent maximum.)
+
+
+=back
+
+=head2 _split_if_else
+
+=over 4
+
+=item 
+
+
+
+=back
+
+
 =head1 AUTHOR
 
+Ryan Gies (ryangies@livesite.net)
 
-
-Ryan Gies
 
 =head1 COPYRIGHT
 
+Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.
+
+Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.
 
 
-Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:
 
-Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.
+
+* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.
+
+* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.
+
+* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.
+
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.
+
+To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.
+
 
 =head1 UPDATED
 
-This file created by  on  at 
+06/09/2007
 
 =cut

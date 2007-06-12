@@ -1,0 +1,79 @@
+8
+
+dir
+117
+svn+ssh://206.63.25.115/var/svn/repos/livesite/trunk/code/perl/build/templates/lib
+svn+ssh://206.63.25.115/var/svn/repos/livesite
+
+
+
+2007-05-22T03:45:47.457777Z
+67
+ryan
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+9b4ab0be-3106-4dd6-b4c4-43caaa45ba2f
+
+lib
+dir
+
+MANIFEST
+file
+
+
+
+
+2007-05-24T04:03:28.000000Z
+6f2f6a0ef7748ce19ffdb27bcb5a95d7
+2007-05-05T04:50:25.463039Z
+60
+ryan
+
+Makefile.PL
+file
+
+
+
+
+2007-05-24T04:03:28.000000Z
+765c1914ea99e3691628532d7d8ab83a
+2007-05-21T19:28:44.332056Z
+66
+ryan
+
+Changes
+file
+
+
+
+
+2007-05-24T04:03:28.000000Z
+6814a8186472a12ed05e808ec00f0267
+2007-05-05T04:50:25.463039Z
+60
+ryan
+
+README
+file
+
+
+
+
+2007-05-24T04:03:28.000000Z
+2a8721f5e6f65678af582bf36a16730c
+2007-05-22T03:45:47.457777Z
+67
+ryan
+

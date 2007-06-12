@@ -1,0 +1,215 @@
+=head1 NAME
+
+Hub::Misc::Transform - Utility methods for transforming data
+
+
+=head1 SYNOPSIS
+
+
+  use Hub qw(:standard);
+
+
+
+=head1 DESCRIPTION
+
+
+=head2 Intention
+
+
+
+=head1 PUBLIC METHODS
+
+=head2 safestr
+
+=over 4
+
+=item 
+
+
+
+=back
+
+=head2 packcgi
+
+=over 4
+
+=item 
+
+ Usage: packcgi $string|\$string
+
+Pack characters into those used for passing by the cgi.
+
+
+
+=back
+
+=head2 unpackcgi
+
+=over 4
+
+=item 
+
+ Usage: unpackcgi QUERY
+
+Unpack cgi characters into a kv hashref
+
+
+=back
+
+=head2 nbspstr
+
+=over 4
+
+=item Format a string, replacing spaces with '&nbsp;'
+
+
+ Usage: nbspstr - $text
+
+
+For example:
+
+
+  nbspstr( "Hello <not html tags> world!" )
+
+
+would return:
+
+
+  "Hello&nbsp;<not html tags>&nbsp;World"
+
+
+=back
+
+=head2 jsstr
+
+=over 4
+
+=item 
+
+ Usage: jsstr
+
+
+Format as one long string for use as the rval in javascript (ie put the
+backslash continue-ator at the end of each line).
+
+
+
+=back
+
+=head2 populate
+
+=over 4
+
+=item Populate template text with values
+
+
+ Usage: populate $text|\$text, \%values [,\%values...] [option]
+
+
+options:
+
+
+  -as_ref=1               Return a reference
+
+B<Example>: (matches)
+
+    populate('mu[#foo]m', { foo => 'shroo' });
+
+
+    mushroom
+
+B<Example>: (matches)
+
+    ref(populate('a[#b]c', { b => 'bee' }, '-as_ref=1'));
+
+
+    SCALAR
+
+
+=back
+
+=head2 hashtoattrs
+
+=over 4
+
+=item Turn the given hash into an key="value" string.
+
+
+
+ Usage: hashtoattrs \%hash, [\@ignore_keys]
+
+
+When C<ignore_keys> is provided, matching hash keys will not be converted.
+
+
+
+
+B<Example>: (matches)
+
+  my $hash = {
+    'class'   => "foodidly",
+    'name'    => "bobsmith",
+    'height'  => "5px",
+    'junk'    => "ignore me",
+  };
+  hashtoattrs($hash, ['junk']);
+
+
+    class=\"foodidly\" height=\"5px\" name=\"bobsmith\"
+
+
+=back
+
+
+
+=head1 AUTHOR
+
+Ryan Gies (ryangies@livesite.net)
+
+
+=head1 COPYRIGHT
+
+Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.
+
+Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.
+
+
+Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.
+
+* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.
+
+* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.
+
+* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.
+
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.
+
+To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.
+
+
+=head1 UPDATED
+
+06/09/2007
+
+=cut

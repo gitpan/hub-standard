@@ -2,108 +2,104 @@
 
 Hub::Webapp::Response - Response functions
 
-Part of the L<Hub Library|hublib>
 
 =head1 SYNOPSIS
 
 
-    use Hub qw(:standard);
-    callback( &main );
-    sub main {
-        respond();
-    }
+  use Hub qw(:standard :webapp);
+  callback(&main);
+  sub main {
+    respond("index.html");
+  }
+
 
 
 =head1 DESCRIPTION
 
 
-This class provides one method 'respond' which gleans all its information for
-the runtime symbol table $Hub.
+This class provides one method 'respond' which populates the response template
+with values from the registry.
 
 
-=head1 METHODS
 
-=begin html
+=head1 PUBLIC METHODS
 
-<table><tr><td>
-<a class="methlink" href="#item_respond">respond</a>
-
-</td></tr></table>
-
-=end html
-
+=head2 respond
 
 =over 4
 
-=item respond
+=item Print response to STDOUT
 
-B<Print response to STDOUT>
 
 
 
 =back
 
-=head1 INTERNAL
 
-=begin html
+=head1 INTERNAL METHODS
 
-<table><tr><td>
-<a class="methlink" href="#item__get_headers">_get_headers</a>
-
-</td><td>
-<a class="methlink" href="#item__set_script">_set_script</a>
-
-</td></tr></table>
-
-=end html
-
+=head2 _get_headers
 
 =over 4
 
-=item _get_headers
-
-B<>
-
- Usage: _get_headers EXT
+=item Standard HTTP headers by file extension
 
 
-Return an array where $_[0] = encoding and $_[1] = type
-
-=back
-
-=over 4
-
-=item _set_script
-
-B<Replace all of the  placeholders>
-
-
-
-
-Replace all of the  placeholders with the url to this script.
-
-It is important that each link to the server contains the _display=
-parameter so that those requests know what page/module they are on.
+ Usage: _get_headers $ext
+Return an array of headers ($content_encoding, $content_type, [other..])
 
 
 =back
+
 
 =head1 AUTHOR
 
+Ryan Gies (ryangies@livesite.net)
 
-
-Ryan Gies
 
 =head1 COPYRIGHT
 
+Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.
+
+Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.
 
 
-Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:
 
-Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.
+
+* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.
+
+* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.
+
+* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.
+
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.
+
+To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.
+
 
 =head1 UPDATED
 
-This file created by  on  at 
+06/09/2007
 
 =cut

@@ -1,9 +1,11 @@
+<?xml version="1.0" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Hub::Base::Object</title>
-<link rel="stylesheet" href="../../pod.css" type="text/css" />
-<link rev="made" href="mailto:gerrit@familiehaase.de" />
+<link rel="stylesheet" href="../../styles.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
 </head>
 
 <body>
@@ -22,8 +24,14 @@
 		<li><a href="#bypassing_public_private_switching">Bypassing public/private switching</a></li>
 	</ul>
 
-	<li><a href="#methods">METHODS</a></li>
-	<li><a href="#internal">INTERNAL</a></li>
+	<li><a href="#public_methods">PUBLIC METHODS</a></li>
+	<ul>
+
+		<li><a href="#new">new</a></li>
+		<li><a href="#daccess">daccess</a></li>
+		<li><a href="#refresh">refresh</a></li>
+	</ul>
+
 	<li><a href="#author">AUTHOR</a></li>
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#updated">UPDATED</a></li>
@@ -35,7 +43,6 @@
 </p>
 <h1><a name="name">NAME</a></h1>
 <p>Hub::Base::Object - Standard object base class</p>
-<p>Part of the <a href="../../hublib.html">Hub Library</a></p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
@@ -45,7 +52,7 @@
     package MyPackage;
     use strict;
     use Hub qw(:base);
-    our @ISA = qw(Hub::Base::Object);</pre>
+    push our @ISA, qw(Hub::Base::Object);</pre>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
@@ -82,7 +89,7 @@ with <strong>private:</strong></p>
 <pre>
     $object-&gt;{'private:name'} = 'My::Object';</pre>
 <p>Additionally, you may grab a reference to the underlying public and private
-data hashes by using the <a href="#item_daccess">daccess</a> method:</p>
+data hashes by using the <a href="#daccess">the daccess manpage</a> method:</p>
 <pre>
     my $public = $object-&gt;daccess('public');
     croak unless $$public{'name'} eq $$object{'name'};</pre>
@@ -90,87 +97,97 @@ data hashes by using the <a href="#item_daccess">daccess</a> method:</p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
-<h1><a name="methods">METHODS</a></h1>
-<table><tr><td>
-<a class="methlink" href="#item_daccess">daccess</a></td><td>
-<a class="methlink" href="#item_new">new</a></td><td>
-<a class="methlink" href="#item_refresh">refresh</a></td></tr></table><dl>
-<dt><strong><a name="item_daccess">daccess</a></strong><br />
-</dt>
-<dd>
-<strong>Direct access to member hashes</strong>
-</dd>
+<h1><a name="public_methods">PUBLIC METHODS</a></h1>
+<p>
+</p>
+<h2><a name="new">new</a></h2>
+<dl>
+<dt><strong><a name="item_constructor_2e">Constructor.</a></strong>
+
 <dd>
 <pre>
- Usage: daccess KEYNAME</pre>
+ Usage: new [@parameters]
+Parameters are passed to the standard initialization method L&lt;refresh&gt;.</pre>
 </dd>
-<dd>
-<p>KEYNAME:</p>
-</dd>
+</dl>
+<p>
+</p>
+<h2><a name="daccess">daccess</a></h2>
+<dl>
+<dt><strong><a name="item_direct_access_to_member_hashes">Direct access to member hashes</a></strong>
+
 <dd>
 <pre>
+ Usage: daccess $hash_key
+Where $hash_key and be:
   'public'        Public hash
   'private'       Private hash
   'internal'      Internal hash (used to tie things together)</pre>
 </dd>
-<p></p></dl>
+</dl>
+<p>
+</p>
+<h2><a name="refresh">refresh</a></h2>
 <dl>
-<dt><strong><a name="item_new">new</a></strong><br />
-</dt>
-<dd>
-<strong>Constructor.</strong>
-</dd>
+<dt><strong><a name="item_return_instance_to_initial_state_2e">Return instance to initial state.</a></strong>
+
 <dd>
 <pre>
- Usage: new LIST</pre>
-</dd>
-<dd>
-<p>Parameters are passed to the standard initialization method <a href="#item_refresh">refresh</a>.</p>
-</dd>
-<p></p></dl>
-<dl>
-<dt><strong><a name="item_refresh">refresh</a></strong><br />
-</dt>
-<dd>
-<strong>Return instance to initial state.</strong>
-</dd>
-<dd>
-<pre>
- Usage: refresh LIST</pre>
+ Usage: refresh [@parameters]</pre>
 </dd>
 <dd>
 <p>Interface method, override in your derived class.  Nothing is done in this
 base class.</p>
 </dd>
 <dd>
-<p>Called implictly by <a href="#item_new">new</a>, and when persistent interpreters (such as
-mod_perl) would have called <a href="#item_new">new</a>.</p>
+<p>Called implictly by <a href="#new">the new manpage</a>, and when persistent interpreters (such as
+mod_perl) would have called <a href="#new">the new manpage</a>.</p>
 </dd>
-<p></p></dl>
-<p>
-<a href="#__index__"><small>Top</small></a>
-</p>
-<hr />
-<h1><a name="internal">INTERNAL</a></h1>
+</dl>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="author">AUTHOR</a></h1>
-<p>Ryan Gies</p>
+<p>Ryan Gies (<a href="mailto:ryangies@livesite.net">ryangies@livesite.net</a>)</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="copyright">COPYRIGHT</a></h1>
-<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
-<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.</p>
+<p>Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.</p>
+<p>Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:</p>
+<p>* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.</p>
+<p>* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.</p>
+<p>* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.</p>
+<p>* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.</p>
+<p>THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.</p>
+<p>To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="updated">UPDATED</a></h1>
-<p>This file created by  on  at</p>
+<p>06/09/2007</p>
 <p><a href="#__index__"><small>Top</small></a></p>
 
 </body>

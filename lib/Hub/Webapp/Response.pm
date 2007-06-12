@@ -1,21 +1,10 @@
 package Hub::Webapp::Response;
-
-#-------------------------------------------------------------------------------
-# Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
-# Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
-#-------------------------------------------------------------------------------
-
-#line 2
 use strict;
-
 use Hub qw/:lib/;
-
-our $VERSION        = '3.01048';
-our @EXPORT         = qw//;
-our @EXPORT_OK      = qw/
-
+our $VERSION = '4.00012';
+our @EXPORT = qw//;
+our @EXPORT_OK = qw/
     respond
-
 /;
 
 # ------------------------------------------------------------------------------
@@ -24,106 +13,71 @@ our @EXPORT_OK      = qw/
 
 sub respond {
 
-    my $opts = {};
+  # Validate response template
+  my $response_template =
+    Hub::bestof(Hub::srcpath($$Hub{'/sys/response/template'}), '');
+  unless($response_template) {
+    warn "Response template not found: $$Hub{'/sys/response/template'}";
+    my $ext = Hub::getext($$Hub{'/sys/response/template'}) || '';
+    $response_template = Hub::bestof(
+      $$Hub{"/conf/not_found/$ext"},
+      $$Hub{"/conf/not_found/other"}
+    );
+    unless (-e $response_template) {
+      warn "Cannot locate not_found document";
+      return;
+    }
+  }
 
-    Hub::opts( \@_, $opts );
+  # Merge templates with values
+  my $contents = Hub::readfile($response_template);
+  my $parser = Hub::mkinst('HtmlParser', -template => \$contents);
+  my $output = $parser->populate($Hub);
 
-    #
-    # Validate response template
-    #
-
-    my $response_template = Hub::spath( $$Hub{'/sys/response/template'} );
-
-    unless( $response_template ) {
-
-        Hub::lerr( "Response template not found: " . $$Hub{'/sys/response/template'} );
-
-        $response_template = Hub::spath('index.html');
-
-    }#unless
-
-    #
-    # Print headers
-    #
-
-    my ($encoding,$type,$header) = _get_headers( Hub::getext( $response_template ) );
-
-    my $headers = $$Hub{'/sys/response/headers'} || [];
-
-    unshift @$headers, $Hub->session->getclientcookie();
-
+  # Print headers
+  my $headers = $$Hub{'/sys/response/headers'} || [];
+  unless (substr($$output, 0, 500) =~ /Content-Type:/i) {
+    my ($encoding,$type,$header) =
+      _get_headers(Hub::getext($response_template));
     push @$headers, "Content-type: $type\n\n";
+  }
+  map { $_ and print $_ =~ /\n$/ ? $_ : "$_\n" } @$headers;
 
-    map { $_ and print $_ =~ /\n$/ ? $_ : "$_\n" } @$headers;
+  # Send output
+  print $$output if defined $output;
 
-    #
-    # Merge templates with values
-    #
-
-    my $contents = Hub::readfile( $response_template );
-
-    my $parser = Hub::mkinst( 'Parser', -template => \$contents );
-
-    my $output = $parser->populate( $$Hub{'/'} );
-
-    _set_script( $output );
-
-    Hub::polish( $output );
-
-    #
-    # Send output
-    #
-
-    Hub::lmsg( "Printing (length=" . length($$output) . ")", "info" );
-
-    print $$output;
-
-}#respond
+}
 
 # ------------------------------------------------------------------------------
-# _get_headers EXT
-#
-# Return an array where $_[0] = encoding and $_[1] = type
+# _get_headers - Standard HTTP headers by file extension
+# _get_headers $ext
+# Return an array of headers ($content_encoding, $content_type, [other..])
 # ------------------------------------------------------------------------------
 
 sub _get_headers {
-
-    my $ext = lc( shift );
-
-    my $content_types = $$Hub{"/sys/content_types/$ext"} || {};
-
-    my $e = $content_types->{'encoding'}    || "";
-    my $t = $content_types->{'type'}        || "";
-    my $h = $content_types->{'header'}      || "";
-
-    return ($e,$t,$h);
-
-}#_get_headers
-
-#-------------------------------------------------------------------------------
-# _set_script - Replace all of the <#SCRIPT> placeholders
-#
-# Replace all of the <#SCRIPT> placeholders with the url to this script.
-# It is important that each link to the server contains the _display=
-# parameter so that those requests know what page/module they are on.
-#-------------------------------------------------------------------------------
-sub _set_script {
-
-    my $response = shift;
-
-    while( $$response =~ /<#SCRIPT([^>]*)>\??([^'"]*)/ ) {
-
-        my $subreq  = Hub::CGISIG_SUBREQ() . "=" . $1;
-
-        my $params  = $2;
-
-        my $url     = $Hub->session->mkurl( "$subreq;$params" );
-
-        $$response =~ s/<#SCRIPT[^>]*>[^'"]*/$url/;
-
-    }#while
-
-}#_set_script
+  my $ext = lc(shift) || '';
+  # Create the map
+  $$Hub{"/conf/content_types"} ||= {
+    htm => {
+      type => 'text/html',
+    },
+    js => {
+      type => 'text/javascript',
+    },
+    css => {
+      type => 'text/css',
+    },
+    html => {
+      type => 'text/html',
+    },
+  };
+  # Lookup by file extension
+  my $content_types = $$Hub{"/conf/content_types/$ext"} || {};
+  my $e = $content_types->{'encoding'} || "";
+  my $t = $content_types->{'type'} || "text/html";
+  my $h = $content_types->{'header'} || "";
+  return ($e,$t,$h);
+}
 
 #-------------------------------------------------------------------------------
  1;
@@ -134,17 +88,15 @@ __END__
 
 =pod:synopsis
 
-    use Hub qw(:standard);
-    callback( &main );
-    sub main {
-        respond();
-    }
+  use Hub qw(:standard :webapp);
+  callback(&main);
+  sub main {
+    respond("index.html");
+  }
 
 =pod:description
 
-This class provides one method 'respond' which gleans all its information for
-the runtime symbol table $Hub.
+This class provides one method 'respond' which populates the response template
+with values from the registry.
 
 =cut
-
-'???';

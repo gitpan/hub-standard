@@ -2,8 +2,6 @@
 
 Hub::Data::Address - 
 
-Part of the L<Hub Library|hublib>
-
 =head1 SYNOPSIS
 
 
@@ -12,41 +10,198 @@ Part of the L<Hub Library|hublib>
 
 
 
-=head1 METHODS
+=head1 PUBLIC METHODS
 
-=begin html
-
-<table><tr><td>
-<a class="methlink" href="#item_dotaddr">dotaddr</a>
-
-</td><td>
-<a class="methlink" href="#item_keydepth">keydepth</a>
-
-</td><td>
-<a class="methlink" href="#item_varparent">varparent</a>
-
-</td><td>
-<a class="methlink" href="#item_vartype">vartype</a>
-
-</td></tr><tr><td>
-<a class="methlink" href="#item_expand">expand</a>
-
-</td><td>
-<a class="methlink" href="#item_varname">varname</a>
-
-</td><td>
-<a class="methlink" href="#item_varroot">varroot</a>
-
-</td></tr></table>
-
-=end html
-
+=head2 keydepth
 
 =over 4
 
-=item dotaddr
+=item 
 
-B<>
+ Usage: keydepth
+
+For sorting parents and children, this simply lets you know how deep the key
+is named.
+
+
+B<Example>: (matches)
+
+    keydepth( 'and:then:came:the:rain' )
+
+
+    4
+
+
+=back
+
+=head2 vartype
+
+=over 4
+
+=item 
+
+ Usage: vartype VARADDR, [DEFAULT]
+
+
+Return a variables type (or a default value).
+
+
+B<Example>: (matches)
+
+    vartype( );
+
+
+
+
+B<Example>: (matches)
+
+    vartype( "clr-bg" );
+
+
+    clr
+
+B<Example>: (matches)
+
+    vartype( "clr-bg", "default" );
+
+
+    clr
+
+B<Example>: (matches)
+
+    vartype( "whatev", "default" );
+
+
+    default
+
+B<Example>: (matches)
+
+    vartype( "whatev" );
+
+
+
+
+B<Example>: (matches)
+
+    vartype( "a:b:c" );
+
+
+
+
+B<Example>: (matches)
+
+    vartype( "x-a:b:c" );
+
+
+    x
+
+B<Example>: (matches)
+
+    vartype( "a:b:x-c" );
+
+
+    x
+
+
+=back
+
+=head2 varroot
+
+=over 4
+
+=item 
+
+ Usage: varroot VARADDR
+
+
+The root portion of the address.
+
+
+B<Example>: (matches)
+
+    varroot( "p001:items:1002:text-description" );
+
+
+    p001
+
+B<Example>: (matches)
+
+    varroot( "p001" );
+
+
+    p001
+
+
+=back
+
+=head2 varname
+
+=over 4
+
+=item 
+
+ Usage: varname VARADDR
+
+
+
+B<Example>: (matches)
+
+    varname( "p001:items:1002:text-desc" );
+
+
+    text-desc
+
+B<Example>: (matches)
+
+    varname( "p001" );
+
+
+    p001
+
+
+=back
+
+=head2 varparent
+
+=over 4
+
+=item 
+
+ Usage: varparent VARADDR
+
+
+Parent address.
+
+
+B<Example>: (matches)
+
+    varparent( "p001:items:12:1000" );
+
+
+    p001:items:12
+
+B<Example>: (matches)
+
+    varparent( "p001:items:10:subs:100" );
+
+
+    p001:items:10:subs
+
+B<Example>: (matches)
+
+    varparent( "p001" );
+
+
+
+
+
+=back
+
+=head2 dotaddr
+
+=over 4
+
+=item 
 
  Usage: dotaddr VARADDR
 
@@ -54,45 +209,40 @@ Replace address separators with dots.  In essence, protecting the address
 from expansion.
 
 
-B<Example: This example>:
+B<Example>: (matches)
 
-    dotaddr( "p004:proj:1000" );
+    dotaddr("p004:proj:1000");
 
-B<matches>:
 
     p004.proj.1000
 
-B<Example: This example>:
+B<Example>: (matches)
 
-    dotaddr( "p004:proj:1000:name" );
+    dotaddr("p004:proj:1000:name");
 
-B<matches>:
 
     p004.proj.1000.name
 
-B<Example: This example>:
+B<Example>: (matches)
 
-    dotaddr( "p001" );
+    dotaddr("p001");
 
-B<matches>:
 
     p001
 
-B<Example: This example>:
+B<Example> returns: B<defined>:
 
-    dotaddr( "" );
-
-B<matches>:
+    dotaddr("");
 
 
 
 =back
 
+=head2 expand
+
 =over 4
 
-=item expand
-
-B<>
+=item 
 
  Usage: expand HASHREF, [OPTIONS]
 
@@ -105,233 +255,86 @@ and subarrays as necessary.
 OPTIONS:
 
 
-  meta    => 1                # add '_address' and '_id' metadata to hashes
-  root    => SCALAR           # use this as a prefix for '_address'
+  meta    => 1                # add '.address' and '.id' metadata to hashes
+  root    => SCALAR           # use this as a prefix for '.address'
 
 Returns HASHREF
 
+
 =back
+
+=head2 collapse
 
 =over 4
 
-=item keydepth
-
-B<>
-
- Usage: keydepth
-
-For sorting parents and children, this simpley lets you know how deep the key
-is named.
+=item Collapse a nested structure into key/value pairs
 
 
-B<Example: This example>:
-
-    keydepth( 'and:then:came:the:rain' )
-
-B<matches>:
-
-    4
-
-=back
-
-=over 4
-
-=item varname
-
-B<>
-
- Usage: varname VARADDR
+ Usage: collapse ?ref, [options]
 
 
-
-B<Example: This example>:
-
-    varname( "p001:items:1002:text-desc" );
-
-B<matches>:
-
-    text-desc
-
-B<Example: This example>:
-
-    varname( "p001" );
-
-B<matches>:
-
-    p001
-
-=back
-
-=over 4
-
-=item varparent
-
-B<>
-
- Usage: varparent VARADDR
+options
 
 
-Parent address.
+  -containers=1        Just return containers
 
 
-B<Example: This example>:
-
-    varparent( "p001:items:12:1000" );
-
-B<matches>:
-
-    p001:items:12
-
-B<Example: This example>:
-
-    varparent( "p001:items:10:subs:100" );
-
-B<matches>:
-
-    p001:items:10:subs
-
-B<Example: This example>:
-
-    varparent( "p001" );
-
-B<matches>:
+Returns a hash reference.
 
 
 
 =back
 
-=over 4
 
-=item varroot
-
-B<>
-
- Usage: varroot VARADDR
-
-
-The root portion of the address.
-
-
-B<Example: This example>:
-
-    varroot( "p001:items:1002:text-description" );
-
-B<matches>:
-
-    p001
-
-B<Example: This example>:
-
-    varroot( "p001" );
-
-B<matches>:
-
-    p001
-
-=back
-
-=over 4
-
-=item vartype
-
-B<>
-
- Usage: vartype VARADDR, [DEFAULT]
-
-
-Return a variables type (or a default value).
-
-
-B<Example: This example>:
-
-    vartype( );
-
-B<matches>:
-
-
-
-B<Example: This example>:
-
-    vartype( "clr-bg" );
-
-B<matches>:
-
-    clr
-
-B<Example: This example>:
-
-    vartype( "clr-bg", "default" );
-
-B<matches>:
-
-    clr
-
-B<Example: This example>:
-
-    vartype( "whatev", "default" );
-
-B<matches>:
-
-    default
-
-B<Example: This example>:
-
-    vartype( "whatev" );
-
-B<matches>:
-
-
-
-B<Example: This example>:
-
-    vartype( "a:b:c" );
-
-B<matches>:
-
-
-
-B<Example: This example>:
-
-    vartype( "x-a:b:c" );
-
-B<matches>:
-
-    x
-
-B<Example: This example>:
-
-    vartype( "a:b:x-c" );
-
-B<matches>:
-
-    x
-
-=back
-
-=head1 INTERNAL
-
-=begin html
-
-
-
-=end html
 
 =head1 AUTHOR
 
+Ryan Gies (ryangies@livesite.net)
 
-
-Ryan Gies
 
 =head1 COPYRIGHT
 
+Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.
+
+Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.
 
 
-Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:
 
-Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.
+
+* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.
+
+* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.
+
+* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.
+
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.
+
+To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.
+
 
 =head1 UPDATED
 
-This file created by  on  at 
+06/09/2007
 
 =cut

@@ -1,335 +1,234 @@
 =head1 NAME
 
-Hub::Data::Handlers - Nested data handlers
+Hub::Data::Handlers - Access nested data
 
-Part of the L<Hub Library|hublib>
 
 =head1 SYNOPSIS
 
 
-    use Hub qw(:standard);
-    my $h = {};
-    hsetv( $h, "/user1/fname",  "Steve" );
-    hsetv( $h, "/user2/fname",  "Mandy" );
 
 
 =head1 DESCRIPTION
 
 
-See also L<hubaddr>
 
 
-=head1 METHODS
+=head1 PUBLIC METHODS
 
-=begin html
-
-<table><tr><td>
-<a class="methlink" href="#item_happendv">happendv</a>
-
-</td><td>
-<a class="methlink" href="#item_hgetv">hgetv</a>
-
-</td><td>
-<a class="methlink" href="#item_hsetv">hsetv</a>
-
-</td><td>
-<a class="methlink" href="#item_htakev">htakev</a>
-
-</td></tr></table>
-
-=end html
-
+=head2 fetch
 
 =over 4
 
-=item happendv
-
-B<Hash Append Value>
+=item Get a nested value whose parent may need to be loaded from disk
 
 
-
-
- Usage: happendv \HASH, $ADDRESS, VALUE, OPTIONS*
-
-Append to an existing value and return like L<hgetv>.
-
-
-
-OPTIONS:
-
-
-  -asa=1      Force value as array (transforms existing scalars.)
-
-=back
-
-=over 4
-
-=item hgetv
-
-B<Hash Get Value>
-
-
-
-
- Usage: hgetv \%HASH, $ADDRESS, [OPTIONS]
- Usage: hgetv \%HASH, \@ADDRESSES, [OPTIONS]
-
-
-In its first form, hgetv will return the value specified by $ADDRESS.
-
-
-
-In its second form, an array of values is returned for each @ADDRESS.  In
-scalar context the array is returned as a reference.
-
-
-
-OPTIONS:
-
-
-  -sdref=0    Do *not* de-reference scalar values.
+ Usage: fetch \%data, $index
 
 
 =back
 
+=head2 store
+
 =over 4
 
-=item hsetv
-
-B<Hash Set Value>
+=item Store a nested value whose parent may need to be loaded from disk
 
 
-
-
- Usage: hsetv \%HASH, $ADDRESS, $VALUE
- Usage: hsetv \%HASH, \%ADDRESS
-
-
-In its first form, VALUE is set in \%HASH at $ADDRESS.
-
-
-
-In its second form, \%ADDRESS is presumed to be ADDRESS/VALUE pairs, and each
-is set in turn.
+ Usage: store \%data, $index, ?value
 
 
 =back
 
+=head2 getv
+
 =over 4
 
-=item htakev
-
-B<Hash Take Value>
+=item Get a nested value
 
 
-
-
- Usage: htakev \%HASH, $ADDRESS
- Usage: htakev \%HASH, \@ADDRESSES
-
-Remove and return the value (like L<hgetv>.)
-
-
-In its second form, the removed values are returned as an array reference.
+ Usage: getv \%data, $index
+ Usage: getv \@data, $index
 
 
 =back
 
-=head1 INTERNAL
-
-=begin html
-
-<table><tr><td>
-<a class="methlink" href="#item__appendvasa">_appendvasa</a>
-
-</td><td>
-<a class="methlink" href="#item__hqueryv">_hqueryv</a>
-
-</td><td>
-<a class="methlink" href="#item__hseekv">_hseekv</a>
-
-</td><td>
-<a class="methlink" href="#item__hselectv">_hselectv</a>
-
-</td><td>
-<a class="methlink" href="#item__lookup">_lookup</a>
-
-</td></tr></table>
-
-=end html
-
+=head2 setv
 
 =over 4
 
-=item _appendvasa
-
-B<Append value as array.>
+=item Store a nested value
 
 
-
-
-
- Usage: _appendvasa \%HASH, $ADDRESS, $VALUE
-
-Append value onto the array at $key.  If the value at $key exists as a scalar,
-transform it into an ARRAY, whos first element is its current value.
+ Usage: setv \%data, $index, ?value
+ Usage: setv \@data, $index, ?value
 
 
 =back
 
+=head2 delete
+
 =over 4
 
-=item _hqueryv
-
-B<Hash Query Value>
+=item Remove a nested value
 
 
+ Usage: delete \%data, $index
+ Usage: delete \@data, $index
 
-
- Usage: _hqueryv \%HASH, $ADDRESS, [OPTIONS]
-
-
-This method returns all resulting records in \HASH specified by $ADDRESS.
-
-
-
-OPTIONS:
-
-
-  -av     Autovivify (contstucts necessary segments)
 
 =back
 
+
+=head1 INTERNAL METHODS
+
+=head2 _get
+
 =over 4
 
-=item _hseekv
-
-B<Hash Seek Value (Seek to the specified address)>
+=item Get node value from an array or hash
 
 
+ Usage: _get \%data, $node
+ Usage: _get \@data, $node
 
 
- Usage: _hseekv \%HASH, $ADDRESS, [OPTIONS]
+=back
+
+=head2 _set
+
+=over 4
+
+=item Set a node value on an array or hash
 
 
-OPTIONS:
+ Usage: _set \%data, $node, $value
+ Usage: _set \@data, $node, $value
 
 
-  -av     Autovivify (contstucts necessary segments)
+=back
+
+=head2 _delete
+
+=over 4
+
+=item Remove a node from an array or hash
 
 
-This is an optimization and as such $ADDRESS may *not* contain selectors.
+ Usage: _delete - \%data, $node
+ Usage: _delete - \@data, $node
 
 
+=back
 
-Autovivification will return a SCALAR reference on nodes which are unkown.
+=head2 _autovivify
 
-Such that calling:
+=over 4
 
-
-  my $c = _hseekv( \%hash, '/a/b/c', '-av' );
-
-
-May become an array by subsequently:
+=item Create missing parent nodes
 
 
-  @$$c = qw/fourteen hair/;
+ Usage: _autovivify \%result
 
 
-And seeking again will return an ARRAY reference:
+=back
+
+=head2 _traverse
+
+=over 4
+
+=item Step into the nested data structure one index node at a time
 
 
-  my $c2 = _hseekv( \%hash, '/a/b/c' );
+ Usage: _traverse \%data, $index
+ Usage: _traverse \@data, $index
 
 
-Such that:
+=back
+
+=head2 _transcend
+
+=over 4
+
+=item Extend the search to the file system
 
 
-  push @$c2, 'dryers';
+ Usage: _transcend \%result
+
+
+=back
+
+=head2 _get_parser
+
+=over 4
+
+=item Get the parser for a given file
+
 
 
 
 =back
 
-=over 4
-
-=item _hselectv
-
-B<Hash Select Value>
-
-
-
-
- Usage: _hselectv \%HASH, \%ROOT_HASH, $SELECTOR, [OPTIONS]
-
-
-This method interprets SELECTOR and returns the matching record(s).
-
-
-
-Where:
-
-
-  \%HASH          Look for SELECTOR in this hash
-  \%ROOT_HASH     Used when SELECTOR contains a reference
-  $SELECTOR       The select clause
-
-
-OPTIONS:
-
-
-  -av             Autovivify (contstucts necessary segments)
-
-=back
+=head2 _split
 
 =over 4
 
-=item _lookup
-
-B<Lookup array item (must be a hash) by member value.>
+=item Split an index into nodes, removing empty ones
 
 
-
-
-
- Usage: _lookup \@ARRAY, $VALUE, [OPTIONS]
-
-
-OPTIONS:
-
-
-  Name        Type        Default                 Description
-  ----------- ----------- ----------------------- ----------------------------
-  -by         \@ARRAY     \['_id','id','name']    Fields to search by
-  -cmp        eq|ne|...   eq                      Comparator
-  -asindex    0|1         0                       Return the array index(s)
-  -first      0|1         1                       Return first match
-
-VALUE:
-
-
-  Regarless of the '-by' option, if value is formatted as: \[\d\], then it
-  is considered an index into the array.
+ Usage: _split - $index
 
 
 =back
+
 
 =head1 AUTHOR
 
+Ryan Gies (ryangies@livesite.net)
 
-
-Ryan Gies
 
 =head1 COPYRIGHT
 
+Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.
+
+Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.
 
 
-Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:
 
-Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.
+
+* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.
+
+* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.
+
+* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.
+
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.
+
+To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.
+
 
 =head1 UPDATED
 
-This file created by  on  at 
+06/09/2007
 
 =cut

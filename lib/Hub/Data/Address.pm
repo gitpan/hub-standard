@@ -1,47 +1,30 @@
 package Hub::Data::Address;
-
-#-------------------------------------------------------------------------------
-# Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
-# Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
-#-------------------------------------------------------------------------------
-
-#line 2
-
 use Hub qw/:lib/;
-
-our $VERSION        = '3.01048';
-our @EXPORT         = qw//;
-our @EXPORT_OK      = qw/
-
-    vartype
-    varroot
-    varname
-    varparent
-    dotaddr
-    expand
-    keydepth
-
+our $VERSION = '4.00012';
+our @EXPORT = qw//;
+our @EXPORT_OK = qw/
+  keydepth
+  vartype
+  varroot
+  varname
+  varparent
+  dotaddr
+  expand
+  collapse
 /;
-
 our $DELIMS         = ':/';
-
-#!BulkSplit
 
 # ------------------------------------------------------------------------------
 # keydepth
 # 
-# For sorting parents and children, this simpley lets you know how deep the key
+# For sorting parents and children, this simply lets you know how deep the key
 # is named.
 # ------------------------------------------------------------------------------
 #|test(match,4) keydepth( 'and:then:came:the:rain' )
 # ------------------------------------------------------------------------------
 
 sub keydepth {
-
-    my $key = shift;
-
-    return $key =~ tr':/'';
-
+  $_[0] =~ tr':/'';
 }#keydepth
 
 # ------------------------------------------------------------------------------
@@ -60,18 +43,12 @@ sub keydepth {
 # ------------------------------------------------------------------------------
 
 sub vartype {
-    
-    my $str = defined $_[0] ? $_[0] : '';
-    my $def = defined $_[1] ? $_[1] : '';
-
-    my ($type) = $str =~ /[_]?([^-]+)-/;
-
-    $type = '' unless defined $type;
-
-    $type =~ s/.*://;
-
-    return $type || $def;
-
+  my $str = defined $_[0] ? $_[0] : '';
+  my $def = defined $_[1] ? $_[1] : '';
+  my ($type) = $str =~ /[_]?([^-]+)-/;
+  $type = '' unless defined $type;
+  $type =~ s/.*://;
+  return $type || $def;
 }#vartype
 
 #-------------------------------------------------------------------------------
@@ -84,13 +61,9 @@ sub vartype {
 #-------------------------------------------------------------------------------
 
 sub varroot {
-
-    my $given = defined $_[0] ? $_[0] : '';
-
-    my ($root) = ( $given =~ /([^$DELIMS]+)/ );
-
-    return $root || '';
-
+  my $given = defined $_[0] ? $_[0] : '';
+  my ($root) = ( $given =~ /([^$DELIMS]+)/ );
+  return $root || '';
 }#varroot
 
 #-------------------------------------------------------------------------------
@@ -102,13 +75,9 @@ sub varroot {
 #-------------------------------------------------------------------------------
 
 sub varname {
-
-    my $given = defined $_[0] ? $_[0] : '';
-
-    my ($name,$end) = ( $given =~ /.*[$DELIMS]([^$DELIMS]+)([$DELIMS])?$/ );
-
-    return defined $end ? '' : $name || $given;
-    
+  my $given = defined $_[0] ? $_[0] : '';
+  my ($name,$end) = ( $given =~ /.*[$DELIMS]([^$DELIMS]+)([$DELIMS])?$/ );
+  return defined $end ? '' : $name || $given;
 }#varname
 
 #-------------------------------------------------------------------------------
@@ -122,13 +91,9 @@ sub varname {
 #-------------------------------------------------------------------------------
 
 sub varparent {
-
-    my $given = defined $_[0] ? $_[0] : '';
-
-    my ($container) = ( $given =~ /(.*)[$DELIMS]/ );
-
-    return $container || '';
-
+  my $given = defined $_[0] ? $_[0] : '';
+  my ($container) = ( $given =~ /(.*)[$DELIMS]/ );
+  return $container || '';
 }#varparent
 
 # ------------------------------------------------------------------------------
@@ -137,20 +102,16 @@ sub varparent {
 # Replace address separators with dots.  In essence, protecting the address
 # from expansion.
 # ------------------------------------------------------------------------------
-#|test(match,p004.proj.1000)        dotaddr( "p004:proj:1000" );
-#|test(match,p004.proj.1000.name)   dotaddr( "p004:proj:1000:name" );
-#|test(match,p001)                  dotaddr( "p001" );
-#|test(match)                       dotaddr( "" );
+#|test(match,p004.proj.1000)        dotaddr("p004:proj:1000");
+#|test(match,p004.proj.1000.name)   dotaddr("p004:proj:1000:name");
+#|test(match,p001)                  dotaddr("p001");
+#|test(!defined)                    dotaddr("");
 # ------------------------------------------------------------------------------
 
 sub dotaddr {
-
-    my $address = shift || return;
-
-    $address =~ s/:/./g;
-
-    return $address;
-
+  my $address = shift || return;
+  $address =~ s/:/./g;
+  return $address;
 }#dotaddr
 
 # ------------------------------------------------------------------------------
@@ -161,70 +122,93 @@ sub dotaddr {
 #
 # OPTIONS:
 #
-#   meta    => 1                # add '_address' and '_id' metadata to hashes
-#   root    => SCALAR           # use this as a prefix for '_address'
+#   meta    => 1                # add '.address' and '.id' metadata to hashes
+#   root    => SCALAR           # use this as a prefix for '.address'
 # 
 # Returns HASHREF
 # ------------------------------------------------------------------------------
 
 sub expand {
-
-    my $src     = shift || return;      # source data
-    my %ops     = @_;                   # options
-    my $new     = {};                   # destination data
-    my %meta    = ();                   # meta-data
-
-    if( ref($src) eq 'HASH' ) {
-
-        foreach my $k ( sort keydepthsort keys %$src ) {
-
-            my $v = $$src{$k};
-
-            my @addr = split /[$DELIMS]/, $k;
-            
-            my @nest = map { "->{'$_'}" } @addr;
-            
-            my $dest = "\$new@nest";
-
-            eval( "$dest = \$v" );
-
-            # Create metadata
-
-            if( $ops{'meta'} ) {
-
-                pop @addr; # remove field key
-
-                if( @addr ) {
-
-                    my $meta_addr = join ':', @addr;
-
-                    unshift( @addr, $ops{'root'} ) if $ops{'root'};
-
-                    my $meta_addr_val = join ':', @addr;
-
-                    $meta{"$meta_addr:_address"} = $meta_addr_val;
-
-                    $meta{"$meta_addr:_id"} = pop @addr;
-
-                }#if
-
-            }#if
-
-        }#foreach
-
-    }#if
-
-    if( %meta ) {
-
-        my $metadata = Hub::expand( \%meta );
-
-        Hub::merge( $new, $metadata );
-
-    }#if
-
-    return $new;
-
+  my $src = shift || return; # source data
+  my $new = {}; # destination data
+  my %ops = @_;
+  my %meta = ();
+  if( ref($src) eq 'HASH' ) {
+    foreach my $k ( sort keydepth_sort keys %$src ) {
+      my $v = $$src{$k};
+      my @addr = split /[$DELIMS]/, $k;
+      my @nest = map { "->{'$_'}" } @addr;
+      my $dest = "\$new@nest";
+      eval( "$dest = \$v" );
+      # Create metadata
+      if( $ops{'meta'} ) {
+        pop @addr; # remove field key
+        if( @addr ) {
+          my $meta_addr = join ':', @addr;
+          unshift( @addr, $ops{'root'} ) if $ops{'root'};
+          my $meta_addr_val = join ':', @addr;
+          $meta{"$meta_addr:.address"} = $meta_addr_val;
+          $meta{"$meta_addr:.id"} = pop @addr;
+        }#if
+      }#if
+    }#foreach
+  }#if
+  if( %meta ) {
+    my $metadata = Hub::expand( \%meta );
+    Hub::merge( $new, $metadata );
+  }#if
+  return $new;
 }#expand
 
+# ------------------------------------------------------------------------------
+# collapse - Collapse a nested structure into key/value pairs
+# collapse ?ref, [options]
+#
+# options
+#
+#   -containers=1        Just return containers
+#
+# Returns a hash reference.
+# ------------------------------------------------------------------------------
 
-'???';
+sub collapse {
+  my ($opts, $ref, $addr, $result) = Hub::opts(\@_, {'containers'=>0});
+  croak "Provide a reference" unless ref($ref);
+# my $addr = shift || '';
+# my $result = shift;
+  $addr ||= '';
+  unless (defined $result) {
+    my %sh; tie %sh, 'Hub::Knots::SortedHash';
+    $result = \%sh;
+  }
+  if (isa($ref, 'HASH')) {
+    $addr .= '/' if $addr;
+    foreach my $k (keys %$ref) {
+      if (ref($$ref{$k})) {
+        $$result{$addr.$k} = $ref if $$opts{'containers'};
+        collapse($$ref{$k}, $addr.$k, $result, -opts => $opts);
+      } else {
+        $$result{$addr.$k} = $$ref{$k}
+          unless $$opts{'containers'};
+      }
+    }
+  } elsif (isa($ref, 'ARRAY')) {
+    for (my $idx = 0; $idx <= @$ref; $idx++) {
+      if (ref($$ref[$idx])) {
+        $$result{"$addr/$idx"} = $ref if $$opts{'containers'};
+        collapse($$ref[$idx], "$addr/$idx", $result, -opts => $opts);
+      } else {
+        $$result{"$addr/$idx"} = $$ref[$idx]
+          unless $$opts{'containers'};
+      }
+    }
+  } elsif (isa($ref, 'SCALAR')) {
+      $$result{$addr} = $$ref
+        unless $$opts{'containers'};
+  } else {
+    die "Cannot collapse: $ref";
+  }
+  return $result;
+}
+
+1;

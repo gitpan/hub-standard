@@ -1,585 +1,374 @@
 =head1 NAME
 
-=begin html
-
-<p id="packagename">hublib - Hub Library Reference</p>
-
-=end html
-
-=begin text
-
 hublib - Hub Library Reference
-
-=end text
-
 
 =head1 MANUALS
 
+=over 4
 
-=begin html
+=item L<hubaddr|hubaddr>
 
-<a href="hublib.html">hublib</a> - Hub Library Reference<br />
+=item L<hublib|hublib>
 
-=end html
+=item L<hubparse|hubparse>
 
-=begin text
+=item L<hubtest|hubtest>
 
-hublib|hublib> - Hub Library Reference
+=item L<hubuse|hubuse>
 
-=end text
+=item L<hubvar|hubvar>
 
-=begin html
+=back
 
-<a href="hubuse.html">hubuse</a> - Using the Hub library<br />
-
-=end html
-
-=begin text
-
-hubuse|hubuse> - Using the Hub library
-
-=end text
-
-=begin html
-
-<a href="hubaddr.html">hubaddr</a> - Data addresses<br />
-
-=end html
-
-=begin text
-
-hubaddr|hubaddr> - Data addresses
-
-=end text
-
-=begin html
-
-<a href="hubsplit.html">hubsplit</a> - Hub Variation of AutoSplit<br />
-
-=end html
-
-=begin text
-
-hubsplit|hubsplit> - Hub Variation of AutoSplit
-
-=end text
-
-=begin html
-
-<a href="hubtest.html">hubtest</a> - Hub Library Testcase Extraction<br />
-
-=end html
-
-=begin text
-
-hubtest|hubtest> - Hub Library Testcase Extraction
-
-=end text
-
-=begin html
-
-<a href="hubvar.html">hubvar</a> - Hub variables<br />
-
-=end html
-
-=begin text
-
-hubvar|hubvar> - Hub variables
-
-=end text
 
 =head1 METHODS
 
+=over 4
 
+=item L<abort|Hub::Perl::Language/abort>
 
-=begin html
+=item L<abspath|Hub::Base::FileSystem/abspath>
 
-<table><tr><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_abort">abort</a>
+=item L<anon_sort|Hub::Perl::Sort/anon_sort>
 
-</td><td>
-<a class="methlink" href="Hub/Data/FileCache.html#item_fattach">fattach</a>
+=item L<bestof|Hub::Perl::Language/bestof>
 
-</td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_hashget">hashget</a>
+=item L<callback|Hub/callback>
 
-</td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_lwarn">lwarn</a>
+=item L<check|Hub::Perl::Language/check>
 
-</td><td>
-<a class="methlink" href="Hub/Data/File.html#item_rmfile">rmfile</a>
+=item L<checksum|Hub::Perl::Language/checksum>
 
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_abspath">abspath</a>
+=item L<chperm|Hub::Base::FileSystem/chperm>
 
-</td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_fcols">fcols</a>
+=item L<cmdopts|Hub::Perl::Language/cmdopts>
 
-</td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_hashtoattrs">hashtoattrs</a>
+=item L<collapse|Hub::Data::Address/collapse>
 
-</td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_max">max</a>
+=item L<compare|Hub::Perl::Compare/compare>
 
-</td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_rmsubhash">rmsubhash</a>
+=item L<cpdir|Hub::Base::FileSystem/cpdir>
 
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Sort.html#item_anonsort">anonsort</a>
+=item L<cpfile|Hub::Base::FileSystem/cpfile>
 
-</td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_fear">fear</a>
+=item L<cpref|Hub::Perl::Language/cpref>
 
-</td><td>
-<a class="methlink" href="Hub/Data/HashFile.html#item_hffmt">hffmt</a>
+=item L<datetime|Hub::Misc::Time/datetime>
 
-</td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_merge">merge</a>
+=item L<delete|Hub::Data::Handlers/delete>
 
-</td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_rmval">rmval</a>
+=item L<dhms|Hub::Misc::Time/dhms>
 
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_asa">asa</a>
+=item L<dice|Hub::Perl::Language/dice>
 
-</td><td>
-<a class="methlink" href="Hub/Data/FileCache.html#item_fhandler">fhandler</a>
+=item L<diff|Hub::Perl::Language/diff>
 
-</td><td>
-<a class="methlink" href="Hub/Data/HashFile.html#item_hfsync">hfsync</a>
+=item L<digout|Hub::Perl::Language/digout>
 
-</td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_min">min</a>
+=item L<dotaddr|Hub::Data::Address/dotaddr>
 
-</td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_rpath">rpath</a>
+=item L<expand|Hub::Data::Address/expand>
 
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_asarray">asarray</a>
+=item L<expect|Hub::Perl::Language/expect>
 
-</td><td>
-<a class="methlink" href="Hub/Data/File.html#item_fileclose">fileclose</a>
+=item L<fattach|Hub::Data::FileCache/fattach>
 
-</td><td>
-<a class="methlink" href="Hub/Data/Handlers.html#item_hgetv">hgetv</a>
+=item L<fcols|Hub::Console::Output/fcols>
 
-</td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_mkabsdir">mkabsdir</a>
+=item L<fear|Hub::Perl::Language/fear>
 
-</td><td>
-<a class="methlink" href="Hub/Data/File.html#item_safefn">safefn</a>
+=item L<fetch|Hub::Data::Handlers/fetch>
 
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_ash">ash</a>
+=item L<fhandler|Hub::Data::FileCache/fhandler>
 
-</td><td>
-<a class="methlink" href="Hub/Data/File.html#item_fileopen">fileopen</a>
+=item L<fileclose|Hub::Base::FileSystem/fileclose>
 
-</td><td>
-<a class="methlink" href="Hub/Data/Handlers.html#item_hsetv">hsetv</a>
+=item L<fileopen|Hub::Base::FileSystem/fileopen>
 
-</td><td>
-<a class="methlink" href="Hub/Data/File.html#item_mkdiras">mkdiras</a>
+=item L<filetime|Hub::Base::FileSystem/filetime>
 
-</td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_safestr">safestr</a>
+=item L<find|Hub::Base::FileSystem/find>
 
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_attrhash">attrhash</a>
+=item L<finstance|Hub::Data::FileCache/finstance>
 
-</td><td>
-<a class="methlink" href="Hub/Data/File.html#item_filescan">filescan</a>
+=item L<fixpath|Hub::Base::FileSystem/fixpath>
 
-</td><td>
-<a class="methlink" href="Hub/Data/Handlers.html#item_htakev">htakev</a>
+=item L<flatten|Hub::Perl::Language/flatten>
 
-</td><td>
-<a class="methlink" href="Hub.html#item_mkinst">mkinst</a>
+=item L<flip|Hub::Perl::Language/flip>
 
-</td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_setconst">setconst</a>
+=item L<fread|Hub::Data::FileCache/fread>
 
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_bestof">bestof</a>
+=item L<frefresh|Hub::Data::FileCache/frefresh>
 
-</td><td>
-<a class="methlink" href="Hub/Data/File.html#item_filetest">filetest</a>
+=item L<fw|Hub::Console::Output/fw>
 
-</td><td>
-<a class="methlink" href="Hub/Webapp/HTTP.html#item_http">http</a>
+=item L<get_save_handler|Hub::Data::Create/get_save_handler>
 
-</td><td>
-<a class="methlink" href="Hub/Base/Package.html#item_modexec">modexec</a>
+=item L<getaddr|Hub::Base::FileSystem/getaddr>
 
-</td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_siteurl">siteurl</a>
+=item L<getcrown|Hub::Base::FileSystem/getcrown>
 
-</td></tr><tr><td>
-<a class="methlink" href="Hub.html#item_callback">callback</a>
+=item L<getext|Hub::Base::FileSystem/getext>
 
-</td><td>
-<a class="methlink" href="Hub/Data/File.html#item_filetime">filetime</a>
+=item L<getgid|Hub::Perl::Language/getgid>
 
-</td><td>
-<a class="methlink" href="Hub/Webapp/HTTP.html#item_httpget">httpget</a>
+=item L<getname|Hub::Base::FileSystem/getname>
 
-</td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_nbspstr">nbspstr</a>
+=item L<getns|Hub/getns>
 
-</td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_sizeof">sizeof</a>
+=item L<getpath|Hub::Base::FileSystem/getpath>
 
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Data/Archive.html#item_carch">carch</a>
+=item L<getspec|Hub::Base::FileSystem/getspec>
 
-</td><td>
-<a class="methlink" href="Hub/Data/File.html#item_find">find</a>
+=item L<getuid|Hub::Perl::Language/getuid>
 
-</td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_indenttext">indenttext</a>
+=item L<getv|Hub::Data::Handlers/getv>
 
-</td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_objopts">objopts</a>
+=item L<hashtoattrs|Hub::Misc::Transform/hashtoattrs>
 
-</td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_sortkbyv">sortkbyv</a>
+=item L<hparse|Hub::Parse::Hash/hparse>
 
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_check">check</a>
+=item L<hprint|Hub::Parse::Hash/hprint>
 
-</td><td>
-<a class="methlink" href="Hub/Data/File.html#item_find_files">find_files</a>
+=item L<indenttext|Hub::Console::Output/indenttext>
 
-</td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_intdiv">intdiv</a>
+=item L<indexmatch|Hub::Perl::Language/indexmatch>
 
-</td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_opts">opts</a>
+=item L<intdiv|Hub::Perl::Language/intdiv>
 
-</td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_spath">spath</a>
+=item L<is_bipolar|Hub::Perl::Compare/is_bipolar>
 
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_checksum">checksum</a>
+=item L<jsstr|Hub::Misc::Transform/jsstr>
 
-</td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_fixpath">fixpath</a>
+=item L<keydepth|Hub::Data::Address/keydepth>
 
-</td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_jsstr">jsstr</a>
+=item L<keydepth_sort|Hub::Perl::Sort/keydepth_sort>
 
-</td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_packcgi">packcgi</a>
+=item L<max|Hub::Perl::Language/max>
 
-</td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_srcpath">srcpath</a>
+=item L<merge|Hub::Perl::Language/merge>
 
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Data/File.html#item_chperm">chperm</a>
+=item L<min|Hub::Perl::Language/min>
 
-</td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_flatten">flatten</a>
+=item L<mkabsdir|Hub::Base::FileSystem/mkabsdir>
 
-</td><td>
-<a class="methlink" href="Hub/Data/Address.html#item_keydepth">keydepth</a>
+=item L<mkdiras|Hub::Base::FileSystem/mkdiras>
 
-</td><td>
-<a class="methlink" href="Hub/Data/File.html#item_parsefile">parsefile</a>
+=item L<mkhandler|Hub::Data::Create/mkhandler>
 
-</td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_subfield">subfield</a>
+=item L<mkinst|Hub/mkinst>
 
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_cmdopts">cmdopts</a>
+=item L<modexec|Hub::Base::Package/modexec>
 
-</td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_flip">flip</a>
+=item L<mvfile|Hub::Base::FileSystem/mvfile>
 
-</td><td>
-<a class="methlink" href="Hub/Perl/Sort.html#item_keydepthsort">keydepthsort</a>
+=item L<nbspstr|Hub::Misc::Transform/nbspstr>
 
-</td><td>
-<a class="methlink" href="Hub/Knots/Defined.html#item_playnice">playnice</a>
+=item L<objopts|Hub::Perl::Language/objopts>
 
-</td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_subhash">subhash</a>
+=item L<opts|Hub::Perl::Language/opts>
 
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Compare.html#item_compare">compare</a>
+=item L<packcgi|Hub::Misc::Transform/packcgi>
 
-</td><td>
-<a class="methlink" href="Hub/Data/FileCache.html#item_frefresh">frefresh</a>
+=item L<parsefile|Hub::Base::FileSystem/parsefile>
 
-</td><td>
-<a class="methlink" href="Hub/Data/Archive.html#item_larch">larch</a>
+=item L<populate|Hub::Misc::Transform/populate>
 
-</td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_polish">polish</a>
+=item L<popwp|Hub::Base::FileSystem/popwp>
 
-</td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_subst">subst</a>
+=item L<ps|Hub::Console::Output/ps>
 
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Data/File.html#item_cpdir">cpdir</a>
+=item L<pushwp|Hub::Base::FileSystem/pushwp>
 
-</td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_fw">fw</a>
+=item L<readdir|Hub::Base::FileSystem/readdir>
 
-</td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_lbegm">lbegm</a>
+=item L<readfile|Hub::Base::FileSystem/readfile>
 
-</td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_populate">populate</a>
+=item L<realpath|Hub::Base::FileSystem/realpath>
 
-</td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_touch">touch</a>
+=item L<regns|Hub/regns>
 
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Data/File.html#item_cpfile">cpfile</a>
+=item L<relpath|Hub::Base::FileSystem/relpath>
 
-</td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_getbyname">getbyname</a>
+=item L<replace|Hub::Perl::Language/replace>
 
-</td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_ldie">ldie</a>
+=item L<resolve|Hub::Data::Create/resolve>
 
-</td><td>
-<a class="methlink" href="Hub/Webapp/CGI.html#item_process_fcgi_request">process_fcgi_request</a>
+=item L<rmdirrec|Hub::Base::FileSystem/rmdirrec>
 
-</td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_trimcss">trimcss</a>
+=item L<rmfile|Hub::Base::FileSystem/rmfile>
 
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_cpref">cpref</a>
+=item L<rmval|Hub::Perl::Language/rmval>
 
-</td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_getconst">getconst</a>
+=item L<safestr|Hub::Misc::Transform/safestr>
 
-</td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_ldmp">ldmp</a>
+=item L<save_data|Hub::Data::Create/save_data>
 
-</td><td>
-<a class="methlink" href="Hub/Webapp/CGI.html#item_process_request">process_request</a>
+=item L<setv|Hub::Data::Handlers/setv>
 
-</td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_trimhtmlstyle">trimhtmlstyle</a>
+=item L<sizeof|Hub::Perl::Language/sizeof>
 
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_datetime">datetime</a>
+=item L<sort_compare|Hub::Perl::Compare/sort_compare>
 
-</td><td>
-<a class="methlink" href="Hub/Data/File.html#item_getcrown">getcrown</a>
+=item L<sort_dir_list|Hub::Base::FileSystem/sort_dir_list>
 
-</td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_lendm">lendm</a>
+=item L<srcpath|Hub::Base::FileSystem/srcpath>
 
-</td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_ps">ps</a>
+=item L<store|Hub::Data::Handlers/store>
 
-</td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_uniq">uniq</a>
+=item L<subset|Hub::Data::Create/subset>
 
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_dhms">dhms</a>
+=item L<subst|Hub::Perl::Language/subst>
 
-</td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_getext">getext</a>
+=item L<touch|Hub::Perl::Language/touch>
 
-</td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_lerr">lerr</a>
+=item L<trace|Hub/trace>
 
-</td><td>
-<a class="methlink" href="Hub/Data/File.html#item_readfile">readfile</a>
+=item L<unpackcgi|Hub::Misc::Transform/unpackcgi>
 
-</td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_unpackcgi">unpackcgi</a>
+=item L<varname|Hub::Data::Address/varname>
 
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_dice">dice</a>
+=item L<varparent|Hub::Data::Address/varparent>
 
-</td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_getgid">getgid</a>
+=item L<varroot|Hub::Data::Address/varroot>
 
-</td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_lflush">lflush</a>
+=item L<vartype|Hub::Data::Address/vartype>
 
-</td><td>
-<a class="methlink" href="Hub.html#item_regns">regns</a>
+=item L<writefile|Hub::Base::FileSystem/writefile>
 
-</td><td>
-<a class="methlink" href="Hub/Data/Address.html#item_varname">varname</a>
+=back
 
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_diff">diff</a>
-
-</td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_getname">getname</a>
-
-</td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_lfresh">lfresh</a>
-
-</td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_relpath">relpath</a>
-
-</td><td>
-<a class="methlink" href="Hub/Data/Address.html#item_varparent">varparent</a>
-
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_digout">digout</a>
-
-</td><td>
-<a class="methlink" href="Hub.html#item_getns">getns</a>
-
-</td><td>
-<a class="methlink" href="Hub/Data/File.html#item_listfiles">listfiles</a>
-
-</td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_replace">replace</a>
-
-</td><td>
-<a class="methlink" href="Hub/Data/Address.html#item_varroot">varroot</a>
-
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Data/Address.html#item_dotaddr">dotaddr</a>
-
-</td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_getpath">getpath</a>
-
-</td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_lmsg">lmsg</a>
-
-</td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_resdir">resdir</a>
-
-</td><td>
-<a class="methlink" href="Hub/Data/Address.html#item_vartype">vartype</a>
-
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_execconf">execconf</a>
-
-</td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_getspec">getspec</a>
-
-</td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_lopt">lopt</a>
-
-</td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_respath">respath</a>
-
-</td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_wpath">wpath</a>
-
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Data/Address.html#item_expand">expand</a>
-
-</td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_getuid">getuid</a>
-
-</td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_lraw">lraw</a>
-
-</td><td>
-<a class="methlink" href="Hub/Webapp/Response.html#item_respond">respond</a>
-
-</td><td>
-<a class="methlink" href="Hub/Data/File.html#item_writefile">writefile</a>
-
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_expect">expect</a>
-
-</td><td>
-<a class="methlink" href="Hub/Data/Handlers.html#item_happendv">happendv</a>
-
-</td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_lshow">lshow</a>
-
-</td><td>
-<a class="methlink" href="Hub/Data/File.html#item_rmdirrec">rmdirrec</a>
-
-</td><td>
-<a class="methlink" href="Hub/Data/Archive.html#item_xarch">xarch</a>
-
-</td></tr></table>
-
-=end html
 
 =head1 CLASSES
 
+=over 4
+
+=item L<DataExtractor|Hub::Parse::DataExtractor>
+
+=item L<DataInjector|Hub::Parse::DataInjector>
+
+=item L<Directory|Hub::Data::Directory>
+
+=item L<File|Hub::Data::File>
+
+=item L<FileParser|Hub::Parse::FileParser>
+
+=item L<HashFile|Hub::Data::HashFile>
+
+=item L<HtmlParser|Hub::Parse::HtmlParser>
+
+=item L<Nest|Hub::Data::Nest>
+
+=item L<NoOp|Hub::Base::NoOp>
+
+=item L<Object|Hub::Base::Object>
+
+=item L<Package|Hub::Base::Package>
+
+=item L<Parser|Hub::Parse::Parser>
+
+=item L<Registry|Hub::Base::Registry>
+
+=item L<SortedHash|Hub::Data::SortedHash>
+
+=item L<StandardParser|Hub::Parse::StandardParser>
+
+=item L<Subset|Hub::Data::Subset>
+
+=item L<Template|Hub::Parse::Template>
+
+=item L<TextTemplate|Hub::Parse::TextTemplate>
+
+=back
 
 
-=begin html
+=head1 MODULES
 
-<table><tr><td>
-<a class="methlink" href="Hub/Webapp/Client.html#item_client">Client</a>
+=over 4
 
-</td><td>
-<a class="methlink" href="Hub/Parse/FileParser.html#item_fileparser">FileParser</a>
+=item L<Hub|Hub>
 
-</td><td>
-<a class="methlink" href="Hub/Data/Meta.html#item_meta">Meta</a>
+=item L<Hub::Base::FileSystem|Hub::Base::FileSystem>
 
-</td><td>
-<a class="methlink" href="Hub/Base/Package.html#item_package">Package</a>
+=item L<Hub::Base::Package|Hub::Base::Package>
 
-</td><td>
-<a class="methlink" href="Hub/Parse/Template.html#item_template">Template</a>
+=item L<Hub::Console::Output|Hub::Console::Output>
 
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Base/Config.html#item_config">Config</a>
+=item L<Hub::Data::Address|Hub::Data::Address>
 
-</td><td>
-<a class="methlink" href="Hub/Data/HashData.html#item_hashdata">HashData</a>
+=item L<Hub::Data::Create|Hub::Data::Create>
 
-</td><td>
-<a class="methlink" href="Hub/Data/Nest.html#item_nest">Nest</a>
+=item L<Hub::Data::FileCache|Hub::Data::FileCache>
 
-</td><td>
-<a class="methlink" href="Hub/Parse/Parser.html#item_parser">Parser</a>
+=item L<Hub::Data::Handlers|Hub::Data::Handlers>
 
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Data/DBTable.html#item_dbtable">DBTable</a>
+=item L<Hub::Misc::Time|Hub::Misc::Time>
 
-</td><td>
-<a class="methlink" href="Hub/Data/HashFile.html#item_hashfile">HashFile</a>
+=item L<Hub::Misc::Transform|Hub::Misc::Transform>
 
-</td><td>
-<a class="methlink" href="Hub/Base/NoOp.html#item_noop">NoOp</a>
+=item L<Hub::Parse::Hash|Hub::Parse::Hash>
 
-</td><td>
-<a class="methlink" href="Hub/Base/Path.html#item_path">Path</a>
+=item L<Hub::Parse::Parser|Hub::Parse::Parser>
 
-</td></tr><tr><td>
-<a class="methlink" href="Hub/Data/Data.html#item_data">Data</a>
+=item L<Hub::Perl::Compare|Hub::Perl::Compare>
 
-</td><td>
-<a class="methlink" href="Hub/Base/Logger.html#item_logger">Logger</a>
+=item L<Hub::Perl::Language|Hub::Perl::Language>
 
-</td><td>
-<a class="methlink" href="Hub/Base/Object.html#item_object">Object</a>
+=item L<Hub::Perl::Sort|Hub::Perl::Sort>
 
-</td><td>
-<a class="methlink" href="Hub/Base/Scope.html#item_scope">Scope</a>
+=back
 
-</td></tr></table>
 
-=end html
 
 =head1 AUTHOR
 
+Ryan Gies (ryangies@livesite.net)
 
-
-Ryan Gies
 
 =head1 COPYRIGHT
 
+Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.
+
+Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.
 
 
-Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:
 
-Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.
+
+* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.
+
+* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.
+
+* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.
+
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.
+
+To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.
+
 
 =head1 UPDATED
 
-This file created by <#sys/proc/zname> on <#dt(nozeros,notime);sys/proc/tstamp> at <#dt(ampm,nosec,nozeros,nodate);sys/proc/tstamp>
+06/09/2007
 
 =cut

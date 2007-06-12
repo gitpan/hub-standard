@@ -1,66 +1,43 @@
 package Hub::Parse::FileParser;
-
-#-------------------------------------------------------------------------------
-# Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
-# Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
-#-------------------------------------------------------------------------------
-
-#line 2
 use strict;
 
 use Hub qw/:lib/;
 
-our $VERSION        = '3.01048';
-our @ISA            = qw/Hub::Parse::Parser/;
+push our @ISA, qw/Hub::Parse::StandardParser/;
+
+our $VERSION        = '4.00012';
 our @EXPORT         = qw//;
 our @EXPORT_OK      = qw//;
 
 # ------------------------------------------------------------------------------
-# new - Constructor
-#
-# new FILESPEC
+# new - Construct (or retrieve) an instance of this class.
+# new $filespec
 # 
-# This is a singleton.
-# FILESPEC is an absolute path or a relative runtime path.
+# This is a singleton per physical file.
+# $filespec is an absolute path or a relative runtime path.
 # ------------------------------------------------------------------------------
 
 sub new {
-
-    my ($opts,$self,$spec) = Hub::opts( \@_ );
-
+  my ($opts,$self,$spec) = Hub::opts( \@_ );
 	my $class = ref( $self ) || $self;
-
-    croak 'File spec required' unless $spec;
-
-    my $fn = Hub::spath( $spec ) or croak "$!: $spec";
-
-    my $obj = Hub::fhandler( $fn, $class );
-
-    unless( $obj ) {
-
-        $obj = $self->SUPER::new( -opts => $opts );
-
-        Hub::fattach( $fn, $obj );
-
-    }#unless
-
-    return $obj;
-
+  croak 'File spec required' unless $spec;
+  my $fn = Hub::srcpath( $spec ) or croak "$!: $spec";
+  my $obj = Hub::fhandler( $fn, $class );
+  unless( $obj ) {
+    $obj = $self->SUPER::new( -opts => $opts );
+    Hub::fattach( $fn, $obj );
+  }
+  return $obj;
 }#new
 
 # ------------------------------------------------------------------------------
-# parsefile - Parse template file
-#
-# Supports the FileCache interface.
+# reload - Callback from L<FileCache>
+# Called when instantiating the first instance or the file has changed on disk.
 # ------------------------------------------------------------------------------
 
-sub parsefile {
+sub reload {
+  my ($self,$opts,$file) = Hub::objopts(\@_);
+  $self->{'template'} = \$file->{'contents'};
+}#reload
 
-    my ($self,$opts,$file) = Hub::objopts( \@_ );
-
-    $self->{'template'} = \$file->{'contents'};
-
-}#parsefile
-
-
-'???';
+1;

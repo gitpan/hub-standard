@@ -1,9 +1,11 @@
+<?xml version="1.0" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Hub</title>
-<link rel="stylesheet" href="pod.css" type="text/css" />
-<link rev="made" href="mailto:gerrit@familiehaase.de" />
+<link rel="stylesheet" href="styles.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
 </head>
 
 <body>
@@ -16,8 +18,30 @@
 	<li><a href="#name">NAME</a></li>
 	<li><a href="#synopsis">SYNOPSIS</a></li>
 	<li><a href="#description">DESCRIPTION</a></li>
-	<li><a href="#methods">METHODS</a></li>
-	<li><a href="#internal">INTERNAL</a></li>
+	<li><a href="#public_methods">PUBLIC METHODS</a></li>
+	<ul>
+
+		<li><a href="#import">import</a></li>
+		<li><a href="#mkinst">mkinst</a></li>
+		<li><a href="#knot">knot</a></li>
+		<li><a href="#callback">callback</a></li>
+		<li><a href="#regns">regns</a></li>
+		<li><a href="#getns">getns</a></li>
+		<li><a href="#trace">trace</a></li>
+		<li><a href="#about">about</a></li>
+		<li><a href="#version">version</a></li>
+	</ul>
+
+	<li><a href="#internal_methods">INTERNAL METHODS</a></li>
+	<ul>
+
+		<li><a href="#_load_external_libs">_load_external_libs</a></li>
+		<li><a href="#_load_internal_libs">_load_internal_libs</a></li>
+		<li><a href="#_findmodules">_findmodules</a></li>
+		<li><a href="#_tagname">_tagname</a></li>
+		<li><a href="#end">END</a></li>
+	</ul>
+
 	<li><a href="#author">AUTHOR</a></li>
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#updated">UPDATED</a></li>
@@ -29,21 +53,20 @@
 </p>
 <h1><a name="name">NAME</a></h1>
 <p>Hub - Hub Library Interface</p>
-<p>Part of the <a href="hublib.html">Hub Library</a></p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
-<p>We pollute our symbol table with all of our internal libraries EXPORT_OK symbols
+<p>We pollute our symbol table with all of our internal libraries' EXPORT_OK symbols
 so you don't have to.</p>
 <pre>
     use Hub; # nothing imported
-    print 'Why hello there, mister ', Hub::getname( $0 ), &quot;\n&quot;;</pre>
+    print 'Why hello there, mister ', Hub::getname($0), &quot;\n&quot;;</pre>
 <pre>
     use Hub ':standard';
-    print 'Excuse me, mister', getname( $0 ), &quot;\n&quot;;</pre>
-<p>In both cases, <code>Hub::Data::File::getname(...)</code> is the implementing method.</p>
+    print 'Excuse me, mister ', getname($0), &quot;\n&quot;;</pre>
+<p>In both cases, <code>Hub::Data::File::getname(...)</code> is the called method.</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
@@ -53,205 +76,310 @@ so you don't have to.</p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
-<h1><a name="methods">METHODS</a></h1>
-<table><tr><td>
-<a class="methlink" href="#item_callback">callback</a></td><td>
-<a class="methlink" href="#item_getns">getns</a></td><td>
-<a class="methlink" href="#item_mkinst">mkinst</a></td><td>
-<a class="methlink" href="#item_regns">regns</a></td></tr></table><dl>
-<dt><strong><a name="item_callback">callback</a></strong><br />
-</dt>
-<dd>
-<strong></strong>
-</dd>
-<dd>
-<pre>
- Usage: callback SUB</pre>
-</dd>
-<dd>
-<p>Main invocation method.</p>
-</dd>
-<p></p></dl>
+<h1><a name="public_methods">PUBLIC METHODS</a></h1>
+<p>
+</p>
+<h2><a name="import">import</a></h2>
 <dl>
-<dt><strong><a name="item_getns">getns</a></strong><br />
-</dt>
+<dt><strong><a name="item_get_symbols_from_this_library">Get symbols from this library</a></strong>
+
 <dd>
-<strong></strong>
+<p>This adapter method allows us to look at the requested tags before Exporter
+gets ahold of it.  We want to dynamically load internal libraries based
+on the requested tag.  In this way, you can create a new set of modules:</p>
 </dd>
 <dd>
 <pre>
- Usage: getns NAME, [ADDRESS]</pre>
+  /path/to/lib/Hub/Mystuff/Peak.pm
+                          /Crescendo.pm</pre>
 </dd>
 <dd>
-<p>Get namespace.</p>
+<p>and use them in a file as:</p>
+</dd>
+<dd>
+<pre>
+  use Hub(:mystuff);</pre>
+</dd>
+<dd>
+<p>and you get the same facilities as this library itself.  Meaning you can
+call EXPORT_OK subroutines of Peak.pm and Crescendo.pm as
+<code>Hub::subroutine()</code> or just <code>subroutine()</code>.</p>
+</dd>
+<dd>
+<p>Inside Peak.pm and Crescendo.pm, you should:</p>
+</dd>
+<dd>
+<pre>
+  use Hub(:lib);</pre>
+</dd>
+<dd>
+<p>So you get the standard set of external symbols, like <code>import, carp, croak,
+cluck, confess, blessed, time, gettimeofday, tv_interval and cwd()</code>.  See
+<a href="#_load_external_libs">the _load_external_libs manpage</a>.</p>
+</dd>
+<dd>
+<p>If you would like Crescendo.pm to use methods from Peak.pm, you should:</p>
+</dd>
+<dd>
+<pre>
+  use Hub(:lib :mystuff);</pre>
+</dd>
+<dd>
+<p>And then reference those methods as <code>Hub::methodname()</code>.  This is not a
+requirement by any means, but half of the reasons for doing all this in
+the first place is to make refactoring simple.  If you follow this route
+(note you should also be using Hub::mkinst('Peak') to create your objects)
+than you can move code around without changing the API.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<h2><a name="mkinst">mkinst</a></h2>
+<dl>
+<dt><strong><a name="item_instance">Create an instance (object) by its short name.</a></strong>
+
+<dd>
+<pre>
+ Usage: mkinst $short_name</pre>
+</dd>
+<dd>
+<p>See also <a href="./hubuse.html">the hubuse manpage</a>.</p>
+</dd>
+<dd>
+<p><strong>Example</strong> returns: <strong>true</strong>:</p>
+</dd>
+<dd>
+<pre>
+    ref(mkinst('Object')) eq 'Hub::Base::Object';</pre>
+</dd>
+<dd>
+<p><strong>Example</strong> returns: <strong>abort</strong>:</p>
+</dd>
+<dd>
+<pre>
+    mkinst('DoesNotExist');</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="knot">knot</a></h2>
+<dl>
+<dt><strong><a name="item_package">Return the implementing package (full name) for the given knot</a></strong>
+
+<dd>
+<pre>
+ Usage: knot $short_name</pre>
+</dd>
+<dd>
+<p>See also <a href="./hubuse.html">the hubuse manpage</a>.</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="callback">callback</a></h2>
+<dl>
+<dt><strong><a name="item_invocation_method_for_persistent_applications">Invocation method for persistent applications</a></strong>
+
+<dd>
+<pre>
+ Usage: callback \&amp;subroutine</pre>
+</dd>
+<dd>
+<p>Intended usage:</p>
+</dd>
+<dd>
+<pre>
+  #!/usr/bin/perl -w
+  use strict;
+  use Hub qw(:standard);
+  while( my $req = ??? ) {
+      callback( &amp;main, $req );
+  }
+  sub main {
+      my $req = shift;
+      # your code here
+  }</pre>
+</dd>
+<dd>
+<p>The callback method wraps your code with the necessary initialization and
+destruction code required to isolate this instance (run) from others.</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="regns">regns</a></h2>
+<dl>
+<dt><strong><a name="item_register_namespace_2e">Register namespace.</a></strong>
+
+<dd>
+<pre>
+ Usage: regns $name, [\%value]</pre>
 </dd>
 <dd>
 <p><em>Intended for Hub library modules only.</em></p>
 </dd>
-<p></p></dl>
+</dl>
+<p>
+</p>
+<h2><a name="getns">getns</a></h2>
 <dl>
-<dt><strong><a name="item_mkinst">mkinst</a></strong><br />
-</dt>
-<dd>
-<strong></strong>
-</dd>
+<dt><strong><a name="item_get_namespace">Get namespace</a></strong>
+
 <dd>
 <pre>
- Usage: mkinst SHORTNAME</pre>
+ Usage: getns $name, [$address]</pre>
 </dd>
 <dd>
-<p>Create an instance (object) by its short name.</p>
+<p><em>Intended for Hub library modules only.</em></p>
 </dd>
-<dd>
-<p>See also <a href="hubuse.html">the hubuse manpage</a>.</p>
-</dd>
-<dd>
-<p><strong>This example</strong> returns: <strong>true</strong>:</p>
-</dd>
-<dd>
-<pre>
-    ref( mkinst( 'Logger' ) ) eq 'Hub::Base::Logger';</pre>
-</dd>
-<dd>
-<p><strong>This example</strong> returns: <strong>abort</strong>:</p>
-</dd>
-<dd>
-<pre>
-    mkinst( 'DoesNotExist' );</pre>
-</dd>
-<p></p></dl>
+</dl>
+<p>
+</p>
+<h2><a name="trace">trace</a></h2>
 <dl>
-<dt><strong><a name="item_regns">regns</a></strong><br />
-</dt>
-<dd>
-<strong></strong>
-</dd>
+<dt><strong><a name="item_warn_with_a_stack_trace">Warn with a stack trace</a></strong>
+
 <dd>
 <pre>
- Usage: regns NAME, [VALUE]</pre>
+ Usage: trace @messages</pre>
 </dd>
+</dl>
+<p>
+</p>
+<h2><a name="about">about</a></h2>
+<dl>
+<dt><strong><a name="item_return_an_about_message_regarding_this_library">Return an about message regarding this library</a></strong>
+
 <dd>
-<p>Register namespace.</p>
+<pre>
+ Usage: about</pre>
 </dd>
+</dl>
+<p>
+</p>
+<h2><a name="version">version</a></h2>
+<dl>
+<dt><strong><a name="item_return_the_library_version_number">Return the library version number</a></strong>
+
 <dd>
-<p>Intended for Hub library modules only.&gt;</p>
+<pre>
+ Usage: version</pre>
 </dd>
-<p></p></dl>
+</dl>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
-<h1><a name="internal">INTERNAL</a></h1>
-<table><tr><td>
-<a class="methlink" href="#item_end">END</a></td><td>
-<a class="methlink" href="#item__load_external_libs">_load_external_libs</a></td><td>
-<a class="methlink" href="#item__sigwarn">_sigwarn</a></td></tr><tr><td>
-<a class="methlink" href="#item__findmodules">_findmodules</a></td><td>
-<a class="methlink" href="#item__load_internal_libs">_load_internal_libs</a></td><td>
-<a class="methlink" href="#item__tagname">_tagname</a></td></tr></table><dl>
-<dt><strong><a name="item_end">END</a></strong><br />
-</dt>
-<dd>
-<strong></strong>
-</dd>
-<dd>
-<pre>
- Usage: END</pre>
-</dd>
-<dd>
-<p>Finish library wheel.</p>
-</dd>
-<p></p></dl>
+<h1><a name="internal_methods">INTERNAL METHODS</a></h1>
+<p>
+</p>
+<h2><a name="_load_external_libs">_load_external_libs</a></h2>
 <dl>
-<dt><strong><a name="item__findmodules">_findmodules</a></strong><br />
-</dt>
-<dd>
-<strong></strong>
-</dd>
-<dd>
-<pre>
- Usage: _findmodules DIRECTORY, PACKAGENAME</pre>
-</dd>
-<dd>
-<p>Searches in the sub-directory of this top-level-module for all library files
-to represent.</p>
-</dd>
-<dd>
-<p>Recursive.</p>
-</dd>
-<p></p></dl>
-<dl>
-<dt><strong><a name="item__load_external_libs">_load_external_libs</a></strong><br />
-</dt>
-<dd>
-<strong>Load external modules.</strong>
-</dd>
+<dt><strong><a name="item_load_external_modules_2e">Load external modules.</a></strong>
+
 <dd>
 <p>Share minimal list of standard functions which every module in its right mind
 would use.</p>
 </dd>
-<p></p></dl>
+</li>
+</dl>
+<p>
+</p>
+<h2><a name="_load_internal_libs">_load_internal_libs</a></h2>
 <dl>
-<dt><strong><a name="item__load_internal_libs">_load_internal_libs</a></strong><br />
-</dt>
-<dd>
-<strong></strong>
-</dd>
+<dt><strong><a name="item_we_want_to_import_all_export_ok_methods_from_packa">We want to import all EXPORT_OK methods from packages.</a></strong>
+
 <dd>
 <pre>
- Usage: _load_internal_libs</pre>
+ Usage: _load_internal_libs @list
+ Usage: _load_internal_libs 'all'</pre>
 </dd>
 <dd>
-<p>We want to import all EXPORT_OK methods from packages.</p>
+<p>Where each item in @list is the name of a directory beneath 'Hub'.</p>
 </dd>
-<p></p></dl>
+</dl>
+<p>
+</p>
+<h2><a name="_findmodules">_findmodules</a></h2>
 <dl>
-<dt><strong><a name="item__sigwarn">_sigwarn</a></strong><br />
-</dt>
-<dd>
-<strong></strong>
-</dd>
+<dt><strong><a name="item_recursively_get_module_names">Recursively get module names</a></strong>
+
 <dd>
 <pre>
- Usage: _sigwarn</pre>
+ Usage: _findmodules $directory, $package_name</pre>
 </dd>
 <dd>
-<p>Warning handler.  Supresses annoyances.</p>
+<p>Searches in the sub-directory of this top-level-module for all library files
+to represent.  $package_name is the package (directory) name which
+corresponds to the given $directory.</p>
 </dd>
-<p></p></dl>
+<dd>
+<p>Recursive.</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="_tagname">_tagname</a></h2>
 <dl>
-<dt><strong><a name="item__tagname">_tagname</a></strong><br />
-</dt>
-<dd>
-<strong></strong>
-</dd>
+<dt><strong><a name="item_return_which_export_tags_key_to_which_a_module_sho">Return which EXPORT_TAGS key to which a module should belong.</a></strong>
+
 <dd>
 <pre>
- Usage: _tagname MODULENAME</pre>
+ Usage: _tagname $module_name</pre>
 </dd>
-<dd>
-<p>Control which EXPORT_TAGS tag is used depending on module location.</p>
-</dd>
-<p></p></dl>
+</dl>
+<p>
+</p>
+<h2><a name="end">END</a></h2>
+<dl>
+<dt><strong><a name="item_finish_library_wheel_2e">Finish library wheel.</a></strong>
+
+</dl>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="author">AUTHOR</a></h1>
-<p>Ryan Gies</p>
+<p>Ryan Gies (<a href="mailto:ryangies@livesite.net">ryangies@livesite.net</a>)</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="copyright">COPYRIGHT</a></h1>
-<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
-<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.</p>
+<p>Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.</p>
+<p>Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:</p>
+<p>* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.</p>
+<p>* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.</p>
+<p>* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.</p>
+<p>* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.</p>
+<p>THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.</p>
+<p>To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="updated">UPDATED</a></h1>
-<p>This file created by  on  at</p>
+<p>06/09/2007</p>
 <p><a href="#__index__"><small>Top</small></a></p>
 
 </body>

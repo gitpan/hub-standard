@@ -2,177 +2,233 @@
 
 Hub - Hub Library Interface
 
-Part of the L<Hub Library|hublib>
 
 =head1 SYNOPSIS
 
 
-We pollute our symbol table with all of our internal libraries EXPORT_OK symbols
+We pollute our symbol table with all of our internal libraries' EXPORT_OK symbols
 so you don't have to.
 
     use Hub; # nothing imported
-    print 'Why hello there, mister ', Hub::getname( $0 ), "\n";
+    print 'Why hello there, mister ', Hub::getname($0), "\n";
 
     use Hub ':standard';
-    print 'Excuse me, mister', getname( $0 ), "\n";
+    print 'Excuse me, mister ', getname($0), "\n";
 
-In both cases, C<Hub::Data::File::getname(...)> is the implementing method.
+In both cases, C<Hub::Data::File::getname(...)> is the called method.
+
 
 
 =head1 DESCRIPTION
 
 
 
-=head1 METHODS
+=head1 PUBLIC METHODS
 
-=begin html
-
-<table><tr><td>
-<a class="methlink" href="#item_callback">callback</a>
-
-</td><td>
-<a class="methlink" href="#item_getns">getns</a>
-
-</td><td>
-<a class="methlink" href="#item_mkinst">mkinst</a>
-
-</td><td>
-<a class="methlink" href="#item_regns">regns</a>
-
-</td></tr></table>
-
-=end html
-
+=head2 import
 
 =over 4
 
-=item callback
-
-B<>
-
- Usage: callback SUB
+=item Get symbols from this library
 
 
-Main invocation method.
+This adapter method allows us to look at the requested tags before Exporter
+gets ahold of it.  We want to dynamically load internal libraries based
+on the requested tag.  In this way, you can create a new set of modules:
+
+
+  /path/to/lib/Hub/Mystuff/Peak.pm
+                          /Crescendo.pm
+
+
+and use them in a file as:
+
+
+  use Hub(:mystuff);
+
+
+and you get the same facilities as this library itself.  Meaning you can
+call EXPORT_OK subroutines of Peak.pm and Crescendo.pm as
+C<Hub::subroutine()> or just C<subroutine()>.
+
+
+
+Inside Peak.pm and Crescendo.pm, you should:
+
+
+  use Hub(:lib);
+
+
+So you get the standard set of external symbols, like C<import, carp, croak,
+cluck, confess, blessed, time, gettimeofday, tv_interval and cwd()>.  See
+L<_load_external_libs>.
+
+
+
+If you would like Crescendo.pm to use methods from Peak.pm, you should:
+
+
+  use Hub(:lib :mystuff);
+
+
+And then reference those methods as C<Hub::methodname()>.  This is not a
+requirement by any means, but half of the reasons for doing all this in
+the first place is to make refactoring simple.  If you follow this route
+(note you should also be using Hub::mkinst('Peak') to create your objects)
+than you can move code around without changing the API.
+
 
 
 =back
 
-=over 4
-
-=item getns
-
-B<>
-
- Usage: getns NAME, [ADDRESS]
-
-Get namespace.
-
-I<Intended for Hub library modules only.>
-
-=back
+=head2 mkinst
 
 =over 4
 
-=item mkinst
-
-B<>
-
- Usage: mkinst SHORTNAME
+=item Create an instance (object) by its short name.
 
 
-Create an instance (object) by its short name.
+
+ Usage: mkinst $short_name
+
 
 See also L<hubuse>.
 
 
-B<This example> returns: B<true>:
+B<Example> returns: B<true>:
 
-    ref( mkinst( 'Logger' ) ) eq 'Hub::Base::Logger';
-
-B<This example> returns: B<abort>:
-
-    mkinst( 'DoesNotExist' );
-
-=back
-
-=over 4
-
-=item regns
-
-B<>
-
- Usage: regns NAME, [VALUE]
-
-Register namespace.
-
-Intended for Hub library modules only.>
-
-=back
-
-=head1 INTERNAL
-
-=begin html
-
-<table><tr><td>
-<a class="methlink" href="#item_end">END</a>
-
-</td><td>
-<a class="methlink" href="#item__load_external_libs">_load_external_libs</a>
-
-</td><td>
-<a class="methlink" href="#item__sigwarn">_sigwarn</a>
-
-</td></tr><tr><td>
-<a class="methlink" href="#item__findmodules">_findmodules</a>
-
-</td><td>
-<a class="methlink" href="#item__load_internal_libs">_load_internal_libs</a>
-
-</td><td>
-<a class="methlink" href="#item__tagname">_tagname</a>
-
-</td></tr></table>
-
-=end html
+    ref(mkinst('Object')) eq 'Hub::Base::Object';
 
 
-=over 4
+B<Example> returns: B<abort>:
 
-=item END
+    mkinst('DoesNotExist');
 
-B<>
-
- Usage: END
-
-Finish library wheel.
 
 
 =back
 
+=head2 knot
+
 =over 4
 
-=item _findmodules
-
-B<>
-
- Usage: _findmodules DIRECTORY, PACKAGENAME
-
-Searches in the sub-directory of this top-level-module for all library files
-to represent.
+=item Return the implementing package (full name) for the given knot
 
 
+ Usage: knot $short_name
 
-Recursive.
+
+See also L<hubuse>.
+
 
 
 =back
 
+=head2 callback
+
 =over 4
 
-=item _load_external_libs
+=item Invocation method for persistent applications
 
-B<Load external modules.>
+
+ Usage: callback \&subroutine
+
+Intended usage:
+
+
+  #!/usr/bin/perl -w
+  use strict;
+  use Hub qw(:standard);
+  while( my $req = ??? ) {
+      callback( &main, $req );
+  }
+  sub main {
+      my $req = shift;
+      # your code here
+  }
+
+
+The callback method wraps your code with the necessary initialization and
+destruction code required to isolate this instance (run) from others.
+
+
+
+=back
+
+=head2 regns
+
+=over 4
+
+=item Register namespace.
+
+
+
+ Usage: regns $name, [\%value]
+
+
+I<Intended for Hub library modules only.>
+
+
+=back
+
+=head2 getns
+
+=over 4
+
+=item Get namespace
+
+
+ Usage: getns $name, [$address]
+
+I<Intended for Hub library modules only.>
+
+
+=back
+
+=head2 trace
+
+=over 4
+
+=item Warn with a stack trace
+
+
+ Usage: trace @messages
+
+
+=back
+
+=head2 about
+
+=over 4
+
+=item Return an about message regarding this library
+
+
+ Usage: about
+
+
+=back
+
+=head2 version
+
+=over 4
+
+=item Return the library version number
+
+
+ Usage: version
+
+
+=back
+
+
+=head1 INTERNAL METHODS
+
+=head2 _load_external_libs
+
+=over 4
+
+=item Load external modules.
 
 
 
@@ -182,63 +238,122 @@ Share minimal list of standard functions which every module in its right mind
 would use.
 
 
+
 =back
+
+=head2 _load_internal_libs
 
 =over 4
 
-=item _load_internal_libs
+=item We want to import all EXPORT_OK methods from packages.
 
-B<>
 
- Usage: _load_internal_libs
 
-We want to import all EXPORT_OK methods from packages.
+ Usage: _load_internal_libs @list
+ Usage: _load_internal_libs 'all'
+
+
+Where each item in @list is the name of a directory beneath 'Hub'.
+
 
 
 =back
+
+=head2 _findmodules
 
 =over 4
 
-=item _sigwarn
+=item Recursively get module names
 
-B<>
 
- Usage: _sigwarn
+ Usage: _findmodules $directory, $package_name
 
-Warning handler.  Supresses annoyances.
+Searches in the sub-directory of this top-level-module for all library files
+to represent.  $package_name is the package (directory) name which
+corresponds to the given $directory.
+
+
+
+Recursive.
+
 
 
 =back
+
+=head2 _tagname
 
 =over 4
 
-=item _tagname
+=item Return which EXPORT_TAGS key to which a module should belong.
 
-B<>
 
- Usage: _tagname MODULENAME
 
-Control which EXPORT_TAGS tag is used depending on module location.
+ Usage: _tagname $module_name
 
 
 =back
+
+=head2 END
+
+=over 4
+
+=item Finish library wheel.
+
+
+
+
+
+=back
+
 
 =head1 AUTHOR
 
+Ryan Gies (ryangies@livesite.net)
 
-
-Ryan Gies
 
 =head1 COPYRIGHT
 
+Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.
+
+Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.
 
 
-Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:
 
-Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.
+
+* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.
+
+* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.
+
+* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.
+
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.
+
+To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.
+
 
 =head1 UPDATED
 
-This file created by  on  at 
+06/09/2007
 
 =cut

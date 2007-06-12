@@ -1,95 +1,145 @@
 =head1 NAME
 
-=begin html
-
-<p id="packagename">hubvar - Hub variables</p>
-
-=end html
-
-=begin text
-
 hubvar - Hub variables
 
-=end text
-
-
 =head1 SYNOPSIS
-
-
 
 The Hub library uses a registry to store configuration information control 
 program flow.  This document is a dictionary of the implemented values and
 their meanings.
 
+
 =head1 DESCRIPTION
-
-
 
 All values used and set by the library exist under C</sys>.  Fields marked with
 an asterisk (*) indicate they are used mostly with CGI (webapp) programs.
 
-  /sys/proc                         Process information
-  /sys/proc/zname                   Name of the script
-  /sys/proc/tstamp                  Time script was invoked
+  A     h = Hash, a = Array, o = Object (otherwise a scalar)
+  B     * = Web application specific
 
-  /sys/DEBUG                        Honor debugging statements
+=head2 System B</sys>
 
-  /sys/log                          Default log file (.logfile)
-  /sys/log/max_size                 File size in bytes
-  /sys/log/level                    Comma separated list of levels
-  /sys/log/disable                  Disable completely
-  /sys/log/stack_depth              Show stack trace with each message
-  /sys/log/show_source              Show caller() of each message
-  /sys/log/tee                      Append messages as: stdout|stderr|html|none
+  VARIABLE NAME                 A B DESCRIPTION
 
-  /sys/path                         Reserved for filesystem path information
-  /sys/path/runtime                 Runtime path
-  /sys/path/client                * Where we can store client data (ie session files)
+  /sys/OPTS                     h   Command-line options
+  /sys/ARGV                     a   Command-line arguments (w/o options)
+  /sys/PATH                     a   Working directory stack
+  /sys/CGI                      o * Apache2::Request or CGI object (See /sys/ENV/USE_MOD_APREQ2)
+  /sys/ENV                      h   Copy of %ENV
 
-  /sys/win32                        Windows 32 specific
-  /sys/win32/owner_name             ACL For setting owner permissions
-  /sys/win32/group_name             ACL For setting group permissions
-  /sys/win32/other_name             ACL For setting other permissions
+  /sys/ENV/CONF_FILE                Configuration filename (instead of '.conf')
+  /sys/ENV/WORKING_DIR              Working directory
+  /sys/ENV/DEBUG                    Honor debugging statements
+  /sys/ENV/GLOBAL_EXCLUDE           Semicolon list of dirs (Hub::find)
+  /sys/ENV/GLOBAL_IGNORE            Semicolon list of patterns (Hub::find)
+  /sys/ENV/USE_MOD_APREQ2           Use Apache2 module: mod_libapreq2
 
-  /sys/timeout/lockfile             Number of seconds to wait on lock files
-  /sys/timeout/session            * How long to honor session data
+  /sys/response/headers         a * Generated headers
+  /sys/response/template          * Response template
 
-  /sys/response                   * Application response
-  /sys/response/template          * STDOUT starts here
+=head2 Runtime Configuration B</conf>
 
-  /sys/uri                          Base URI's
-  /sys/uri/common                 * Common webapp (runtime) directory
+These values are defined in a file named .conf or per environment variable 
+CONF_FILE.
 
-  /sys/idle_depth                   Template parsing
-  /sys/mirror_depth                 Template parsing
+  VARIABLE NAME                 A B DESCRIPTION
 
-  /usr                            * Webapp Client data (Session/Cgi)
+  /conf/path/users              a * Writable directory for user/session data
+  /conf/path/script               * Writable directory for user/session data
 
-  /usr/BACKPAGE
-  /usr/REQPAGE
-  /usr/ACTION
-  /usr/LASTPAGEID
-  /usr/REQPAGEID
-  /usr/CLIENTKEY
-  /usr/BIN
+  /conf/timeout/lockfile            Seconds to wait on lock files
+  /conf/timeout/session           * Seconds to honor session files
+
+  /conf/content_types             * File extension to MIME type map
+
+  /conf/not_found               h * Not-found documents
+  /conf/not_found/html            * When a .html file is not found
+  /conf/not_found/css             * When a .css file is not found
+  /conf/not_found/js              * When a .js file is not found
+  /conf/not_found/???             * User configured value
+  /conf/not_found/other           * All other document extensions
+
+=head3 Apache2 request configuration B</conf/request>
+
+  /conf/request/POST_MAX          * Maximum allowed post size
+  /conf/request/DISABLE_UPLOADS   * Disable file uploads
+  /conf/request/TEMP_DIR          * 
+  /conf/request/HOOK_DATA         * 
+  /conf/request/UPLOAD_HOOK       * 
+
+(See L<Apache2::Request/new>)
+
+=head3 Content File Manager B</conf/cms>
+
+  /conf/cms/deny                a * List off address (regex) to deny
+  /conf/cms/root                  * Restricted to this directory
+
+=head3 Parser setting B</conf/parser>
+
+  /conf/parser/max_depth            Infinite recursion control
+
+=head3 Windows 32 specific B</conf/win32>
+
+  /conf/win32/owner_name            ACL For setting owner permissions
+  /conf/win32/group_name            ACL For setting group permissions
+  /conf/win32/other_name            ACL For setting other permissions
+
+=head2 CGI parameters B</cgi>
+
+  VARIABLE NAME                 A B DESCRIPTION
+
+  /cgi/?                          * Submitted parameter ?
+
 
 
 =head1 AUTHOR
 
+Ryan Gies (ryangies@livesite.net)
 
-
-Ryan Gies
 
 =head1 COPYRIGHT
 
+Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.
+
+Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.
 
 
-Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:
 
-Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.
+
+* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.
+
+* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.
+
+* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.
+
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.
+
+To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.
+
 
 =head1 UPDATED
 
-This file created by <#sys/proc/zname> on <#dt(nozeros,notime);sys/proc/tstamp> at <#dt(ampm,nosec,nozeros,nodate);sys/proc/tstamp>
+06/09/2007
 
 =cut

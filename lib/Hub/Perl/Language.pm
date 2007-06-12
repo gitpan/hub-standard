@@ -1,29 +1,11 @@
 package Hub::Perl::Language;
-
-#-------------------------------------------------------------------------------
-# Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
-# Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
-#-------------------------------------------------------------------------------
-
-#line 2
 use strict;
-
 use Compress::Zlib;
-#use Fcntl ':mode';
-#use IO::File;
 use Hub qw/:lib/;
-
-use constant DEFAULTSORTKEY     => '_sort';
-use constant EXPR_NUMERIC       => '\A[+-]?[\d\.Ee_]+\Z';
-use constant EXPR_BLESSED       => '=HASH\(0x[0-9a-f]+\)\Z';
-
-our $VERSION        = '3.01048';
-our @EXPORT         = qw//;
-our @EXPORT_OK      = qw/
-
+our $VERSION = '4.00012';
+our @EXPORT = qw//;
+our @EXPORT_OK = qw/
     sizeof
-    asa
-    ash
     check
     expect
     fear
@@ -35,34 +17,36 @@ our @EXPORT_OK      = qw/
     subst
     getuid
     getgid
-    sortkbyv
-    subfield
     max
     min
     flip
     rmval
-    rmsubhash
     cpref
-    uniq
-    subhash
     checksum
-    getbyname
     merge
-    asarray
     flatten
-    hashget
     replace
     digout
     diff
     touch
     intdiv
     dice
-
+    indexmatch
 /;
 
-our ($a,$b,$SORT_KEY) = (); # sorting
+# Sorting
+our ($a,$b) = ();
 
-#!BulkSplit
+# Regular expression used for Hub::check comparisons
+use constant EXPR_NUMERIC       => '\A[+-]?[\d\.Ee_]+\Z';
+
+# Not all interpreters have getpwnam compiled in
+eval ("getpwnam('')");
+our $HAS_GETPWNAM = $@ ? 0 : 1;
+
+# Not all interpreters have getgrnam compiled in
+eval ("getgrnam('')");
+our $HAS_GETGRNAM = $@ ? 0 : 1;
 
 # ------------------------------------------------------------------------------
 # sizeof - Integer size of hashes, arrays, and scalars
@@ -71,7 +55,7 @@ our ($a,$b,$SORT_KEY) = (); # sorting
 # sizeof \@array
 # sizeof \$scalar_ref
 # sizeof $scalar
-# sizeof \%more, @than, $one
+# sizeof \%more, \@than, $one
 #
 # Sizes are computed as follows:
 #
@@ -90,45 +74,22 @@ our ($a,$b,$SORT_KEY) = (); # sorting
 # ------------------------------------------------------------------------------
 
 sub sizeof {
-
-    my $result = 0;
-
-    foreach my $unk ( @_ ) {
-
-        my $ref = ref($unk);
-
-        $result += !defined $unk ? 0 :
-                   !$ref ? length($unk) : 
-                    $ref =~ /HASH$/ ?  Hub::sizeof( [ keys %$unk ] ) :
-                    $ref eq 'ARRAY' ? $#$unk + 1 :
-                    ref($$unk) ne 'REF' ? Hub::sizeof( $$unk ) :
-                    croak( "Cannot compute size of: $ref" );
-
-    }#foreach
-
-    return $result;
-
+  my $result = 0;
+  foreach my $unk ( @_ ) {
+    $result += !defined $unk
+      ? 0
+      : !ref($unk)
+        ? length($unk)
+        : isa($unk, 'HASH')
+          ? Hub::sizeof([keys %$unk])
+          : isa($unk, 'ARRAY')
+            ? $#$unk + 1
+            : ref($unk) =~ /^(SCALAR|REF)$/
+              ? Hub::sizeof($$unk)
+              : croak("Cannot compute size of: $unk");
+  }
+  return $result;
 }#sizeof
-
-# ------------------------------------------------------------------------------
-# asa - As ARRAY
-# ------------------------------------------------------------------------------
-#|test(match)  join 'X', asa(undef);
-# ------------------------------------------------------------------------------
-
-sub asa {
-
-    my $opts = Hub::opts(\@_);
-
-    if( $#_ eq 0 && defined $_[0] ) {
-    
-        ref $_[0] eq 'ARRAY' and return @{$_[0]};
-
-    }#if
-
-    return @_;
-
-}#asa
 
 # ------------------------------------------------------------------------------
 # check - True if all items in list pass the test.
@@ -237,23 +198,7 @@ sub check {
 
         $$opts{'test'} eq 'blessed' and $result = blessed( $_[$i] ) ? 1 : 0;
 
-        $$opts{'test'} eq 'isa'     and do {
-
-            if( $_[$i] =~ EXPR_BLESSED ) {
-
-                my $class = ref($_[$i]);
-
-                my @isa = ();
-            
-                @isa = @{"${class}::ISA"} if defined @{"${class}::ISA"};
-
-                $result = $class =~ /$$opts{'isa'}/;
-
-                $result ||= grep /$$opts{'isa'}/, @isa;
-
-            }#if
-
-        };
+        $$opts{'test'} eq 'isa'     and $result = isa($_[$i], $$opts{'isa'});
 
         $$opts{'test'} eq 'ref' and do {
         
@@ -376,8 +321,8 @@ sub check {
 #
 #   my($opts,$args) = Hub::opts( [ 'a', 'b', '-c' => 'c', '-x', '-o=out' ] );
 # 
-#   print "Opts:\n", Hub::hffmt( $opts );
-#   print "Args:\n", Hub::hffmt( $args );
+#   print "Opts:\n", Hub::hprint( $opts );
+#   print "Args:\n", Hub::hprint( $args );
 #
 # Will print:
 #
@@ -392,92 +337,56 @@ sub check {
 # ------------------------------------------------------------------------------
 
 sub opts {
-
-    my $opts = {
-    
-        'append'    => '\+',
-        'prefix'    => '-',
-        'assign'    => '=',
-
-    };
-
-    my $argv    = shift;
-    my $options = ref($_[0]) eq 'HASH' ? shift : {};
-    my @remove  = ();
-
-    Hub::opts(\@_,$opts) if @_;
-
-    return $options unless defined $argv && @$argv;
-
-    for( my $idx = 0; $idx <= $#$argv; $idx++ ) {
-
-        next unless defined $$argv[$idx];
-
-        next if ref( $$argv[$idx] );
-
-        if( my($prefix,$k) =
-            $$argv[$idx] =~ /^($$opts{'append'}|$$opts{'prefix'})((?!\d|$$opts{'prefix'}).*)$/ ) {
-
-            next unless $k;
-
-            if( $k eq 'opts' ) {
-
-                Hub::merge( $options, $$argv[$idx+1], '--overwrite' )
-                    if defined $$argv[$idx+1];
-
-                push @remove, ($idx, $idx+1);
-
-            } elsif( $k =~ /$$opts{'assign'}/ ) {
-
-                my ($k2,$v) = $k =~ /([^$$opts{'assign'}]+)?$$opts{'assign'}(.*)/;
-
-                _assignopt( $opts, $options, $k2, $v, $prefix );
-
-                push @remove, $idx;
-
-            } elsif( $idx < $#$argv ) {
-
-                if( !defined $$argv[$idx+1]
-                    || ( (defined $$argv[$idx+1])
-                        && $$argv[$idx+1] !~ /^($$opts{'append'}|$$opts{'prefix'})(?!\d)/) ) {
-
-                    _assignopt( $opts, $options, $k, $$argv[++$idx], $prefix );
-
-                    push @remove, ( ($idx-1), $idx );
-
-                } else {
-
-                    _assignopt( $opts, $options, $k, 1, $prefix );
-
-                    push @remove, $idx;
-
-                }#if
-
-            } else {
-
-                _assignopt( $opts, $options, $k, 1, $prefix );
-
-                push @remove, $idx;
-
-            }#if
-
-        }#if
-
-    }#for
-
-    my $offset = 0;
-
-    map { splice @$argv, $_ - $offset++, 1 } @remove;
-
-    wantarray and return ($options,@$argv);
-
-    return $options;
-
+  my $opts = {
+    'append'    => '\+',
+    'prefix'    => '-',
+    'assign'    => '=',
+  };
+  my $argv    = shift;
+  my $options = ref($_[0]) eq 'HASH' ? shift : {};
+  my @remove  = ();
+  Hub::opts(\@_,$opts) if @_;
+  croak "Provide an array reference" if defined $argv && not isa($argv, 'ARRAY');
+  return $options unless defined $argv && @$argv;
+  for( my $idx = 0; $idx <= $#$argv; $idx++ ) {
+    next unless defined $$argv[$idx];
+    next if ref( $$argv[$idx] );
+    if( my($prefix,$k) =
+        $$argv[$idx] =~/^($$opts{'append'}|$$opts{'prefix'})((?!\d|$$opts{'prefix'}).*)$/ ) {
+      next unless $k;
+      if( $k eq 'opts' ) {
+        Hub::merge( $options, $$argv[$idx+1], -overwrite => 1 )
+            if defined $$argv[$idx+1];
+        push @remove, ($idx, $idx+1);
+      } elsif( $k =~ /$$opts{'assign'}/ ) {
+        my ($k2,$v) = $k =~ /([^$$opts{'assign'}]+)?$$opts{'assign'}(.*)/;
+        _assignopt( $opts, $options, $k2, $v, $prefix );
+        push @remove, $idx;
+      } elsif( $idx < $#$argv ) {
+        if( !defined $$argv[$idx+1]
+              || ( (defined $$argv[$idx+1])
+              && $$argv[$idx+1] !~ /^($$opts{'append'}|$$opts{'prefix'})(?!\d)/) ) {
+          _assignopt( $opts, $options, $k, $$argv[++$idx], $prefix );
+          push @remove, ( ($idx-1), $idx );
+        } else {
+          _assignopt( $opts, $options, $k, 1, $prefix );
+          push @remove, $idx;
+        }
+      } else {
+        _assignopt( $opts, $options, $k, 1, $prefix );
+        push @remove, $idx;
+      }
+    }
+  }
+  my $offset = 0;
+  map { splice @$argv, $_ - $offset++, 1 } @remove;
+  wantarray and return ($options,@$argv);
+  return $options;
 }#opts
 
 # ------------------------------------------------------------------------------
 # objopts - Split @_ into ($self,$opts), leaving @_ with remaining items.
-# objopts \ARRAY
+# objopts \@params, [\%defaults]
 # 
 # Convienence method for splitting instance method parameters.
 # Returns an array.
@@ -492,99 +401,81 @@ sub opts {
 # ------------------------------------------------------------------------------
 
 sub objopts {
-
     my $params = shift;
-
+    my $defaults = shift;
     my $self = $$params[0]; # not shifted
-    
     shift @$params;
-
-    Hub::expect( -blessed => $self, -back => 1 );
-
-    my $opts = Hub::opts( $params ) if @$params;
-
-    return($self,$opts,@$params);
-
+    Hub::expect(-blessed => $self, -back => 1);
+    my $opts = Hub::opts($params, $defaults) if @$params;
+    return($self, $opts, @$params);
 }#objopts
 
 # ------------------------------------------------------------------------------
 # cmdopts - Extract short and long options from @ARGV
-# cmdopts \ARRAY
-# cmdopts \ARRAY, \HASH
+# cmdopts \@arguments
+# cmdopts \@arguments, \%default_options
 #
-# Convienence method which deals with short single-dash and long double-dash 
-# options.
+# Single-dash paramaters are always boolean flags.  Flags are broken apart such 
+# that:
+#
+#   -lal
+#
+# becomes
+#
+#   -l -a -l
+#
+# To create a list (ARRAY) of items, use '++' where you would normally use '--'.
+# ------------------------------------------------------------------------------
+#|test(match,a-b-c)
+#|  my $opts = cmdopts(['--letters=a', '++letters=b', '++letters=c']);
+#|  join('-', @{$$opts{'letters'}});
 # ------------------------------------------------------------------------------
 
 sub cmdopts {
-
-    my $argv = shift;
-
-    # Expand options:
-    #
-    #   -lal  becomes  -l -a -l
-    #
-    # Done inline so that the last one is followed by the next argument.  As in:
-    #
-    #   -xzf foo.tgz  becomes  -x -z -f foo.tgz
-
-    for( my $i = 0; $i < @$argv; $i++ ) {
-
-        my ($flags) = $$argv[$i] =~ /\A-([a-zA-Z]{2,})\Z/;
-
-        if( $flags ) {
-
-            my @args = map { "-$_" } $flags =~ /([a-zA-Z])/g;
-
-            splice @$argv, $i, 1, @args;
-
-        }#if
-
-    }#for
-
-    return Hub::opts( $argv, @_, '-prefix=-{1,2}', '-append=\+{1,2}' );
-
+  my $argv = shift;
+  my @flags = ();
+  # Parse-out flags (single-dash parameters)
+  my $i = 0;
+  for (my $i = 0; $i < @$argv;) {
+    my $arg = $$argv[$i];
+    if ($arg =~ /^-\w/) {
+      push @flags, $arg =~ /(\w)/g;
+      splice @$argv, $i, 1;
+    } else {
+      $i++;
+    }
+  }
+  # Parse double-dash parameters
+  my $result = Hub::opts( $argv, @_, '-prefix=-{2}', '-append=\+{2}' );
+  # Inject flags in final result
+  foreach my $flag (@flags) {
+    $result->{$flag} = defined $$result{$flag} ? $$result{$flag} + 1 : 1;
+  }
+  return $result;
 }#cmdopts
 
 # ------------------------------------------------------------------------------
-# _assignopt \%options, \%, $key, $val
-# 
-# Assign an option value.
+# _assignopt Assign an option value.
+# _assignopt \%options, \%dest, $key, $val
 # ------------------------------------------------------------------------------
 
 sub _assignopt {
-
-    my $opts = $_[0];
-
-    if( $_[4] !~ /^$$opts{'append'}$/ ) {
-    
-        $_[1]->{$_[2]} = $_[3];
-
-        return;
-
-    };
-
-    if( defined $_[1]->{$_[2]} ) {
-
-        if( ref($_[1]->{$_[2]}) eq 'ARRAY' ) {
-
-            push @{$_[1]->{$_[2]}}, $_[3];
-
-        } else {
-
-            my $v = $_[1]->{$_[2]};
-
-            $_[1]->{$_[2]} = [ $v, $_[3] ];
-
-        }#if
-
+  my $opts = $_[0];
+  if( $_[4] !~ /^$$opts{'append'}$/ ) {
+    $_[1]->{$_[2]} = $_[3];
+    return;
+  };
+  if( defined $_[1]->{$_[2]} ) {
+    if( ref($_[1]->{$_[2]}) eq 'ARRAY' ) {
+      push @{$_[1]->{$_[2]}}, $_[3];
     } else {
-
-        push @{$_[1]->{$_[2]}}, $_[3];
-#       $_[1]->{$_[2]} = $_[3];
-
-    }#if
-
+      my $v = $_[1]->{$_[2]};
+      $_[1]->{$_[2]} = [ $v, $_[3] ];
+    }
+  } else {
+    push @{$_[1]->{$_[2]}}, $_[3];
+#   $_[1]->{$_[2]} = $_[3];
+  }
 }#_assignopt
 
 # ------------------------------------------------------------------------------
@@ -605,74 +496,51 @@ sub _assignopt {
 # ------------------------------------------------------------------------------
 
 sub subst {
-
-    my ($s,$l,$r,$m) = @_;
-
-    #  s    string to operate on
-    #  l    left-half of s/// operation
-    #  r    right-half of s/// operation
-    #  m    modifier for s/// operation
-
-    return '' unless Hub::check( $s, $l, $r );
-
-    ref($s) eq 'SCALAR' and $s = $$s;
-
-    $m ||= '';
-
-    eval( "\$s =~ s/$l/$r/$m" );
-
-    croak $@ if $@;
-
-    return $s;
-
+  my ($s,$l,$r,$m) = @_;
+  #  s    string to operate on
+  #  l    left-half of s/// operation
+  #  r    right-half of s/// operation
+  #  m    modifier for s/// operation
+  return '' unless Hub::check( $s, $l, $r );
+  ref($s) eq 'SCALAR' and $s = $$s;
+  $m ||= '';
+  eval( "\$s =~ s/$l/$r/$m" );
+  croak $@ if $@;
+  return $s;
 }#subst
 
 # ------------------------------------------------------------------------------
-# getuid
-# 
-# Return the UID of the user of the provided login id.
+# getuid - Return the UID of the provided user
+# getuid $user_name
+# If perl has not been compiled with 'getpwnam', $user_name is returned.
+# -1 is returned when no user is found
 # ------------------------------------------------------------------------------
 
 sub getuid {
-
-    my $user = shift;
-
-    eval( "getpwnam(\$user)" );
-
-    if( $@ ) {
-        Hub::lerr( $@ );
-        return $user;
-    }#if
-
-    my ($login,$pass,$uid,$gid) = getpwnam($user)
-        or return -1;
-
+  return $_[0] if Hub::check($_[0], -test => 'num');
+  if ($HAS_GETPWNAM) {
+    my ($login,$pass,$uid,$gid) = getpwnam($_[0]) or return -1;
     return $uid;
-
+  } else {
+    return $_[0];
+  }
 }#getuid
 
 # ------------------------------------------------------------------------------
-# getgid
-# 
-# Return the GID of the user of the provided login id.
+# getgid - Return the GID of the provided group
+# getgid - $group_name
+# If perl has not been compiled with 'getgrnam', $group_name is returned.
+# -1 is returned when no group is found
 # ------------------------------------------------------------------------------
 
 sub getgid {
-
-    my $group = shift;
-
-    eval( "getgrnam(\$group)" );
-
-    if( $@ ) {
-        Hub::lerr( $@ );
-        return $group;
-    }#if
-
-    my ($name,$passwd,$gid,$members) = getgrnam($group)
-        or return -1;
-
+  return $_[0] if Hub::check($_[0], -test => 'num');
+  if ($HAS_GETGRNAM) {
+    my ($name,$passwd,$gid,$members) = getgrnam($_[0]) or return -1;
     return $gid;
-
+  } else {
+    return $_[0];
+  }
 }#getgid
 
 # ------------------------------------------------------------------------------
@@ -682,13 +550,9 @@ sub getgid {
 # ------------------------------------------------------------------------------
 
 sub touch {
-
-    map { Hub::writefile( $_, '' ) unless -e $_ } @_;
-
-    my $t = time;
-
-    utime $t, $t, @_;
-
+  map { Hub::writefile( $_, '' ) unless -e $_ } @_;
+  my $t = time;
+  utime $t, $t, @_;
 }#touch
 
 # ------------------------------------------------------------------------------
@@ -726,51 +590,32 @@ sub touch {
 # ------------------------------------------------------------------------------
 
 sub expect {
-
-    my $opts = Hub::opts( \@_ );
-
-    my $invert = defined $$opts{'not'} ? 1 : 0;
-
-    delete $$opts{'not'};
-
-    my $back = $$opts{'back'} || 0;
-
-    if( $$opts{'match'} ) {
-
-        abort( -back => $back, -msg => "Expected: $$opts{'match'}" )
-            unless( Hub::check( "-test=match=$$opts{'match'}", @_ )
+  my $opts = Hub::opts( \@_ );
+  my $invert = defined $$opts{'not'} ? 1 : 0;
+  delete $$opts{'not'};
+  my $back = $$opts{'back'} || 0;
+  if( $$opts{'match'} ) {
+    abort( -back => $back, -msg => "Expected: $$opts{'match'}" )
+        unless( Hub::check( "-test=match=$$opts{'match'}", @_ )
+            xor $invert );
+    @_ = ();
+  } elsif( $$opts{'blessed'} ) {
+    abort( -back => $back, -msg => "Expected: blessed" )
+        unless( Hub::check( "-test=blessed", $$opts{'blessed'}, @_ )
+            xor $invert );
+  } elsif( $$opts{'ref'} ) {
+    abort( -back => $back, -msg => "Expected: hashable" )
+        unless( Hub::check( "-ref=$$opts{'ref'}", @_ )
                 xor $invert );
-
-        @_ = ();
-
-    } elsif( $$opts{'blessed'} ) {
-
-        abort( -back => $back, -msg => "Expected: blessed" )
-            unless( Hub::check( "-test=blessed", $$opts{'blessed'}, @_ )
-                xor $invert );
-
-    } elsif( $$opts{'ref'} ) {
-
-        abort( -back => $back, -msg => "Expected: hashable" )
-            unless( Hub::check( "-ref=$$opts{'ref'}", @_ )
-                    xor $invert );
-
-    } else {
-
-        while( my ($k,$v) = (shift,shift) ) {
-
-            last unless defined $k;
-
-            abort( -back => $back, -msg => "Expected: '$k', got '"
-                . ref($v) . "'" )
-                    if( $invert ? ref($v) eq $k : ref($v) ne $k );
-
-        }#while
-
-    }#if
-
-    1;
-
+  } else {
+    while( my ($k,$v) = (shift,shift) ) {
+        last unless defined $k;
+        abort( -back => $back, -msg => "Expected: '$k', got '"
+            . ref($v) . "'" )
+                if( $invert ? ref($v) eq $k : ref($v) ne $k );
+    }
+  }
+  1;
 }#expect
 
 # ------------------------------------------------------------------------------
@@ -782,122 +627,63 @@ sub expect {
 # ------------------------------------------------------------------------------
 
 sub fear {
-
-    return Hub::expect( '-not=1', @_ );
-
+  return Hub::expect( '-not=1', @_ );
 }#fear
 
 # ------------------------------------------------------------------------------
-# abort
+# abort - Croak nicely.
 # abort -msg => 'Croak message'
 # abort -back => LEVEL
 # 
-# Croak nicely.
 # ------------------------------------------------------------------------------
 #|test(abort)   abort( -msg => 'Goddamn hippies' );
 # ------------------------------------------------------------------------------
 
 sub abort {
-
-    my $opts = Hub::opts( \@_ );
-
-    $$opts{'msg'} ||= $@;
-
-    $$opts{'msg'} ||= $!;
-
-    $$opts{'back'} = 1 unless defined $$opts{'back'};
-
-    $Carp::CarpLevel = $$opts{'back'};
-
-    croak $$opts{'msg'};
-
+  my $opts = Hub::opts(\@_);
+  $$opts{'msg'} ||= $@;
+  $$opts{'msg'} ||= $!;
+  $$opts{'back'} = 1 unless defined $$opts{'back'};
+  $Carp::CarpLevel = $$opts{'back'};
+  croak $$opts{'msg'};
 }#abort
 
 # ------------------------------------------------------------------------------
-# is the passed in thingy a HASH reference?
-#
-# ------------------------------------------------------------------------------
-sub hash {
-
-    return ( ref(shift) eq 'HASH' ? 1 : 0 );
-    
-}#hash
-
-# ------------------------------------------------------------------------------
-# is the passed in thingy an ARRAY reference?
-#
-# ------------------------------------------------------------------------------
-sub array {
-
-    return ( ref(shift) eq 'ARRAY' ? 1 : 0 );
-
-}#array
-
-# ------------------------------------------------------------------------------
-# is the passed in thingy a SCALAR?  NOTE: This does not mean a SCALAR ref!
-#
-# ------------------------------------------------------------------------------
-sub scalar {
-
-    my $test_var = shift || return 0;
-
-    return ( ref($test_var) ? 0 : 1 );
-
-}#array
-
-# ------------------------------------------------------------------------------
 # bestof @list
-# bestof @list, -by=max|min|def|len|gt|lt
+# bestof @list, -by=max|min|def|len|gt|lt|true
 #
 # Best value by criteria (default 'def').
 # ------------------------------------------------------------------------------
 
 sub bestof {
-
-    my $opts = Hub::opts( \@_ );
-
-    $$opts{'by'} ||= 'def';
-
-    my $best = $_[0];
-
-    for( my $i = 1; $i <= $#_; $i++ ) {
-
-        if( not defined $best ) {
-
-            $best = $_[$i];
-
-            ($$opts{'by'} eq 'def') && (defined $best) and last;
-
-            next;
-
-        }#if
-
-        if( defined $_[$i] && defined $best ) {
-        
-            my $isbetter = 0;
-
-            $$opts{'by'} eq 'gt'  and $isbetter = $_[$i] gt $best;
-
-            $$opts{'by'} eq 'lt'  and $isbetter = $_[$i] lt $best;
-
-            $$opts{'by'} eq 'max' and Hub::check( '-test=num', $_[$i], $best )
-
-                                  and $isbetter = $_[$i] > $best;
-
-            $$opts{'by'} eq 'min' and Hub::check( '-test=num', $_[$i], $best )
-
-                                  and $isbetter = $_[$i] < $best;
-
-            $$opts{'by'} eq 'len' and $isbetter = length($_[$i]) > length($best);
-        
-            $isbetter and $best = $_[$i];
-
-        }#if
-
-    }#for
-
-    return $best;
-
+  my $opts = Hub::opts( \@_ );
+  $$opts{'by'} ||= 'def';
+  my $best = $_[0];
+  for( my $i = 1; $i <= $#_; $i++ ) {
+    if( not defined $best ) {
+      $best = $_[$i];
+      ($$opts{'by'} eq 'def') && (defined $best) and last;
+      next;
+    }
+    if( defined $_[$i] && defined $best ) {
+      my $isbetter = 0;
+      $$opts{'by'} eq 'gt'  and $isbetter = $_[$i] gt $best;
+      $$opts{'by'} eq 'lt'  and $isbetter = $_[$i] lt $best;
+      $$opts{'by'} eq 'max' and Hub::check( '-test=num', $_[$i], $best )
+                            and $isbetter = $_[$i] > $best;
+      $$opts{'by'} eq 'min' and Hub::check( '-test=num', $_[$i], $best )
+                            and $isbetter = $_[$i] < $best;
+      $$opts{'by'} eq 'len' and $isbetter = length($_[$i]) > length($best);
+      $$opts{'by'} eq 'true' and $isbetter =
+        defined $best && $best
+          ? 0 # should call 'last' here
+          : defined $_[$i] && $_[$i]
+            ? 1
+            : 0;
+      $isbetter and $best = $_[$i];
+    }
+  }
+  return $best;
 }#bestof
 
 # ------------------------------------------------------------------------------
@@ -917,9 +703,7 @@ sub bestof {
 # ------------------------------------------------------------------------------
 
 sub min {
-
-    return Hub::bestof( -by => 'min', @_ );
-    
+  return Hub::bestof( -by => 'min', @_ );
 }#min
 
 # ------------------------------------------------------------------------------
@@ -933,9 +717,7 @@ sub min {
 # ------------------------------------------------------------------------------
 
 sub max {
-
-    return Hub::bestof( -by => 'max', @_ );
-    
+  return Hub::bestof( -by => 'max', @_ );
 }#max
 
 # ------------------------------------------------------------------------------
@@ -951,446 +733,111 @@ sub max {
 # ------------------------------------------------------------------------------
 
 sub intdiv {
-
-    my ($dividend,$divisor) = @_;
-
-    return( undef, undef ) if $divisor == 0;
-
-    return( int( $dividend / $divisor ), ( $dividend % $divisor ) );
-    
+  my ($dividend,$divisor) = @_;
+  return( undef, undef ) if $divisor == 0;
+  return( int( $dividend / $divisor ), ( $dividend % $divisor ) );
 }#intdiv
 
 # ------------------------------------------------------------------------------
 # given a hash reference, swap keys with values and return a new hash reference.
 # ------------------------------------------------------------------------------
+
 sub flip {
-    
-    my $hash = shift || return undef;
-
-    my $new_hash = {};
-
-    if( ref($hash) eq 'HASH' ) {
-
-        keys %$hash; # reset
-
-        while( my ($k,$v) = each %$hash ) {
-
-            if( $$new_hash{$v} ) {
-
-                $$new_hash{$v} = [$$new_hash{$v}] unless ref($$new_hash{$v});
-
-                push @{$$new_hash{$v}}, $k if ref($$new_hash{$v}) eq 'ARRAY';
-
-            } else {
-
-                $$new_hash{$v} = $k;
-
-            }#if
-
-        }#foreach
-
-    }#if
-
-    return $new_hash;
-
+  my $hash = shift || return undef;
+  my $new_hash = {};
+  if (isa($hash, 'HASH')) {
+    keys %$hash; # reset
+    while (my ($k,$v) = each %$hash) {
+      if ($$new_hash{$v}) {
+        $$new_hash{$v} = [$$new_hash{$v}] unless isa($$new_hash{$v}, 'ARRAY');
+        push @{$$new_hash{$v}}, $k;
+      } else {
+        $$new_hash{$v} = $k;
+      }
+    }
+  }
+  return $new_hash;
 }#flip
 
 # ------------------------------------------------------------------------------
-# remove an element from a hash or array, by value
-#
+# rmval - Remove matching elements from a hash or an array.
+# rmval \@array, $value
+# rmval \%hash, $value
 # ------------------------------------------------------------------------------
+#|test(match,124) join('',@{rmval([1,2,3,4],3)});
+# ------------------------------------------------------------------------------
+
 sub rmval {
-    
-    my ($container, $value) = @_;
-
-    if( ref($container) eq 'HASH' ) {
-
-        foreach my $key ( keys %$container ) {
-
-            if( $$container{$key} eq $value ) {
-
-                delete $$container{$key};
-
-                last;
-
-            }#if
-
-        }#foreach
-
-    } elsif( ref($container) eq 'ARRAY' ) {
-
-        my $index = 0;
-
-        foreach my $item ( @$container ) {
-
-            if( $item eq $value ) {
-
-                splice @$container, $index, 1;
-
-                last;
-
-            }#if
-
-            $index++;
-
-        }#foreach
-
-    } else {
-
-        # what now...
-
-    }#if
-
+  my ($container, $value) = @_;
+  if (isa($container, 'HASH')) {
+    foreach my $key ( keys %$container ) {
+      if( $$container{$key} eq $value ) {
+        delete $$container{$key};
+      }
+    }
+  } elsif (isa($container, 'ARRAY')) {
+    my $index = 0;
+    foreach my $item (@$container) {
+      if ($item eq $value) {
+        splice @$container, $index, 1;
+        # keep going
+      } else {
+        $index++;
+      }
+    }
+  } else {
+    croak "Cannot remove value from the provided container.";
+  }
+  return $container;
 }#rmval 
 
 # ------------------------------------------------------------------------------
-# remove an element from an array of hash refs, by some key's value
-#
-# ------------------------------------------------------------------------------
-sub rmsubhash {
-    
-    my ($container, $key, $value) = @_;
-
-    if( &ref($container) eq 'ARRAY' ) {
-
-        my $index = 0;
-
-        foreach my $item ( @$container ) {
-
-            next unless ref( $item ) eq 'HASH';
-
-            if( $$item{$key} eq $value ) {
-
-                splice @$container, $index, 1;
-
-                last;
-
-            }#if
-
-            $index++;
-
-        }#foreach
-
-    }#if
-
-}#rmsubhash 
-
-# ------------------------------------------------------------------------------
-# hashget KEY, HASHREF
-# 
-# Get a nested hash member using the colon-delimited key format.
-# ------------------------------------------------------------------------------
-
-sub hashget {
-
-    my ($key,$hashref,$default) = @_;
-
-    return unless $key;
-
-    return unless ref($hashref) eq 'HASH';
-
-    my $val = LNS::hgetv( $hashref, $key );
-
-    return defined $val ? $val : $default;
-
-}#hashget
-
-# ------------------------------------------------------------------------------
-# given an array or hash reference, return the a new reference to an identical
-# array, minus the duplicates.  if a hash reference is passed, the hash's keys
-# are used to determine uniqueness.
-#
-# return structure is sorted.
-#
-# ------------------------------------------------------------------------------
-sub uniq {
-    
-    my $thing = shift || return;
-
-    my $return = ();
-
-    if( ref( $thing ) eq 'HASH' ) {
-
-        #
-        # This doesn't make any sense, how can a hash have duplicate keys!
-        # (...should be values, right?)
-        #
-
-        my $last_key = ();
-
-        $return = {};
-
-        foreach my $key ( sort keys %$thing ) {
-
-            $$return{$key} = $$thing{$key} unless $key eq $last_key;
-
-            $last_key = $key;
-
-        }#foreach
-
-    } elsif( ref( $thing ) eq 'ARRAY' ) {
-
-        my $last_item = 1 - time;
-
-        $return = [];
-
-        foreach my $item ( sort @$thing ) {
-
-            push @$return, $item unless $item eq $last_item;
-
-            $last_item = $item;
-
-        }#foreach
-
-    }#if
-
-    return $return;
-
-}#uniq
-
-# ------------------------------------------------------------------------------
-# given a hash reference, return an array of its keys sorted by their values.
-#
-# ------------------------------------------------------------------------------
-sub sortkbyv {
-
-    my $hash = shift;
-
-    if( ref( $hash ) eq 'HASH' ) {
-
-        return sort { $$hash{$a} cmp $$hash{$b} } keys %$hash;
-
-    }#if
-
-    return undef;
-
-}#sortkbyv
-
-# ------------------------------------------------------------------------------
-# subhash REF, KEY, VALUE
-#
-# Return the matching subhashes, which have KEY eq VALUE
-# 
-# VALUE can be:
-#
-#   'exactmatch'
-#   '~regex'
-#
-# The '~' is used to make the determination.
-#
-# Return value:
-#
-#   When there *are* matches:
-#       wantarray ? all matches
-#       otherwise   the first match
-#   otherwise,
-#       wantarray ? an emtpy list
-#       otherwise,  undef
-# ------------------------------------------------------------------------------
-
-sub subhash {
-
-    my ($ref, $key, $value) = @_;
-
-    my @matches = ();
-
-    my $target = ();
-
-    if( ref($ref) eq 'ARRAY' ) {
-
-        $target = $ref;
-
-    } elsif( ref($ref) eq 'HASH' ) {
-
-        $target = [ values %$ref ];
-
-    } else {
-
-        die "How can subhashes exist in: $ref";
-
-    }#if
-
-    my $tilde = substr $value, 0, 1;
-
-    my $useregex = $tilde eq '~' ? 1 : 0;
-
-    $useregex and substr $value, 0, 1, ""; # trim
-
-    foreach my $subhash ( @$target ) {
-
-        next unless ref($subhash) =~ 'HASH';
-
-        if( $useregex && ($$subhash{$key} =~ /$value/) ) {
-
-            push @matches, $subhash;
-
-        } elsif( $$subhash{$key} eq $value ) {
-        
-            push @matches, $subhash;
-
-        }#if
-
-    }#foreach
-
-    if( @matches ) {
-
-        wantarray and return @matches;
-
-        return shift @matches; # only return the first match
-
-    }#if
-
-    wantarray and return @matches;
-
-    return undef;
-
-}#subhash
-
-# ------------------------------------------------------------------------------
 # cpref - Recursively clone the reference, returning a new reference.
-#
-# The Clone module found on CPAN crashes under my mod_perl and FastCGI
-# test servers...
-#
-# Note: Have not tested recursive references.
+# cpref ?ref
+# Implemented because the Clone module found on CPAN crashes under my mod_perl 
+# and FastCGI test servers...
 # ------------------------------------------------------------------------------
 
 sub cpref {
-
-    my $opts = { 'sdref' => 0 };
-
-    Hub::opts( \@_, $opts );
-
-    my $ref = shift;
-
-    my $new = ();
-
-    return $ref unless ref($ref);
-
-    for( ref($ref) ) {
-
-        $_ eq 'HASH' and do {
-
-            $new = {};
-
-            keys %$ref; # reset iterator
-
-            while( my($k,$v) = each %$ref ) {
-
-                if( ref($v) ) {
-
-                    $new->{$k} = Hub::cpref($v, -opts => $opts) unless $v eq $ref;
-
-                } else {
-
-                    $new->{$k} = $v;
-
-                }#if
-
-            }#while
-
-            last;
-
-        };
-
-        $_ eq 'ARRAY' and do {
-
-            $new = [];
-
-            foreach my $v ( @$ref ) {
-
-                if( ref($v) ) {
-
-                    push @$new, Hub::cpref($v, -opts => $opts);
-
-                } else {
-
-                    push @$new, $v;
-
-                }#if
-
-            }#foreach
-
-            last;
-
-        };
-    
-        $_ eq 'SCALAR' and do {
-
-            if( $$opts{'sdref'} ) {
-
-                # De-reference scalars
-
-                $new = $$ref;
-
-            } else {
-
-                my $tmp = $$ref;
-
-                $new = \$tmp;
-
-            }#if
-
-            last;
-
-        };
-        
-        $_ eq 'Fh' and do {
-
-            # Just copy the filename from file handles
-
-            $ref =~ /(.*)/ and $new = $1;
-
-            last;
-
-        };
-    
-        $_ eq 'REF' and do {
-
-            $$ref eq $ref and
-                warn "Self reference cannot be copied: $ref";
-
-            ($$ref ne $ref) and $new = Hub::cpref( $$ref, -opts => $opts );
-
-            last;
-
-        };
-    
-        Hub::check('-test=blessed', $ref) and do {
-
-            eval( '$new = ' . ref($ref) . '->new()' );
-
-            $@ and die $@;
-
-            keys %$ref; # reset
-
-            while( my ($k,$v) = each %$ref ) {
-
-                $new->{$k} = Hub::cpref( $v, -opts => $opts );
-
-            }#while
-
-            last;
-
-        };
-
-    }#for
-    
-    return $new;
-
+  my $ref = shift;
+  my $new = ();
+  return $ref unless ref($ref);
+  if (isa($ref, 'HASH')) {
+    $new = blessed $ref ? ref($ref)->new() : {};
+    keys %$ref; # reset iterator
+    while( my($k,$v) = each %$ref ) {
+      if( ref($v) ) {
+        $new->{$k} = cpref($v) unless $v eq $ref;
+      } else {
+        $new->{$k} = $v;
+      }
+    }
+  } elsif (isa($ref, 'ARRAY')) {
+    $new = blessed $ref ? ref($ref)->new() : [];
+    foreach my $v ( @$ref ) {
+      if( ref($v) ) {
+        push @$new, cpref($v);
+      } else {
+        push @$new, $v;
+      }
+    }
+  } elsif (isa($ref, 'SCALAR')) {
+    my $tmp = $$ref;
+    $new = \$tmp;
+  } elsif (ref($ref) eq 'REF') {
+    $$ref eq $ref and
+      warn "Self reference cannot be copied: $ref";
+    ($$ref ne $ref) and $new = cpref($$ref);
+  } else {
+    croak "Cannot copy reference: $ref\n";
+  }
+  return $new;
 }#cpref
 
 # ------------------------------------------------------------------------------
-# Hub::checksum( @params )
-#
-# Create a unique identifier for the provided data
-#
-# Params can be scalars, hash references, array references and the like.  We
-# use the HashFile's print routine to transform nested structures into flat
-# strings.  As for performance, improvements should be made in the HashFile
-# module.  The only reason I create a new instance of HashFile each time is
-# because I know there are symbol tables (such as the order of elements) in 
-# that class which get update when the print method is called.
+# checksum - Create a unique identifier for the provided data
+# checksum [params..]
+# Params can be scalars, hash references, array references and the like.
 # ------------------------------------------------------------------------------
 #|test(match)
 #|
@@ -1401,129 +848,36 @@ sub cpref {
 # ------------------------------------------------------------------------------
 
 sub checksum {
-
-    my $buffer = "";
-
-    foreach my $param ( @_ ) {
-
-        if( ref($param) eq 'HASH' ) {
-
-            $buffer .= Hub::flatten( $param );
-
-        } elsif( ref($param) eq 'ARRAY' ) {
-
-            $buffer .= Hub::checksum( @$param );
-
-        } elsif( ref($param) eq 'SCALAR' ) {
-
-            $buffer .= $$param;
-
-        } elsif( ref($param) eq "Fh" ) {
-
-            $param =~ /(.*)/ and $buffer .= $1;
-
-        } else {
-
-            $buffer .= $param;
-
-        }#if
-
-    }#foreach
-
-    my $crc32 = crc32($buffer); # crc32 is faster than adler32
-
-    return $crc32;
-
+  my $buffer = "";
+  foreach my $param ( @_ ) {
+    if( ref($param) eq 'HASH' ) {
+      $buffer .= Hub::flatten( $param );
+    } elsif( ref($param) eq 'ARRAY' ) {
+      $buffer .= Hub::checksum( @$param );
+    } elsif( ref($param) eq 'SCALAR' ) {
+      $buffer .= $$param;
+    } elsif( ref($param) eq "Fh" ) {
+      $param =~ /(.*)/ and $buffer .= $1;
+    } else {
+      $buffer .= $param;
+    }#if
+  }#foreach
+  my $crc32 = crc32($buffer); # crc32 is faster than adler32
+  return $crc32;
 }#checksum
 
 # ------------------------------------------------------------------------------
-
-sub getbyname {
-
-    my $fully_qualified_id  = shift;
-    my $hash                = shift;
-
-    return unless ref($hash);
-
-    my @parts = split /:/, $fully_qualified_id;
-
-    $fully_qualified_id and push @parts, $fully_qualified_id unless @parts;
-
-    my $ptr = $hash;
-
-    my $ret = undef;
-
-    my ($parent, $child, $parent_part) = undef;
-
-    my $level = 0;
-
-    return undef unless @parts;
-
-    foreach my $part ( @parts ) {
-
-        $part eq "" and next;
-
-        if( ref($ptr) eq 'ARRAY' ) {
-
-            $ret    = undef;
-            $parent = undef;
-
-            foreach my $item ( @{$ptr} ) {
-
-                if( ref($item) eq 'HASH' ) {
-
-                    if(    ($$item{'_id'}   eq $part)
-                        || ($$item{'id'}    eq $part)
-                        || ($$item{'name'}  eq $part) ) {
-
-                        $parent = $ptr;
-                        $ret    = $item;
-                        $ptr    = $item;
-
-                        last;
-
-                    }#if
-                    
-                }#if
-
-            }#foreach
-
-        } else {
-
-            if( ref($ptr) ne 'HASH' ) {
-
-              return undef;
-
-            }#if
-
-            $parent         = $ptr;
-            $parent_part    = $part;
-            $ret            = $ptr->{$part};
-            $ptr            = $ptr->{$part};
-
-        }#if
-
-        $child = $part;
-
-        $level++;
-
-    }#foreach
-
-    return $ret;
-
-}#getbyname
-
-# ------------------------------------------------------------------------------
-# merge TARGET_HREF, SOURCE_HREF..., OPTION...
+# merge - Merge several hashes
+# merge \%target, \%source, [\%source..], [options]
 #
 # Merges the provided hashes.  The first argument (destination hash) has
-# precedence (as in values are NOT overwritten) unless --overwrite is given.
+# precedence (as in values are NOT overwritten) unless -overwrite is given.
 #
 # OPTIONS:
 #
-#   --overwrite             Overwrite values as they are encounterred.
+#   -overwrite=1            Overwrite values as they are encounterred.
 #
-#   --prune                 Gives the destination hash the same structure as
+#   -prune=1                Gives the destination hash the same structure as
 #                           the source hash (or the composite of all which is
 #                           in common when multiple source hashes are provided).
 #
@@ -1532,421 +886,139 @@ sub getbyname {
 #
 #                           If the destination has a value which is not in all
 #                           of the source hashes, it is deleted.
-#
-#   --keeparrays            When the destination contains the same key as the
-#                           source, but the destination is an array where the 
-#                           source is a hash, take all of the hash elements and
-#                           merge them into the array.
-#
 # ------------------------------------------------------------------------------
 
 sub merge {
-
-    my $dh = shift || return; # destination hash
-
-    return unless ref($dh) =~ /HASH|::/;
-
-    my @sources = ();
-    my $flags   = '';
-
-    foreach my $arg ( @_ ) {
-
-        if( ref($arg) =~ /HASH|::/ ) {
-        
-            push @sources, $arg;
-
-        } elsif( $arg =~ "^--" ) {
-
-            $flags .= $arg;
-
-        }#if
-
-    }#foreach
-
-    foreach my $sh ( @sources ) {
-
-        &_mergeHash( $dh, $sh, $flags );
-
-    }#foreach
-
-    return $dh;
-
+  my ($opts) = Hub::opts(\@_, {
+    'overwrite'   => 0,
+    'prune'       => 0,
+  });
+  my $dh = shift; # destination hash
+  $dh = {} unless defined $dh;
+  return unless isa($dh, 'HASH');
+  foreach my $sh ( @_ ) {
+    _mergeHash($dh, $sh, $opts);
+  }
+  return $dh;
 }#merge
 
 sub _mergeHash {
-
-    my ($dh,$sh,$flags) = @_;
-
-    if( $flags =~ /--prune/ ) {
-
-        my @d_keys = keys %$dh;
-
-        foreach my $k ( @d_keys ) {
-
-            delete $$dh{$k} unless defined $$sh{$k};
-        
-        }#foreach
-
-    }#if
-
-    keys %$sh; # reset iterator
-
-    while( my($k,$v) = each %$sh ) {
-
-        &_mergeElement( $dh, $k, $v, $flags );
-
-    }#while
-
+  my ($dh,$sh,$opts) = @_;
+  if ($$opts{'prune'}) {
+    my @d_keys = keys %$dh;
+    foreach my $k ( @d_keys ) {
+      delete $$dh{$k} unless defined $$sh{$k};
+    }
+  }
+  keys %$sh; # reset iterator
+  while( my($k,$v) = each %$sh ) {
+    &_mergeElement( $dh, $k, $v, $opts );
+  }
 }#_mergeHash
 
 sub _mergeArray {
-
-    my ($da,$sa,$flags) = @_; # destination array, source array
-
-    my $dh = {};
-
-    map { $$dh{&_getId($_)} = $_ } @$da;
-
-    my @d_keys = keys %$dh;
-
-    foreach my $i ( @$sa ) {
-
-        my $id = &_getId( $i );
-
-        if( grep /^$id$/, @d_keys ) {
-
-            if( (ref($i) =~ /HASH|::/) && ref($$dh{$id}) ) {
-
-                &_mergeHash( $$dh{$id}, $i, $flags );
-
-            }#if
-
-        } else {
-
-            push @$da, $i unless grep /^$id$/, @d_keys;
-        
-        }#if
-
-    }#foreach
-
+  my ($da,$sa,$opts) = @_; # destination array, source array
+# splice @$da, scalar(@$sa);
+# for (my $i = 0; $i < @$sa; $i++) {
+#   if (defined $$sa[$i]) {
+#     if (ref($$da[$i]) eq ref($$sa[$i])) {
+#       &_mergeHash($$da[$i], $$sa[$i], $opts) if isa($$da[$i], 'HASH');
+#       &_mergeArray($$da[$i], $$sa[$i], $opts) if isa($$da[$i], 'ARRAY');
+#     } else {
+#       $$da[$i] = $$sa[$i];
+#     }
+#   } else {
+#     $$da[$i] = undef;
+#   }
+# }
+  my $dh = {};
+  map { $$dh{&_getId($_)} = $_ } @$da;
+  my @d_keys = keys %$dh;
+  foreach my $i ( @$sa ) {
+    my $id = &_getId( $i );
+    if( grep /^$id$/, @d_keys ) {
+      if( (ref($i) =~ /HASH|::/) && ref($$dh{$id}) ) {
+        &_mergeHash( $$dh{$id}, $i, $opts );
+      }
+    } else {
+      push @$da, $i unless grep /^$id$/, @d_keys;
+    }
+  }
 }#_mergeArray
 
 sub _getId {
-
-    my $h  = shift || return;
-    my $id = "";
-
-    if( ref($h) =~ /HASH|::/ ) {
-    
-        # in the order of prescedence, these are the subvalues we
-        # use to determine this hash's uniqueness
-
-        $id   = $$h{'_id'};
-        $id ||= $$h{'id'};
-        $id ||= $$h{'name'};
-        $id ||= $$h{'value'};
-
-    } elsif( ref($h) eq 'ARRAY' ) {
-
-        $id = Hub::checksum( join '', @$h );
-
-    }#if
-
-    return $id ? $id : $h;
-
+  my $h  = shift || return;
+  my $id = "";
+  if( ref($h) =~ /HASH|::/ ) {
+    # in the order of prescedence, these are the subvalues we
+    # use to determine this hash's uniqueness
+    $id   = $$h{'_id'};
+    $id ||= $$h{'id'};
+    $id ||= $$h{'name'};
+    $id ||= $$h{'value'};
+  } elsif( ref($h) eq 'ARRAY' ) {
+    $id = Hub::checksum( join '', @$h );
+  }#if
+  return $id ? $id : $h;
 }#_getId
 
 sub _mergeElement {
-
-    my ($dh, $k, $v, $flags) = @_;
-
-    if( defined($$dh{$k}) ) {
-
-        my $c = ref($v); # class
-
-        if( $c ) {
-
-            if( $c eq ref($$dh{$k}) ) {
-
-                $c =~ /HASH|::/ and &_mergeHash( $$dh{$k}, $v, $flags );
-
-                $c eq 'ARRAY' and &_mergeArray( $$dh{$k}, $v, $flags );
-
-            } elsif( ($flags =~ "--keeparrays") &&
-                     (ref($$dh{$k}) eq 'ARRAY') && ($c =~ /HASH|::/) ) {
-
-                my @sa = Hub::asarray( $v );
-
-                &_mergeArray( $$dh{$k}, \@sa, $flags );
-
-            } else {
-
-                # do not chage the type (unless overwriting)
-
-                $flags =~ "--overwrite" and $$dh{$k} = $v;
-
-            }#if
-
-        } else {
-
-            $flags =~ "--overwrite" and $$dh{$k} = $v;
-
-        }#if
-
+  my ($dh, $k, $v, $opts) = @_;
+  if( defined($$dh{$k}) ) {
+    my $c = ref($v); # class
+    if( $c ) {
+      if( $c eq ref($$dh{$k}) ) {
+        $c =~ /HASH|::/ and &_mergeHash( $$dh{$k}, $v, $opts );
+        $c eq 'ARRAY' and &_mergeArray( $$dh{$k}, $v, $opts );
+      } else {
+        # do not chage the type (unless overwriting)
+        $$opts{'overwrite'} and $$dh{$k} = $v;
+      }
     } else {
-
-        my $vcopy = Hub::cpref($v);
-
-        $$dh{$k} = defined($vcopy) ? $vcopy : "";
-
-    }#if
-
+      $$opts{'overwrite'} and $$dh{$k} = $v;
+    }
+  } else {
+    my $vcopy = Hub::cpref($v);
+    $$dh{$k} = defined($vcopy) ? $vcopy : "";
+  }
 }#_mergeElement
 
 # ------------------------------------------------------------------------------
-# asarray HASHREF|ARRAYREF [KEY] [OPTIONS]
-# 
-# Turn a hashref of hashref's, or an array of hashref's into an array.
-#
-# Sort by KEY
-#
-# OPTIONS
-#
-#  --asref              Return a reference instead
-#  --lose               Lose the key (for hash references)
-#  --filter:key=val     Only include items where key eq val
-#
-# Unless --lose is specified,  we will modify the provided hash, storing the
-# outer key as '_id' of each subhash.
+# flatten - Get a consistent unique-by-data string for some data structure.
+# flatten \%hash
+# flatten \%array
 # ------------------------------------------------------------------------------
 
-sub asarray {
-
-    my $ref         = shift || return ();
-
-    my $key         = DEFAULTSORTKEY;
-    my @array       = ();
-    my $flags       = '';
-    my $filterkey   = '';
-    my $filterval   = '';
-
-    foreach my $arg ( @_ ) {
-
-        next unless $arg;
-
-        if( $arg =~ /--filter:(\w+)=(.*)/ ) {
-
-            $filterkey = $1;
-
-            $filterval = $2;
-
-        } elsif( $arg =~ "^--" ) {
-
-            $flags .= $arg;
-
-        } else {
-
-            $key = $arg;
-
-        }#if
-
-    }#foreach
-
-    $SORT_KEY = $key;
-
-	if( ref($ref) =~ /HASH|::/ ) {
-
-        map { $$ref{$_}->{'_id'} = $_ } keys %$ref unless $flags =~ /--lose/;
-
-        if( $filterkey ) {
-
-            my @filtered = subhash( $ref, $filterkey, $filterval );
-
-            @array = sort { &_prioritysort } @filtered;
-
-        } else {
-
-            @array = sort { &_prioritysort } values %$ref;
-
-        }#if
-
-    } elsif( ref($ref) eq 'ARRAY' ) {
-
-        if( $filterkey ) {
-
-            my @filtered = subhash( $ref, $filterkey, $filterval );
-
-            @array = sort { &_prioritysort } @filtered;
-
-        } else {
-
-            @array = sort { &_prioritysort } @$ref;
-
-        }#if
-
-    }#if
-
-    return $flags =~ /--asref/ ? \@array : @array;
-
-}#asarray
-
-# ------------------------------------------------------------------------------
-# _prioritysort
-# 
-# Sorts by a key, with the intention of re-ordering.  In order to do so, the
-# secondary sort key is set to the *old* value of the item.  For instance, we
-# have three items, with sort values 1, 1, and 2:
-#
-#   item1: 0
-#   item2: 1
-#   item3: 2
-#
-# So, to move item1 to the second position, set the _sort key to 1, and the 
-# _sort2 key to 0 (it's old value).
-# ------------------------------------------------------------------------------
-
-sub _prioritysort {
-
-    return $a cmp $b
-        unless( ref($a) eq 'HASH'
-            && ref($b) eq 'HASH' );
-
-    my $A = $$a{$SORT_KEY};
-
-    my $B = $$b{$SORT_KEY};
-
-    # Primary sort
-
-    my $r = _compscalar( $A, $B );
-
-    $r = 1 unless defined $A;
-
-    $r = -1 unless defined $B;
-
-    if( $r == 0 ) {
-
-        my $A2 = $$a{$SORT_KEY."2"};
-
-        my $B2 = $$b{$SORT_KEY."2"};
-
-        if( defined $A2 && defined $B2 ) {
-
-            $r = _compscalar( $A2, $B2 );
-
-        } else {
-
-            defined $A2 and $r = ($A2 < $B) ? 1 : -1;
-
-            defined $B2 and $r = ($A < $B2) ? 1 : -1;
-
-        }#if
-
-    }#if
-
-    my $x = $$a{'name'};
-
-    my $y = $$b{'name'};
-
-    return $r;
-
-}#_prioritysort
-
-# ------------------------------------------------------------------------------
-# _compscalar
-# 
-# Use cmp or <=> if the data is all numbers (decimal points included)
-# ------------------------------------------------------------------------------
-
-sub _compscalar {
-
-    my ($a,$b) = @_;
-
-    return 1 if $a eq 'LAST';
-
-    return -1 if $b eq 'LAST';
-
-    $a.$b =~ /^[\.\d]+$/ and return $a <=> $b;
-
-    return $a cmp $b;
-
-}#_compscalar
-
-# ------------------------------------------------------------------------------
 sub flatten {
-
-    my $ptr = shift || return;
-    my $buf = "";
-
-    if( ref($ptr) =~ /(HASH|::)/ ) {
-
-        foreach my $k ( sort keys %$ptr ) {
-
-            my $v = $$ptr{$k};
-
-            if( ref($v) ) {
-
-                $buf .= $k;
-
-                $buf .= Hub::flatten( $v );
-
-            } else {
-
-                if( !$k || $v =~ /\n/ ) {
-
-                    $buf .= $v;
-
-                } else {
-
-                    $buf .= $k . $v;
-
-                }#if
-
-            }#if
-
-        }#foreach
-
-    } elsif( ref($ptr) eq 'ARRAY' ) {
-
-        foreach my $v ( sort @$ptr ) {
-
-            if( ref( $v ) ) {
-
-                $buf .= Hub::flatten( $v );
-
-            } else {
-
-                $buf .= $v;
-
-            }#if
-
-        }#foreach
-
-    }#if
-
-    return $buf;
-
+  my $ptr = shift || return;
+  my $buf = "";
+  if (isa($ptr, 'HASH')) {
+    foreach my $k ( sort keys %$ptr ) {
+      my $v = $$ptr{$k};
+      if( ref($v) ) {
+        $buf .= $k;
+        $buf .= Hub::flatten( $v );
+      } else {
+        if( !$k || $v =~ /\n/ ) {
+          $buf .= $v;
+        } else {
+          $buf .= $k . $v;
+        }
+      }
+    }
+  } elsif (isa($ptr, 'ARRAY')) {
+    foreach my $v (sort @$ptr) {
+      if (ref($v)) {
+        $buf .= Hub::flatten($v);
+      } else {
+        $buf .= $v;
+      }
+    }
+  } else {
+    die "Cannot flatten structure: $ptr\n";
+  }
+  return $buf;
 }#flatten
-
-# ------------------------------------------------------------------------------
-# subfield POS, DELIMITER, STRING
-# 
-# Given a delimited string, return the substring given a field position (zero
-# based).
-# ------------------------------------------------------------------------------
-
-sub subfield {
-
-    my ($pos,$delim,$str) = @_;
-
-    my @parts = split $delim, $str;
-
-    if( ($pos > 0) && ($pos <= $#parts) ) {
-
-        return $parts[$pos];
-
-    }#if
-
-}#subfield
 
 # ------------------------------------------------------------------------------
 # replace MATCHING_REGEX, SUBSTITUTION_REGEX, TEXT
@@ -2068,23 +1140,24 @@ sub digout {
 }#digout
 
 # ------------------------------------------------------------------------------
-# diff &HASH, &HASH
+# diff - Creates a nest of the differences between the provided structures.
+# diff \%hash1, \%hash2
+# diff \@array1, \@array2
 #
-# Creates a nest of the differences between the two provided.  If a conflict of
-# types (with the same key) is encounterred, the right-hand sturcture is used.
+# If a conflict of types (with the same key) is encounterred, the right-hand 
+# sturcture is used.
 #
 # NOTE: Although this routine compares contents, it returns references to the 
-# original hashes (use cpref on the result to detatch.)
+# original hashes (use L<Hub::cpref> on the result to detatch.)
 # ------------------------------------------------------------------------------
 
 sub diff {
-
-    my ($l,$r) = @_;
-
-    my $h = _diff_hashes( $l, $r );
-
-    return $h;
-
+  my ($l,$r) = @_;
+  if (isa($l, 'HASH')) {
+    return _diff_hashes( $l, $r );
+  } elsif (isa($l, 'ARRAY')) {
+    return _diff_arrays( $l, $r );
+  }
 }#diff
 
 # ------------------------------------------------------------------------------
@@ -2094,65 +1167,35 @@ sub diff {
 # ------------------------------------------------------------------------------
 
 sub _diff_hashes {
-
-    my ($l,$r) = @_;
-
-    return unless ref($l) eq 'HASH';
-
-    return unless ref($r) eq 'HASH';
-
-    my $h = undef;
-
-    my @lkeys = keys %$l;
-
-    while( my $key = shift @lkeys ) {
-
-        if( defined $r->{$key} ) {
-
-            if( ref($l->{$key}) eq ref($r->{$key}) ) {
-
-                if( ref($l->{$key}) eq 'HASH' ) {
-
-                    my $subh = _diff_hashes( $l->{$key}, $r->{$key} );
-
-                    $h->{$key} = $subh if $subh;
-
-                } elsif( ref($l->{$key}) eq 'ARRAY' ) {
-
-                    my $suba = _diff_arrays( $l->{$key}, $r->{$key} );
-
-                    $h->{$key} = $suba if $suba;
-
-                } else {
-
-                    $h->{$key} = $r->{$key} unless $l->{$key} eq $r->{$key};
-
-                }#if
-
-            } else {
-
-                $h->{$key} = $r->{$key};
-
-            }#if
-
+  my ($l,$r) = @_;
+  return unless ref($l) eq 'HASH';
+  return unless ref($r) eq 'HASH';
+  my $h = undef;
+  my @lkeys = keys %$l;
+  while( my $key = shift @lkeys ) {
+    if( defined $r->{$key} ) {
+      if( ref($l->{$key}) eq ref($r->{$key}) ) {
+        if( ref($l->{$key}) eq 'HASH' ) {
+          my $subh = _diff_hashes( $l->{$key}, $r->{$key} );
+          $h->{$key} = $subh if $subh;
+        } elsif( ref($l->{$key}) eq 'ARRAY' ) {
+          my $suba = _diff_arrays( $l->{$key}, $r->{$key} );
+          $h->{$key} = $suba if $suba;
         } else {
-
-            $h->{$key} = $l->{$key};
-
-        }#if
-
-    }#while
-
-    my @rkeys = keys %$r;
-
-    while( my $key = shift @rkeys ) {
-
-        $h->{$key} = $r->{$key} unless defined $l->{$key};
-
-    }#while
-
-    return $h;
-
+          $h->{$key} = $r->{$key} unless $l->{$key} eq $r->{$key};
+        }
+      } else {
+        $h->{$key} = $r->{$key};
+      }
+    } else {
+      $h->{$key} = $l->{$key};
+    }
+  }
+  my @rkeys = keys %$r;
+  while( my $key = shift @rkeys ) {
+    $h->{$key} = $r->{$key} unless defined $l->{$key};
+  }
+  return $h;
 }#_diff_hashes
 
 # ------------------------------------------------------------------------------
@@ -2162,81 +1205,48 @@ sub _diff_hashes {
 # ------------------------------------------------------------------------------
 
 sub _diff_arrays {
-
-    my ($l,$r) = @_;
-
-    return unless ref($l) eq 'ARRAY';
-
-    return unless ref($r) eq 'ARRAY';
-
-    my $a = undef;
-
-    my $idx = 0;
-
-    my $min = Hub::min( $#$l, $#$r );
-
-    for( my $idx = 0; $idx <= $min; $idx++ ) {
-
-        my $lval = $l->[$idx];
-
-        my $rval = $r->[$idx];
-
-        if( ref($lval) eq ref($rval) ) {
-
-            if( ref($lval) eq 'HASH' ) {
-
-                my $subh = _diff_hashes( $lval, $rval );
-
-                push( @$a, $subh ) if $subh;
-
-            } elsif( ref($rval) eq 'ARRAY' ) {
-            
-                my $suba = _diff_arrays( $lval, $rval );
-
-                push( @$a, $suba ) if $suba;
-
-            } else {
-
-                push( @$a, $rval ) unless $lval eq $rval;
-
-            }#if
-
-        } else {
-
-            push @$a, $rval;
-
-        }#if
-
-        $idx++;
-
-    }#foreach
-
-    if( $#$l > $#$r ) {
-
-        foreach my $idx ( ($#$r + 1) .. $#$l ) {
-
-            push @$a, $l->[$idx];
-
-        }#for
-
+  my ($l,$r) = @_;
+  return unless isa($l, 'ARRAY');
+  return unless isa($r, 'ARRAY');
+  my $a = undef;
+  my $idx = 0;
+  my $min = Hub::min( $#$l, $#$r );
+  for( my $idx = 0; $idx <= $min; $idx++ ) {
+    my $lval = $l->[$idx];
+    my $rval = $r->[$idx];
+    if( ref($lval) eq ref($rval) ) {
+      if( ref($lval) eq 'HASH' ) {
+        my $subh = _diff_hashes( $lval, $rval );
+        push( @$a, $subh ) if $subh;
+      } elsif( ref($rval) eq 'ARRAY' ) {
+        my $suba = _diff_arrays( $lval, $rval );
+        push( @$a, $suba ) if $suba;
+      } else {
+        push( @$a, $rval ) unless $lval eq $rval;
+      }
     } else {
-
-        foreach my $idx ( ($#$l + 1) .. $#$r ) {
-
-            push @$a, $r->[$idx];
-
-        }#for
-
-    }#if
-
-    return $a;
-
+      push @$a, $rval;
+    }
+    $idx++;
+  }
+  if( $#$l > $#$r ) {
+    foreach my $idx ( ($#$r + 1) .. $#$l ) {
+      push @$a, $l->[$idx];
+    }
+  } else {
+    foreach my $idx ( ($#$l + 1) .. $#$r ) {
+        push @$a, $r->[$idx];
+    }
+  }
+  return $a;
 }#_diff_arrays
 
 # ------------------------------------------------------------------------------
-# dice - Break apart the string
-#
-# dice STRING
+# dice - Break apart the string into the least number of segments
+# dice [options] $string
+# options:
+#   beg=$literal    Begin of balanced pair, Default is '{'
+#   end=$literal    End of balanced pair, Default is '}'
 # ------------------------------------------------------------------------------
 #|test(match,a;{b{c}};c;{d}) join( ';', dice( "a{b{c}}c{d}" ) );
 # ------------------------------------------------------------------------------
@@ -2244,99 +1254,93 @@ sub _diff_arrays {
 sub dice {
 
     my $opts = {
-
-        'beg' => {
-            'char'  => '{',
-            'str'   => '{',
-            'len'   => 1,
-        },
-
-        'end' => {
-            'char'  => '}',
-            'str'   => '}',
-            'len'   => 1,
-        },
-
+        'beg'   => '{',
+        'end'   => '}',
     };
 
     Hub::opts( \@_, $opts );
-
     my $text        = shift;
-
     my @result      = ();
 
-    my %beg = %{$$opts{'beg'}};
+    my %beg = (
+        str     => $$opts{'beg'},
+        char    => substr($$opts{'beg'}, 0, 1),
+        len     => length($$opts{'beg'}),
+    );
 
-    my %end = %{$$opts{'end'}};
+    my %end = (
+        str     => $$opts{'end'},
+        char    => substr($$opts{'end'}, 0, 1),
+        len     => length($$opts{'end'}),
+    );
 
-    #
     # find the beginning
-    #
-
     my ($p,$p2,$p3) = (0,0,0);
-
     while( ($p = index( $text, $beg{'str'}, 0 )) > -1 ) {
 
-        #
         # find the end
-        #
-
         my $p2 = $p + $beg{'len'}; # start of the current search
-
         my $p3 = index( $text, $end{'char'}, $p2 ); # point of closing
-
         while( $p3 > -1 ) {
-
             my $ic = 0; # inner count
-
             my $im = index( $text, $beg{'char'}, $p2 ); # inner match
-            
             while( ($im > -1) && ($im < $p3) ) {
-
                 $ic++;
-
                 $p2 = ($im + 1);
-
                 $im = index( $text, $beg{'char'}, $p2 );
-
-            }#while
-
+            }
             last unless $ic > 0;
-
             for( 1 .. $ic ) {
-
                 $p3 = index( $text, $end{'char'}, ($p3 + 1) );
-
-            }#for
-
-        }#while
-
+            }
+        }
         if( $p3 > $p ) {
-
             my $str = substr( $text, $p, (($p3 + $end{'len'}) - $p) );
-
             my $left = substr( $text, 0, $p );
-
             my $right = substr( $text, $p + length($str) );
-
             push @result, $left, $str;
-
             $text = $right;
-
         } else {
-
             croak "Unmatched $beg{'str'}";
-
-        }#if
-
-    }#while
+        }
+    }
 
     $text and push @result, $text;
-
     return @result;
 
 }#dice
 
 # ------------------------------------------------------------------------------
+# indexmatch - Search for an expression within a string and return the offset
+# indexmatch [options] $string, $expression, $position
+# indexmatch [options] $string, $expression
+# Returns -1 if $expression is not found.
+# options:
+#   after   1|0     Return the position *after* the expression.  Default is 0.
+# ------------------------------------------------------------------------------
+#|test(match,4)   indexmatch("abracadabra", "[cd]")
+#|test(match,3)   indexmatch("abracadabra", "a", 3)
+#|test(match,-1)  indexmatch("abracadabra", "d{2,2}")
+#|test(match,3)   indexmatch("scant", "can", "-after=1")
+#|                - indexmatch("scant", "can")
+# ------------------------------------------------------------------------------
 
-'???';
+sub indexmatch {
+  my ($opts, $str, $expr, $from) = Hub::opts(\@_, {'after' => 0,});
+  croak "undefined search string" unless defined $str;
+  croak "undefined search expression" unless defined $expr;
+  $from = 0 if not defined $from;
+  my $temp_str = substr $str, $from;
+  croak "undefined search substring" unless defined $temp_str;
+  my $pos = undef;
+  $temp_str =~ /($expr)/;
+  $pos = index $temp_str, $1 if (defined $1);
+  return defined $pos
+    ?  $$opts{'after'}
+      ? $from + $pos + length($1)
+      : $from + $pos
+    : -1;
+}#indexmatch
+
+# ------------------------------------------------------------------------------
+1;

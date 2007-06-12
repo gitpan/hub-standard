@@ -1,0 +1,278 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Hub::Console::Output</title>
+<link rel="stylesheet" href="../../styles.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
+</head>
+
+<body>
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#intention">Intention</a></li>
+	</ul>
+
+	<li><a href="#public_methods">PUBLIC METHODS</a></li>
+	<ul>
+
+		<li><a href="#fw">fw</a></li>
+		<li><a href="#ps">ps</a></li>
+		<li><a href="#fcols">fcols</a></li>
+		<li><a href="#indenttext">indenttext</a></li>
+	</ul>
+
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#updated">UPDATED</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Hub::Console::Output - Utility methods console output</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  use Hub qw(:standard);</pre>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>
+</p>
+<h2><a name="intention">Intention</a></h2>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="public_methods">PUBLIC METHODS</a></h1>
+<p>
+</p>
+<h2><a name="fw">fw</a></h2>
+<dl>
+<dt><strong><a name="item_width">fixed-width (default padding is a space)</a></strong>
+
+<dd>
+<p>Warning, many calls to this method is a performance hit!</p>
+</dd>
+<dd>
+<p>usage examples:</p>
+</dd>
+<dd>
+<pre>
+  Hub::fw( 5, &quot;Hello World&quot; )                  &quot;Hello&quot;
+  Hub::fw( 5, &quot;Hello World&quot;, '-clip=0' )       &quot;Hello world&quot;
+  Hub::fw( 5, &quot;Hi&quot; )                           &quot;Hi   &quot;
+  Hub::fw( 5, &quot;Hi&quot;, '-align=r' )               &quot;   Hi&quot;
+  Hub::fw( 5, &quot;Hi&quot;, '-align=l' )               &quot;Hi   &quot;
+  Hub::fw( 5, &quot;Hi&quot;, '-align=c' )               &quot;  Hi &quot;
+  Hub::fw( 5, &quot;Hi&quot;, '-repeat' )                &quot;HHHHH&quot;
+  Hub::fw( 5, &quot;Hi&quot;, '-pad=x' )                 &quot;Hixxx&quot;
+  Hub::fw( 5, &quot;Hi&quot;, '-pad=x', '-align=r' )     &quot;xxxHi&quot;</pre>
+</dd>
+<dd>
+<pre>
+  Depricated:</pre>
+</dd>
+<dd>
+<pre>
+  Hub::fw( 5, &quot;Hi&quot;, &quot;right&quot; )                  &quot;   Hi&quot;
+  Hub::fw( 5, &quot;Hi&quot;, &quot;repeat&quot; )                 &quot;HHHHH&quot;
+  Hub::fw( 5, &quot;Hi&quot;, &quot;padding:x&quot; )              &quot;Hixxx&quot;
+  Hub::fw( 5, &quot;Hi&quot;, &quot;padding:x&quot;, &quot;right&quot; )     &quot;xxxHi&quot;</pre>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<h2><a name="ps">ps</a></h2>
+<dl>
+<dt>
+<dd>
+<pre>
+ Usage: ps</pre>
+</dd>
+<dd>
+<p>Aka: Proportional Space</p>
+</dd>
+<dd>
+<p>Split the given string up into multiple lines which will not exceed the
+specified character width.</p>
+</dd>
+<dd>
+<p>Default padding is a space.</p>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    ps( 10, &quot;this is really short but splits on ten chars&quot; );</pre>
+</dd>
+<dd>
+<pre>
+    this is re
+    ally short
+ but split
+    s on ten c
+    hars</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    ps( 10, &quot;this is really short but splits on ten chars&quot;, 3 );</pre>
+</dd>
+<dd>
+<pre>
+    this is re
+   ally short
+    but split
+   s on ten c
+   hars</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="fcols">fcols</a></h2>
+<dl>
+<dt>
+<dd>
+<pre>
+ Usage: fcols STRING, COLS, [OPTIONS]</pre>
+</dd>
+<dd>
+<p>Divide text into fixed-width columns.</p>
+</dd>
+<dd>
+<p>Where OPTIONS can be:</p>
+</dd>
+<dd>
+<pre>
+  --split:REGEX                   # Split on regex REGEX (default '\s')
+  --flow:ttb|ltr                  # Top-to-bottom or Left-to-right (default 'ttb')
+  --pad:NUM                       # Spacing between columns (default 1)
+  --padwith:STR                   # Pad with STR (multiplied by --pad)
+  --width:NUM                     # Force column width (--pad becomes irrelevant)
+  --justify:left|center|right     # Justify within column</pre>
+</dd>
+<dd>
+<p>Examples:</p>
+</dd>
+<dd>
+<pre>
+  1) print fcols( &quot;A B C D E F G&quot;, 4, &quot;-flow=ttb&quot; ), &quot;\n&quot;;</pre>
+</dd>
+<dd>
+<pre>
+      A C E G
+      B D F</pre>
+</dd>
+<dd>
+<pre>
+  2) print fcols( &quot;a b c d e f g&quot;, 4, &quot;-flow=ltr&quot; ), &quot;\n&quot;;</pre>
+</dd>
+<dd>
+<pre>
+      a b c d
+      e f g</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="indenttext">indenttext</a></h2>
+<dl>
+<dt><strong><a name="item_indent_text">Indent text</a></strong>
+
+<dd>
+<pre>
+ Usage: indenttext $count, $text, [options]</pre>
+</dd>
+<dd>
+<p>options:</p>
+</dd>
+<dd>
+<pre>
+  -skip_first=1       Do not indent the first line
+  -pad=CHAR           Use this padding character for indenting</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    indenttext(4,&quot;Hello\nWorld&quot;)</pre>
+</dd>
+<dd>
+<pre>
+    Hello
+    World</pre>
+</dd>
+</dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Ryan Gies (<a href="mailto:ryangies@livesite.net">ryangies@livesite.net</a>)</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.</p>
+<p>Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.</p>
+<p>Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:</p>
+<p>* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.</p>
+<p>* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.</p>
+<p>* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.</p>
+<p>* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.</p>
+<p>THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.</p>
+<p>To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="updated">UPDATED</a></h1>
+<p>06/09/2007</p>
+<p><a href="#__index__"><small>Top</small></a></p>
+
+</body>
+
+</html>

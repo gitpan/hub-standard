@@ -1,54 +1,41 @@
 =head1 NAME
 
-=begin html
-
-<p id="packagename">hubuse - Using the Hub library</p>
-
-=end html
-
-=begin text
-
 hubuse - Using the Hub library
 
-=end text
-
-
 =head1 SYNOPSIS
-
-
 
 The Hub module represents functions and classes which are implemented in 
 descendant packages.  Hub dynamically loads modules according to the parameters
 it is I<use>d with.
 
+
 =head1 DESCRIPTION
-
-
 
 Don't use the underlying modules directly:
 
-  use Hub::Base::Logger;        # Wrong
+  use Hub::Base::FileSystem;    # Wrong
   use Hub;                      # Correct
 
-  my $logger = Hub::Base::Logger->new( 'my.log' );    # Wrong
-  my $logger = Hub::mkinst( 'Logger', 'my.log' );     # Correct
+  my $parser = Hub::Parse::FileParser->new('my.template');    # Wrong
+  my $parser = Hub::mkinst('FileParser', 'my.template');      # Correct
 
 Without getting into gory detail, this non-standard approach is in place for
-two reasons:
+three reasons:
 
-  1) Allow the library to be refactored (maintained) without impacting existing
-     code.
+  1)  Allow the library to be refactored (maintained) without impacting existing
+      code.
 
-  2) We don't want to short-circut Perl's built-in require functionality which
-     would be necessary.
+  2)  We don't want to short-circut Perl's built-in require functionality which
+      would be necessary, were we to support direct underlying module usage.
+
+  3)  We only want to load underlying modules when they are needed.  We want to
+      group related modules in the same subdirectory. The subdirectory name 
+      will then be used as the import tag which loads its modules.
 
 =head2 Module Directory Structure
 
 By default, Hub tries to be as efficient as possible, only loading packages
-which are necessary.  Descendant packages are BulkSplit so that when it is
-required, only the header (dependancies and export lists) are loaded, and
-the body is AutoLoaded on the first call to a subroutine.
-See L<hubsplit> for details.
+which are necessary.
 
 Subdirectories are used to group exported modules.  Underneath the
 root (Hub) directory, are sub-directories which represent the export tag
@@ -59,7 +46,7 @@ of which the underlying modules should be represented.
       |-Util/:
       `-Webapp/:
 
-Descendant packages maintain their exported symbols in the EXPORT_OK array.
+Descendant packages maintain their exported symbols in their EXPORT_OK array.
 The Hub module proxies these exported symbols, thus requiring all descendant-
 exported symbols to be unique.
 
@@ -73,22 +60,56 @@ requiring them to be unique (to other classes):
 #1 and #3 will clash because they are both classes, but either can be used
 with #2 simultaneously.
 
+
+
 =head1 AUTHOR
 
+Ryan Gies (ryangies@livesite.net)
 
-
-Ryan Gies
 
 =head1 COPYRIGHT
 
+Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.
+
+Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.
 
 
-Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:
 
-Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.
+
+* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.
+
+* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.
+
+* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.
+
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.
+
+To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.
+
 
 =head1 UPDATED
 
-This file created by <#sys/proc/zname> on <#dt(nozeros,notime);sys/proc/tstamp> at <#dt(ampm,nosec,nozeros,nodate);sys/proc/tstamp>
+06/09/2007
 
 =cut

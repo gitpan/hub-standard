@@ -1,0 +1,893 @@
+=head1 NAME
+
+Hub::Base::FileSystem - Utility methods for working with the file system
+
+
+=head1 SYNOPSIS
+
+
+  use Hub qw(:standard);
+
+
+
+=head1 DESCRIPTION
+
+
+=head2 Intention
+
+
+
+=head1 PUBLIC METHODS
+
+=head2 fileopen
+
+=over 4
+
+=item 
+
+ Usage: fileopen FILENAME [PARAMS]
+
+
+For platforms which don't flock, create a lockfile for a specified
+filename.  Waits for #winlock_timeout seconds if a lockfile exists (unless
+READONLY is specified).
+
+
+
+=back
+
+=head2 fileclose
+
+=over 4
+
+=item 
+
+ Usage: fileclose HANDLE, [FILENAME]
+
+
+Unlock and close the file.
+
+Always remove the lockfile for a specified filename.
+
+
+
+=back
+
+=head2 filetime
+
+=over 4
+
+=item Return file's timestamp
+
+
+
+
+ Usage: filetime LIST, [OPTIONS]
+
+
+Where:
+
+
+  LIST                A list of valid path names or file handles
+  OPTIONS -mtime      Return last-modified time (default)
+          -atime       last-accessed time
+          -ctime       creation time
+  OPTIONS -max        Return greatest value (default)
+          -min         least value
+
+
+=back
+
+=head2 find
+
+=over 4
+
+=item Find files on disk
+
+
+ Usage: find $directory, [options]
+
+
+The directory entries '.' and '..' are always suppressed.
+
+
+
+No sorting is done here, entries appear in directory order with the directory
+listing coming before its sub-directory's listings.
+
+
+
+Options:
+
+
+  -name         => \@list|$list   Filename patterns to include
+  -include      => \@list|$list   Path patterns to include
+  -exclude      => \@list|$list   Path patterns to ignore.
+
+  -ignore       => \@list|$list   Path patterns to ignore
+  -filesonly    => 0|1            Omit directory entries from the result
+  -dirsonly     => 0|1            Omit file entries from the result
+
+
+Examples:
+
+
+  # Return the whole mess
+  find('/var/www/html');
+
+
+  # Wild-card search
+  my @list = find('/var/www/html/*.css');
+
+
+  # Find by filename
+  my @list = find('/var/www/html', -name => '\.htaccess;\.htpasswd');
+
+
+  # Ignore these paths
+  my @list = find('/var/www/html', -ignore => ".bak;.swp");
+
+
+  # Ignore these paths AND do not recurse into them
+  my @list = find('/var/www/html', -exclude => "CVS;.svn");
+
+
+  # Just find these paths
+  # This would also match a directories named ".gif"!
+  my @list = find('/var/www/html', -include => ".gif;.jp?g;.png");
+
+
+  # Omit directory entries from the result
+  my @list = find('/var/www/html', -filesonly => 1);
+
+
+  # Omit file entries from the result
+  my @list = find('/var/www/html', -dirsonly => 1);
+
+
+The options:
+
+
+  -name
+  -include
+  -exclude
+  -ignore
+
+
+Can be provided as array references, meaning:
+
+
+  my @patterns = qw(1024x768.gif 800x600.jpe?g)
+  my @list = find('/var/www/html', -include => \@patterns);
+
+
+is equivelent to:
+
+
+  my @list = find('/var/www/html', -include => "1024x768.gif;800x600.jpe?g");
+
+
+=back
+
+=head2 cpdir
+
+=over 4
+
+=item Copy a directory
+
+
+ Usage: cpdir $source_dir, $target_dir, [filters], [permissions], [options]
+
+B<WARNING> this function does *not* behave like your shell's C<cp -r> command!
+It differs in that when the target directory exists, the *contents* of the
+source directory are copied.  This is done so that the default operation is:
+
+
+  # don't create /home/$username/newuser!
+  cpdir('templates/newuser', "/home/$username");
+
+
+To get the same behavior as C<cp -r>, use the '-as_subdir' flag.
+
+
+
+Files are only copied when the source file's modified time is newer
+(unless the 'force' option is set).
+
+
+
+C<filters>: See L<find>
+
+
+C<permissions>: See L<chperm|chperm>
+
+
+C<options>:
+
+
+  -force => 1               # Always perform the copy
+  -as_subdir => 1           # Copy as a sub-directory of $target
+  -peers => 1               # The $source and $target are peers (may be
+                              different names)
+
+
+  -peers and -as_subdir are mutually exclusive
+
+
+
+
+=back
+
+=head2 cpfile
+
+=over 4
+
+=item Copy a file and apply permissions and mode
+
+
+
+
+ Usage: cpfile $SOURCE, $TARGET, [\%PERMISSIONS], [OPTIONS]
+
+
+Where:
+
+
+  $SOURCE         File to be copied
+  $TARGET         Target path (file or directory)
+  \%PERMISSIONS   Permission hash (see Hub::chperm)
+  OPTIONS         -newer      Only copy when the source is newer (mtime) than
+                              the target
+
+
+See also: L<chperm|chperm>
+
+
+=back
+
+=head2 rmfile
+
+=over 4
+
+=item Remove file
+
+
+
+
+=back
+
+=head2 mvfile
+
+=over 4
+
+=item Move (rename) a file
+
+
+
+
+=back
+
+=head2 rmdirrec
+
+=over 4
+
+=item 
+
+ Usage: rmdirrec TARGET_DIR
+
+Recursively remove a directory.
+
+
+
+=back
+
+=head2 chperm
+
+=over 4
+
+=item Change permissions of a file or directory
+
+
+ Usage: chperm $path, [filters], [permissions], [options]
+
+
+options:
+
+
+  recperms=1        # will recurse if  is a directory
+
+
+filters: Used when recperms is set.  See L<find|find>.
+
+
+
+permissions:
+
+
+  uid     => Hub::getuid( "username" ),    # user id
+  gid     => Hub::getgid( "username" ),    # group id
+  dmode   => 0775,
+  fmode   => {            # fmode can ref a hash of extensions
+      '*'     => 0644,    # '*' is used for unmatched
+      'cgi'   => 0755,    # specific cgi file extension
+      'dll'   => 'SKIP',  # do not update dll files
+  }
+  fmode   => 0655,        # or, fmode can be used for all files
+
+
+
+
+=back
+
+=head2 mkdiras
+
+=over 4
+
+=item Make a directy with specified permissions
+
+
+ Usage: mkdiras $path, [permissions]
+
+
+permissions: See L<chperm>
+
+
+=back
+
+=head2 getcrown
+
+=over 4
+
+=item Return the first line of a file
+
+
+ Usage: getcrown $file_path
+
+
+Returns empty-string when $file_path does not exist
+
+
+=back
+
+=head2 readdir
+
+=over 4
+
+=item Read a directory in proper order
+
+
+ Usage: readdir $dir
+
+
+=back
+
+=head2 sort_dir_list
+
+=over 4
+
+=item Sort the provided directory listing
+
+
+ Usage: sort_dir_list $dir, \@listing
+
+
+=back
+
+=head2 readfile
+
+=over 4
+
+=item 
+
+ Usage: readfile PATH
+
+Read and return the contents of a file.
+
+
+
+=back
+
+=head2 writefile
+
+=over 4
+
+=item Write $contents to $path
+
+
+ Usage: writefile $path, \$contents, [options]
+ Usage: writefile $path, $contents, [options]
+
+
+options:
+
+
+  -mode   => 0644     Set/update file's mode
+  -flags  => >|>>     Flags used to open the file
+
+
+Returns 1 if the file could be openned and written to, otherwise 0.
+
+
+
+=back
+
+=head2 parsefile
+
+=over 4
+
+=item Populate a file with runtime data.
+
+
+
+ Usage: parsefile $filename, [options]
+ Usage: parsefile $filename, \%data, [\%more_data..], [options]
+
+
+parameters:
+
+
+  $filename   File to parse as a template.
+
+  \%data      Hashref of name/value pairs.
+
+
+
+options:
+
+
+  -as_ref=1   Return a scalar reference
+  -alone      Do not include configuration and instance values
+  -inline     Update the file on disk!
+
+
+=back
+
+=head2 pushwp
+
+=over 4
+
+=item Push path onto working directory stack
+
+
+
+
+=back
+
+=head2 popwp
+
+=over 4
+
+=item Pop path from working directory stack
+
+
+
+
+=back
+
+=head2 srcpath
+
+=over 4
+
+=item Search the working path for $file
+
+
+ Usage: srcpath $file
+
+
+=back
+
+=head2 fixpath
+
+=over 4
+
+=item Clean up malformed paths (usually due to concatenation logic).
+
+
+
+ Usage: fixpath $path
+
+B<Example>: (matches)
+
+    fixpath( "../../../users/newuser/web/bin/../src/screens" );
+
+
+    ../../../users/newuser/web/src/screens
+
+B<Example>: (matches)
+
+    fixpath( "users/newuser/web/" );
+
+
+    users/newuser/web
+
+B<Example>: (matches)
+
+    fixpath( "users/../web/bin/../src" );
+
+
+    web/src
+
+B<Example>: (matches)
+
+    fixpath( "users//newuser" );
+
+
+    users/newuser
+
+B<Example>: (matches)
+
+    fixpath( "users//newuser/./files" );
+
+
+    users/newuser/files
+
+B<Example>: (matches)
+
+    fixpath( "http://site/users//newuser" );
+
+
+    http://site/users/newuser
+
+B<Example>: (matches)
+
+    fixpath( '/home/hub/build/../../../out/doc/pod' );
+
+
+    /out/doc/pod
+
+
+=back
+
+=head2 getaddr
+
+=over 4
+
+=item Get the Hub address for a file
+
+
+ Usage: getaddr $filename
+
+
+C<$filename> may be relative to the running module (see L<Hub::modexec>)
+
+
+For the inverse, see L<Hub::realpath>
+
+
+=back
+
+=head2 getpath
+
+=over 4
+
+=item Exract the parent from the given filepath
+
+
+
+B<Example>: (matches)
+
+    getpath( "/etc/passwd" )
+
+
+    /etc
+
+B<Example>: (matches)
+
+    getpath( "/usr/local/bin" )
+
+
+    /usr/local
+
+
+=back
+
+=head2 getspec
+
+=over 4
+
+=item Given a path to a file, return (directory, filename, extension)
+
+
+ Usage: getspec $path
+
+
+=back
+
+=head2 getname
+
+=over 4
+
+=item 
+
+ Usage: getname Return the file name (last element) of given path
+ Usage: getname $path
+Note, if the given path is a full directory path, the last directory is
+still considerred a filename.
+
+
+B<Example>: (matches)
+
+    getname("../../../users/newuser/web/data/p001/batman-small.jpg");
+
+
+    batman-small.jpg
+
+B<Example>: (matches)
+
+    getname("../../../users/newuser/web/data/p001");
+
+
+    p001
+
+B<Example>: (matches)
+
+    getname("/var/log/*.log");
+
+
+    *.log
+
+
+=back
+
+=head2 getext
+
+=over 4
+
+=item Return the file extension at the given path
+
+
+ Usage: getext $path
+
+B<Example>: (matches)
+
+    getext( "/foo/bar/filename.ext" )
+
+
+    ext
+
+B<Example>: (matches)
+
+    getext( "filename.cgi" )
+
+
+    cgi
+
+
+=back
+
+=head2 realpath
+
+=over 4
+
+=item Resolve the address to it's real file on disk.
+
+
+
+ Usage: realpath $address
+
+Used to translate our Hub system addresses into real filesystem paths.
+
+When /foo/bar.txt is really cwd().'/foo/bar.txt', we strip the beginning /.
+
+When using mounts, return the file's real path.
+
+
+
+For the inverse, see L<Hub::getaddr>
+
+
+=back
+
+=head2 abspath
+
+=over 4
+
+=item Return the absolute path
+
+
+ Usage: abspath $node, [options]
+options:
+  -must_exist=0   Allow paths which don't exist
+
+
+=back
+
+=head2 relpath
+
+=over 4
+
+=item Relative path
+
+
+ Usage: relpath $path, $from_dir
+
+B<Example>: (matches)
+
+    relpath("/home/docs", "/home/docs/install");
+
+
+    ..
+
+B<Example>: (matches)
+
+    relpath("/home/src", "/home/docs/install");
+
+
+    ../../src
+
+B<Example>: (matches)
+
+    relpath("/home/docs/README.txt", "/home/docs");
+
+
+    README.txt
+
+B<Example>: (matches)
+
+    relpath("README.txt", "/DEBUG");
+
+
+    README.txt
+
+
+=back
+
+=head2 mkabsdir
+
+=over 4
+
+=item Create the directory specified, including parent directories.
+
+
+
+ Usage: mkabsdir $dir, [permissions]
+See L<hubperms>
+
+
+=back
+
+
+=head1 INTERNAL METHODS
+
+=head2 _find
+
+=over 4
+
+=item 
+
+
+
+=back
+
+=head2 _chperm
+
+=over 4
+
+=item Change permission proxy (splits between Win32 and normal routines)
+
+
+ Usage: _chperm $user, $group, $mode, @targets
+
+
+C<$user> may be either the numeric uid, or the user name
+
+
+C<$group> may be either the numeric gid, or the group name
+
+
+C<$mode> may be either the octal value (such as 0755) or the string value
+(such as '755')
+
+
+On win32, default permissions are taken from the configuration file (by
+default, '.conf' in the current directory):
+
+
+  group = /conf/win32/group_name
+  owner = /conf/win32/owner_name
+  other = /conf/win32/other_name
+
+
+When not specified in the configuration, these values will be
+
+
+  group = Win32::LoginName
+  owner = the same as 'other'
+  other = Everyone
+
+
+=back
+
+=head2 _chperm_normal
+
+=over 4
+
+=item Use chmod and chown to change permissions
+
+
+ Usage: _chperm_normal $user, $group, $mode, $target
+
+
+See L<_chperm> for $user, $group, and $mode settings
+
+
+=back
+
+=head2 _chperm_win32
+
+=over 4
+
+=item Change permissions on Win32
+
+
+
+
+On Win32, we still don't "really" change the owner (Anybody know how?)
+
+
+=back
+
+=head2 _find_abspath
+
+=over 4
+
+=item Get the absolute path (may or may not exist)
+
+
+ Usage: _find_abspath $node
+
+
+=back
+
+
+=head1 AUTHOR
+
+Ryan Gies (ryangies@livesite.net)
+
+
+=head1 COPYRIGHT
+
+Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.
+
+Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.
+
+
+Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.
+
+* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.
+
+* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.
+
+* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.
+
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.
+
+To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.
+
+
+=head1 UPDATED
+
+06/09/2007
+
+=cut

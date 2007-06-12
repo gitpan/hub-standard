@@ -1,9 +1,11 @@
+<?xml version="1.0" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Hub::Parse::Template</title>
-<link rel="stylesheet" href="../../pod.css" type="text/css" />
-<link rev="made" href="mailto:gerrit@familiehaase.de" />
+<link rel="stylesheet" href="../../styles.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
 </head>
 
 <body>
@@ -16,8 +18,16 @@
 	<li><a href="#name">NAME</a></li>
 	<li><a href="#synopsis">SYNOPSIS</a></li>
 	<li><a href="#description">DESCRIPTION</a></li>
-	<li><a href="#methods">METHODS</a></li>
-	<li><a href="#internal">INTERNAL</a></li>
+	<li><a href="#public_methods">PUBLIC METHODS</a></li>
+	<ul>
+
+		<li><a href="#refresh">refresh</a></li>
+		<li><a href="#comptv">comptv</a></li>
+		<li><a href="#compfv">compfv</a></li>
+		<li><a href="#compdv">compdv</a></li>
+		<li><a href="#populate">populate</a></li>
+	</ul>
+
 	<li><a href="#author">AUTHOR</a></li>
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#updated">UPDATED</a></li>
@@ -29,7 +39,6 @@
 </p>
 <h1><a name="name">NAME</a></h1>
 <p>Hub::Parse::Template -</p>
-<p>Part of the <a href="../../hublib.html">Hub Library</a></p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
@@ -44,91 +53,106 @@
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
-<h1><a name="methods">METHODS</a></h1>
-<table><tr><td>
-<a class="methlink" href="#item_compdv">compdv</a></td><td>
-<a class="methlink" href="#item_compfv">compfv</a></td><td>
-<a class="methlink" href="#item_comptv">comptv</a></td><td>
-<a class="methlink" href="#item_populate">populate</a></td><td>
-<a class="methlink" href="#item_refresh">refresh</a></td></tr></table><dl>
-<dt><strong><a name="item_compdv">compdv</a></strong><br />
-</dt>
-<dd>
-<strong>Compose data value</strong>
-</dd>
-<dd>
-<pre>
- Usage: compdv ADDRESS, VALUE...</pre>
-</dd>
-<p></p></dl>
+<h1><a name="public_methods">PUBLIC METHODS</a></h1>
+<p>
+</p>
+<h2><a name="refresh">refresh</a></h2>
 <dl>
-<dt><strong><a name="item_compfv">compfv</a></strong><br />
-</dt>
-<dd>
-<strong>Compose formatted value</strong>
-</dd>
-<dd>
-<pre>
- Usage: compfv ADDRESS, FORMAT, [VALUE]</pre>
-</dd>
-<p></p></dl>
-<dl>
-<dt><strong><a name="item_comptv">comptv</a></strong><br />
-</dt>
-<dd>
-<strong>Compose template value</strong>
-</dd>
-<dd>
-<pre>
- Usage: comptv ADDRESS, FILESPEC, [VALUE]</pre>
-</dd>
-<p></p></dl>
-<dl>
-<dt><strong><a name="item_populate">populate</a></strong><br />
-</dt>
-<dd>
-<strong>Return a populated version of this template.</strong>
-</dd>
-<dd>
-<pre>
- Usage: populate [\HASH]...</pre>
-</dd>
-<p></p></dl>
-<dl>
-<dt><strong><a name="item_refresh">refresh</a></strong><br />
-</dt>
-<dd>
-<strong>Reset to initial state (persistent object method)</strong>
-</dd>
+<dt><strong><a name="item_state">Reset to initial state (persistent object method)</a></strong>
+
 <dd>
 <pre>
  Usage: refresh FILESPEC</pre>
 </dd>
-<p></p></dl>
+</dl>
 <p>
-<a href="#__index__"><small>Top</small></a>
 </p>
-<hr />
-<h1><a name="internal">INTERNAL</a></h1>
+<h2><a name="comptv">comptv</a></h2>
+<dl>
+<dt><strong><a name="item_compose_template_value">Compose template value</a></strong>
+
+<dd>
+<pre>
+ Usage: comptv ADDRESS, FILESPEC, [VALUE]</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="compfv">compfv</a></h2>
+<dl>
+<dt><strong><a name="item_compose_formatted_value">Compose formatted value</a></strong>
+
+<dd>
+<pre>
+ Usage: compfv ADDRESS, FORMAT, [VALUE]</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="compdv">compdv</a></h2>
+<dl>
+<dt><strong><a name="item_compose_data_value">Compose data value</a></strong>
+
+<dd>
+<pre>
+ Usage: compdv ADDRESS, VALUE...</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="populate">populate</a></h2>
+<dl>
+<dt><strong><a name="item_return_a_populated_version_of_this_template_2e">Return a populated version of this template.</a></strong>
+
+<dd>
+<pre>
+ Usage: populate [\HASH]...</pre>
+</dd>
+</dl>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="author">AUTHOR</a></h1>
-<p>Ryan Gies</p>
+<p>Ryan Gies (<a href="mailto:ryangies@livesite.net">ryangies@livesite.net</a>)</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="copyright">COPYRIGHT</a></h1>
-<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
-<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.</p>
+<p>Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.</p>
+<p>Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:</p>
+<p>* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.</p>
+<p>* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.</p>
+<p>* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.</p>
+<p>* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.</p>
+<p>THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.</p>
+<p>To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="updated">UPDATED</a></h1>
-<p>This file created by  on  at</p>
+<p>06/09/2007</p>
 <p><a href="#__index__"><small>Top</small></a></p>
 
 </body>

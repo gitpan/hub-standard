@@ -1,4 +1,4 @@
-Hub version 03.01.048
+Hub version 04.00.012
 =====================
 
 INSTALLATION
@@ -16,41 +16,48 @@ DEPENDENCIES
 
 This module requires these other modules and libraries:
 
-  Warning: prerequisite CGI 3.1 not found. We have 3.01.
-  Warning: prerequisite CGI::Fast 0.01 not found.
-  Warning: prerequisite Carp 1.04 not found. We have 1.01.
-  Warning: prerequisite Compress::Zlib 1.41 not found. We have 1.33.
-  Warning: prerequisite Cwd 3.05 not found. We have 2.12.
-  Warning: prerequisite Exporter 5.58 not found. We have 5.57.
-  Warning: prerequisite File::Copy 2.08 not found. We have 2.07.
-  Warning: prerequisite IO::File 1.11 not found. We have 1.10.
-  Warning: prerequisite Scalar::Util 1.14 not found. We have 1.13.
-  Warning: prerequisite Time::HiRes 1.66 not found. We have 1.55.
+  CGI 						3.11
+  Carp 						1.01.
+  Compress::Zlib 	1.33.
+  Cwd 						2.12.
+  Exporter 				5.57.
+  File::Copy 			2.07.
+  IO::File 				1.10.
+  Time::HiRes 		1.55.
 
-CGI::Fast                     v0.01
-Scalar::Util                  v1.14
-Compress::Zlib                v1.41
-Fcntl                         v1.05
-CGI                           v3.10
-Archive::Tar                  v1.26
-DBI                           v1.50
-Net::HTTP                     v1.00
-File::Copy                    v2.08
-IO::File                      v1.11
-IO::Zlib                      v1.04
-Time::HiRes                   v1.66
-Exporter                      v5.58
-Carp                          v1.04
-LWP::UserAgent                v2.033
-Cwd                           v3.05
-File::stat                    v1.00
+For :webapp functions
+
+	Bundle::Apache2
+	Image::Size
+
 AUTHORS
 -------
 
 Ryan Gies (ryangies@livesite.net)
 
+
 COPYRIGHT AND LICENSE
 ---------------------
 
-Copyright (C) 2006 by Livesite Networks, LLC. All rights reserved.
+Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.
+
+* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.
+
+* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.
+
+* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.
+
+
+Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.
+
 Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.
+

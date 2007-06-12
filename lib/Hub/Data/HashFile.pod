@@ -1,426 +1,165 @@
 =head1 NAME
 
-Hub::Data::HashFile - Flat file data which supports nested perl structures.
+Hub::Data::HashFile - Refactor of HashFile
 
-Part of the L<Hub Library|hublib>
 
 =head1 SYNOPSIS
 
 
-    use Hub;
-    my $hf = Hub::mkinst('HashFile','myfile.hf');
-
-    $hf->set( "eye_color", "green" );   # set a simple property
-    $hf->save();                        # saves the file to disk
 
 
 =head1 DESCRIPTION
 
 
-HashFiles are used for property files and small databases.
-
-There will be one and only one HashFile instance for each file.  If a second
-HashFile instance is created and is asked to load a file which is already 
-represented, this second instance is replaced with a reference to the first.
 
 
-=head1 METHODS
+=head1 PUBLIC METHODS
 
-=begin html
-
-<table><tr><td>
-<a class="methlink" href="#item_clear">clear</a>
-
-</td><td>
-<a class="methlink" href="#item_gettimestamp">getTimestamp</a>
-
-</td><td>
-<a class="methlink" href="#item_load">load</a>
-
-</td><td>
-<a class="methlink" href="#item_refresh">refresh</a>
-
-</td><td>
-<a class="methlink" href="#item_setroot">setRoot</a>
-
-</td></tr><tr><td>
-<a class="methlink" href="#item_data">data</a>
-
-</td><td>
-<a class="methlink" href="#item_get_root">get_root</a>
-
-</td><td>
-<a class="methlink" href="#item_mergein">mergein</a>
-
-</td><td>
-<a class="methlink" href="#item_save">save</a>
-
-</td><td>
-<a class="methlink" href="#item_writetodisk">writeToDisk</a>
-
-</td></tr><tr><td>
-<a class="methlink" href="#item_data_hash">data_hash</a>
-
-</td><td>
-<a class="methlink" href="#item_hffmt">hffmt</a>
-
-</td><td>
-<a class="methlink" href="#item_new">new</a>
-
-</td><td>
-<a class="methlink" href="#item_savecopy">saveCopy</a>
-
-</td></tr><tr><td>
-<a class="methlink" href="#item_format">format</a>
-
-</td><td>
-<a class="methlink" href="#item_hfsync">hfsync</a>
-
-</td><td>
-<a class="methlink" href="#item_print">print</a>
-
-</td><td>
-<a class="methlink" href="#item_set">set</a>
-
-</td></tr><tr><td>
-<a class="methlink" href="#item_get">get</a>
-
-</td><td>
-<a class="methlink" href="#item_include">include</a>
-
-</td><td>
-<a class="methlink" href="#item_readfromdisk">readFromDisk</a>
-
-</td><td>
-<a class="methlink" href="#item_setoption">setOption</a>
-
-</td></tr></table>
-
-=end html
-
+=head2 new
 
 =over 4
 
-=item clear
+=item Constructor.
 
-B<>
-
-
-
-=back
-
-=over 4
-
-=item data
-
-B<>
-
-                           D E P R I C A T E D
-
-=back
-
-=over 4
-
-=item data_hash
-
-B<>
-
-depricated, please use method data()
-
-=back
-
-=over 4
-
-=item format
-
-B<>
-
-
-
-=back
-
-=over 4
-
-=item get
-
-B<>
-
-
-
-=back
-
-=over 4
-
-=item getTimestamp
-
-B<>
-
-
-
-=back
-
-=over 4
-
-=item get_root
-
-B<>
-
-depricated, please use method data()
-
-=back
-
-=over 4
-
-=item hffmt
-
-B<>
-
-Static methods
-
-
-
-=back
-
-=over 4
-
-=item hfsync
-
-B<>
-
-Sync all modified instances to disk
-
-
-
-=back
-
-=over 4
-
-=item include
-
-B<>
-
-
-
-=back
-
-=over 4
-
-=item load
-
-B<>
-
-Read and parse the file from disk.
-
-
-
-This is a singleton per filename.
 
 
 
 
 =back
 
-=over 4
-
-=item mergein
-
-B<>
-
-
-
-=back
+=head2 reload
 
 =over 4
 
-=item new
-
-B<>
-
-
-
-=back
-
-=over 4
-
-=item print
-
-B<>
-
-
-
-=back
-
-=over 4
-
-=item readFromDisk
-
-B<>
-
-
-
-=back
-
-=over 4
-
-=item refresh
-
-B<>
-
- Usage: refresh
-
-Sync disk data into ourselves
-Hub object method
-
-=back
-
-=over 4
-
-=item save
-
-B<>
-
-
-
-=back
-
-=over 4
-
-=item saveCopy
-
-B<>
-
-
-
-=back
-
-=over 4
-
-=item set
-
-B<>
-
-
-
-=back
-
-=over 4
-
-=item setOption
-
-B<>
-
- Usage: setOption KEY VALUE
-
-
-Sets an option for this instance.
-
-
-
-KEY can be:
-
-
-  preserve_comments           0 or 1, We will write out comments
-
-
-  backup                      Set the number of backups you want to keep
-
-
-  write_behind                0 or 1, Do not write to disk on save() but mark
-                              it as dirty, and defer to the hfsync() method.
+=item Callback from L<FileCache> when a read from disk is performed
 
 
 
 
 =back
 
+=head2 get_data
+
 =over 4
 
-=item setRoot
+=item Return data structure
 
-B<>
 
 
 
 =back
 
+=head2 set_data
+
 =over 4
 
-=item writeToDisk
+=item Set data
 
-B<>
 
 
 
 =back
 
-=head1 INTERNAL
-
-=begin html
-
-<table><tr><td>
-<a class="methlink" href="#item_autoload">AUTOLOAD</a>
-
-</td><td>
-<a class="methlink" href="#item_destroy">DESTROY</a>
-
-</td><td>
-<a class="methlink" href="#item__init">_init</a>
-
-</td></tr></table>
-
-=end html
-
+=head2 get_content
 
 =over 4
 
-=item AUTOLOAD
+=item Return file contents
 
-B<>
 
- Usage: AUTOLOAD
+ Usage: get_content [options]
 
-Data handlers: getv takev setv appendv
+
+options:
+
+
+  -as_ref => 1         # Return a reference
+
 
 =back
 
-=over 4
-
-=item DESTROY
-
-B<>
-
- Usage: DESTROY
-
-Defining this function prevents it from being searched in AUTOLOAD
-
-=back
+=head2 set_content
 
 =over 4
 
-=item _init
+=item Set file contents
 
-B<>
 
 
 
 =back
+
+=head2 save
+
+=over 4
+
+=item Save file contents to disk
+
+
+
+
+=back
+
+=head2 set_sort_order
+
+=over 4
+
+=item 
+
+
+
+=back
+
+
 
 =head1 AUTHOR
 
+Ryan Gies (ryangies@livesite.net)
 
-
-Ryan Gies
 
 =head1 COPYRIGHT
 
+Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.
+
+Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.
 
 
-Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:
 
-Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.
+
+* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.
+
+* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.
+
+* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.
+
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.
+
+To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.
+
 
 =head1 UPDATED
 
-This file created by  on  at 
+06/09/2007
 
 =cut

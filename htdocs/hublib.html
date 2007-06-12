@@ -1,9 +1,11 @@
+<?xml version="1.0" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>hublib</title>
-<link rel="stylesheet" href="pod.css" type="text/css" />
-<link rev="made" href="mailto:gerrit@familiehaase.de" />
+<link rel="stylesheet" href="styles.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
 </head>
 
 <body>
@@ -17,6 +19,7 @@
 	<li><a href="#manuals">MANUALS</a></li>
 	<li><a href="#methods">METHODS</a></li>
 	<li><a href="#classes">CLASSES</a></li>
+	<li><a href="#modules">MODULES</a></li>
 	<li><a href="#author">AUTHOR</a></li>
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#updated">UPDATED</a></li>
@@ -27,192 +30,369 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p id="packagename">hublib - Hub Library Reference</p><p>
+<p>hublib - Hub Library Reference</p>
+<p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="manuals">MANUALS</a></h1>
-<a href="hublib.html">hublib</a> - Hub Library Reference<br /><a href="hubuse.html">hubuse</a> - Using the Hub library<br /><a href="hubaddr.html">hubaddr</a> - Data addresses<br /><a href="hubsplit.html">hubsplit</a> - Hub Variation of AutoSplit<br /><a href="hubtest.html">hubtest</a> - Hub Library Testcase Extraction<br /><a href="hubvar.html">hubvar</a> - Hub variables<br /><p>
+<dl>
+<dt><strong><a name="item_hubaddr_7chubaddr"><a href="./hubaddr.html">hubaddr</a></a></strong>
+
+<dt><strong><a name="item_hublib_7chublib"><a href="./hublib.html">hublib</a></a></strong>
+
+<dt><strong><a name="item_hubparse_7chubparse"><a href="./hubparse.html">hubparse</a></a></strong>
+
+<dt><strong><a name="item_hubtest_7chubtest"><a href="./hubtest.html">hubtest</a></a></strong>
+
+<dt><strong><a name="item_hubuse_7chubuse"><a href="./hubuse.html">hubuse</a></a></strong>
+
+<dt><strong><a name="item_hubvar_7chubvar"><a href="./hubvar.html">hubvar</a></a></strong>
+
+</dl>
+<p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="methods">METHODS</a></h1>
-<table><tr><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_abort">abort</a></td><td>
-<a class="methlink" href="Hub/Data/FileCache.html#item_fattach">fattach</a></td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_hashget">hashget</a></td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_lwarn">lwarn</a></td><td>
-<a class="methlink" href="Hub/Data/File.html#item_rmfile">rmfile</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_abspath">abspath</a></td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_fcols">fcols</a></td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_hashtoattrs">hashtoattrs</a></td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_max">max</a></td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_rmsubhash">rmsubhash</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Sort.html#item_anonsort">anonsort</a></td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_fear">fear</a></td><td>
-<a class="methlink" href="Hub/Data/HashFile.html#item_hffmt">hffmt</a></td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_merge">merge</a></td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_rmval">rmval</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_asa">asa</a></td><td>
-<a class="methlink" href="Hub/Data/FileCache.html#item_fhandler">fhandler</a></td><td>
-<a class="methlink" href="Hub/Data/HashFile.html#item_hfsync">hfsync</a></td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_min">min</a></td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_rpath">rpath</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_asarray">asarray</a></td><td>
-<a class="methlink" href="Hub/Data/File.html#item_fileclose">fileclose</a></td><td>
-<a class="methlink" href="Hub/Data/Handlers.html#item_hgetv">hgetv</a></td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_mkabsdir">mkabsdir</a></td><td>
-<a class="methlink" href="Hub/Data/File.html#item_safefn">safefn</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_ash">ash</a></td><td>
-<a class="methlink" href="Hub/Data/File.html#item_fileopen">fileopen</a></td><td>
-<a class="methlink" href="Hub/Data/Handlers.html#item_hsetv">hsetv</a></td><td>
-<a class="methlink" href="Hub/Data/File.html#item_mkdiras">mkdiras</a></td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_safestr">safestr</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_attrhash">attrhash</a></td><td>
-<a class="methlink" href="Hub/Data/File.html#item_filescan">filescan</a></td><td>
-<a class="methlink" href="Hub/Data/Handlers.html#item_htakev">htakev</a></td><td>
-<a class="methlink" href="Hub.html#item_mkinst">mkinst</a></td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_setconst">setconst</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_bestof">bestof</a></td><td>
-<a class="methlink" href="Hub/Data/File.html#item_filetest">filetest</a></td><td>
-<a class="methlink" href="Hub/Webapp/HTTP.html#item_http">http</a></td><td>
-<a class="methlink" href="Hub/Base/Package.html#item_modexec">modexec</a></td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_siteurl">siteurl</a></td></tr><tr><td>
-<a class="methlink" href="Hub.html#item_callback">callback</a></td><td>
-<a class="methlink" href="Hub/Data/File.html#item_filetime">filetime</a></td><td>
-<a class="methlink" href="Hub/Webapp/HTTP.html#item_httpget">httpget</a></td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_nbspstr">nbspstr</a></td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_sizeof">sizeof</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Data/Archive.html#item_carch">carch</a></td><td>
-<a class="methlink" href="Hub/Data/File.html#item_find">find</a></td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_indenttext">indenttext</a></td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_objopts">objopts</a></td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_sortkbyv">sortkbyv</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_check">check</a></td><td>
-<a class="methlink" href="Hub/Data/File.html#item_find_files">find_files</a></td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_intdiv">intdiv</a></td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_opts">opts</a></td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_spath">spath</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_checksum">checksum</a></td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_fixpath">fixpath</a></td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_jsstr">jsstr</a></td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_packcgi">packcgi</a></td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_srcpath">srcpath</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Data/File.html#item_chperm">chperm</a></td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_flatten">flatten</a></td><td>
-<a class="methlink" href="Hub/Data/Address.html#item_keydepth">keydepth</a></td><td>
-<a class="methlink" href="Hub/Data/File.html#item_parsefile">parsefile</a></td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_subfield">subfield</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_cmdopts">cmdopts</a></td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_flip">flip</a></td><td>
-<a class="methlink" href="Hub/Perl/Sort.html#item_keydepthsort">keydepthsort</a></td><td>
-<a class="methlink" href="Hub/Knots/Defined.html#item_playnice">playnice</a></td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_subhash">subhash</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Compare.html#item_compare">compare</a></td><td>
-<a class="methlink" href="Hub/Data/FileCache.html#item_frefresh">frefresh</a></td><td>
-<a class="methlink" href="Hub/Data/Archive.html#item_larch">larch</a></td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_polish">polish</a></td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_subst">subst</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Data/File.html#item_cpdir">cpdir</a></td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_fw">fw</a></td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_lbegm">lbegm</a></td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_populate">populate</a></td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_touch">touch</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Data/File.html#item_cpfile">cpfile</a></td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_getbyname">getbyname</a></td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_ldie">ldie</a></td><td>
-<a class="methlink" href="Hub/Webapp/CGI.html#item_process_fcgi_request">process_fcgi_request</a></td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_trimcss">trimcss</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_cpref">cpref</a></td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_getconst">getconst</a></td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_ldmp">ldmp</a></td><td>
-<a class="methlink" href="Hub/Webapp/CGI.html#item_process_request">process_request</a></td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_trimhtmlstyle">trimhtmlstyle</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_datetime">datetime</a></td><td>
-<a class="methlink" href="Hub/Data/File.html#item_getcrown">getcrown</a></td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_lendm">lendm</a></td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_ps">ps</a></td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_uniq">uniq</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_dhms">dhms</a></td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_getext">getext</a></td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_lerr">lerr</a></td><td>
-<a class="methlink" href="Hub/Data/File.html#item_readfile">readfile</a></td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_unpackcgi">unpackcgi</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_dice">dice</a></td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_getgid">getgid</a></td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_lflush">lflush</a></td><td>
-<a class="methlink" href="Hub.html#item_regns">regns</a></td><td>
-<a class="methlink" href="Hub/Data/Address.html#item_varname">varname</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_diff">diff</a></td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_getname">getname</a></td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_lfresh">lfresh</a></td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_relpath">relpath</a></td><td>
-<a class="methlink" href="Hub/Data/Address.html#item_varparent">varparent</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_digout">digout</a></td><td>
-<a class="methlink" href="Hub.html#item_getns">getns</a></td><td>
-<a class="methlink" href="Hub/Data/File.html#item_listfiles">listfiles</a></td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_replace">replace</a></td><td>
-<a class="methlink" href="Hub/Data/Address.html#item_varroot">varroot</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Data/Address.html#item_dotaddr">dotaddr</a></td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_getpath">getpath</a></td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_lmsg">lmsg</a></td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_resdir">resdir</a></td><td>
-<a class="methlink" href="Hub/Data/Address.html#item_vartype">vartype</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_execconf">execconf</a></td><td>
-<a class="methlink" href="Hub/Parse/Transform.html#item_getspec">getspec</a></td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_lopt">lopt</a></td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_respath">respath</a></td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_wpath">wpath</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Data/Address.html#item_expand">expand</a></td><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_getuid">getuid</a></td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_lraw">lraw</a></td><td>
-<a class="methlink" href="Hub/Webapp/Response.html#item_respond">respond</a></td><td>
-<a class="methlink" href="Hub/Data/File.html#item_writefile">writefile</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Perl/Language.html#item_expect">expect</a></td><td>
-<a class="methlink" href="Hub/Data/Handlers.html#item_happendv">happendv</a></td><td>
-<a class="methlink" href="Hub/Base/Alias.html#item_lshow">lshow</a></td><td>
-<a class="methlink" href="Hub/Data/File.html#item_rmdirrec">rmdirrec</a></td><td>
-<a class="methlink" href="Hub/Data/Archive.html#item_xarch">xarch</a></td></tr></table><p>
+<dl>
+<dt><strong><a name="item_abort_7chub_3a_3aperl_3a_3alanguage_2fabort"><a href="Hub/Perl/Language.html#abort">abort</a></a></strong>
+
+<dt><strong><a name="item_abspath_7chub_3a_3abase_3a_3afilesystem_2fabspath"><a href="Hub/Base/FileSystem.html#abspath">abspath</a></a></strong>
+
+<dt><strong><a name="item_anon_sort_7chub_3a_3aperl_3a_3asort_2fanon_sort"><a href="Hub/Perl/Sort.html#anon_sort">anon_sort</a></a></strong>
+
+<dt><strong><a name="item_bestof_7chub_3a_3aperl_3a_3alanguage_2fbestof"><a href="Hub/Perl/Language.html#bestof">bestof</a></a></strong>
+
+<dt><strong><a name="item_callback_7chub_2fcallback"><a href="Hub/callback.html">callback</a></a></strong>
+
+<dt><strong><a name="item_check_7chub_3a_3aperl_3a_3alanguage_2fcheck"><a href="Hub/Perl/Language.html#check">check</a></a></strong>
+
+<dt><strong><a name="item_checksum_7chub_3a_3aperl_3a_3alanguage_2fchecksum"><a href="Hub/Perl/Language.html#checksum">checksum</a></a></strong>
+
+<dt><strong><a name="item_chperm_7chub_3a_3abase_3a_3afilesystem_2fchperm"><a href="Hub/Base/FileSystem.html#chperm">chperm</a></a></strong>
+
+<dt><strong><a name="item_cmdopts_7chub_3a_3aperl_3a_3alanguage_2fcmdopts"><a href="Hub/Perl/Language.html#cmdopts">cmdopts</a></a></strong>
+
+<dt><strong><a name="item_collapse_7chub_3a_3adata_3a_3aaddress_2fcollapse"><a href="Hub/Data/Address.html#collapse">collapse</a></a></strong>
+
+<dt><strong><a name="item_compare_7chub_3a_3aperl_3a_3acompare_2fcompare"><a href="Hub/Perl/Compare.html#compare">compare</a></a></strong>
+
+<dt><strong><a name="item_cpdir_7chub_3a_3abase_3a_3afilesystem_2fcpdir"><a href="Hub/Base/FileSystem.html#cpdir">cpdir</a></a></strong>
+
+<dt><strong><a name="item_cpfile_7chub_3a_3abase_3a_3afilesystem_2fcpfile"><a href="Hub/Base/FileSystem.html#cpfile">cpfile</a></a></strong>
+
+<dt><strong><a name="item_cpref_7chub_3a_3aperl_3a_3alanguage_2fcpref"><a href="Hub/Perl/Language.html#cpref">cpref</a></a></strong>
+
+<dt><strong><a name="item_datetime_7chub_3a_3amisc_3a_3atime_2fdatetime"><a href="Hub/Misc/Time.html#datetime">datetime</a></a></strong>
+
+<dt><strong><a name="item_delete_7chub_3a_3adata_3a_3ahandlers_2fdelete"><a href="Hub/Data/Handlers.html#delete">delete</a></a></strong>
+
+<dt><strong><a name="item_dhms_7chub_3a_3amisc_3a_3atime_2fdhms"><a href="Hub/Misc/Time.html#dhms">dhms</a></a></strong>
+
+<dt><strong><a name="item_dice_7chub_3a_3aperl_3a_3alanguage_2fdice"><a href="Hub/Perl/Language.html#dice">dice</a></a></strong>
+
+<dt><strong><a name="item_diff_7chub_3a_3aperl_3a_3alanguage_2fdiff"><a href="Hub/Perl/Language.html#diff">diff</a></a></strong>
+
+<dt><strong><a name="item_digout_7chub_3a_3aperl_3a_3alanguage_2fdigout"><a href="Hub/Perl/Language.html#digout">digout</a></a></strong>
+
+<dt><strong><a name="item_dotaddr_7chub_3a_3adata_3a_3aaddress_2fdotaddr"><a href="Hub/Data/Address.html#dotaddr">dotaddr</a></a></strong>
+
+<dt><strong><a name="item_expand_7chub_3a_3adata_3a_3aaddress_2fexpand"><a href="Hub/Data/Address.html#expand">expand</a></a></strong>
+
+<dt><strong><a name="item_expect_7chub_3a_3aperl_3a_3alanguage_2fexpect"><a href="Hub/Perl/Language.html#expect">expect</a></a></strong>
+
+<dt><strong><a name="item_fattach_7chub_3a_3adata_3a_3afilecache_2ffattach"><a href="Hub/Data/FileCache.html#fattach">fattach</a></a></strong>
+
+<dt><strong><a name="item_fcols_7chub_3a_3aconsole_3a_3aoutput_2ffcols"><a href="Hub/Console/Output.html#fcols">fcols</a></a></strong>
+
+<dt><strong><a name="item_fear_7chub_3a_3aperl_3a_3alanguage_2ffear"><a href="Hub/Perl/Language.html#fear">fear</a></a></strong>
+
+<dt><strong><a name="item_fetch_7chub_3a_3adata_3a_3ahandlers_2ffetch"><a href="Hub/Data/Handlers.html#fetch">fetch</a></a></strong>
+
+<dt><strong><a name="item_fhandler_7chub_3a_3adata_3a_3afilecache_2ffhandler"><a href="Hub/Data/FileCache.html#fhandler">fhandler</a></a></strong>
+
+<dt><strong><a name="item_fileclose_7chub_3a_3abase_3a_3afilesystem_2ffilecl"><a href="Hub/Base/FileSystem.html#fileclose">fileclose</a></a></strong>
+
+<dt><strong><a name="item_fileopen_7chub_3a_3abase_3a_3afilesystem_2ffileope"><a href="Hub/Base/FileSystem.html#fileopen">fileopen</a></a></strong>
+
+<dt><strong><a name="item_filetime_7chub_3a_3abase_3a_3afilesystem_2ffiletim"><a href="Hub/Base/FileSystem.html#filetime">filetime</a></a></strong>
+
+<dt><strong><a name="item_find_7chub_3a_3abase_3a_3afilesystem_2ffind"><a href="Hub/Base/FileSystem.html#find">find</a></a></strong>
+
+<dt><strong><a name="item_finstance_7chub_3a_3adata_3a_3afilecache_2ffinstan"><a href="Hub/Data/FileCache.html#finstance">finstance</a></a></strong>
+
+<dt><strong><a name="item_fixpath_7chub_3a_3abase_3a_3afilesystem_2ffixpath"><a href="Hub/Base/FileSystem.html#fixpath">fixpath</a></a></strong>
+
+<dt><strong><a name="item_flatten_7chub_3a_3aperl_3a_3alanguage_2fflatten"><a href="Hub/Perl/Language.html#flatten">flatten</a></a></strong>
+
+<dt><strong><a name="item_flip_7chub_3a_3aperl_3a_3alanguage_2fflip"><a href="Hub/Perl/Language.html#flip">flip</a></a></strong>
+
+<dt><strong><a name="item_fread_7chub_3a_3adata_3a_3afilecache_2ffread"><a href="Hub/Data/FileCache.html#fread">fread</a></a></strong>
+
+<dt><strong><a name="item_frefresh_7chub_3a_3adata_3a_3afilecache_2ffrefresh"><a href="Hub/Data/FileCache.html#frefresh">frefresh</a></a></strong>
+
+<dt><strong><a name="item_fw_7chub_3a_3aconsole_3a_3aoutput_2ffw"><a href="Hub/Console/Output.html#fw">fw</a></a></strong>
+
+<dt><strong><a name="item_get_save_handler_7chub_3a_3adata_3a_3acreate_2fget"><a href="Hub/Data/Create.html#get_save_handler">get_save_handler</a></a></strong>
+
+<dt><strong><a name="item_getaddr_7chub_3a_3abase_3a_3afilesystem_2fgetaddr"><a href="Hub/Base/FileSystem.html#getaddr">getaddr</a></a></strong>
+
+<dt><strong><a name="item_getcrown_7chub_3a_3abase_3a_3afilesystem_2fgetcrow"><a href="Hub/Base/FileSystem.html#getcrown">getcrown</a></a></strong>
+
+<dt><strong><a name="item_getext_7chub_3a_3abase_3a_3afilesystem_2fgetext"><a href="Hub/Base/FileSystem.html#getext">getext</a></a></strong>
+
+<dt><strong><a name="item_getgid_7chub_3a_3aperl_3a_3alanguage_2fgetgid"><a href="Hub/Perl/Language.html#getgid">getgid</a></a></strong>
+
+<dt><strong><a name="item_getname_7chub_3a_3abase_3a_3afilesystem_2fgetname"><a href="Hub/Base/FileSystem.html#getname">getname</a></a></strong>
+
+<dt><strong><a name="item_getns_7chub_2fgetns"><a href="Hub/getns.html">getns</a></a></strong>
+
+<dt><strong><a name="item_getpath_7chub_3a_3abase_3a_3afilesystem_2fgetpath"><a href="Hub/Base/FileSystem.html#getpath">getpath</a></a></strong>
+
+<dt><strong><a name="item_getspec_7chub_3a_3abase_3a_3afilesystem_2fgetspec"><a href="Hub/Base/FileSystem.html#getspec">getspec</a></a></strong>
+
+<dt><strong><a name="item_getuid_7chub_3a_3aperl_3a_3alanguage_2fgetuid"><a href="Hub/Perl/Language.html#getuid">getuid</a></a></strong>
+
+<dt><strong><a name="item_getv_7chub_3a_3adata_3a_3ahandlers_2fgetv"><a href="Hub/Data/Handlers.html#getv">getv</a></a></strong>
+
+<dt><strong><a name="item_hashtoattrs_7chub_3a_3amisc_3a_3atransform_2fhasht"><a href="Hub/Misc/Transform.html#hashtoattrs">hashtoattrs</a></a></strong>
+
+<dt><strong><a name="item_hparse_7chub_3a_3aparse_3a_3ahash_2fhparse"><a href="Hub/Parse/Hash.html#hparse">hparse</a></a></strong>
+
+<dt><strong><a name="item_hprint_7chub_3a_3aparse_3a_3ahash_2fhprint"><a href="Hub/Parse/Hash.html#hprint">hprint</a></a></strong>
+
+<dt><strong><a name="item_indenttext_7chub_3a_3aconsole_3a_3aoutput_2findent"><a href="Hub/Console/Output.html#indenttext">indenttext</a></a></strong>
+
+<dt><strong><a name="item_indexmatch_7chub_3a_3aperl_3a_3alanguage_2findexma"><a href="Hub/Perl/Language.html#indexmatch">indexmatch</a></a></strong>
+
+<dt><strong><a name="item_intdiv_7chub_3a_3aperl_3a_3alanguage_2fintdiv"><a href="Hub/Perl/Language.html#intdiv">intdiv</a></a></strong>
+
+<dt><strong><a name="item_is_bipolar_7chub_3a_3aperl_3a_3acompare_2fis_bipol"><a href="Hub/Perl/Compare.html#is_bipolar">is_bipolar</a></a></strong>
+
+<dt><strong><a name="item_jsstr_7chub_3a_3amisc_3a_3atransform_2fjsstr"><a href="Hub/Misc/Transform.html#jsstr">jsstr</a></a></strong>
+
+<dt><strong><a name="item_keydepth_7chub_3a_3adata_3a_3aaddress_2fkeydepth"><a href="Hub/Data/Address.html#keydepth">keydepth</a></a></strong>
+
+<dt><strong><a name="item_keydepth_sort_7chub_3a_3aperl_3a_3asort_2fkeydepth"><a href="Hub/Perl/Sort.html#keydepth_sort">keydepth_sort</a></a></strong>
+
+<dt><strong><a name="item_max_7chub_3a_3aperl_3a_3alanguage_2fmax"><a href="Hub/Perl/Language.html#max">max</a></a></strong>
+
+<dt><strong><a name="item_merge_7chub_3a_3aperl_3a_3alanguage_2fmerge"><a href="Hub/Perl/Language.html#merge">merge</a></a></strong>
+
+<dt><strong><a name="item_min_7chub_3a_3aperl_3a_3alanguage_2fmin"><a href="Hub/Perl/Language.html#min">min</a></a></strong>
+
+<dt><strong><a name="item_mkabsdir_7chub_3a_3abase_3a_3afilesystem_2fmkabsdi"><a href="Hub/Base/FileSystem.html#mkabsdir">mkabsdir</a></a></strong>
+
+<dt><strong><a name="item_mkdiras_7chub_3a_3abase_3a_3afilesystem_2fmkdiras"><a href="Hub/Base/FileSystem.html#mkdiras">mkdiras</a></a></strong>
+
+<dt><strong><a name="item_mkhandler_7chub_3a_3adata_3a_3acreate_2fmkhandler"><a href="Hub/Data/Create.html#mkhandler">mkhandler</a></a></strong>
+
+<dt><strong><a name="item_mkinst_7chub_2fmkinst"><a href="Hub/mkinst.html">mkinst</a></a></strong>
+
+<dt><strong><a name="item_modexec_7chub_3a_3abase_3a_3apackage_2fmodexec"><a href="Hub/Base/Package.html#modexec">modexec</a></a></strong>
+
+<dt><strong><a name="item_mvfile_7chub_3a_3abase_3a_3afilesystem_2fmvfile"><a href="Hub/Base/FileSystem.html#mvfile">mvfile</a></a></strong>
+
+<dt><strong><a name="item_nbspstr_7chub_3a_3amisc_3a_3atransform_2fnbspstr"><a href="Hub/Misc/Transform.html#nbspstr">nbspstr</a></a></strong>
+
+<dt><strong><a name="item_objopts_7chub_3a_3aperl_3a_3alanguage_2fobjopts"><a href="Hub/Perl/Language.html#objopts">objopts</a></a></strong>
+
+<dt><strong><a name="item_opts_7chub_3a_3aperl_3a_3alanguage_2fopts"><a href="Hub/Perl/Language.html#opts">opts</a></a></strong>
+
+<dt><strong><a name="item_packcgi_7chub_3a_3amisc_3a_3atransform_2fpackcgi"><a href="Hub/Misc/Transform.html#packcgi">packcgi</a></a></strong>
+
+<dt><strong><a name="item_parsefile_7chub_3a_3abase_3a_3afilesystem_2fparsef"><a href="Hub/Base/FileSystem.html#parsefile">parsefile</a></a></strong>
+
+<dt><strong><a name="item_populate_7chub_3a_3amisc_3a_3atransform_2fpopulate"><a href="Hub/Misc/Transform.html#populate">populate</a></a></strong>
+
+<dt><strong><a name="item_popwp_7chub_3a_3abase_3a_3afilesystem_2fpopwp"><a href="Hub/Base/FileSystem.html#popwp">popwp</a></a></strong>
+
+<dt><strong><a name="item_ps_7chub_3a_3aconsole_3a_3aoutput_2fps"><a href="Hub/Console/Output.html#ps">ps</a></a></strong>
+
+<dt><strong><a name="item_pushwp_7chub_3a_3abase_3a_3afilesystem_2fpushwp"><a href="Hub/Base/FileSystem.html#pushwp">pushwp</a></a></strong>
+
+<dt><strong><a name="item_readdir_7chub_3a_3abase_3a_3afilesystem_2freaddir"><a href="Hub/Base/FileSystem.html#readdir">readdir</a></a></strong>
+
+<dt><strong><a name="item_readfile_7chub_3a_3abase_3a_3afilesystem_2freadfil"><a href="Hub/Base/FileSystem.html#readfile">readfile</a></a></strong>
+
+<dt><strong><a name="item_realpath_7chub_3a_3abase_3a_3afilesystem_2frealpat"><a href="Hub/Base/FileSystem.html#realpath">realpath</a></a></strong>
+
+<dt><strong><a name="item_regns_7chub_2fregns"><a href="Hub/regns.html">regns</a></a></strong>
+
+<dt><strong><a name="item_relpath_7chub_3a_3abase_3a_3afilesystem_2frelpath"><a href="Hub/Base/FileSystem.html#relpath">relpath</a></a></strong>
+
+<dt><strong><a name="item_replace_7chub_3a_3aperl_3a_3alanguage_2freplace"><a href="Hub/Perl/Language.html#replace">replace</a></a></strong>
+
+<dt><strong><a name="item_resolve_7chub_3a_3adata_3a_3acreate_2fresolve"><a href="Hub/Data/Create.html#resolve">resolve</a></a></strong>
+
+<dt><strong><a name="item_rmdirrec_7chub_3a_3abase_3a_3afilesystem_2frmdirre"><a href="Hub/Base/FileSystem.html#rmdirrec">rmdirrec</a></a></strong>
+
+<dt><strong><a name="item_rmfile_7chub_3a_3abase_3a_3afilesystem_2frmfile"><a href="Hub/Base/FileSystem.html#rmfile">rmfile</a></a></strong>
+
+<dt><strong><a name="item_rmval_7chub_3a_3aperl_3a_3alanguage_2frmval"><a href="Hub/Perl/Language.html#rmval">rmval</a></a></strong>
+
+<dt><strong><a name="item_safestr_7chub_3a_3amisc_3a_3atransform_2fsafestr"><a href="Hub/Misc/Transform.html#safestr">safestr</a></a></strong>
+
+<dt><strong><a name="item_save_data_7chub_3a_3adata_3a_3acreate_2fsave_data"><a href="Hub/Data/Create.html#save_data">save_data</a></a></strong>
+
+<dt><strong><a name="item_setv_7chub_3a_3adata_3a_3ahandlers_2fsetv"><a href="Hub/Data/Handlers.html#setv">setv</a></a></strong>
+
+<dt><strong><a name="item_sizeof_7chub_3a_3aperl_3a_3alanguage_2fsizeof"><a href="Hub/Perl/Language.html#sizeof">sizeof</a></a></strong>
+
+<dt><strong><a name="item_sort_compare_7chub_3a_3aperl_3a_3acompare_2fsort_c"><a href="Hub/Perl/Compare.html#sort_compare">sort_compare</a></a></strong>
+
+<dt><strong><a name="item_sort_dir_list_7chub_3a_3abase_3a_3afilesystem_2fso"><a href="Hub/Base/FileSystem.html#sort_dir_list">sort_dir_list</a></a></strong>
+
+<dt><strong><a name="item_srcpath_7chub_3a_3abase_3a_3afilesystem_2fsrcpath"><a href="Hub/Base/FileSystem.html#srcpath">srcpath</a></a></strong>
+
+<dt><strong><a name="item_store_7chub_3a_3adata_3a_3ahandlers_2fstore"><a href="Hub/Data/Handlers.html#store">store</a></a></strong>
+
+<dt><strong><a name="item_subset_7chub_3a_3adata_3a_3acreate_2fsubset"><a href="Hub/Data/Create.html#subset">subset</a></a></strong>
+
+<dt><strong><a name="item_subst_7chub_3a_3aperl_3a_3alanguage_2fsubst"><a href="Hub/Perl/Language.html#subst">subst</a></a></strong>
+
+<dt><strong><a name="item_touch_7chub_3a_3aperl_3a_3alanguage_2ftouch"><a href="Hub/Perl/Language.html#touch">touch</a></a></strong>
+
+<dt><strong><a name="item_trace_7chub_2ftrace"><a href="Hub/trace.html">trace</a></a></strong>
+
+<dt><strong><a name="item_unpackcgi_7chub_3a_3amisc_3a_3atransform_2funpackc"><a href="Hub/Misc/Transform.html#unpackcgi">unpackcgi</a></a></strong>
+
+<dt><strong><a name="item_varname_7chub_3a_3adata_3a_3aaddress_2fvarname"><a href="Hub/Data/Address.html#varname">varname</a></a></strong>
+
+<dt><strong><a name="item_varparent_7chub_3a_3adata_3a_3aaddress_2fvarparent"><a href="Hub/Data/Address.html#varparent">varparent</a></a></strong>
+
+<dt><strong><a name="item_varroot_7chub_3a_3adata_3a_3aaddress_2fvarroot"><a href="Hub/Data/Address.html#varroot">varroot</a></a></strong>
+
+<dt><strong><a name="item_vartype_7chub_3a_3adata_3a_3aaddress_2fvartype"><a href="Hub/Data/Address.html#vartype">vartype</a></a></strong>
+
+<dt><strong><a name="item_writefile_7chub_3a_3abase_3a_3afilesystem_2fwritef"><a href="Hub/Base/FileSystem.html#writefile">writefile</a></a></strong>
+
+</dl>
+<p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="classes">CLASSES</a></h1>
-<table><tr><td>
-<a class="methlink" href="Hub/Webapp/Client.html#item_client">Client</a></td><td>
-<a class="methlink" href="Hub/Parse/FileParser.html#item_fileparser">FileParser</a></td><td>
-<a class="methlink" href="Hub/Data/Meta.html#item_meta">Meta</a></td><td>
-<a class="methlink" href="Hub/Base/Package.html#item_package">Package</a></td><td>
-<a class="methlink" href="Hub/Parse/Template.html#item_template">Template</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Base/Config.html#item_config">Config</a></td><td>
-<a class="methlink" href="Hub/Data/HashData.html#item_hashdata">HashData</a></td><td>
-<a class="methlink" href="Hub/Data/Nest.html#item_nest">Nest</a></td><td>
-<a class="methlink" href="Hub/Parse/Parser.html#item_parser">Parser</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Data/DBTable.html#item_dbtable">DBTable</a></td><td>
-<a class="methlink" href="Hub/Data/HashFile.html#item_hashfile">HashFile</a></td><td>
-<a class="methlink" href="Hub/Base/NoOp.html#item_noop">NoOp</a></td><td>
-<a class="methlink" href="Hub/Base/Path.html#item_path">Path</a></td></tr><tr><td>
-<a class="methlink" href="Hub/Data/Data.html#item_data">Data</a></td><td>
-<a class="methlink" href="Hub/Base/Logger.html#item_logger">Logger</a></td><td>
-<a class="methlink" href="Hub/Base/Object.html#item_object">Object</a></td><td>
-<a class="methlink" href="Hub/Base/Scope.html#item_scope">Scope</a></td></tr></table><p>
+<dl>
+<dt><strong><a name="item_dataextractor_7chub_3a_3aparse_3a_3adataextractor"><a href="Hub/Parse/DataExtractor.html">DataExtractor</a></a></strong>
+
+<dt><strong><a name="item_datainjector_7chub_3a_3aparse_3a_3adatainjector"><a href="Hub/Parse/DataInjector.html">DataInjector</a></a></strong>
+
+<dt><strong><a name="item_directory_7chub_3a_3adata_3a_3adirectory"><a href="Hub/Data/Directory.html">Directory</a></a></strong>
+
+<dt><strong><a name="item_file_7chub_3a_3adata_3a_3afile"><a href="Hub/Data/File.html">File</a></a></strong>
+
+<dt><strong><a name="item_fileparser_7chub_3a_3aparse_3a_3afileparser"><a href="Hub/Parse/FileParser.html">FileParser</a></a></strong>
+
+<dt><strong><a name="item_hashfile_7chub_3a_3adata_3a_3ahashfile"><a href="Hub/Data/HashFile.html">HashFile</a></a></strong>
+
+<dt><strong><a name="item_htmlparser_7chub_3a_3aparse_3a_3ahtmlparser"><a href="Hub/Parse/HtmlParser.html">HtmlParser</a></a></strong>
+
+<dt><strong><a name="item_nest_7chub_3a_3adata_3a_3anest"><a href="Hub/Data/Nest.html">Nest</a></a></strong>
+
+<dt><strong><a name="item_noop_7chub_3a_3abase_3a_3anoop"><a href="Hub/Base/NoOp.html">NoOp</a></a></strong>
+
+<dt><strong><a name="item_object_7chub_3a_3abase_3a_3aobject"><a href="Hub/Base/Object.html">Object</a></a></strong>
+
+<dt><strong><a name="item_package_7chub_3a_3abase_3a_3apackage"><a href="Hub/Base/Package.html">Package</a></a></strong>
+
+<dt><strong><a name="item_parser_7chub_3a_3aparse_3a_3aparser"><a href="Hub/Parse/Parser.html">Parser</a></a></strong>
+
+<dt><strong><a name="item_registry_7chub_3a_3abase_3a_3aregistry"><a href="Hub/Base/Registry.html">Registry</a></a></strong>
+
+<dt><strong><a name="item_sortedhash_7chub_3a_3adata_3a_3asortedhash"><a href="Hub/Data/SortedHash.html">SortedHash</a></a></strong>
+
+<dt><strong><a name="item_standardparser_7chub_3a_3aparse_3a_3astandardparse"><a href="Hub/Parse/StandardParser.html">StandardParser</a></a></strong>
+
+<dt><strong><a name="item_subset_7chub_3a_3adata_3a_3asubset"><a href="Hub/Data/Subset.html">Subset</a></a></strong>
+
+<dt><strong><a name="item_template_7chub_3a_3aparse_3a_3atemplate"><a href="Hub/Parse/Template.html">Template</a></a></strong>
+
+<dt><strong><a name="item_texttemplate_7chub_3a_3aparse_3a_3atexttemplate"><a href="Hub/Parse/TextTemplate.html">TextTemplate</a></a></strong>
+
+</dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="modules">MODULES</a></h1>
+<dl>
+<dt><strong><a name="item_hub_7chub"><a href="./Hub.html">Hub</a></a></strong>
+
+<dt><strong><a name="item_hub_3a_3abase_3a_3afilesystem_7chub_3a_3abase_3a_3"><a href="Hub/Base/FileSystem.html">Hub::Base::FileSystem</a></a></strong>
+
+<dt><strong><a name="item_hub_3a_3abase_3a_3apackage_7chub_3a_3abase_3a_3apa"><a href="Hub/Base/Package.html">Hub::Base::Package</a></a></strong>
+
+<dt><strong><a name="item_hub_3a_3aconsole_3a_3aoutput_7chub_3a_3aconsole_3a"><a href="Hub/Console/Output.html">Hub::Console::Output</a></a></strong>
+
+<dt><strong><a name="item_hub_3a_3adata_3a_3aaddress_7chub_3a_3adata_3a_3aad"><a href="Hub/Data/Address.html">Hub::Data::Address</a></a></strong>
+
+<dt><strong><a name="item_hub_3a_3adata_3a_3acreate_7chub_3a_3adata_3a_3acre"><a href="Hub/Data/Create.html">Hub::Data::Create</a></a></strong>
+
+<dt><strong><a name="item_hub_3a_3adata_3a_3afilecache_7chub_3a_3adata_3a_3a"><a href="Hub/Data/FileCache.html">Hub::Data::FileCache</a></a></strong>
+
+<dt><strong><a name="item_hub_3a_3adata_3a_3ahandlers_7chub_3a_3adata_3a_3ah"><a href="Hub/Data/Handlers.html">Hub::Data::Handlers</a></a></strong>
+
+<dt><strong><a name="item_hub_3a_3amisc_3a_3atime_7chub_3a_3amisc_3a_3atime"><a href="Hub/Misc/Time.html">Hub::Misc::Time</a></a></strong>
+
+<dt><strong><a name="item_hub_3a_3amisc_3a_3atransform_7chub_3a_3amisc_3a_3a"><a href="Hub/Misc/Transform.html">Hub::Misc::Transform</a></a></strong>
+
+<dt><strong><a name="item_hub_3a_3aparse_3a_3ahash_7chub_3a_3aparse_3a_3ahas"><a href="Hub/Parse/Hash.html">Hub::Parse::Hash</a></a></strong>
+
+<dt><strong><a name="item_hub_3a_3aparse_3a_3aparser_7chub_3a_3aparse_3a_3ap"><a href="Hub/Parse/Parser.html">Hub::Parse::Parser</a></a></strong>
+
+<dt><strong><a name="item_hub_3a_3aperl_3a_3acompare_7chub_3a_3aperl_3a_3aco"><a href="Hub/Perl/Compare.html">Hub::Perl::Compare</a></a></strong>
+
+<dt><strong><a name="item_hub_3a_3aperl_3a_3alanguage_7chub_3a_3aperl_3a_3al"><a href="Hub/Perl/Language.html">Hub::Perl::Language</a></a></strong>
+
+<dt><strong><a name="item_hub_3a_3aperl_3a_3asort_7chub_3a_3aperl_3a_3asort"><a href="Hub/Perl/Sort.html">Hub::Perl::Sort</a></a></strong>
+
+</dl>
+<p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="author">AUTHOR</a></h1>
-<p>Ryan Gies</p>
+<p>Ryan Gies (<a href="mailto:ryangies@livesite.net">ryangies@livesite.net</a>)</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="copyright">COPYRIGHT</a></h1>
-<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
-<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.</p>
+<p>Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.</p>
+<p>Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:</p>
+<p>* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.</p>
+<p>* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.</p>
+<p>* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.</p>
+<p>* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.</p>
+<p>THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.</p>
+<p>To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="updated">UPDATED</a></h1>
-<p>This file created by &lt;#sys/proc/zname&gt; on &lt;#dt(nozeros,notime);sys/proc/tstamp&gt; at &lt;#dt(ampm,nosec,nozeros,nodate);sys/proc/tstamp&gt;</p>
+<p>06/09/2007</p>
 <p><a href="#__index__"><small>Top</small></a></p>
 
 </body>

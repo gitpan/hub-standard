@@ -2,121 +2,102 @@
 
 Hub::Data::Nest - Nested data object
 
-Part of the L<Hub Library|hublib>
 
 =head1 SYNOPSIS
 
 
-    use Hub qw(:standard);
-    my $nest = mkinst( 'Nest' );
+  use Hub qw(:standard);
+  my $nest = mkinst( 'Nest' );
+  $$nest{'colors'} = {
+    white => 'fff',
+    black => '000',
+  };
+  print '#', $$nest{'colors/black'}, "\n";
 
-    $$nest{'colors'} = {
-      white => 'fff',
-      black => '000',
-    };
-
-    print '#', $$nest{'colors/black'}, "\n";
 
 
 =head1 DESCRIPTION
 
 
 This virtual base class ties itself to
-L<Hub::Knots::Addressable|Hub::Knots::Addressable> in order to hook into member 
+L<Hub::Knots::Nest|Hub::Knots::Nest> in order to hook into member 
 access routines.
 
 =head2 Intention
 
-We wish to have a single hash which behaves as the root element of a
-hierarchical data structure (such as XML or the DOM.)
+We wish to have a single hash which behaves as the root element of a 
+hierarchical data structure.
 
 =head2 See also:
 
 L<hubaddr>
 
 
-=head1 METHODS
 
-=begin html
+=head1 PUBLIC METHODS
 
-<table><tr><td>
-<a class="methlink" href="#item_new">new</a>
-
-</td></tr></table>
-
-=end html
-
+=head2 new
 
 =over 4
 
-=item new
+=item Constructor.
 
-B<Constructor.>
 
 
 
 
 =back
 
-=head1 INTERNAL
 
-=begin html
-
-<table><tr><td>
-<a class="methlink" href="#item_autoload">AUTOLOAD</a>
-
-</td><td>
-<a class="methlink" href="#item_destroy">DESTROY</a>
-
-</td></tr></table>
-
-=end html
-
-
-=over 4
-
-=item AUTOLOAD
-
-B<Proxy for data handler methods>
-
-
-
-
-  get         # fetch
-  set         # store
-  append      # special store
-  take        # delete
-
-=back
-
-=over 4
-
-=item DESTROY
-
-B<>
-
- Usage: DESTROY
-
-Defining this function prevents it from being searched in AUTOLOAD
-
-=back
 
 =head1 AUTHOR
 
+Ryan Gies (ryangies@livesite.net)
 
-
-Ryan Gies
 
 =head1 COPYRIGHT
 
+Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.
+
+Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.
 
 
-Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:
 
-Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.
+
+* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.
+
+* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.
+
+* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.
+
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.
+
+To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.
+
 
 =head1 UPDATED
 
-This file created by  on  at 
+06/09/2007
 
 =cut

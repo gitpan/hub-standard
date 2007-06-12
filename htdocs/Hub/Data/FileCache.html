@@ -1,9 +1,11 @@
+<?xml version="1.0" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Hub::Data::FileCache</title>
-<link rel="stylesheet" href="../../pod.css" type="text/css" />
-<link rev="made" href="mailto:gerrit@familiehaase.de" />
+<link rel="stylesheet" href="../../styles.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
 </head>
 
 <body>
@@ -16,8 +18,16 @@
 	<li><a href="#name">NAME</a></li>
 	<li><a href="#synopsis">SYNOPSIS</a></li>
 	<li><a href="#description">DESCRIPTION</a></li>
-	<li><a href="#methods">METHODS</a></li>
-	<li><a href="#internal">INTERNAL</a></li>
+	<li><a href="#public_methods">PUBLIC METHODS</a></li>
+	<ul>
+
+		<li><a href="#fattach">fattach</a></li>
+		<li><a href="#fhandler">fhandler</a></li>
+		<li><a href="#finstance">finstance</a></li>
+		<li><a href="#frefresh">frefresh</a></li>
+		<li><a href="#fread">fread</a></li>
+	</ul>
+
 	<li><a href="#author">AUTHOR</a></li>
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#updated">UPDATED</a></li>
@@ -29,7 +39,6 @@
 </p>
 <h1><a name="name">NAME</a></h1>
 <p>Hub::Data::FileCache -</p>
-<p>Part of the <a href="../../hublib.html">Hub Library</a></p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
@@ -44,26 +53,22 @@
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
-<h1><a name="methods">METHODS</a></h1>
-<table><tr><td>
-<a class="methlink" href="#item_fattach">fattach</a></td><td>
-<a class="methlink" href="#item_fhandler">fhandler</a></td><td>
-<a class="methlink" href="#item_frefresh">frefresh</a></td></tr></table><dl>
-<dt><strong><a name="item_fattach">fattach</a></strong><br />
-</dt>
-<dd>
-<strong></strong>
-</dd>
+<h1><a name="public_methods">PUBLIC METHODS</a></h1>
+<p>
+</p>
+<h2><a name="fattach">fattach</a></h2>
+<dl>
+<dt><strong><a name="item_attach_an_instance_of_a_class_to_a_file_2e">Attach an instance of a class to a file.</a></strong>
+
 <dd>
 <pre>
- Usage: fattach FILENAME, CLASS</pre>
+ Usage: fattach $filename, $class</pre>
 </dd>
 <dd>
-<p>Attach an instance of a class (which has a corresponding 'parsefile' method)
-to a file.</p>
+<p><code>$class</code> must implement the method <code>reload</code></p>
 </dd>
 <dd>
-<p>Returns an instance, which is a hash with members:</p>
+<p>Returns a hash of:</p>
 </dd>
 <dd>
 <pre>
@@ -75,77 +80,123 @@ to a file.</p>
 <dd>
 <p>The instance is a singleton.</p>
 </dd>
-<p></p></dl>
-<dl>
-<dt><strong><a name="item_fhandler">fhandler</a></strong><br />
-</dt>
-<dd>
-<strong></strong>
-</dd>
-<dd>
-<pre>
- Usage: fhandler FILENAME, CLASSNAME</pre>
-</dd>
-<dd>
-<p>Find the instance of a particular class which is attached to the file</p>
-</dd>
-<p></p></dl>
-<dl>
-<dt><strong><a name="item_frefresh">frefresh</a></strong><br />
-</dt>
-<dd>
-<strong></strong>
-</dd>
-<dd>
-<pre>
- Usage: frefresh</pre>
-</dd>
-<dd>
-<p>Signal all instances to check to see if their file on disk has been modified.</p>
-</dd>
-<dd>
-<p>If so, re-read the file and tell all your handlers to reparse themselves.</p>
-</dd>
-<p></p></dl>
+</dl>
 <p>
-<a href="#__index__"><small>Top</small></a>
 </p>
-<hr />
-<h1><a name="internal">INTERNAL</a></h1>
-<table><tr><td>
-<a class="methlink" href="#item__read_from_disk">_read_from_disk</a></td></tr></table><dl>
-<dt><strong><a name="item__read_from_disk">_read_from_disk</a></strong><br />
-</dt>
+<h2><a name="fhandler">fhandler</a></h2>
+<dl>
+<dt><strong><a name="item_get_the_file_handler_for_a_given_file">Get the file handler for a given file</a></strong>
+
 <dd>
-<strong></strong>
+<pre>
+ Usage: fhandler $filename, $classname
+ Usage: fhandler $filename
+In its first form, we will return the handler for the given class name.</pre>
+</dd>
+<dd>
+<p>In its second form, we will return all handlers for the given file.</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="finstance">finstance</a></h2>
+<dl>
+<dt><strong><a name="item_get_the_cache_instance_for_a_specific_file">Get the cache instance for a specific file</a></strong>
+
+<dd>
+<pre>
+ Usage: finstance - $filename</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="frefresh">frefresh</a></h2>
+<dl>
+<dt><strong><a name="item_signal_handlers_to_reparse">Signal handlers to reparse</a></strong>
+
+<dd>
+<pre>
+ Usage: frefresh [$filename], [options]</pre>
+</dd>
+<dd>
+<p>options:</p>
 </dd>
 <dd>
 <pre>
- Usage: _read_from_disk</pre>
+  -force=&gt;1         Force re-reading</pre>
 </dd>
 <dd>
-<p>Modify the provided instance to reflect what is on disk.</p>
+<p>Without a $filename, <strong>all</strong> file instances are checked for disk modifications.</p>
 </dd>
-<p></p></dl>
+<dd>
+<p>If the file has been modified, re-read the file and tell all your handlers to
+reparse themselves via the <code>reload</code> method.</p>
+</dd>
+<dd>
+<p>With a $filename, only handlers for the specific filename are signaled to
+reparse.</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="fread">fread</a></h2>
+<dl>
+<dt><strong><a name="item_modify_the_provided_instance_to_reflect_what_is_on">Modify the provided instance to reflect what is on disk.</a></strong>
+
+<dd>
+<pre>
+ Usage: fread $instance</pre>
+</dd>
+<dd>
+<p><code>$instance</code> must be the special hash returned by <a href="#finstance">the finstance manpage</a>
+If all handling classes implement the <code>delay_reading</code> function, and they all
+return a true value, we will not read file.</p>
+</dd>
+</dl>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="author">AUTHOR</a></h1>
-<p>Ryan Gies</p>
+<p>Ryan Gies (<a href="mailto:ryangies@livesite.net">ryangies@livesite.net</a>)</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="copyright">COPYRIGHT</a></h1>
-<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
-<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.</p>
+<p>Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.</p>
+<p>Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:</p>
+<p>* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.</p>
+<p>* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.</p>
+<p>* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.</p>
+<p>* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.</p>
+<p>THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.</p>
+<p>To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="updated">UPDATED</a></h1>
-<p>This file created by  on  at</p>
+<p>06/09/2007</p>
 <p><a href="#__index__"><small>Top</small></a></p>
 
 </body>

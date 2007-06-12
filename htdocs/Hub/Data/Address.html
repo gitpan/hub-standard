@@ -1,9 +1,11 @@
+<?xml version="1.0" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Hub::Data::Address</title>
-<link rel="stylesheet" href="../../pod.css" type="text/css" />
-<link rev="made" href="mailto:gerrit@familiehaase.de" />
+<link rel="stylesheet" href="../../styles.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
 </head>
 
 <body>
@@ -16,8 +18,19 @@
 	<li><a href="#name">NAME</a></li>
 	<li><a href="#synopsis">SYNOPSIS</a></li>
 	<li><a href="#description">DESCRIPTION</a></li>
-	<li><a href="#methods">METHODS</a></li>
-	<li><a href="#internal">INTERNAL</a></li>
+	<li><a href="#public_methods">PUBLIC METHODS</a></li>
+	<ul>
+
+		<li><a href="#keydepth">keydepth</a></li>
+		<li><a href="#vartype">vartype</a></li>
+		<li><a href="#varroot">varroot</a></li>
+		<li><a href="#varname">varname</a></li>
+		<li><a href="#varparent">varparent</a></li>
+		<li><a href="#dotaddr">dotaddr</a></li>
+		<li><a href="#expand">expand</a></li>
+		<li><a href="#collapse">collapse</a></li>
+	</ul>
+
 	<li><a href="#author">AUTHOR</a></li>
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#updated">UPDATED</a></li>
@@ -29,7 +42,6 @@
 </p>
 <h1><a name="name">NAME</a></h1>
 <p>Hub::Data::Address -</p>
-<p>Part of the <a href="../../hublib.html">Hub Library</a></p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
@@ -44,20 +56,235 @@
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
-<h1><a name="methods">METHODS</a></h1>
-<table><tr><td>
-<a class="methlink" href="#item_dotaddr">dotaddr</a></td><td>
-<a class="methlink" href="#item_keydepth">keydepth</a></td><td>
-<a class="methlink" href="#item_varparent">varparent</a></td><td>
-<a class="methlink" href="#item_vartype">vartype</a></td></tr><tr><td>
-<a class="methlink" href="#item_expand">expand</a></td><td>
-<a class="methlink" href="#item_varname">varname</a></td><td>
-<a class="methlink" href="#item_varroot">varroot</a></td></tr></table><dl>
-<dt><strong><a name="item_dotaddr">dotaddr</a></strong><br />
-</dt>
+<h1><a name="public_methods">PUBLIC METHODS</a></h1>
+<p>
+</p>
+<h2><a name="keydepth">keydepth</a></h2>
+<dl>
+<dt>
 <dd>
-<strong></strong>
+<pre>
+ Usage: keydepth</pre>
 </dd>
+<dd>
+<p>For sorting parents and children, this simply lets you know how deep the key
+is named.</p>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    keydepth( 'and:then:came:the:rain' )</pre>
+</dd>
+<dd>
+<pre>
+    4</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="vartype">vartype</a></h2>
+<dl>
+<dt>
+<dd>
+<pre>
+ Usage: vartype VARADDR, [DEFAULT]</pre>
+</dd>
+<dd>
+<p>Return a variables type (or a default value).</p>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    vartype( );</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    vartype( &quot;clr-bg&quot; );</pre>
+</dd>
+<dd>
+<pre>
+    clr</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    vartype( &quot;clr-bg&quot;, &quot;default&quot; );</pre>
+</dd>
+<dd>
+<pre>
+    clr</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    vartype( &quot;whatev&quot;, &quot;default&quot; );</pre>
+</dd>
+<dd>
+<pre>
+    default</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    vartype( &quot;whatev&quot; );</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    vartype( &quot;a:b:c&quot; );</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    vartype( &quot;x-a:b:c&quot; );</pre>
+</dd>
+<dd>
+<pre>
+    x</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    vartype( &quot;a:b:x-c&quot; );</pre>
+</dd>
+<dd>
+<pre>
+    x</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="varroot">varroot</a></h2>
+<dl>
+<dt>
+<dd>
+<pre>
+ Usage: varroot VARADDR</pre>
+</dd>
+<dd>
+<p>The root portion of the address.</p>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    varroot( &quot;p001:items:1002:text-description&quot; );</pre>
+</dd>
+<dd>
+<pre>
+    p001</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    varroot( &quot;p001&quot; );</pre>
+</dd>
+<dd>
+<pre>
+    p001</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="varname">varname</a></h2>
+<dl>
+<dt>
+<dd>
+<pre>
+ Usage: varname VARADDR</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    varname( &quot;p001:items:1002:text-desc&quot; );</pre>
+</dd>
+<dd>
+<pre>
+    text-desc</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    varname( &quot;p001&quot; );</pre>
+</dd>
+<dd>
+<pre>
+    p001</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="varparent">varparent</a></h2>
+<dl>
+<dt>
+<dd>
+<pre>
+ Usage: varparent VARADDR</pre>
+</dd>
+<dd>
+<p>Parent address.</p>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    varparent( &quot;p001:items:12:1000&quot; );</pre>
+</dd>
+<dd>
+<pre>
+    p001:items:12</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    varparent( &quot;p001:items:10:subs:100&quot; );</pre>
+</dd>
+<dd>
+<pre>
+    p001:items:10:subs</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    varparent( &quot;p001&quot; );</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="dotaddr">dotaddr</a></h2>
+<dl>
+<dt>
 <dd>
 <pre>
  Usage: dotaddr VARADDR</pre>
@@ -67,64 +294,51 @@
 from expansion.</p>
 </dd>
 <dd>
-<p><strong>Example: This example</strong>:</p>
+<p><strong>Example</strong>: (matches)</p>
 </dd>
 <dd>
 <pre>
-    dotaddr( &quot;p004:proj:1000&quot; );</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
+    dotaddr(&quot;p004:proj:1000&quot;);</pre>
 </dd>
 <dd>
 <pre>
     p004.proj.1000</pre>
 </dd>
 <dd>
-<p><strong>Example: This example</strong>:</p>
+<p><strong>Example</strong>: (matches)</p>
 </dd>
 <dd>
 <pre>
-    dotaddr( &quot;p004:proj:1000:name&quot; );</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
+    dotaddr(&quot;p004:proj:1000:name&quot;);</pre>
 </dd>
 <dd>
 <pre>
     p004.proj.1000.name</pre>
 </dd>
 <dd>
-<p><strong>Example: This example</strong>:</p>
+<p><strong>Example</strong>: (matches)</p>
 </dd>
 <dd>
 <pre>
-    dotaddr( &quot;p001&quot; );</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
+    dotaddr(&quot;p001&quot;);</pre>
 </dd>
 <dd>
 <pre>
     p001</pre>
 </dd>
 <dd>
-<p><strong>Example: This example</strong>:</p>
+<p><strong>Example</strong> returns: <strong>defined</strong>:</p>
 </dd>
 <dd>
 <pre>
-    dotaddr( &quot;&quot; );</pre>
+    dotaddr(&quot;&quot;);</pre>
 </dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<p></p></dl>
+</dl>
+<p>
+</p>
+<h2><a name="expand">expand</a></h2>
 <dl>
-<dt><strong><a name="item_expand">expand</a></strong><br />
-</dt>
-<dd>
-<strong></strong>
-</dd>
+<dt>
 <dd>
 <pre>
  Usage: expand HASHREF, [OPTIONS]</pre>
@@ -138,313 +352,78 @@ and subarrays as necessary.</p>
 </dd>
 <dd>
 <pre>
-  meta    =&gt; 1                # add '_address' and '_id' metadata to hashes
-  root    =&gt; SCALAR           # use this as a prefix for '_address'</pre>
+  meta    =&gt; 1                # add '.address' and '.id' metadata to hashes
+  root    =&gt; SCALAR           # use this as a prefix for '.address'</pre>
 </dd>
 <dd>
 <p>Returns HASHREF</p>
 </dd>
-<p></p></dl>
-<dl>
-<dt><strong><a name="item_keydepth">keydepth</a></strong><br />
-</dt>
-<dd>
-<strong></strong>
-</dd>
-<dd>
-<pre>
- Usage: keydepth</pre>
-</dd>
-<dd>
-<p>For sorting parents and children, this simpley lets you know how deep the key
-is named.</p>
-</dd>
-<dd>
-<p><strong>Example: This example</strong>:</p>
-</dd>
-<dd>
-<pre>
-    keydepth( 'and:then:came:the:rain' )</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    4</pre>
-</dd>
-<p></p></dl>
-<dl>
-<dt><strong><a name="item_varname">varname</a></strong><br />
-</dt>
-<dd>
-<strong></strong>
-</dd>
-<dd>
-<pre>
- Usage: varname VARADDR</pre>
-</dd>
-<dd>
-<p><strong>Example: This example</strong>:</p>
-</dd>
-<dd>
-<pre>
-    varname( &quot;p001:items:1002:text-desc&quot; );</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    text-desc</pre>
-</dd>
-<dd>
-<p><strong>Example: This example</strong>:</p>
-</dd>
-<dd>
-<pre>
-    varname( &quot;p001&quot; );</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    p001</pre>
-</dd>
-<p></p></dl>
-<dl>
-<dt><strong><a name="item_varparent">varparent</a></strong><br />
-</dt>
-<dd>
-<strong></strong>
-</dd>
-<dd>
-<pre>
- Usage: varparent VARADDR</pre>
-</dd>
-<dd>
-<p>Parent address.</p>
-</dd>
-<dd>
-<p><strong>Example: This example</strong>:</p>
-</dd>
-<dd>
-<pre>
-    varparent( &quot;p001:items:12:1000&quot; );</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    p001:items:12</pre>
-</dd>
-<dd>
-<p><strong>Example: This example</strong>:</p>
-</dd>
-<dd>
-<pre>
-    varparent( &quot;p001:items:10:subs:100&quot; );</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    p001:items:10:subs</pre>
-</dd>
-<dd>
-<p><strong>Example: This example</strong>:</p>
-</dd>
-<dd>
-<pre>
-    varparent( &quot;p001&quot; );</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<p></p></dl>
-<dl>
-<dt><strong><a name="item_varroot">varroot</a></strong><br />
-</dt>
-<dd>
-<strong></strong>
-</dd>
-<dd>
-<pre>
- Usage: varroot VARADDR</pre>
-</dd>
-<dd>
-<p>The root portion of the address.</p>
-</dd>
-<dd>
-<p><strong>Example: This example</strong>:</p>
-</dd>
-<dd>
-<pre>
-    varroot( &quot;p001:items:1002:text-description&quot; );</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    p001</pre>
-</dd>
-<dd>
-<p><strong>Example: This example</strong>:</p>
-</dd>
-<dd>
-<pre>
-    varroot( &quot;p001&quot; );</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    p001</pre>
-</dd>
-<p></p></dl>
-<dl>
-<dt><strong><a name="item_vartype">vartype</a></strong><br />
-</dt>
-<dd>
-<strong></strong>
-</dd>
-<dd>
-<pre>
- Usage: vartype VARADDR, [DEFAULT]</pre>
-</dd>
-<dd>
-<p>Return a variables type (or a default value).</p>
-</dd>
-<dd>
-<p><strong>Example: This example</strong>:</p>
-</dd>
-<dd>
-<pre>
-    vartype( );</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<p><strong>Example: This example</strong>:</p>
-</dd>
-<dd>
-<pre>
-    vartype( &quot;clr-bg&quot; );</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    clr</pre>
-</dd>
-<dd>
-<p><strong>Example: This example</strong>:</p>
-</dd>
-<dd>
-<pre>
-    vartype( &quot;clr-bg&quot;, &quot;default&quot; );</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    clr</pre>
-</dd>
-<dd>
-<p><strong>Example: This example</strong>:</p>
-</dd>
-<dd>
-<pre>
-    vartype( &quot;whatev&quot;, &quot;default&quot; );</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    default</pre>
-</dd>
-<dd>
-<p><strong>Example: This example</strong>:</p>
-</dd>
-<dd>
-<pre>
-    vartype( &quot;whatev&quot; );</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<p><strong>Example: This example</strong>:</p>
-</dd>
-<dd>
-<pre>
-    vartype( &quot;a:b:c&quot; );</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<p><strong>Example: This example</strong>:</p>
-</dd>
-<dd>
-<pre>
-    vartype( &quot;x-a:b:c&quot; );</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    x</pre>
-</dd>
-<dd>
-<p><strong>Example: This example</strong>:</p>
-</dd>
-<dd>
-<pre>
-    vartype( &quot;a:b:x-c&quot; );</pre>
-</dd>
-<dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
-<pre>
-    x</pre>
-</dd>
-<p></p></dl>
+</dl>
 <p>
-<a href="#__index__"><small>Top</small></a>
 </p>
-<hr />
-<h1><a name="internal">INTERNAL</a></h1>
+<h2><a name="collapse">collapse</a></h2>
+<dl>
+<dt><strong><a name="item_collapse_a_nested_structure_into_key_2fvalue_pairs">Collapse a nested structure into key/value pairs</a></strong>
+
+<dd>
+<pre>
+ Usage: collapse ?ref, [options]</pre>
+</dd>
+<dd>
+<p>options</p>
+</dd>
+<dd>
+<pre>
+  -containers=1        Just return containers</pre>
+</dd>
+<dd>
+<p>Returns a hash reference.</p>
+</dd>
+</dl>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="author">AUTHOR</a></h1>
-<p>Ryan Gies</p>
+<p>Ryan Gies (<a href="mailto:ryangies@livesite.net">ryangies@livesite.net</a>)</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="copyright">COPYRIGHT</a></h1>
-<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
-<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.</p>
+<p>Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.</p>
+<p>Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:</p>
+<p>* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.</p>
+<p>* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.</p>
+<p>* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.</p>
+<p>* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.</p>
+<p>THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.</p>
+<p>To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="updated">UPDATED</a></h1>
-<p>This file created by  on  at</p>
+<p>06/09/2007</p>
 <p><a href="#__index__"><small>Top</small></a></p>
 
 </body>

@@ -1,9 +1,11 @@
+<?xml version="1.0" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Hub::Perl::Compare</title>
-<link rel="stylesheet" href="../../pod.css" type="text/css" />
-<link rev="made" href="mailto:gerrit@familiehaase.de" />
+<link rel="stylesheet" href="../../styles.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
 </head>
 
 <body>
@@ -16,8 +18,14 @@
 	<li><a href="#name">NAME</a></li>
 	<li><a href="#synopsis">SYNOPSIS</a></li>
 	<li><a href="#description">DESCRIPTION</a></li>
-	<li><a href="#methods">METHODS</a></li>
-	<li><a href="#internal">INTERNAL</a></li>
+	<li><a href="#public_methods">PUBLIC METHODS</a></li>
+	<ul>
+
+		<li><a href="#compare">compare</a></li>
+		<li><a href="#sort_compare">sort_compare</a></li>
+		<li><a href="#is_bipolar">is_bipolar</a></li>
+	</ul>
+
 	<li><a href="#author">AUTHOR</a></li>
 	<li><a href="#copyright">COPYRIGHT</a></li>
 	<li><a href="#updated">UPDATED</a></li>
@@ -28,132 +36,140 @@
 <p>
 </p>
 <h1><a name="name">NAME</a></h1>
-<p>Hub::Perl::Compare -</p>
-<p>Part of the <a href="../../hublib.html">Hub Library</a></p>
+<p>Hub::Perl::Compare - Scalar value comparisons</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  # usage: this_script.pl operator val1 val2
+  use Hub qw(:standard);
+  print compare(@ARGV) ? &quot;True\n&quot; : &quot;False\n&quot;;</pre>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="description">DESCRIPTION</a></h1>
+<p>Efficient routine to compare scalar values when the operator is variable.</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
-<h1><a name="methods">METHODS</a></h1>
-<table><tr><td>
-<a class="methlink" href="#item_compare">compare</a></td></tr></table><dl>
-<dt><strong><a name="item_compare">compare</a></strong><br />
-</dt>
+<h1><a name="public_methods">PUBLIC METHODS</a></h1>
+<p>
+</p>
+<h2><a name="compare">compare</a></h2>
+<dl>
+<dt><strong><a name="item_wrapper_for_perl_27s_internal_comparison_operators">Wrapper for Perl's internal comparison operators.</a></strong>
+
 <dd>
-<strong>Wrapper for Perl's internal comparison operators.</strong>
+<pre>
+ Usage: compare $operator, $left_operand, $right_operand</pre>
+</dd>
+<dd>
+<p>Support runtime comparison when the operator is held as a scalar.</p>
+</dd>
+<dd>
+<p>Where $operator may be one of:</p>
 </dd>
 <dd>
 <pre>
- Usage: compare OPERATOR, LEFT_OPERAND, RIGHT_OPERAND</pre>
+  eq        Equal
+  ne        Not equal
+  lt        Less than
+  le        Less than or equal
+  gt        Greater than
+  ge        Greater than or equal
+  ==        Numeric equal
+  !=        Numeric not equal
+  &lt;         Numeric less than
+  &gt;         Numeric greater than
+  &lt;=        Numeric less than or equal
+  &gt;=        Numeric greater than or equal
+  eqic      Equal ignoring case
+  neic      Not equal ignoring case
+  mult-of   Multple of</pre>
 </dd>
 <dd>
-<p>OPERATOR's:</p>
-</dd>
-<dd>
-<pre>
-  eq ne lt le gt ge == != &lt; &gt; &lt;= &gt;=</pre>
-</dd>
-<dd>
-<p>Extended OPERATOR's:</p>
-</dd>
-<dd>
-<pre>
-  eqic    Equal ignore case
-  neic    Not-equal ignore case</pre>
-</dd>
-<dd>
-<p>The purpose here is twofold: a) support runtime comparison when the operator
-is held as string; and b) behave like Perl does when warnings are disabled.</p>
-</dd>
-<dd>
-<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+<p><strong>Example</strong> returns: <strong>false</strong>:</p>
 </dd>
 <dd>
 <pre>
     compare('eq','',undef);</pre>
 </dd>
 <dd>
-<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+<p><strong>Example</strong> returns: <strong>true</strong>:</p>
 </dd>
 <dd>
 <pre>
     compare('eq','abc','abc');</pre>
 </dd>
 <dd>
-<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+<p><strong>Example</strong> returns: <strong>true</strong>:</p>
 </dd>
 <dd>
 <pre>
     compare('ne','abc','Abc');</pre>
 </dd>
 <dd>
-<p><strong>This example</strong> returns: <strong>false</strong>:</p>
+<p><strong>Example</strong> returns: <strong>false</strong>:</p>
 </dd>
 <dd>
 <pre>
     compare('eq','abc',undef);</pre>
 </dd>
 <dd>
-<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+<p><strong>Example</strong> returns: <strong>true</strong>:</p>
 </dd>
 <dd>
 <pre>
     compare('!~','abc','A');</pre>
 </dd>
 <dd>
-<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+<p><strong>Example</strong> returns: <strong>true</strong>:</p>
 </dd>
 <dd>
 <pre>
     compare('=~','abc','a');</pre>
 </dd>
 <dd>
-<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+<p><strong>Example</strong> returns: <strong>true</strong>:</p>
 </dd>
 <dd>
 <pre>
     compare('==',1234,1234);</pre>
 </dd>
 <dd>
-<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+<p><strong>Example</strong> returns: <strong>true</strong>:</p>
 </dd>
 <dd>
 <pre>
     compare('&gt;=',1234,1234);</pre>
 </dd>
 <dd>
-<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+<p><strong>Example</strong> returns: <strong>true</strong>:</p>
 </dd>
 <dd>
 <pre>
     compare('eqic','abc','Abc');</pre>
 </dd>
 <dd>
-<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+<p><strong>Example</strong> returns: <strong>true</strong>:</p>
 </dd>
 <dd>
 <pre>
     compare('==',undef,undef);</pre>
 </dd>
 <dd>
-<p><strong>This example</strong> returns: <strong>true</strong>:</p>
+<p><strong>Example</strong> returns: <strong>false</strong>:</p>
 </dd>
 <dd>
 <pre>
     compare('==',0,undef);</pre>
 </dd>
 <dd>
-<p><strong>Example: This example</strong>:</p>
+<p><strong>Example</strong>: (matches)</p>
 </dd>
 <dd>
 <pre>
@@ -161,37 +177,72 @@ is held as string; and b) behave like Perl does when warnings are disabled.</p>
               join ';', sort { &amp;compare('&lt;=&gt;',$a,$b) } @numbers;</pre>
 </dd>
 <dd>
-<p><strong>matches</strong>:</p>
-</dd>
-<dd>
 <pre>
     1;2;10;20</pre>
 </dd>
-<p></p></dl>
+</dl>
 <p>
-<a href="#__index__"><small>Top</small></a>
 </p>
-<hr />
-<h1><a name="internal">INTERNAL</a></h1>
+<h2><a name="sort_compare">sort_compare</a></h2>
+<dl>
+<dt><strong><a name="item_compare_for_sorting_2c_returning_1_2c_0_or__2d1">Compare for sorting, returning 1, 0 or -1</a></strong>
+
+<dd>
+<p>See also <a href="#compare">the compare manpage</a></p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<h2><a name="is_bipolar">is_bipolar</a></h2>
+<dl>
+<dt><strong><a name="item_test_to_see_if_this_is_a_blessed_document_2fview_o">Test to see if this is a blessed document/view object</a></strong>
+
+</dl>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="author">AUTHOR</a></h1>
-<p>Ryan Gies</p>
+<p>Ryan Gies (<a href="mailto:ryangies@livesite.net">ryangies@livesite.net</a>)</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="copyright">COPYRIGHT</a></h1>
-<p>Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.</p>
-<p>Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.</p>
+<p>Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.</p>
+<p>Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.</p>
+<p>Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:</p>
+<p>* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.</p>
+<p>* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.</p>
+<p>* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.</p>
+<p>* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.</p>
+<p>THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.</p>
+<p>To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.</p>
 <p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
 <h1><a name="updated">UPDATED</a></h1>
-<p>This file created by  on  at</p>
+<p>06/09/2007</p>
 <p><a href="#__index__"><small>Top</small></a></p>
 
 </body>

@@ -2,8 +2,6 @@
 
 Hub::Perl::Language - 
 
-Part of the L<Hub Library|hublib>
-
 =head1 SYNOPSIS
 
 
@@ -12,223 +10,85 @@ Part of the L<Hub Library|hublib>
 
 
 
-=head1 METHODS
+=head1 PUBLIC METHODS
 
-=begin html
-
-<table><tr><td>
-<a class="methlink" href="#item_abort">abort</a>
-
-</td><td>
-<a class="methlink" href="#item_cpref">cpref</a>
-
-</td><td>
-<a class="methlink" href="#item_getbyname">getbyname</a>
-
-</td><td>
-<a class="methlink" href="#item_min">min</a>
-
-</td><td>
-<a class="methlink" href="#item_sortkbyv">sortkbyv</a>
-
-</td></tr><tr><td>
-<a class="methlink" href="#item_array">array</a>
-
-</td><td>
-<a class="methlink" href="#item_dice">dice</a>
-
-</td><td>
-<a class="methlink" href="#item_getgid">getgid</a>
-
-</td><td>
-<a class="methlink" href="#item_objopts">objopts</a>
-
-</td><td>
-<a class="methlink" href="#item_subfield">subfield</a>
-
-</td></tr><tr><td>
-<a class="methlink" href="#item_asa">asa</a>
-
-</td><td>
-<a class="methlink" href="#item_diff">diff</a>
-
-</td><td>
-<a class="methlink" href="#item_getuid">getuid</a>
-
-</td><td>
-<a class="methlink" href="#item_opts">opts</a>
-
-</td><td>
-<a class="methlink" href="#item_subhash">subhash</a>
-
-</td></tr><tr><td>
-<a class="methlink" href="#item_asarray">asarray</a>
-
-</td><td>
-<a class="methlink" href="#item_digout">digout</a>
-
-</td><td>
-<a class="methlink" href="#item_hash">hash</a>
-
-</td><td>
-<a class="methlink" href="#item_replace">replace</a>
-
-</td><td>
-<a class="methlink" href="#item_subst">subst</a>
-
-</td></tr><tr><td>
-<a class="methlink" href="#item_bestof">bestof</a>
-
-</td><td>
-<a class="methlink" href="#item_expect">expect</a>
-
-</td><td>
-<a class="methlink" href="#item_hashget">hashget</a>
-
-</td><td>
-<a class="methlink" href="#item_rmsubhash">rmsubhash</a>
-
-</td><td>
-<a class="methlink" href="#item_touch">touch</a>
-
-</td></tr><tr><td>
-<a class="methlink" href="#item_check">check</a>
-
-</td><td>
-<a class="methlink" href="#item_fear">fear</a>
-
-</td><td>
-<a class="methlink" href="#item_intdiv">intdiv</a>
-
-</td><td>
-<a class="methlink" href="#item_rmval">rmval</a>
-
-</td><td>
-<a class="methlink" href="#item_uniq">uniq</a>
-
-</td></tr><tr><td>
-<a class="methlink" href="#item_checksum">checksum</a>
-
-</td><td>
-<a class="methlink" href="#item_flatten">flatten</a>
-
-</td><td>
-<a class="methlink" href="#item_max">max</a>
-
-</td><td>
-<a class="methlink" href="#item_scalar">scalar</a>
-
-</td></tr><tr><td>
-<a class="methlink" href="#item_cmdopts">cmdopts</a>
-
-</td><td>
-<a class="methlink" href="#item_flip">flip</a>
-
-</td><td>
-<a class="methlink" href="#item_merge">merge</a>
-
-</td><td>
-<a class="methlink" href="#item_sizeof">sizeof</a>
-
-</td></tr></table>
-
-=end html
-
+=head2 sizeof
 
 =over 4
 
-=item abort
+=item Integer size of hashes, arrays, and scalars
 
-B<>
 
- Usage: abort
- Usage: abort -msg => 'Croak message'
- Usage: abort -back => LEVEL
 
-Croak nicely.
+
+ Usage: sizeof \%hash
+ Usage: sizeof \@array
+ Usage: sizeof \$scalar_ref
+ Usage: sizeof $scalar
+ Usage: sizeof \%more, \@than, $one
+
+
+Sizes are computed as follows:
+
+
+  HASH    - Number of keys in the hash
+  ARRAY   - Number of elements
+  SCALAR  - Length as returned by C<length()>
+
+
+The total size of all arguments is returned.
+
+
+B<Example: Hash>: (matches)
+
+    sizeof( { a=>1, b=>2, c=>3 } );
+
+
+    3
+
+B<Example: Array>: (matches)
+
+    sizeof( [ 'a1', 'b2', 'c3' ] );
+
+
+    3
+
+B<Example: Scalar>: (matches)
+
+    sizeof( "abc"                );
+
+
+    3
+
+B<Example: Scalar (ref)>: (matches)
+
+    sizeof( \"abc"               );
+
+
+    3
+
+B<Example: Nothing>: (matches)
+
+    sizeof( undef                );
+
+
+    0
+
+B<Example: Multiple values>: (matches)
+
+    sizeof( "a", "b", "c"        );
+
+
+    3
 
 
 =back
 
-=over 4
-
-=item array
-
-B<>
-
-is the passed in thingy an ARRAY reference?
-
-
-
-=back
+=head2 check
 
 =over 4
 
-=item asa
-
-B<As ARRAY>
-
-
-
-B<Example: This example>:
-
-    join 'X', asa(undef);
-
-B<matches>:
-
-
-
-=back
-
-=over 4
-
-=item asarray
-
-B<>
-
- Usage: asarray HASHREF|ARRAYREF [KEY] [OPTIONS]
-
-Turn a hashref of hashref's, or an array of hashref's into an array.
-
-
-
-Sort by KEY
-
-
-OPTIONS
-
-
- --asref              Return a reference instead
- --lose               Lose the key (for hash references)
- --filter:key=val     Only include items where key eq val
-
-
-Unless --lose is specified,  we will modify the provided hash, storing the
-outer key as '_id' of each subhash.
-
-
-=back
-
-=over 4
-
-=item bestof
-
-B<>
-
- Usage: bestof @list
- Usage: bestof @list, -by=max|min|def|len|gt|lt
-
-
-Best value by criteria (default 'def').
-
-
-=back
-
-=over 4
-
-=item check
-
-B<True if all items in list pass the test.>
+=item True if all items in list pass the test.
 
 
 
@@ -281,9 +141,10 @@ OTHER TESTS:
 
 
 
-B<This example> returns: B<abort>:
+B<Example> returns: B<abort>:
 
     my $compression = check( '-test=eval', 'use IO::Zlib' ) ? 1 : 0;
+
 
 
 STRUCTURE TESTS:
@@ -297,427 +158,72 @@ STRUCTURE TESTS:
 
 
 
-B<none are defined> returns: B<false>:
+B<Example: none are defined> returns: B<false>:
 
     check( undef, undef, undef );
 
-B<only one is defined> returns: B<false>:
+
+B<Example: only one is defined> returns: B<false>:
 
     check( 1, undef );
 
-B<both are defined> returns: B<true>:
+
+B<Example: both are defined> returns: B<true>:
 
     check( 1, 1 );
 
-B<one is defined> returns: B<true>:
+
+B<Example: one is defined> returns: B<true>:
 
     check( 1, undef, -opr => 'or' );
 
 
-B<This example> returns: B<false>:
+
+B<Example> returns: B<false>:
 
     check( -opr => 'xor', 1, 1 );
 
-B<This example> returns: B<false>:
+
+B<Example> returns: B<false>:
 
     check( -opr => 'xor', undef, undef );
 
 
-B<This example> returns: B<true>:
+
+B<Example> returns: B<true>:
 
     check( -opr => 'xor', undef, 1 );
 
-B<This example> returns: B<true>:
+
+B<Example> returns: B<true>:
 
     check( -opr => 'xor', 1, undef );
 
 
-B<This example> returns: B<true>:
+
+B<Example> returns: B<true>:
 
     check( -opr => 'xor', 1, undef, 1, undef );
 
-B<This example> returns: B<false>:
+
+B<Example> returns: B<false>:
 
     check( -opr => 'xor', 1, undef, 1, 1, undef );
 
-B<This example> returns: B<true>:
+
+B<Example> returns: B<true>:
 
     check( -opr => 'xor', undef, 1, undef, 1 );
 
-=back
-
-=over 4
-
-=item checksum
-
-B<>
-
-Hub::checksum( @params )
-
-
-Create a unique identifier for the provided data
-
-
-Params can be scalars, hash references, array references and the like.  We
-use the HashFile's print routine to transform nested structures into flat
-strings.  As for performance, improvements should be made in the HashFile
-module.  The only reason I create a new instance of HashFile each time is
-because I know there are symbol tables (such as the order of elements) in
-that class which get update when the print method is called.
 
 
 =back
 
-=over 4
-
-=item cmdopts
-
-B<Extract short and long options from @ARGV>
-
-
- Usage: cmdopts \ARRAY
- Usage: cmdopts \ARRAY, \HASH
-
-
-Convienence method which deals with short single-dash and long double-dash
-options.
-
-
-=back
+=head2 opts
 
 =over 4
 
-=item cpref
-
-B<Recursively clone the reference, returning a new reference.>
-
-
-
-
-
-The Clone module found on CPAN crashes under my mod_perl and FastCGI
-test servers...
-
-
-
-Note: Have not tested recursive references.
-
-
-=back
-
-=over 4
-
-=item dice
-
-B<Break apart the string>
-
-
-
-
- Usage: dice STRING
-
-=back
-
-=over 4
-
-=item diff
-
-B<>
-
- Usage: diff &HASH, &HASH
-
-
-Creates a nest of the differences between the two provided.  If a conflict of
-types (with the same key) is encounterred, the right-hand sturcture is used.
-
-
-
-NOTE: Although this routine compares contents, it returns references to the
-original hashes (use cpref on the result to detatch.)
-
-=back
-
-=over 4
-
-=item digout
-
-B<>
-
- Usage: digout REF, ID
-
-Return an array of all nested values in an order that can be processed.
-
-
-
-NOTE! Scalar values are returned as references.
-
-See how 'packdata' uses this method to dereference.
-
-
-
-Arrays are ignored unless their members are hashes with an _id member.
-
-
-
-Reverse the results of this array to process data in a way that the children
-are affected before their parents.
-
-
-=back
-
-=over 4
-
-=item expect
-
-B<Croak if arguments do not match their expected type>
-
-
- Usage: expect [OPTIONS], [TEST], LIST
-
-
-OPTIONS:
-
-
-  -back   \d      # Carp level (for reporting further up the callstack)
-  -not    0|1     # Invert the result
-
-
-TESTS:
-
-
-  -blessed        # All LIST items are blessed
-  -match=EXPR     # All LIST items match /EXPR/
-  -ref=EXPR       # All LIST items' ref match /EXPR/
-
-
-By default, LIST is made up of key/value pairs, where the key is the type
-(what ref() will return) and the value is what will be tested.  LIST may
-contain one or more key/value pairs such as:
-
-
-  HASH            => arg
-  REF             => arg
-  My::Package     => arg
-
-=back
-
-=over 4
-
-=item fear
-
-B<>
-
-Croak if arguments match their feared type.
-
-This is a shortcut to L<expect> with a '-not=1' option.
-
-
-=back
-
-=over 4
-
-=item flatten
-
-B<>
-
-
-
-=back
-
-=over 4
-
-=item flip
-
-B<>
-
-given a hash reference, swap keys with values and return a new hash reference.
-
-
-=back
-
-=over 4
-
-=item getbyname
-
-B<>
-
-
-
-=back
-
-=over 4
-
-=item getgid
-
-B<>
-
- Usage: getgid
-
-Return the GID of the user of the provided login id.
-
-
-=back
-
-=over 4
-
-=item getuid
-
-B<>
-
- Usage: getuid
-
-Return the UID of the user of the provided login id.
-
-
-=back
-
-=over 4
-
-=item hash
-
-B<>
-
-is the passed in thingy a HASH reference?
-
-
-
-=back
-
-=over 4
-
-=item hashget
-
-B<>
-
- Usage: hashget KEY, HASHREF
-
-Get a nested hash member using the colon-delimited key format.
-
-
-=back
-
-=over 4
-
-=item intdiv
-
-B<Integer division>
-
-
-
-
- Usage: intdiv $DIVIDEND, $DIVISOR
-
-
-Returns an array with the number of times the divisor is contained in the
-dividend, and the remainder.
-
-
-=back
-
-=over 4
-
-=item max
-
-B<Maximum value>
-
-
-
-
- Usage: max @LIST
-
-
-Returns the greatest element in a set.
-
-
-=back
-
-=over 4
-
-=item merge
-
-B<>
-
- Usage: merge TARGET_HREF, SOURCE_HREF..., OPTION...
-
-
-
-Merges the provided hashes.  The first argument (destination hash) has
-precedence (as in values are NOT overwritten) unless --overwrite is given.
-
-
-
-OPTIONS:
-
-
-  --overwrite             Overwrite values as they are encounterred.
-
-
-
-  --prune                 Gives the destination hash the same structure as
-                          the source hash (or the composite of all which is
-                          in common when multiple source hashes are provided).
-
-
-
-                          If the destination is missing a value, it is
-                          initialized from the source hash.
-
-
-
-                          If the destination has a value which is not in all
-                          of the source hashes, it is deleted.
-
-
-
-  --keeparrays            When the destination contains the same key as the
-                          source, but the destination is an array where the
-                          source is a hash, take all of the hash elements and
-                          merge them into the array.
-
-
-
-
-=back
-
-=over 4
-
-=item min
-
-B<Minimum value>
-
-
-
-
- Usage: min @LIST
-
-
-Returns the least element in a set.
-
-
-=back
-
-=over 4
-
-=item objopts
-
-B<Split @_ into ($self,$opts), leaving @_ with remaining items.>
-
-
-
- Usage: objopts \ARRAY
-
-Convienence method for splitting instance method parameters.
-
-Returns an array.
-
-
-=back
-
-=over 4
-
-=item opts
-
-B<>
+=item 
 
  Usage: opts [OPTIONS], \ARRAY, [\HASH]
 
@@ -756,15 +262,15 @@ use @_ (or @ARGV, etc) normally, as data:
 
 
 
-B<Example: at-underscore contains everyting but the '-with' option>:
-
-
+B<Example: at-underscore contains everyting but the '-with' option>: (matches)
 
    sub myjoin {
       my $opts = Hub::opts( @_ );
       return join( $$opts{'with'}, @_ );
+   }
 
-B<matches>:
+   myjoin( 'a', 'b', '-with=;', 'c', 'd' );
+
 
     a;b;c;d
 
@@ -811,8 +317,8 @@ For example:
 
   my($opts,$args) = Hub::opts( [ 'a', 'b', '-c' => 'c', '-x', '-o=out' ] );
 
-  print "Opts:\n", Hub::hffmt( $opts );
-  print "Args:\n", Hub::hffmt( $args );
+  print "Opts:\n", Hub::hprint( $opts );
+  print "Args:\n", Hub::hprint( $args );
 
 
 Will print:
@@ -827,215 +333,80 @@ Will print:
   b
 
 
-=back
-
-=over 4
-
-=item replace
-
-B<>
-
- Usage: replace MATCHING_REGEX, SUBSTITUTION_REGEX, TEXT
-
-Do a s/// operation on a given segment of the string.
-
-
-
-For example, say we want to remove the ': ;' pattern from the style portion,
-but not from the data portion:
-
-
-  <div style="font-family: ;">keep this: ;stuff</div>
-
-
-Use this method as:
-
-
-  $text = Hub::replace( "style=\".*?\"", "s/[\\w\\-]+\\s*:\\s*;//g", $text );
-
-
 
 =back
 
+=head2 objopts
+
 =over 4
 
-=item rmsubhash
+=item Split @_ into ($self,$opts), leaving @_ with remaining items.
 
-B<>
 
-remove an element from an array of hash refs, by some key's value
 
+ Usage: objopts \@params, [\%defaults]
+
+Convienence method for splitting instance method parameters.
+
+Returns an array.
+
+
+B<Example: Test return value>: (matches)
+
+  my $obj = mkinst( 'Object' );
+  my @result = objopts( [ $obj ] );
+  join( ',', map { ref($_) } @result );
+
+
+
+    Hub::Base::Object,
 
 
 =back
 
+=head2 cmdopts
+
 =over 4
 
-=item rmval
+=item Extract short and long options from @ARGV
 
-B<>
 
-remove an element from a hash or array, by value
+ Usage: cmdopts \@arguments
+ Usage: cmdopts \@arguments, \%default_options
 
+
+Single-dash paramaters are always boolean flags.  Flags are broken apart such
+that:
+
+
+  -lal
+
+
+becomes
+
+
+  -l -a -l
+
+
+To create a list (ARRAY) of items, use '++' where you would normally use '--'.
+
+
+B<Example>: (matches)
+
+  my $opts = cmdopts(['--letters=a', '++letters=b', '++letters=c']);
+  join('-', @{$$opts{'letters'}});
+
+
+    a-b-c
 
 
 =back
 
-=over 4
-
-=item scalar
-
-B<>
-
-is the passed in thingy a SCALAR?  NOTE: This does not mean a SCALAR ref!
-
-
-
-=back
+=head2 subst
 
 =over 4
 
-=item sizeof
-
-B<Integer size of hashes, arrays, and scalars>
-
-
-
-
- Usage: sizeof \%hash
- Usage: sizeof \@array
- Usage: sizeof \$scalar_ref
- Usage: sizeof $scalar
- Usage: sizeof \%more, @than, $one
-
-
-Sizes are computed as follows:
-
-
-  HASH    - Number of keys in the hash
-  ARRAY   - Number of elements
-  SCALAR  - Length as returned by C<length()>
-
-
-The total size of all arguments is returned.
-
-
-B<Example: Hash>:
-
-    sizeof( { a=>1, b=>2, c=>3 } );
-
-B<matches>:
-
-    3
-
-B<Example: Array>:
-
-    sizeof( [ 'a1', 'b2', 'c3' ] );
-
-B<matches>:
-
-    3
-
-B<Example: Scalar>:
-
-    sizeof( "abc"                );
-
-B<matches>:
-
-    3
-
-B<Example: Scalar (ref)>:
-
-    sizeof( \"abc"               );
-
-B<matches>:
-
-    3
-
-B<Example: Nothing>:
-
-    sizeof( undef                );
-
-B<matches>:
-
-    0
-
-B<Example: Multiple values>:
-
-    sizeof( "a", "b", "c"        );
-
-B<matches>:
-
-    3
-
-=back
-
-=over 4
-
-=item sortkbyv
-
-B<>
-
-given a hash reference, return an array of its keys sorted by their values.
-
-
-
-
-=back
-
-=over 4
-
-=item subfield
-
-B<>
-
- Usage: subfield POS, DELIMITER, STRING
-
-Given a delimited string, return the substring given a field position (zero
-based).
-
-
-=back
-
-=over 4
-
-=item subhash
-
-B<>
-
- Usage: subhash REF, KEY, VALUE
-
-
-Return the matching subhashes, which have KEY eq VALUE
-
-VALUE can be:
-
-
-  'exactmatch'
-  '~regex'
-
-
-The '~' is used to make the determination.
-
-
-
-Return value:
-
-
-  When there *are* matches:
-      wantarray ? all matches
-      otherwise   the first match
-  otherwise,
-      wantarray ? an emtpy list
-      otherwise,  undef
-
-=back
-
-=over 4
-
-=item subst
-
-B<>
+=item 
 
  Usage: subst
 
@@ -1057,207 +428,722 @@ to:
 without modifying the original string returned by getfilename().
 
 
+
 =back
+
+=head2 getuid
 
 =over 4
 
-=item touch
+=item Return the UID of the provided user
 
-B<>
+
+ Usage: getuid $user_name
+If perl has not been compiled with 'getpwnam', $user_name is returned.
+
+-1 is returned when no user is found
+
+
+=back
+
+=head2 getgid
+
+=over 4
+
+=item Return the GID of the provided group
+
+
+ Usage: getgid - $group_name
+If perl has not been compiled with 'getgrnam', $group_name is returned.
+
+-1 is returned when no group is found
+
+
+=back
+
+=head2 touch
+
+=over 4
+
+=item 
 
  Usage: touch LIST
 
 Changes the access and modification times on each file of a list of files.
 
 
-=back
-
-=over 4
-
-=item uniq
-
-B<>
-
-given an array or hash reference, return the a new reference to an identical
-array, minus the duplicates.  if a hash reference is passed, the hash's keys
-are used to determine uniqueness.
-
-
-
-return structure is sorted.
-
-
-
 
 =back
 
-=head1 INTERNAL
-
-=begin html
-
-<table><tr><td>
-<a class="methlink" href="#item__assignopt">_assignopt</a>
-
-</td><td>
-<a class="methlink" href="#item__diff_arrays">_diff_arrays</a>
-
-</td><td>
-<a class="methlink" href="#item__getid">_getId</a>
-
-</td><td>
-<a class="methlink" href="#item__mergeelement">_mergeElement</a>
-
-</td><td>
-<a class="methlink" href="#item__prioritysort">_prioritysort</a>
-
-</td></tr><tr><td>
-<a class="methlink" href="#item__compscalar">_compscalar</a>
-
-</td><td>
-<a class="methlink" href="#item__diff_hashes">_diff_hashes</a>
-
-</td><td>
-<a class="methlink" href="#item__mergearray">_mergeArray</a>
-
-</td><td>
-<a class="methlink" href="#item__mergehash">_mergeHash</a>
-
-</td></tr></table>
-
-=end html
-
+=head2 expect
 
 =over 4
 
-=item _assignopt
-
-B<>
-
- Usage: _assignopt \%options, \%, $key, $val
-
-Assign an option value.
+=item Croak if arguments do not match their expected type
 
 
-=back
+ Usage: expect [OPTIONS], [TEST], LIST
 
-=over 4
 
-=item _compscalar
+OPTIONS:
 
-B<>
 
- Usage: _compscalar
+  -back   \d      # Carp level (for reporting further up the callstack)
+  -not    0|1     # Invert the result
 
-Use cmp or <=> if the data is all numbers (decimal points included)
 
-=back
+TESTS:
 
-=over 4
 
-=item _diff_arrays
+  -blessed        # All LIST items are blessed
+  -match=EXPR     # All LIST items match /EXPR/
+  -ref=EXPR       # All LIST items' ref match /EXPR/
 
-B<>
 
- Usage: _diff_arrays &ARRAY, &ARRAY
+By default, LIST is made up of key/value pairs, where the key is the type
+(what ref() will return) and the value is what will be tested.  LIST may
+contain one or more key/value pairs such as:
 
-Difference between two arrays.
+
+  HASH            => arg
+  REF             => arg
+  My::Package     => arg
+
+B<Example> returns: B<true>:
+
+    Hub::expect( -match => 'and|or|xor', 'and' );
+
+
+B<Example> returns: B<true>:
+
+    Hub::expect( HASH => {}, HASH => {} );
+
+
+B<Example> returns: B<abort>:
+
+    Hub::expect( -blessed => {} );
+
+
+B<Example> returns: B<true>:
+
+    Hub::expect( -blessed => mkinst( 'Object' ) );
+
+
+B<Example> returns: B<abort>:
+
+    Hub::expect( -match => 'and|or|xor', 'if', 'or', 'and' );
+
+
+B<Example> returns: B<abort>:
+
+    Hub::expect( ARRAY => {} );
+
+
+B<Example> returns: B<abort>:
+
+    Hub::expect( -blessed => 'abc' );
+
+
+B<Example> returns: B<true>:
+
+    Hub::expect( -ref => 'HASH', {} );
+
+
+B<Example> returns: B<true>:
+
+    Hub::expect( -ref => 'HASH', mkinst('Object') );
+
 
 
 =back
 
+=head2 fear
+
 =over 4
 
-=item _diff_hashes
+=item 
 
-B<>
+Croak if arguments match their feared type.
+
+This is a shortcut to L<expect> with a '-not=1' option.
+
+
+B<Example> returns: B<abort>:
+
+    Hub::fear( HASH => {} );
+
+
+B<Example> returns: B<true>:
+
+    Hub::fear( HASH => [] );
+
+
+
+=back
+
+=head2 abort
+
+=over 4
+
+=item Croak nicely.
+
+
+
+ Usage: abort -msg => 'Croak message'
+ Usage: abort -back => LEVEL
+
+
+B<Example> returns: B<abort>:
+
+    abort( -msg => 'Goddamn hippies' );
+
+
+
+=back
+
+=head2 bestof
+
+=over 4
+
+=item 
+
+ Usage: bestof @list
+ Usage: bestof @list, -by=max|min|def|len|gt|lt|true
+
+
+Best value by criteria (default 'def').
+
+
+
+=back
+
+=head2 min
+
+=over 4
+
+=item Minimum value
+
+
+
+
+ Usage: min @LIST
+
+
+Returns the least element in a set.
+
+
+B<Example: Two integers>: (matches)
+
+    Hub::min(1,2);
+
+
+    1
+
+B<Example: Three integers>: (matches)
+
+    Hub::min(2,1,3);
+
+
+    1
+
+B<Example: Three integers>: (matches)
+
+    Hub::min(2,-1,3);
+
+
+    -1
+
+B<Example: One integer>: (matches)
+
+    Hub::min(1);
+
+
+    1
+
+B<Example: Undefined value>: (matches)
+
+    Hub::min(1,undef);
+
+
+    1
+
+B<Example: Zero>: (matches)
+
+    Hub::min(undef,1,0);
+
+
+    0
+
+B<Example: Three decimal values>: (matches)
+
+    Hub::min(.009,1.001);
+
+
+    0.009
+
+
+=back
+
+=head2 max
+
+=over 4
+
+=item Maximum value
+
+
+
+
+ Usage: max @LIST
+
+
+Returns the greatest element in a set.
+
+
+B<Example: Three decimal values>: (matches)
+
+    Hub::max(.009,-1.01,2,undef,0);
+
+
+    2
+
+
+=back
+
+=head2 intdiv
+
+=over 4
+
+=item Integer division
+
+
+
+
+ Usage: intdiv $DIVIDEND, $DIVISOR
+
+
+Returns an array with the number of times the divisor is contained in the
+dividend, and the remainder.
+
+
+B<Example: 3 divided by 2 is 1R1>: (matches)
+
+    join(',',Hub::intdiv(3,2));
+
+
+    1,1
+
+
+=back
+
+=head2 flip
+
+=over 4
+
+=item 
+
+given a hash reference, swap keys with values and return a new hash reference.
+
+
+
+=back
+
+=head2 rmval
+
+=over 4
+
+=item Remove matching elements from a hash or an array.
+
+
+
+ Usage: rmval \@array, $value
+ Usage: rmval \%hash, $value
+
+B<Example>: (matches)
+
+    join('',@{rmval([1,2,3,4],3)});
+
+
+    124
+
+
+=back
+
+=head2 cpref
+
+=over 4
+
+=item Recursively clone the reference, returning a new reference.
+
+
+
+ Usage: cpref ?ref
+Implemented because the Clone module found on CPAN crashes under my mod_perl
+and FastCGI test servers...
+
+
+
+=back
+
+=head2 checksum
+
+=over 4
+
+=item Create a unique identifier for the provided data
+
+
+ Usage: checksum [params..]
+Params can be scalars, hash references, array references and the like.
+
+
+B<Example>: (matches)
+
+  my $x = 'like catfood';
+  Hub::checksum( 'my', { cats => 'breath' }, ( 'smells', $x ) );
+
+
+
+    2023611966
+
+
+=back
+
+=head2 merge
+
+=over 4
+
+=item Merge several hashes
+
+
+ Usage: merge \%target, \%source, [\%source..], [options]
+
+
+Merges the provided hashes.  The first argument (destination hash) has
+precedence (as in values are NOT overwritten) unless -overwrite is given.
+
+
+
+OPTIONS:
+
+
+  -overwrite=1            Overwrite values as they are encounterred.
+
+
+
+  -prune=1                Gives the destination hash the same structure as
+                          the source hash (or the composite of all which is
+                          in common when multiple source hashes are provided).
+
+
+
+                          If the destination is missing a value, it is
+                          initialized from the source hash.
+
+
+
+                          If the destination has a value which is not in all
+                          of the source hashes, it is deleted.
+
+
+
+=back
+
+=head2 flatten
+
+=over 4
+
+=item Get a consistent unique-by-data string for some data structure.
+
+
+
+ Usage: flatten \%hash
+ Usage: flatten \%array
+
+
+=back
+
+=head2 replace
+
+=over 4
+
+=item 
+
+ Usage: replace MATCHING_REGEX, SUBSTITUTION_REGEX, TEXT
+
+Do a s/// operation on a given segment of the string.
+
+
+
+For example, say we want to remove the ': ;' pattern from the style portion,
+but not from the data portion:
+
+
+  <div style="font-family: ;">keep this: ;stuff</div>
+
+
+Use this method as:
+
+
+  $text = Hub::replace( "style=\".*?\"", "s/[\\w\\-]+\\s*:\\s*;//g", $text );
+
+
+
+
+=back
+
+=head2 digout
+
+=over 4
+
+=item 
+
+ Usage: digout REF, ID
+
+Return an array of all nested values in an order that can be processed.
+
+
+
+NOTE! Scalar values are returned as references.
+
+See how 'packdata' uses this method to dereference.
+
+
+
+Arrays are ignored unless their members are hashes with an _id member.
+
+
+
+Reverse the results of this array to process data in a way that the children
+are affected before their parents.
+
+
+
+=back
+
+=head2 diff
+
+=over 4
+
+=item Creates a nest of the differences between the provided structures.
+
+
+
+ Usage: diff \%hash1, \%hash2
+ Usage: diff \@array1, \@array2
+
+
+If a conflict of types (with the same key) is encounterred, the right-hand
+sturcture is used.
+
+
+
+NOTE: Although this routine compares contents, it returns references to the
+original hashes (use L<Hub::cpref> on the result to detatch.)
+
+
+=back
+
+=head2 dice
+
+=over 4
+
+=item Break apart the string into the least number of segments
+
+
+ Usage: dice [options] $string
+options:
+  beg=$literal    Begin of balanced pair, Default is '{'
+  end=$literal    End of balanced pair, Default is '}'
+
+B<Example>: (matches)
+
+    join( ';', dice( "a{b{c}}c{d}" ) );
+
+
+    a;{b{c}};c;{d}
+
+
+=back
+
+=head2 indexmatch
+
+=over 4
+
+=item Search for an expression within a string and return the offset
+
+
+ Usage: indexmatch [options] $string, $expression, $position
+ Usage: indexmatch [options] $string, $expression
+Returns -1 if $expression is not found.
+
+options:
+  after   1|0     Return the position *after* the expression.  Default is 0.
+
+
+B<Example>: (matches)
+
+    indexmatch("abracadabra", "[cd]")
+
+
+    4
+
+B<Example>: (matches)
+
+    indexmatch("abracadabra", "a", 3)
+
+
+    3
+
+B<Example>: (matches)
+
+    indexmatch("abracadabra", "d{2,2}")
+
+
+    -1
+
+B<Example>: (matches)
+
+    indexmatch("scant", "can", "-after=1")
+                - indexmatch("scant", "can")
+
+
+    3
+
+
+=back
+
+
+=head1 INTERNAL METHODS
+
+=head2 _assignopt
+
+=over 4
+
+=item 
+
+ Usage: _assignopt Assign an option value.
+
+ Usage: _assignopt \%options, \%dest, $key, $val
+
+
+=back
+
+=head2 _mergeHash
+
+=over 4
+
+=item 
+
+
+
+=back
+
+=head2 _mergeArray
+
+=over 4
+
+=item 
+
+
+
+=back
+
+=head2 _getId
+
+=over 4
+
+=item 
+
+
+
+=back
+
+=head2 _mergeElement
+
+=over 4
+
+=item 
+
+
+
+=back
+
+=head2 _diff_hashes
+
+=over 4
+
+=item 
 
  Usage: _diff_hashes &HASH, &HASH
 
 Difference between two hashes.
 
 
+
 =back
+
+=head2 _diff_arrays
 
 =over 4
 
-=item _getId
+=item 
 
-B<>
+ Usage: _diff_arrays &ARRAY, &ARRAY
 
-
-
-=back
-
-=over 4
-
-=item _mergeArray
-
-B<>
+Difference between two arrays.
 
 
 
 =back
 
-=over 4
-
-=item _mergeElement
-
-B<>
-
-
-
-=back
-
-=over 4
-
-=item _mergeHash
-
-B<>
-
-
-
-=back
-
-=over 4
-
-=item _prioritysort
-
-B<>
-
- Usage: _prioritysort
-
-Sorts by a key, with the intention of re-ordering.  In order to do so, the
-secondary sort key is set to the *old* value of the item.  For instance, we
-have three items, with sort values 1, 1, and 2:
-
-
-  item1: 0
-  item2: 1
-  item3: 2
-
-
-So, to move item1 to the second position, set the _sort key to 1, and the
-_sort2 key to 0 (it's old value).
-
-
-=back
 
 =head1 AUTHOR
 
+Ryan Gies (ryangies@livesite.net)
 
-
-Ryan Gies
 
 =head1 COPYRIGHT
 
+Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.
+
+Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.
 
 
-Copyright (c) 2006 Livesite Networks, LLC.  All rights reserved.
+Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:
 
-Copyright (c) 2000-2005 Ryan Gies.  All rights reserved.
+* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.
+
+* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.
+
+* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.
+
+* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.
+
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.
+
+To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.
+
 
 =head1 UPDATED
 
-This file created by  on  at 
+06/09/2007
 
 =cut
