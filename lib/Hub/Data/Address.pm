@@ -1,6 +1,6 @@
 package Hub::Data::Address;
 use Hub qw/:lib/;
-our $VERSION = '4.00012';
+our $VERSION = '4.00043';
 our @EXPORT = qw//;
 our @EXPORT_OK = qw/
   keydepth
@@ -24,7 +24,7 @@ our $DELIMS         = ':/';
 # ------------------------------------------------------------------------------
 
 sub keydepth {
-  $_[0] =~ tr':/'';
+  defined $_[0] ? $_[0] =~ tr':/'' : 0;
 }#keydepth
 
 # ------------------------------------------------------------------------------
@@ -134,7 +134,7 @@ sub expand {
   my %ops = @_;
   my %meta = ();
   if( ref($src) eq 'HASH' ) {
-    foreach my $k ( sort keydepth_sort keys %$src ) {
+    foreach my $k ( sort Hub::keydepth_sort keys %$src ) {
       my $v = $$src{$k};
       my @addr = split /[$DELIMS]/, $k;
       my @nest = map { "->{'$_'}" } @addr;

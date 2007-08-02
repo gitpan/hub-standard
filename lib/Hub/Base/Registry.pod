@@ -86,6 +86,18 @@ method will return their final contents.
 =back
 
 
+=head1 INTERNAL METHODS
+
+=head2 _root_overlay
+
+=over 4
+
+=item 
+
+
+
+=back
+
 
 =head1 AUTHOR
 
@@ -135,6 +147,6 @@ give any guarantee of the above statement.
 
 =head1 UPDATED
 
-06/09/2007
+08/02/2007
 
 =cut

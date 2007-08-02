@@ -2,7 +2,7 @@ package Hub::Perl::Compare;
 use strict;
 use warnings;
 use Hub qw(:lib);
-our $VERSION = '4.00012';
+our $VERSION = '4.00043';
 our @EXPORT = qw();
 our @EXPORT_OK = qw(
   compare
@@ -88,6 +88,7 @@ our %COMPARISONS    = (
 
 sub compare {
   my $comparator = shift or croak 'Comparator required';
+  croak "Unknown comparator: $comparator" unless defined $COMPARISONS{$comparator};
   return defined $_[0]
     ? defined $_[1]
       ? &{$COMPARISONS{$comparator}}
@@ -104,6 +105,7 @@ sub compare {
 
 sub sort_compare {
   my $comparator = shift or croak 'Comparator required';
+  croak "Unknown comparator: $comparator" unless defined $COMPARISONS{$comparator};
   return defined $_[0]
     ? defined $_[1]
       ? &{$COMPARISONS{$comparator}}

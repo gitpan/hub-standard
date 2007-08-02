@@ -25,6 +25,75 @@ Hub::Misc::Transform - Utility methods for transforming data
 
 =item 
 
+ Usage: safestr STRING
+
+Pack nogood characters into good ones.  Good characters are letters, numbers,
+and the underscore.
+
+
+B<Example>: (matches)
+
+    safestr( 'Dogs (Waters, Gilmour) 17:06' );
+
+
+    Dogs_0x20__0x28_Waters_0x2c__0x20_Gilmour_0x29__0x20_17_0x3a_06
+
+
+=back
+
+=head2 unpack_safestr
+
+=over 4
+
+=item Safe strings back into ASCII characters
+
+
+
+B<Example>: (matches)
+
+    Hub::unpack_safestr('Dogs_0x20__0x28_Waters_0x2c__0x20_Gilmour_0x29__0x20_17_0x3a_06');
+
+
+    Dogs (Waters, Gilmour) 17:06
+
+
+=back
+
+=head2 pack_ncr
+
+=over 4
+
+=item Non-alphanumeric ASCII characters to Numeric Character References.
+
+
+
+ Usage: pack_ncr $string
+
+B<Example>: (matches)
+
+    Hub::pack_ncr("This is a # of tests & bl/ah");
+
+
+    This is a &#35; of tests &#38; bl&#47;ah
+
+
+=back
+
+=head2 unpack_ncr
+
+=over 4
+
+=item Convert Numeric Character References into ASCII characters
+
+
+ Usage: unpack_ncr $string
+
+B<Example>: (matches)
+
+    Hub::unpack_ncr('This is a &#35; of tests &#38; bl&#47;ah');
+
+
+    This is a # of tests & bl/ah
 
 
 =back
@@ -84,14 +153,11 @@ would return:
 
 =over 4
 
-=item 
-
- Usage: jsstr
+=item Format as one long string for use as the rval in javascript
 
 
-Format as one long string for use as the rval in javascript (ie put the
-backslash continue-ator at the end of each line).
-
+ Usage: jsstr \$value
+ Usage: jsstr $value
 
 
 =back
@@ -210,6 +276,6 @@ give any guarantee of the above statement.
 
 =head1 UPDATED
 
-06/09/2007
+08/02/2007
 
 =cut

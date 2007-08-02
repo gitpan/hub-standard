@@ -1,0 +1,9 @@
+#!/usr/bin/perl -w
+use strict;
+use Hub qw(:standard);
+my $base = $$Hub{'/sys/OPTS/base'} || '';
+for my $key (@{$$Hub{'/sys/ARGV'}}) {
+  my $handler = get_save_handler($base);
+  my $response = populate("[#$key]",$handler);
+  print $response . "\n" if $response ne "[#$key]";
+}

@@ -16,12 +16,43 @@ Hub::Knots::Nest - Nested data structure
 
 =head1 INTERNAL METHODS
 
+=head2 _fetch_cached
+
+=over 4
+
+=item 
+
+
+
+=back
+
+=head2 _store_cached
+
+=over 4
+
+=item 
+
+
+
+=back
+
+=head2 _delete_cached
+
+=over 4
+
+=item 
+
+
+
+=back
+
 =head2 FETCH
 
 =over 4
 
 =item 
 
+Access
 
 
 =back
@@ -95,6 +126,6 @@ give any guarantee of the above statement.
 
 =head1 UPDATED
 
-06/09/2007
+08/02/2007
 
 =cut

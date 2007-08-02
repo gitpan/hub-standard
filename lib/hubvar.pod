@@ -4,91 +4,96 @@ hubvar - Hub variables
 
 =head1 SYNOPSIS
 
-The Hub library uses a registry to store configuration information control 
-program flow.  This document is a dictionary of the implemented values and
-their meanings.
+The Hub library uses a registry to store hierarchical (or nested) data 
+structures, and exposes this registry as $Hub.  The library itself uses
+configuration information and populates registry keys (addresses).  This 
+document is a dictionary of the implemented values and their meanings.
 
 
-=head1 DESCRIPTION
+=head1 VARIABLES
 
-All values used and set by the library exist under C</sys>.  Fields marked with
-an asterisk (*) indicate they are used mostly with CGI (webapp) programs.
+=head2 Environment Variables
 
-  A     h = Hash, a = Array, o = Object (otherwise a scalar)
-  B     * = Web application specific
+These shell/mod_perl environment variables will affect the library:
 
-=head2 System B</sys>
+  CONF_FILE                Configuration filename (instead of '.conf')
+  WORKING_DIR              Working directory
+  DEBUG                    Honor debugging statements
+  GLOBAL_EXCLUDE           Semicolon list of dirs (Hub::find)
+  GLOBAL_IGNORE            Semicolon list of patterns (Hub::find)
 
-  VARIABLE NAME                 A B DESCRIPTION
+=head2 Prepopulated Variables
 
-  /sys/OPTS                     h   Command-line options
-  /sys/ARGV                     a   Command-line arguments (w/o options)
-  /sys/PATH                     a   Working directory stack
-  /sys/CGI                      o * Apache2::Request or CGI object (See /sys/ENV/USE_MOD_APREQ2)
-  /sys/ENV                      h   Copy of %ENV
+These variables are populated by the library when a callback occurs.  A
+default callback is performed when the library is used so that $Hub is
+immediately available to standard perl scripts.  Otherwise a callback occurs
+for each mod_perl response or when Hub::callback is explicitly called.
 
-  /sys/ENV/CONF_FILE                Configuration filename (instead of '.conf')
-  /sys/ENV/WORKING_DIR              Working directory
-  /sys/ENV/DEBUG                    Honor debugging statements
-  /sys/ENV/GLOBAL_EXCLUDE           Semicolon list of dirs (Hub::find)
-  /sys/ENV/GLOBAL_IGNORE            Semicolon list of patterns (Hub::find)
-  /sys/ENV/USE_MOD_APREQ2           Use Apache2 module: mod_libapreq2
+  VARIABLE ADDRESS                  TYPE    DESCRIPTION
+  --------------------------------- ------- ------------------------------------
+  /sys/OPTS                         hash    Command-line options
+  /sys/ARGV                         array   Command-line arguments (w/o options)
+  /sys/ENV                          hash    Copy of %ENV
 
-  /sys/response/headers         a * Generated headers
-  /sys/response/template          * Response template
+When processing HTTP requests:
+
+  VARIABLE ADDRESS                  TYPE    DESCRIPTION
+  --------------------------------- ------- ------------------------------------
+  /cgi                              hash    CGI parameters
+  /user                             hash    Authorized user account (or undef)
+  /session                          hash    Instance of hashfile
+  /session/credentials/auth_tstamp  scalar  Last time authorization succeeded
+  /session/credentials/username     scalar  From /cgi/username when action=login
+  /session/credentials/password     scalar  From /cgi/password when action=login
+  /sys/request/page/url             scalar  Request URL
+  /sys/request/page/path            scalar  Directory of URL
+  /sys/request/page/name            scalar  Name of requested file (no path)
+  /sys/request/page/ext             scalar  Requested file extension
+
 
 =head2 Runtime Configuration B</conf>
 
 These values are defined in a file named .conf or per environment variable 
 CONF_FILE.
 
-  VARIABLE NAME                 A B DESCRIPTION
+  VARIABLE ADDRESS                  TYPE    DESCRIPTION
+  --------------------------------- ------- ------------------------------------
+  /conf/timeout/lockfile            scalar  Seconds to wait on lock files
+  /conf/parser/max_depth            scalar  Maximum number of replacements 
+  /conf/parser/max_scope_depth      scalar  Maximum local stack size
+  /conf/win32/owner_name            scalar  ACL For setting owner permissions
+  /conf/win32/group_name            scalar  ACL For setting group permissions
+  /conf/win32/other_name            scalar  ACL For setting other permissions
 
-  /conf/path/users              a * Writable directory for user/session data
-  /conf/path/script               * Writable directory for user/session data
+When processing HTTP requests:
 
-  /conf/timeout/lockfile            Seconds to wait on lock files
-  /conf/timeout/session           * Seconds to honor session files
+  VARIABLE ADDRESS                  TYPE    DESCRIPTION
+  --------------------------------- ------- ------------------------------------
+  /conf/content_types               scalar  File extension to MIME type map
+  /conf/authorization/users         scalar  Where user accounts are located
+  /conf/authorization/password_key  scalar  The password sub-key of the account
+  /conf/authorization/timeout       scalar  Seconds before auth is invalid
+  /conf/session/enable              scalar  Enable cookie-based sessions
+  /conf/session/directory           scalar  Writeable directory for session data
+  /conf/session/timeout             scalar  Seconds before session is invalid
 
-  /conf/content_types             * File extension to MIME type map
+=head2 Internal Variables
 
-  /conf/not_found               h * Not-found documents
-  /conf/not_found/html            * When a .html file is not found
-  /conf/not_found/css             * When a .css file is not found
-  /conf/not_found/js              * When a .js file is not found
-  /conf/not_found/???             * User configured value
-  /conf/not_found/other           * All other document extensions
+You should not need to use these unless you are doind module development.
 
-=head3 Apache2 request configuration B</conf/request>
+  VARIABLE ADDRESS                  TYPE    DESCRIPTION
+  --------------------------------- ------- ------------------------------------
+  /sys/PATH                         array   Working directory stack
+  /sys/CGI                          object  Apache2::Request or CGI object
+  /sys/response/headers             array   Generated headers
+  /sys/response/template            scalar  Response template
 
-  /conf/request/POST_MAX          * Maximum allowed post size
-  /conf/request/DISABLE_UPLOADS   * Disable file uploads
-  /conf/request/TEMP_DIR          * 
-  /conf/request/HOOK_DATA         * 
-  /conf/request/UPLOAD_HOOK       * 
+=head2 Content File Manager Application
 
-(See L<Apache2::Request/new>)
-
-=head3 Content File Manager B</conf/cms>
-
-  /conf/cms/deny                a * List off address (regex) to deny
-  /conf/cms/root                  * Restricted to this directory
-
-=head3 Parser setting B</conf/parser>
-
-  /conf/parser/max_depth            Infinite recursion control
-
-=head3 Windows 32 specific B</conf/win32>
-
-  /conf/win32/owner_name            ACL For setting owner permissions
-  /conf/win32/group_name            ACL For setting group permissions
-  /conf/win32/other_name            ACL For setting other permissions
-
-=head2 CGI parameters B</cgi>
-
-  VARIABLE NAME                 A B DESCRIPTION
-
-  /cgi/?                          * Submitted parameter ?
+  VARIABLE ADDRESS                  TYPE    DESCRIPTION
+  --------------------------------- ------- ------------------------------------
+  /conf/cms/deny                    array   List off addresses (regex) to deny
+  /conf/cms/root                    scalar  Restricted to this directory
 
 
 
@@ -140,6 +145,6 @@ give any guarantee of the above statement.
 
 =head1 UPDATED
 
-06/09/2007
+08/02/2007
 
 =cut

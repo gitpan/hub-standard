@@ -35,6 +35,69 @@ Hub::Parse::HtmlParser -
 
 =back
 
+=head2 _getdims
+
+=over 4
+
+=item Get image dimensions
+
+
+ Usage: _getdims $path, [options]
+
+
+options:
+
+  -max_x=n    Maximum width
+  -max_y=n    Maximum height
+  -min_x=n    Minimum width
+  -min_y=n    Minimum height
+
+
+my ($w,$h) = _getdims( "/images/laura.jpg", -max_x => 50, -max_y => 50 );
+
+
+=back
+
+=head2 _jsvar
+
+=over 4
+
+=item 
+
+
+
+=back
+
+=head2 _jsvar_hash
+
+=over 4
+
+=item 
+
+
+
+=back
+
+=head2 _jsvar_array
+
+=over 4
+
+=item 
+
+
+
+=back
+
+=head2 _jsvar_scalar
+
+=over 4
+
+=item 
+
+
+
+=back
+
 
 =head1 AUTHOR
 
@@ -84,6 +147,6 @@ give any guarantee of the above statement.
 
 =head1 UPDATED
 
-06/09/2007
+08/02/2007
 
 =cut

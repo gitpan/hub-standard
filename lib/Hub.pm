@@ -4,7 +4,7 @@ use strict;
 our @ISA            = qw/Exporter/;
 our @EXPORT         = qw/$Hub/;
 our @EXPORT_OK      = qw/mkinst regns getns trace callback $Hub/;
-our $VERSION        = '4.00012';
+our $VERSION        = '4.00043';
 
 our %METHODMAP      = (); # Maps method names to their implementing package
 our %OBJECTMAP      = (); # Maps object short names to full package name
@@ -23,6 +23,7 @@ our %KNOTMAP        = (); # Maps tie-package short names to their full name
 
 our %TAG_MAP = (
     'Base'      => [ 'standard', ],
+    'Config'    => [ 'standard', ],
     'Data'      => [ 'standard', ],
     'Knots'     => [ 'standard', ],
     'Parse'     => [ 'standard', ],
@@ -108,6 +109,7 @@ sub import {
       my $tagname = $1;
       if ($tagname eq 'all') {
         @{$EXPORT_TAGS{'all'}} = keys %METHODMAP;
+        _load_internal_libs($tagname);
       }
       unless (grep /^$tagname$/i, keys %EXPORT_TAGS) {
         $EXPORT_TAGS{$tagname} = [];
@@ -212,13 +214,15 @@ sub _load_internal_libs {
     $pkgpath =~ s/::/\//g;
     $pkgpath .= '.pm';
     if( $INC{$pkgpath} ) {
-      do $pkgpath;
+# commented out to suppress subroutine redefined warnings (added Config dir)
+#     do $pkgpath;
     } else {
       require $pkgpath;
     }
     my $names = \@{"${pkgname}::EXPORT_OK"};
     foreach my $name ( @$names ) {
       if( $METHODMAP{$name} || grep /^$name$/, @EXPORT_OK ) {
+        next if $pkgname eq $METHODMAP{$name};
         warn 'Duplicate name on import: '
             . "$name defined in '$pkgname' and '$METHODMAP{$name}'";
         next;
@@ -232,7 +236,10 @@ sub _load_internal_libs {
       }#for
       # All exported names in capital characters and underscore
       # are constants by convention
-      push @{$EXPORT_TAGS{'const'}}, $name if( $name =~ /^[A-Z_]+$/ );
+      if ($name =~ /^[A-Z_]+$/) {
+        push @{$EXPORT_TAGS{'const'}}, $name;
+        push @{$EXPORT_TAGS{'lib'}}, $name;
+      }
     }
     my $import = \&{"${pkgname}::import"};
     &$import( $pkgname, @$names ) if @$names && ref($import) eq 'CODE';
@@ -283,7 +290,7 @@ sub _findmodules {
     my @all = grep ! /^(\.+|\.svn|auto|CVS)$/, readdir $fh;
     closedir $fh;
 
-    # Extract package names and paths, and ecusively process sub-directories
+    # Extract package names and paths, and exusively process sub-directories
     foreach my $name ( @all ) {
         if( -d "$dir/$name" ) {
 #warn "  -gather $dir/$name\n";

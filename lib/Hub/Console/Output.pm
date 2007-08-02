@@ -1,7 +1,7 @@
 package Hub::Console::Output;
 use strict;
 use Hub qw/:lib/;
-our $VERSION = '4.00012';
+our $VERSION = '4.00043';
 our @EXPORT = qw//;
 our @EXPORT_OK = qw/
   fw
@@ -108,93 +108,55 @@ sub fw {
 #=    but split
 #=   s on ten c
 #=   hars
-#-------------------------------------------------------------------------------
-sub ps {
+#|
+#|test(match)   ps( 10, "this  is really short but splits on ten chars", -keepwords );
+#|
+#=this  is 
+#=really 
+#=short but 
+#=splits on 
+#=ten 
+##-------------------------------------------------------------------------------
 
+sub ps {
 	my $width = shift;
 	my $str = shift || return;
-
-    my $opts = {
-	    'indent'    => 0,
-        'padding'   => ' ',
-        'keepwords' => 0,
-    };
-
-    Hub::opts( \@_, $opts, '-prefix=--', '-assign=:' );
-    Hub::opts( \@_, $opts );
-
-    @_ and $$opts{'indent'} = shift; # backward compatibility
-
-    $$opts{'padding'} x= $$opts{'indent'};
-
-    my $return_string = '';
-
-    if( $$opts{'keepwords'} ) {
-
-        my ($buf,$lastp,$lastbreak) = ();
-
-        while( $str =~ m/\G.*?(\s+)/gs ) {
-
-            my $w = length( $1 );
-
-            my $p = pos($str) - $w;
-
-            if( ($p - $lastbreak) > $width ) {
-
-                $return_string .= "\n$$opts{'padding'}";
-
-                $lastp += $w;
-
-                $lastbreak = $p;
-
-            }#if
-
-            $buf = substr $str, $lastp, ($p - $lastp);
-
-            $buf =~ s/\n/\n$$opts{'padding'}/g;
-
-            $return_string .= $buf;
-
-            $lastp = $p;
-
-        }#while
-
-        $buf = substr $str, $lastp, length($str);
-
-        $buf =~ s/\n/\n$$opts{'padding'}/g;
-
-        $return_string .= $buf;
-
-    } else {
-
-        $return_string .= substr( $str, 0, $width );
-
-        $return_string =~ s/\n/\n$$opts{'padding'}/g;
-
-        my $last_pos = $width;
-
-        while( my $more_stuff = substr( $str, $last_pos, $width ) ) {
-
-            if( $more_stuff =~ s/\n/\n$$opts{'padding'}/g ) {
-
-                $return_string .= $more_stuff;
-
-            } else {
-
-                $return_string .= "\n$$opts{'padding'}$more_stuff";
-
-            }#if
-
-            $last_pos += $width;
-
-            last if $last_pos > length($str);
-
-        }#while
-
-    }#if
-
-    return $return_string;
-
+  my $opts = {
+    'indent'    => 0,
+    'padding'   => ' ',
+    'keepwords' => 0,
+  };
+  Hub::opts(\@_, $opts, '-prefix=--', '-assign=:');
+  Hub::opts(\@_, $opts);
+  @_ and $$opts{'indent'} = shift; # backward compatibility
+  $$opts{'padding'} x= $$opts{'indent'};
+  my $return_string = '';
+  if( $$opts{'keepwords'} ) {
+    my ($p, $beg, $end) = (0, 0, 0);
+    while ($p > -1) {
+      $p = Hub::indexmatch($str, '\s', $end);
+      if (($p - $beg) > $width) {
+        $return_string .= "\n";
+        $beg = $end;
+      }
+      $return_string .= substr $str, $end, (($p - $end) +1);
+      $end = $p + 1;
+    }
+  } else {
+    $return_string .= substr( $str, 0, $width );
+    $return_string =~ s/\n/\n$$opts{'padding'}/g;
+    my $last_pos = $width;
+    while( my $more_stuff = substr( $str, $last_pos, $width ) ) {
+      if( $more_stuff =~ s/\n/\n$$opts{'padding'}/g ) {
+        $return_string .= $more_stuff;
+      } else {
+        $return_string .= "\n$$opts{'padding'}$more_stuff";
+      }#if
+      $last_pos += $width;
+      last if $last_pos > length($str);
+    }#while
+  }#if
+  return $return_string;
 }#ps
 
 # ------------------------------------------------------------------------------

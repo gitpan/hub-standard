@@ -1,7 +1,7 @@
 package Hub::Data::Create;
 use strict;
 use Hub qw/:lib/;
-our $VERSION = '4.00012';
+our $VERSION = '4.00043';
 our @EXPORT = qw//;
 our @EXPORT_OK = qw/subset mkhandler resolve get_save_handler save_data/;
 
@@ -52,13 +52,24 @@ sub subset {
 # mkhandler - Get the parser for a given path
 # mkhandler $path
 # ------------------------------------------------------------------------------
+#|test(regex) Hub::mkhandler('/jonnyboy.dat')
+#~Hub::Data::HashFile
+#|test(regex) Hub::mkhandler('/jonnyboy.data')
+#~Hub::Data::HashFile
+#|test(regex) Hub::mkhandler('/jonnyboy.hf')
+#~Hub::Data::HashFile
+#|test(regex) Hub::mkhandler('/data.dat.foo')
+#~Hub::Data::File
+#|test(regex) use Cwd qw(cwd); Hub::mkhandler(cwd())
+#~Hub::Data::Directory
+# ------------------------------------------------------------------------------
 
 sub mkhandler {
   my $parser = undef;
   if (-d $_[0]) {
     $parser = 'Directory';
   } else {
-    my $hf_types = "\\.hf|".Hub::META_FILENAME."\$";
+    my $hf_types = '(\.hf|\.data?|'.Hub::META_FILENAME.')$';
     $parser = $_[0] =~ /$hf_types/ ? 'HashFile' : 'File';
   }
   confess "Cannot determine parser" unless defined $parser;

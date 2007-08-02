@@ -2,7 +2,7 @@ package Hub::Base::Package;
 use strict;
 use Hub qw/:lib/;
 our ($AUTOLOAD);
-our $VERSION = '4.00012';
+our $VERSION = '4.00043';
 our @EXPORT = qw//;
 our @EXPORT_OK = qw/modexec/;
 use constant RTMOD_NAME => 'module.pm';   # Default runtime module name
@@ -17,6 +17,7 @@ sub modexec {
     filename  => RTMOD_NAME,
     method    => RTMOD_INVOKE,
   });
+  $$opts{'method'} = RTMOD_INVOKE unless defined $$opts{'method'};
   my $args = shift || [];
   my $path = Hub::srcpath($$opts{'filename'});
   if ($path) {

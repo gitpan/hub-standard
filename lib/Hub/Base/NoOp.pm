@@ -2,7 +2,7 @@ package Hub::Base::NoOp;
 use strict;
 use Hub qw/:lib/;
 our ($AUTOLOAD);
-our $VERSION = '4.00012';
+our $VERSION = '4.00043';
 our @EXPORT = qw//;
 our @EXPORT_OK = qw//;
 

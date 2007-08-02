@@ -2,7 +2,7 @@ package Hub::Data::File;
 use strict;
 use Hub qw/:lib/;
 our $AUTOLOAD = '';
-our $VERSION = '4.00012';
+our $VERSION = '4.00043';
 our @EXPORT = qw//;
 our @EXPORT_OK = qw//;
 
@@ -21,7 +21,8 @@ sub new {
     $obj->{'*filename'} = $filename;
     $obj->{'*contents'} = undef;
     $obj->{'*data'} = undef;
-    $obj->{'*delay_reading'} = 1;
+    $obj->{'*delay_reading'} = 0;
+    $obj->{'*is_binary'} = -B $$obj{'*filename'};
     Hub::fattach($filename, $obj);
   }
   return $obj;
@@ -45,12 +46,13 @@ sub reload {
   my ($self,$opts,$file) = Hub::objopts(\@_);
   croak "Illegal call to instance method" unless ref($self);
   $self->{'*contents'} = \$file->{'contents'};
-  for (keys %$self) { delete $self->{$_}; }
-  my $extractor = Hub::mkinst('DataExtractor',
-      -template => \$file->{'contents'}, -data => $self);
-  $extractor->get_data();
-# my $data = $extractor->get_data();
-# Hub::merge($self, $data, -overwrite, -prune);
+  $self->{'*is_binary'} = -B $$self{'*filename'};
+  if (!$$self{'*is_binary'}) {
+    for (keys %$self) { delete $self->{$_}; }
+    my $extractor = Hub::mkinst('DataExtractor',
+        -template => \$file->{'contents'}, -data => $self);
+    $extractor->get_data();
+  }
   $$self{'*delay_reading'} = 0;
 }
 
@@ -77,11 +79,13 @@ sub get_data {
 # options:
 #
 #   -as_ref => 1         # Return a reference
+#   -text_only => 1      # Do not return binary data
 # ------------------------------------------------------------------------------
 
 sub get_content {
   my ($opts, $self) = Hub::opts(\@_, {'as_ref' => 0});
   croak "Illegal call to instance method" unless ref($self);
+  return if ($$opts{'text_only'} && $$self{'*is_binary'});
   if (!defined $$self{'*contents'}) {
     $$self{'*delay_reading'} = 0;
     my $instance = Hub::finstance($$self{'*filename'});

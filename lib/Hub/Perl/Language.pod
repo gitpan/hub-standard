@@ -402,6 +402,39 @@ B<Example>: (matches)
 
 =back
 
+=head2 hashopts
+
+=over 4
+
+=item Get options and parameters as a hash
+
+
+ Usage: hashopts \@parameters
+
+
+The purpose of this method is to even out the returned parameter list by
+adding an undefined value if there are an odd number of elements in the list.
+
+This avoids the Perl warning:
+
+
+  Odd number of elements in hash assignment
+
+
+When parsing options as:
+
+
+  my ($opts, %fields) = Hub::opts(...)
+
+B<Example> returns: B<defined>:
+
+  my ($opts, %hash) = Hub::hashopts(['key1', -foo]);
+  $hash{'key1'}
+
+
+
+=back
+
 =head2 subst
 
 =over 4
@@ -784,6 +817,22 @@ and FastCGI test servers...
 
 =back
 
+=head2 random_id
+
+=over 4
+
+=item Get a random numeric value for use as an id
+
+
+ Usage: random_id
+
+
+Creates a checksum of the current time() plus 4 digit rand() number.
+
+
+
+=back
+
 =head2 checksum
 
 =over 4
@@ -815,6 +864,7 @@ B<Example>: (matches)
 
 
  Usage: merge \%target, \%source, [\%source..], [options]
+returns \%hash
 
 
 Merges the provided hashes.  The first argument (destination hash) has
@@ -822,7 +872,15 @@ precedence (as in values are NOT overwritten) unless -overwrite is given.
 
 
 
+By default this routine modifies \%target.  Specifiy -copy circumvent.
+
+
+
 OPTIONS:
+
+
+  -copy                   Do not modify \%target.
+
 
 
   -overwrite=1            Overwrite values as they are encounterred.
@@ -973,10 +1031,16 @@ B<Example>: (matches)
 
  Usage: indexmatch [options] $string, $expression, $position
  Usage: indexmatch [options] $string, $expression
+
+
 Returns -1 if $expression is not found.
 
+
+
 options:
-  after   1|0     Return the position *after* the expression.  Default is 0.
+
+
+  -after=1        Return the position *after* the expression.
 
 
 B<Example>: (matches)
@@ -1027,7 +1091,7 @@ B<Example>: (matches)
 
 =back
 
-=head2 _mergeHash
+=head2 _merge_hash
 
 =over 4
 
@@ -1037,7 +1101,7 @@ B<Example>: (matches)
 
 =back
 
-=head2 _mergeArray
+=head2 _merge_array
 
 =over 4
 
@@ -1047,17 +1111,7 @@ B<Example>: (matches)
 
 =back
 
-=head2 _getId
-
-=over 4
-
-=item 
-
-
-
-=back
-
-=head2 _mergeElement
+=head2 _merge_element
 
 =over 4
 
@@ -1144,6 +1198,6 @@ give any guarantee of the above statement.
 
 =head1 UPDATED
 
-06/09/2007
+08/02/2007
 
 =cut

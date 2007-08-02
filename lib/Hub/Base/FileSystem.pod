@@ -476,6 +476,24 @@ options:
 
 =back
 
+=head2 secpath
+
+=over 4
+
+=item Authorize a path for the runtime access
+
+
+ Usage: secpath $path
+
+
+Intention is to be able to pass anything to this method and it will only
+return a path when it is valid.  Being valid means that it resolves to a file
+or directory which is at or below the WORKING_DIR.
+
+
+
+=back
+
 =head2 fixpath
 
 =over 4
@@ -835,6 +853,7 @@ On Win32, we still don't "really" change the owner (Anybody know how?)
 
 
  Usage: _find_abspath $node
+ Usage: _find_abspath $node $working_dir
 
 
 =back
@@ -888,6 +907,6 @@ give any guarantee of the above statement.
 
 =head1 UPDATED
 
-06/09/2007
+08/02/2007
 
 =cut

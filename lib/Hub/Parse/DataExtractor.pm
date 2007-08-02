@@ -17,7 +17,7 @@ sub get_evaluator {
 $EVALUATORS{'define'} = sub {
   my ($self, $params, $result) = @_;
   my ($outer_str, $fields, $pos, $text, $parents, $valdata) = @$params;
-  my %directive = @$fields;
+  my ($opts, %directive) = Hub::hashopts($fields);
   my $varname = $directive{'define'};
   my ($end_p, $block) =
     $self->_get_block($$pos + length($outer_str), $text, 'define');

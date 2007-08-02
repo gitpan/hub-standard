@@ -1,7 +1,7 @@
 package Hub::Knots::SortedHash;
 use strict;
 use Hub qw/:lib/;
-our $VERSION = '4.00012';
+our $VERSION = '4.00043';
 our @EXPORT = qw//;
 our @EXPORT_OK = qw//;
 push our @ISA, qw(Tie::StdHash);

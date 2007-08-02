@@ -2,7 +2,7 @@ package Hub::Data::HashFile;
 use strict;
 use Hub qw/:lib :console/;
 
-our $VERSION = '4.00012';
+our $VERSION = '4.00043';
 our @EXPORT = qw//;
 our @EXPORT_OK = qw//;
 
@@ -33,7 +33,7 @@ sub reload {
   my ($self,$opts,$file) = Hub::objopts(\@_);
   croak "Illegal call to instance method" unless ref($self);
   for (keys %$self) { delete $self->{$_}; }
-  Hub::hparse(\$file->{'contents'}, -into => $self);
+  Hub::hparse(\$file->{'contents'}, -into => $self, -hint => $self->{'*path'});
 #warn "data:\n\n", Hub::hprint($self), "\n\n";
 #warn "contents:\n\n", $file->{'contents'}, "\n\n";
 }

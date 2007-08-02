@@ -2,7 +2,7 @@ package Hub::Perl::Language;
 use strict;
 use Compress::Zlib;
 use Hub qw/:lib/;
-our $VERSION = '4.00012';
+our $VERSION = '4.00043';
 our @EXPORT = qw//;
 our @EXPORT_OK = qw/
     sizeof
@@ -13,6 +13,7 @@ our @EXPORT_OK = qw/
     opts
     objopts
     cmdopts
+    hashopts
     bestof
     subst
     getuid
@@ -22,6 +23,7 @@ our @EXPORT_OK = qw/
     flip
     rmval
     cpref
+    random_id
     checksum
     merge
     flatten
@@ -455,6 +457,31 @@ sub cmdopts {
 }#cmdopts
 
 # ------------------------------------------------------------------------------
+# hashopts - Get options and parameters as a hash
+# hashopts \@parameters
+#
+# The purpose of this method is to even out the returned parameter list by 
+# adding an undefined value if there are an odd number of elements in the list.
+# This avoids the Perl warning:
+#
+#   Odd number of elements in hash assignment
+#
+# When parsing options as:
+#
+#   my ($opts, %fields) = Hub::opts(...)
+# ------------------------------------------------------------------------------
+#|test(!defined)
+#|  my ($opts, %hash) = Hub::hashopts(['key1', -foo]);
+#|  $hash{'key1'}
+# ------------------------------------------------------------------------------
+
+sub hashopts {
+  my ($opts, @fields) = Hub::opts(@_);
+  push @fields, undef if ((scalar (@fields) % 2) != 0);
+  return ($opts, @fields);
+}#hashopts
+
+# ------------------------------------------------------------------------------
 # _assignopt Assign an option value.
 # _assignopt \%options, \%dest, $key, $val
 # ------------------------------------------------------------------------------
@@ -828,11 +855,24 @@ sub cpref {
     $$ref eq $ref and
       warn "Self reference cannot be copied: $ref";
     ($$ref ne $ref) and $new = cpref($$ref);
+  } elsif (ref($ref) eq 'CODE') {
+    $new = $ref;
   } else {
     croak "Cannot copy reference: $ref\n";
   }
   return $new;
 }#cpref
+
+# ------------------------------------------------------------------------------
+# random_id - Get a random numeric value for use as an id
+# random_id
+#
+# Creates a checksum of the current time() plus 4 digit rand() number.
+# ------------------------------------------------------------------------------
+
+sub random_id {
+  return Hub::checksum(sprintf("%d%03d", time(), int(rand()*1000)));
+}#random_id
 
 # ------------------------------------------------------------------------------
 # checksum - Create a unique identifier for the provided data
@@ -869,11 +909,16 @@ sub checksum {
 # ------------------------------------------------------------------------------
 # merge - Merge several hashes
 # merge \%target, \%source, [\%source..], [options]
+# returns \%hash
 #
 # Merges the provided hashes.  The first argument (destination hash) has
 # precedence (as in values are NOT overwritten) unless -overwrite is given.
 #
+# By default this routine modifies \%target.  Specifiy -copy circumvent.
+#
 # OPTIONS:
+#
+#   -copy                   Do not modify \%target.
 #
 #   -overwrite=1            Overwrite values as they are encounterred.
 #
@@ -892,17 +937,19 @@ sub merge {
   my ($opts) = Hub::opts(\@_, {
     'overwrite'   => 0,
     'prune'       => 0,
+    'copy'        => 0,
   });
-  my $dh = shift; # destination hash
-  $dh = {} unless defined $dh;
+  my $target = shift; # destination hash
+  $target = {} unless defined $target;
+  my $dh = $$opts{'copy'} ? Hub::cpref($target) : $target;
   return unless isa($dh, 'HASH');
   foreach my $sh ( @_ ) {
-    _mergeHash($dh, $sh, $opts);
+    _merge_hash($dh, $sh, $opts);
   }
   return $dh;
 }#merge
 
-sub _mergeHash {
+sub _merge_hash {
   my ($dh,$sh,$opts) = @_;
   if ($$opts{'prune'}) {
     my @d_keys = keys %$dh;
@@ -912,76 +959,41 @@ sub _mergeHash {
   }
   keys %$sh; # reset iterator
   while( my($k,$v) = each %$sh ) {
-    &_mergeElement( $dh, $k, $v, $opts );
+    _merge_element( $dh, $k, $v, $opts );
   }
-}#_mergeHash
+}#_merge_hash
 
-sub _mergeArray {
+sub _merge_array {
   my ($da,$sa,$opts) = @_; # destination array, source array
-# splice @$da, scalar(@$sa);
-# for (my $i = 0; $i < @$sa; $i++) {
-#   if (defined $$sa[$i]) {
-#     if (ref($$da[$i]) eq ref($$sa[$i])) {
-#       &_mergeHash($$da[$i], $$sa[$i], $opts) if isa($$da[$i], 'HASH');
-#       &_mergeArray($$da[$i], $$sa[$i], $opts) if isa($$da[$i], 'ARRAY');
-#     } else {
-#       $$da[$i] = $$sa[$i];
-#     }
-#   } else {
-#     $$da[$i] = undef;
-#   }
-# }
-  my $dh = {};
-  map { $$dh{&_getId($_)} = $_ } @$da;
-  my @d_keys = keys %$dh;
-  foreach my $i ( @$sa ) {
-    my $id = &_getId( $i );
-    if( grep /^$id$/, @d_keys ) {
-      if( (ref($i) =~ /HASH|::/) && ref($$dh{$id}) ) {
-        &_mergeHash( $$dh{$id}, $i, $opts );
+  for (my $i = 0; $i < @$sa; $i++) {
+    if (defined $$sa[$i]) {
+      if (isa($$da[$i], 'HASH') && isa($$sa[$i], 'HASH')) {
+        _merge_hash($$da[$i], $$sa[$i], $opts);
+      } elsif (isa($$da[$i], 'ARRAY') && isa($$sa[$i], 'ARRAY')) {
+        _merge_array($$da[$i], $$sa[$i], $opts);
+      } elsif (!exists $$da[$i] || $$opts{'overwrite'}) {
+        $$da[$i] = $$sa[$i];
       }
-    } else {
-      push @$da, $i unless grep /^$id$/, @d_keys;
     }
   }
-}#_mergeArray
+}#_merge_array
 
-sub _getId {
-  my $h  = shift || return;
-  my $id = "";
-  if( ref($h) =~ /HASH|::/ ) {
-    # in the order of prescedence, these are the subvalues we
-    # use to determine this hash's uniqueness
-    $id   = $$h{'_id'};
-    $id ||= $$h{'id'};
-    $id ||= $$h{'name'};
-    $id ||= $$h{'value'};
-  } elsif( ref($h) eq 'ARRAY' ) {
-    $id = Hub::checksum( join '', @$h );
-  }#if
-  return $id ? $id : $h;
-}#_getId
-
-sub _mergeElement {
+sub _merge_element {
   my ($dh, $k, $v, $opts) = @_;
-  if( defined($$dh{$k}) ) {
-    my $c = ref($v); # class
-    if( $c ) {
-      if( $c eq ref($$dh{$k}) ) {
-        $c =~ /HASH|::/ and &_mergeHash( $$dh{$k}, $v, $opts );
-        $c eq 'ARRAY' and &_mergeArray( $$dh{$k}, $v, $opts );
-      } else {
-        # do not chage the type (unless overwriting)
-        $$opts{'overwrite'} and $$dh{$k} = $v;
-      }
+  if (defined($$dh{$k})) {
+    if (isa($$dh{$k}, 'HASH') && isa($v, 'HASH')) {
+      _merge_hash($$dh{$k}, $v, $opts);
+    } elsif (isa($$dh{$k}, 'ARRAY') && isa($v, 'ARRAY')) {
+      _merge_array($$dh{$k}, $v, $opts);
     } else {
+      # do not chage the type (unless overwriting)
       $$opts{'overwrite'} and $$dh{$k} = $v;
     }
   } else {
     my $vcopy = Hub::cpref($v);
-    $$dh{$k} = defined($vcopy) ? $vcopy : "";
+    $$dh{$k} = defined($vcopy) ? $vcopy : '';
   }
-}#_mergeElement
+}#_merge_element
 
 # ------------------------------------------------------------------------------
 # flatten - Get a consistent unique-by-data string for some data structure.
@@ -1314,9 +1326,12 @@ sub dice {
 # indexmatch - Search for an expression within a string and return the offset
 # indexmatch [options] $string, $expression, $position
 # indexmatch [options] $string, $expression
+#
 # Returns -1 if $expression is not found.
+#
 # options:
-#   after   1|0     Return the position *after* the expression.  Default is 0.
+#
+#   -after=1        Return the position *after* the expression.
 # ------------------------------------------------------------------------------
 #|test(match,4)   indexmatch("abracadabra", "[cd]")
 #|test(match,3)   indexmatch("abracadabra", "a", 3)
@@ -1333,11 +1348,11 @@ sub indexmatch {
   my $temp_str = substr $str, $from;
   croak "undefined search substring" unless defined $temp_str;
   my $pos = undef;
-  $temp_str =~ /($expr)/;
-  $pos = index $temp_str, $1 if (defined $1);
+  my @match = $temp_str =~ /($expr)/;
+  $pos = index $temp_str, $match[0] if (defined $match[0]);
   return defined $pos
     ?  $$opts{'after'}
-      ? $from + $pos + length($1)
+      ? $from + $pos + length($match[0])
       : $from + $pos
     : -1;
 }#indexmatch

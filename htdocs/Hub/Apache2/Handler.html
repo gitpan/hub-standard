@@ -1,0 +1,205 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Hub::Apache2::Handler</title>
+<link rel="stylesheet" href="../../styles.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:Gentoo@livesitemail.(none)" />
+</head>
+
+<body>
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#working_dir">WORKING_DIR</a></li>
+		<li><a href="#conf_file">CONF_FILE</a></li>
+		<li><a href="#debug">DEBUG</a></li>
+	</ul>
+
+	<li><a href="#public_methods">PUBLIC METHODS</a></li>
+	<ul>
+
+		<li><a href="#handle_apache_request">handle_apache_request</a></li>
+		<li><a href="#response_handler_callback">response_handler_callback</a></li>
+	</ul>
+
+	<li><a href="#internal_methods">INTERNAL METHODS</a></li>
+	<ul>
+
+		<li><a href="#_handle_request">_handle_request</a></li>
+		<li><a href="#_sigwarn">_sigwarn</a></li>
+		<li><a href="#_sigdie">_sigdie</a></li>
+	</ul>
+
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#updated">UPDATED</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Hub::Apache2::Handler - Apache2 mod_perl response handler base class</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  sub handler {
+  }</pre>
+<pre>
+  sub process_request {
+    my $r = shift;
+    ...
+    return Apach2::Const::OK;
+  }</pre>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>The working directory of the web site must be set.</strong> We will change to and run
+in this directory.  This is also the reflected directory which limits the
+request's scope.</p>
+<p>This base class parses the request's headers, cgi parameters, and initiales
+the user's session (if it can).</p>
+<p>
+</p>
+<h2><a name="working_dir">WORKING_DIR</a></h2>
+<p>The working directory is just that.  Since multiple threads (hence multiple
+sites) share this interpreter, a change to this directy is issued on each
+request.</p>
+<pre>
+      PerlSetEnv WORKING_DIR &quot;/var/www/html&quot;</pre>
+<p>
+</p>
+<h2><a name="conf_file">CONF_FILE</a></h2>
+<p>By default configuration is read from a file named <code>.conf</code> in your working
+directory.  To use a different one, specify it here.  It must reside beneath
+your working directory, and this path is relative to the working directory.
+For example:</p>
+<pre>
+      PerlSetEnv CONF_FILE &quot;/conf/custom.conf&quot;</pre>
+<p>would resolve to:</p>
+<pre>
+      $WORKING_DIR/conf/custom.conf</pre>
+<p>
+</p>
+<h2><a name="debug">DEBUG</a></h2>
+<p>To generate debug messages (written to stderr), set this to a true value.</p>
+<pre>
+      # Basic debugging
+      PerlSetEnv DEBUG 1</pre>
+<pre>
+      # More debugging info (includes stack traces)
+      PerlSetEnv DEBUG 2</pre>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="public_methods">PUBLIC METHODS</a></h1>
+<p>
+</p>
+<h2><a name="handle_apache_request">handle_apache_request</a></h2>
+<dl>
+<dt><strong><a name="item_apache2_mod_perl_invokation_wrapper">Apache2 mod_perl invokation wrapper</a></strong>
+
+</dl>
+<p>
+</p>
+<h2><a name="response_handler_callback">response_handler_callback</a></h2>
+<dl>
+<dt><strong><a name="item_environment_wrapper_for_response_handlers">Environment wrapper for response handlers</a></strong>
+
+<dd>
+<pre>
+ Usage: response_handler_callback \&amp;subroutine, $r</pre>
+</dd>
+</dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="internal_methods">INTERNAL METHODS</a></h1>
+<p>
+</p>
+<h2><a name="_handle_request">_handle_request</a></h2>
+<dl>
+<dt><strong><a name="item_worker_method">Worker method</a></strong>
+
+</dl>
+<p>
+</p>
+<h2><a name="_sigwarn">_sigwarn</a></h2>
+<dl>
+<dt><strong><a name="item_warning_handler">Warning handler</a></strong>
+
+</dl>
+<p>
+</p>
+<h2><a name="_sigdie">_sigdie</a></h2>
+<dl>
+<dt><strong><a name="item_handler">Die handler (fatals to browser)</a></strong>
+
+</dl>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Ryan Gies (<a href="mailto:ryangies@livesite.net">ryangies@livesite.net</a>)</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (C) 2006-2007 by Livesite Networks, LLC. All rights reserved.</p>
+<p>Copyright (C) 2000-2005 by Ryan Gies. All rights reserved.</p>
+<p>Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:</p>
+<p>* Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.</p>
+<p>* The origin of this software must not be misrepresented; you must not 
+claim that you wrote the original software. If you use this software in a 
+product, an acknowledgment in the product documentation would be 
+appreciated but is not required.</p>
+<p>* Altered source versions must be plainly marked as such, and must not be 
+misrepresented as being the original software.</p>
+<p>* The name of the author may not be used to endorse or promote products 
+derived from this software without specific prior written permission.</p>
+<p>THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO 
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
+IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGE.</p>
+<p>To the best of our knowledge, no patented algorithms have been used. However, we
+do not have the resources to carry out a patent search, and therefore cannot 
+give any guarantee of the above statement.</p>
+<p>
+<a href="#__index__"><small>Top</small></a>
+</p>
+<hr />
+<h1><a name="updated">UPDATED</a></h1>
+<p>08/02/2007</p>
+<p><a href="#__index__"><small>Top</small></a></p>
+
+</body>
+
+</html>

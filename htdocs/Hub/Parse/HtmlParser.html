@@ -5,7 +5,7 @@
 <title>Hub::Parse::HtmlParser</title>
 <link rel="stylesheet" href="../../styles.css" type="text/css" />
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<link rev="made" href="mailto:root@localhost" />
+<link rev="made" href="mailto:Gentoo@livesitemail.(none)" />
 </head>
 
 <body>
@@ -28,6 +28,11 @@
 	<ul>
 
 		<li><a href="#begin">BEGIN</a></li>
+		<li><a href="#_getdims">_getdims</a></li>
+		<li><a href="#_jsvar">_jsvar</a></li>
+		<li><a href="#_jsvar_hash">_jsvar_hash</a></li>
+		<li><a href="#_jsvar_array">_jsvar_array</a></li>
+		<li><a href="#_jsvar_scalar">_jsvar_scalar</a></li>
 	</ul>
 
 	<li><a href="#author">AUTHOR</a></li>
@@ -74,6 +79,54 @@
 <dt>
 </dl>
 <p>
+</p>
+<h2><a name="_getdims">_getdims</a></h2>
+<dl>
+<dt><strong><a name="item_get_image_dimensions">Get image dimensions</a></strong>
+
+<dd>
+<pre>
+ Usage: _getdims $path, [options]</pre>
+</dd>
+<dd>
+<p>options:</p>
+</dd>
+<dd>
+<pre>
+  -max_x=n    Maximum width
+  -max_y=n    Maximum height
+  -min_x=n    Minimum width
+  -min_y=n    Minimum height</pre>
+</dd>
+<dd>
+<p>my ($w,$h) = _getdims( ``/images/laura.jpg'', -max_x =&gt; 50, -max_y =&gt; 50 );</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="_jsvar">_jsvar</a></h2>
+<dl>
+<dt>
+</dl>
+<p>
+</p>
+<h2><a name="_jsvar_hash">_jsvar_hash</a></h2>
+<dl>
+<dt>
+</dl>
+<p>
+</p>
+<h2><a name="_jsvar_array">_jsvar_array</a></h2>
+<dl>
+<dt>
+</dl>
+<p>
+</p>
+<h2><a name="_jsvar_scalar">_jsvar_scalar</a></h2>
+<dl>
+<dt>
+</dl>
+<p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
@@ -116,7 +169,7 @@ give any guarantee of the above statement.</p>
 </p>
 <hr />
 <h1><a name="updated">UPDATED</a></h1>
-<p>06/09/2007</p>
+<p>08/02/2007</p>
 <p><a href="#__index__"><small>Top</small></a></p>
 
 </body>

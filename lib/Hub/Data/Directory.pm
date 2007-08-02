@@ -2,7 +2,7 @@ package Hub::Data::Directory;
 use strict;
 use Hub qw/:lib/;
 our $AUTOLOAD = '';
-our $VERSION = '4.00012';
+our $VERSION = '4.00043';
 our @EXPORT = qw//;
 our @EXPORT_OK = qw//;
 
@@ -10,6 +10,8 @@ sub new {
   my $self = shift;
   my $classname = ref($self) || $self;
   my $path = shift or croak "Provide a path";
+  $path = Hub::abspath($path, -must_exist);
+  return unless defined $path;
   my $obj = Hub::fhandler($path, $classname);
   unless($obj) {
     $obj = bless {}, $classname;

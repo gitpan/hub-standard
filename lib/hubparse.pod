@@ -61,6 +61,22 @@ if
   [#unless "/some/thing" ?? "/some/thing/else"]
   [#end "unless"]
 
+=head2 jsvar
+
+  [#jsvar "/some/thing"]
+
+When "/some/thing" is a hash, returns:
+
+  {key1: 'value1', key2: 'value2' ...}
+
+When "/some/thing" is an array, returns:
+
+  ['item1', 'item2', ...]
+
+When "/some/thing" is a scalar, returns:
+
+  "escape it\'s content for\r\n for use in javascript"
+
 
 =head1 AUTHOR
 
@@ -110,6 +126,6 @@ give any guarantee of the above statement.
 
 =head1 UPDATED
 
-06/09/2007
+08/02/2007
 
 =cut

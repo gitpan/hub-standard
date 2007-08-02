@@ -6,17 +6,17 @@ hublib - Hub Library Reference
 
 =over 4
 
-=item L<hubaddr|hubaddr>
+=item L<hubvar|hubvar>
 
 =item L<hublib|hublib>
 
-=item L<hubparse|hubparse>
+=item L<hubaddr|hubaddr>
 
 =item L<hubtest|hubtest>
 
-=item L<hubuse|hubuse>
+=item L<hubparse|hubparse>
 
-=item L<hubvar|hubvar>
+=item L<hubuse|hubuse>
 
 =back
 
@@ -25,217 +25,229 @@ hublib - Hub Library Reference
 
 =over 4
 
-=item L<abort|Hub::Perl::Language/abort>
-
-=item L<abspath|Hub::Base::FileSystem/abspath>
-
-=item L<anon_sort|Hub::Perl::Sort/anon_sort>
-
-=item L<bestof|Hub::Perl::Language/bestof>
-
-=item L<callback|Hub/callback>
-
-=item L<check|Hub::Perl::Language/check>
-
-=item L<checksum|Hub::Perl::Language/checksum>
-
-=item L<chperm|Hub::Base::FileSystem/chperm>
-
-=item L<cmdopts|Hub::Perl::Language/cmdopts>
-
-=item L<collapse|Hub::Data::Address/collapse>
-
 =item L<compare|Hub::Perl::Compare/compare>
-
-=item L<cpdir|Hub::Base::FileSystem/cpdir>
-
-=item L<cpfile|Hub::Base::FileSystem/cpfile>
-
-=item L<cpref|Hub::Perl::Language/cpref>
-
-=item L<datetime|Hub::Misc::Time/datetime>
-
-=item L<delete|Hub::Data::Handlers/delete>
-
-=item L<dhms|Hub::Misc::Time/dhms>
-
-=item L<dice|Hub::Perl::Language/dice>
-
-=item L<diff|Hub::Perl::Language/diff>
-
-=item L<digout|Hub::Perl::Language/digout>
-
-=item L<dotaddr|Hub::Data::Address/dotaddr>
-
-=item L<expand|Hub::Data::Address/expand>
-
-=item L<expect|Hub::Perl::Language/expect>
-
-=item L<fattach|Hub::Data::FileCache/fattach>
-
-=item L<fcols|Hub::Console::Output/fcols>
-
-=item L<fear|Hub::Perl::Language/fear>
-
-=item L<fetch|Hub::Data::Handlers/fetch>
-
-=item L<fhandler|Hub::Data::FileCache/fhandler>
-
-=item L<fileclose|Hub::Base::FileSystem/fileclose>
-
-=item L<fileopen|Hub::Base::FileSystem/fileopen>
 
 =item L<filetime|Hub::Base::FileSystem/filetime>
 
-=item L<find|Hub::Base::FileSystem/find>
-
-=item L<finstance|Hub::Data::FileCache/finstance>
-
-=item L<fixpath|Hub::Base::FileSystem/fixpath>
-
-=item L<flatten|Hub::Perl::Language/flatten>
-
-=item L<flip|Hub::Perl::Language/flip>
-
-=item L<fread|Hub::Data::FileCache/fread>
-
-=item L<frefresh|Hub::Data::FileCache/frefresh>
-
-=item L<fw|Hub::Console::Output/fw>
-
-=item L<get_save_handler|Hub::Data::Create/get_save_handler>
-
-=item L<getaddr|Hub::Base::FileSystem/getaddr>
-
-=item L<getcrown|Hub::Base::FileSystem/getcrown>
-
-=item L<getext|Hub::Base::FileSystem/getext>
-
-=item L<getgid|Hub::Perl::Language/getgid>
-
-=item L<getname|Hub::Base::FileSystem/getname>
-
-=item L<getns|Hub/getns>
-
-=item L<getpath|Hub::Base::FileSystem/getpath>
-
-=item L<getspec|Hub::Base::FileSystem/getspec>
-
-=item L<getuid|Hub::Perl::Language/getuid>
-
-=item L<getv|Hub::Data::Handlers/getv>
-
-=item L<hashtoattrs|Hub::Misc::Transform/hashtoattrs>
-
-=item L<hparse|Hub::Parse::Hash/hparse>
-
-=item L<hprint|Hub::Parse::Hash/hprint>
-
-=item L<indenttext|Hub::Console::Output/indenttext>
+=item L<dotaddr|Hub::Data::Address/dotaddr>
 
 =item L<indexmatch|Hub::Perl::Language/indexmatch>
 
-=item L<intdiv|Hub::Perl::Language/intdiv>
+=item L<getext|Hub::Base::FileSystem/getext>
 
-=item L<is_bipolar|Hub::Perl::Compare/is_bipolar>
-
-=item L<jsstr|Hub::Misc::Transform/jsstr>
-
-=item L<keydepth|Hub::Data::Address/keydepth>
-
-=item L<keydepth_sort|Hub::Perl::Sort/keydepth_sort>
-
-=item L<max|Hub::Perl::Language/max>
-
-=item L<merge|Hub::Perl::Language/merge>
-
-=item L<min|Hub::Perl::Language/min>
-
-=item L<mkabsdir|Hub::Base::FileSystem/mkabsdir>
-
-=item L<mkdiras|Hub::Base::FileSystem/mkdiras>
-
-=item L<mkhandler|Hub::Data::Create/mkhandler>
-
-=item L<mkinst|Hub/mkinst>
-
-=item L<modexec|Hub::Base::Package/modexec>
-
-=item L<mvfile|Hub::Base::FileSystem/mvfile>
-
-=item L<nbspstr|Hub::Misc::Transform/nbspstr>
-
-=item L<objopts|Hub::Perl::Language/objopts>
-
-=item L<opts|Hub::Perl::Language/opts>
-
-=item L<packcgi|Hub::Misc::Transform/packcgi>
-
-=item L<parsefile|Hub::Base::FileSystem/parsefile>
-
-=item L<populate|Hub::Misc::Transform/populate>
-
-=item L<popwp|Hub::Base::FileSystem/popwp>
-
-=item L<ps|Hub::Console::Output/ps>
-
-=item L<pushwp|Hub::Base::FileSystem/pushwp>
-
-=item L<readdir|Hub::Base::FileSystem/readdir>
-
-=item L<readfile|Hub::Base::FileSystem/readfile>
-
-=item L<realpath|Hub::Base::FileSystem/realpath>
-
-=item L<regns|Hub/regns>
-
-=item L<relpath|Hub::Base::FileSystem/relpath>
-
-=item L<replace|Hub::Perl::Language/replace>
-
-=item L<resolve|Hub::Data::Create/resolve>
-
-=item L<rmdirrec|Hub::Base::FileSystem/rmdirrec>
-
-=item L<rmfile|Hub::Base::FileSystem/rmfile>
-
-=item L<rmval|Hub::Perl::Language/rmval>
-
-=item L<safestr|Hub::Misc::Transform/safestr>
-
-=item L<save_data|Hub::Data::Create/save_data>
-
-=item L<setv|Hub::Data::Handlers/setv>
-
-=item L<sizeof|Hub::Perl::Language/sizeof>
-
-=item L<sort_compare|Hub::Perl::Compare/sort_compare>
-
-=item L<sort_dir_list|Hub::Base::FileSystem/sort_dir_list>
-
-=item L<srcpath|Hub::Base::FileSystem/srcpath>
-
-=item L<store|Hub::Data::Handlers/store>
-
-=item L<subset|Hub::Data::Create/subset>
-
-=item L<subst|Hub::Perl::Language/subst>
-
-=item L<touch|Hub::Perl::Language/touch>
+=item L<checksum|Hub::Perl::Language/checksum>
 
 =item L<trace|Hub/trace>
 
-=item L<unpackcgi|Hub::Misc::Transform/unpackcgi>
+=item L<mkabsdir|Hub::Base::FileSystem/mkabsdir>
 
-=item L<varname|Hub::Data::Address/varname>
+=item L<hparse|Hub::Parse::Hash/hparse>
+
+=item L<setv|Hub::Data::Handlers/setv>
+
+=item L<subset|Hub::Data::Create/subset>
+
+=item L<opts|Hub::Perl::Language/opts>
+
+=item L<getname|Hub::Base::FileSystem/getname>
+
+=item L<sort_compare|Hub::Perl::Compare/sort_compare>
+
+=item L<expect|Hub::Perl::Language/expect>
+
+=item L<mkdiras|Hub::Base::FileSystem/mkdiras>
+
+=item L<secpath|Hub::Base::FileSystem/secpath>
+
+=item L<get_save_handler|Hub::Data::Create/get_save_handler>
+
+=item L<fw|Hub::Console::Output/fw>
+
+=item L<fcols|Hub::Console::Output/fcols>
+
+=item L<callback|Hub/callback>
+
+=item L<flatten|Hub::Perl::Language/flatten>
+
+=item L<keydepth|Hub::Data::Address/keydepth>
+
+=item L<getcrown|Hub::Base::FileSystem/getcrown>
+
+=item L<delete|Hub::Data::Handlers/delete>
+
+=item L<touch|Hub::Perl::Language/touch>
+
+=item L<abspath|Hub::Base::FileSystem/abspath>
+
+=item L<ps|Hub::Console::Output/ps>
+
+=item L<fileclose|Hub::Base::FileSystem/fileclose>
+
+=item L<unpack_safestr|Hub::Misc::Transform/unpack_safestr>
+
+=item L<getns|Hub/getns>
+
+=item L<populate|Hub::Misc::Transform/populate>
+
+=item L<readfile|Hub::Base::FileSystem/readfile>
+
+=item L<mkinst|Hub/mkinst>
+
+=item L<flip|Hub::Perl::Language/flip>
+
+=item L<dhms|Hub::Misc::Time/dhms>
+
+=item L<random_id|Hub::Perl::Language/random_id>
+
+=item L<find|Hub::Base::FileSystem/find>
+
+=item L<datetime|Hub::Misc::Time/datetime>
+
+=item L<save_data|Hub::Data::Create/save_data>
+
+=item L<regns|Hub/regns>
+
+=item L<digout|Hub::Perl::Language/digout>
+
+=item L<parsefile|Hub::Base::FileSystem/parsefile>
+
+=item L<realpath|Hub::Base::FileSystem/realpath>
+
+=item L<cpref|Hub::Perl::Language/cpref>
+
+=item L<getv|Hub::Data::Handlers/getv>
+
+=item L<pushwp|Hub::Base::FileSystem/pushwp>
+
+=item L<rmfile|Hub::Base::FileSystem/rmfile>
+
+=item L<getgid|Hub::Perl::Language/getgid>
+
+=item L<getpath|Hub::Base::FileSystem/getpath>
+
+=item L<nbspstr|Hub::Misc::Transform/nbspstr>
+
+=item L<hprint|Hub::Parse::Hash/hprint>
+
+=item L<expand|Hub::Data::Address/expand>
+
+=item L<bestof|Hub::Perl::Language/bestof>
+
+=item L<indenttext|Hub::Console::Output/indenttext>
+
+=item L<safestr|Hub::Misc::Transform/safestr>
 
 =item L<varparent|Hub::Data::Address/varparent>
 
+=item L<cpfile|Hub::Base::FileSystem/cpfile>
+
+=item L<cmdopts|Hub::Perl::Language/cmdopts>
+
+=item L<objopts|Hub::Perl::Language/objopts>
+
+=item L<max|Hub::Perl::Language/max>
+
+=item L<resolve|Hub::Data::Create/resolve>
+
+=item L<hashtoattrs|Hub::Misc::Transform/hashtoattrs>
+
+=item L<unpackcgi|Hub::Misc::Transform/unpackcgi>
+
+=item L<sort_dir_list|Hub::Base::FileSystem/sort_dir_list>
+
+=item L<sizeof|Hub::Perl::Language/sizeof>
+
+=item L<readdir|Hub::Base::FileSystem/readdir>
+
 =item L<varroot|Hub::Data::Address/varroot>
+
+=item L<rmval|Hub::Perl::Language/rmval>
+
+=item L<getuid|Hub::Perl::Language/getuid>
+
+=item L<fetch|Hub::Data::Handlers/fetch>
+
+=item L<getaddr|Hub::Base::FileSystem/getaddr>
+
+=item L<writefile|Hub::Base::FileSystem/writefile>
+
+=item L<fixpath|Hub::Base::FileSystem/fixpath>
+
+=item L<intdiv|Hub::Perl::Language/intdiv>
+
+=item L<pack_ncr|Hub::Misc::Transform/pack_ncr>
+
+=item L<abort|Hub::Perl::Language/abort>
+
+=item L<chperm|Hub::Base::FileSystem/chperm>
+
+=item L<varname|Hub::Data::Address/varname>
+
+=item L<jsstr|Hub::Misc::Transform/jsstr>
+
+=item L<subst|Hub::Perl::Language/subst>
+
+=item L<replace|Hub::Perl::Language/replace>
+
+=item L<fhandler|Hub::Data::FileCache/fhandler>
+
+=item L<is_bipolar|Hub::Perl::Compare/is_bipolar>
+
+=item L<diff|Hub::Perl::Language/diff>
+
+=item L<mvfile|Hub::Base::FileSystem/mvfile>
+
+=item L<mkhandler|Hub::Data::Create/mkhandler>
+
+=item L<fileopen|Hub::Base::FileSystem/fileopen>
+
+=item L<fear|Hub::Perl::Language/fear>
+
+=item L<cpdir|Hub::Base::FileSystem/cpdir>
+
+=item L<hashopts|Hub::Perl::Language/hashopts>
+
+=item L<unpack_ncr|Hub::Misc::Transform/unpack_ncr>
+
+=item L<popwp|Hub::Base::FileSystem/popwp>
+
+=item L<relpath|Hub::Base::FileSystem/relpath>
+
+=item L<merge|Hub::Perl::Language/merge>
+
+=item L<check|Hub::Perl::Language/check>
+
+=item L<collapse|Hub::Data::Address/collapse>
+
+=item L<keydepth_sort|Hub::Perl::Sort/keydepth_sort>
+
+=item L<store|Hub::Data::Handlers/store>
+
+=item L<finstance|Hub::Data::FileCache/finstance>
+
+=item L<min|Hub::Perl::Language/min>
+
+=item L<packcgi|Hub::Misc::Transform/packcgi>
+
+=item L<frefresh|Hub::Data::FileCache/frefresh>
+
+=item L<srcpath|Hub::Base::FileSystem/srcpath>
+
+=item L<getspec|Hub::Base::FileSystem/getspec>
+
+=item L<dice|Hub::Perl::Language/dice>
 
 =item L<vartype|Hub::Data::Address/vartype>
 
-=item L<writefile|Hub::Base::FileSystem/writefile>
+=item L<fread|Hub::Data::FileCache/fread>
+
+=item L<modexec|Hub::Base::Package/modexec>
+
+=item L<anon_sort|Hub::Perl::Sort/anon_sort>
+
+=item L<rmdirrec|Hub::Base::FileSystem/rmdirrec>
+
+=item L<fattach|Hub::Data::FileCache/fattach>
 
 =back
 
@@ -244,41 +256,41 @@ hublib - Hub Library Reference
 
 =over 4
 
-=item L<DataExtractor|Hub::Parse::DataExtractor>
-
-=item L<DataInjector|Hub::Parse::DataInjector>
-
-=item L<Directory|Hub::Data::Directory>
-
-=item L<File|Hub::Data::File>
-
-=item L<FileParser|Hub::Parse::FileParser>
-
-=item L<HashFile|Hub::Data::HashFile>
-
 =item L<HtmlParser|Hub::Parse::HtmlParser>
-
-=item L<Nest|Hub::Data::Nest>
-
-=item L<NoOp|Hub::Base::NoOp>
-
-=item L<Object|Hub::Base::Object>
-
-=item L<Package|Hub::Base::Package>
 
 =item L<Parser|Hub::Parse::Parser>
 
-=item L<Registry|Hub::Base::Registry>
+=item L<HashFile|Hub::Data::HashFile>
+
+=item L<FileParser|Hub::Parse::FileParser>
+
+=item L<Nest|Hub::Data::Nest>
+
+=item L<File|Hub::Data::File>
+
+=item L<Object|Hub::Base::Object>
+
+=item L<TextTemplate|Hub::Parse::TextTemplate>
 
 =item L<SortedHash|Hub::Data::SortedHash>
 
-=item L<StandardParser|Hub::Parse::StandardParser>
-
-=item L<Subset|Hub::Data::Subset>
+=item L<DataExtractor|Hub::Parse::DataExtractor>
 
 =item L<Template|Hub::Parse::Template>
 
-=item L<TextTemplate|Hub::Parse::TextTemplate>
+=item L<NoOp|Hub::Base::NoOp>
+
+=item L<Registry|Hub::Base::Registry>
+
+=item L<Directory|Hub::Data::Directory>
+
+=item L<DataInjector|Hub::Parse::DataInjector>
+
+=item L<StandardParser|Hub::Parse::StandardParser>
+
+=item L<Package|Hub::Base::Package>
+
+=item L<Subset|Hub::Data::Subset>
 
 =back
 
@@ -287,35 +299,41 @@ hublib - Hub Library Reference
 
 =over 4
 
-=item L<Hub|Hub>
+=item L<Hub::Parse::Parser|Hub::Parse::Parser>
 
-=item L<Hub::Base::FileSystem|Hub::Base::FileSystem>
+=item L<Hub::Config::Base|Hub::Config::Base>
 
 =item L<Hub::Base::Package|Hub::Base::Package>
 
-=item L<Hub::Console::Output|Hub::Console::Output>
-
-=item L<Hub::Data::Address|Hub::Data::Address>
-
-=item L<Hub::Data::Create|Hub::Data::Create>
-
 =item L<Hub::Data::FileCache|Hub::Data::FileCache>
+
+=item L<Hub::Config::Webapp|Hub::Config::Webapp>
 
 =item L<Hub::Data::Handlers|Hub::Data::Handlers>
 
+=item L<Hub::Perl::Language|Hub::Perl::Language>
+
 =item L<Hub::Misc::Time|Hub::Misc::Time>
+
+=item L<Hub::Data::Create|Hub::Data::Create>
+
+=item L<Hub|Hub>
+
+=item L<Hub::Base::Registry|Hub::Base::Registry>
+
+=item L<Hub::Perl::Sort|Hub::Perl::Sort>
+
+=item L<Hub::Data::Address|Hub::Data::Address>
 
 =item L<Hub::Misc::Transform|Hub::Misc::Transform>
 
 =item L<Hub::Parse::Hash|Hub::Parse::Hash>
 
-=item L<Hub::Parse::Parser|Hub::Parse::Parser>
+=item L<Hub::Console::Output|Hub::Console::Output>
 
 =item L<Hub::Perl::Compare|Hub::Perl::Compare>
 
-=item L<Hub::Perl::Language|Hub::Perl::Language>
-
-=item L<Hub::Perl::Sort|Hub::Perl::Sort>
+=item L<Hub::Base::FileSystem|Hub::Base::FileSystem>
 
 =back
 
@@ -369,6 +387,6 @@ give any guarantee of the above statement.
 
 =head1 UPDATED
 
-06/09/2007
+08/02/2007
 
 =cut

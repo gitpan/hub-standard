@@ -5,7 +5,7 @@
 <title>Hub::Misc::Transform</title>
 <link rel="stylesheet" href="../../styles.css" type="text/css" />
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<link rev="made" href="mailto:root@localhost" />
+<link rev="made" href="mailto:Gentoo@livesitemail.(none)" />
 </head>
 
 <body>
@@ -27,6 +27,9 @@
 	<ul>
 
 		<li><a href="#safestr">safestr</a></li>
+		<li><a href="#unpack_safestr">unpack_safestr</a></li>
+		<li><a href="#pack_ncr">pack_ncr</a></li>
+		<li><a href="#unpack_ncr">unpack_ncr</a></li>
 		<li><a href="#packcgi">packcgi</a></li>
 		<li><a href="#unpackcgi">unpackcgi</a></li>
 		<li><a href="#nbspstr">nbspstr</a></li>
@@ -71,6 +74,88 @@
 <h2><a name="safestr">safestr</a></h2>
 <dl>
 <dt>
+<dd>
+<pre>
+ Usage: safestr STRING</pre>
+</dd>
+<dd>
+<p>Pack nogood characters into good ones.  Good characters are letters, numbers,
+and the underscore.</p>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    safestr( 'Dogs (Waters, Gilmour) 17:06' );</pre>
+</dd>
+<dd>
+<pre>
+    Dogs_0x20__0x28_Waters_0x2c__0x20_Gilmour_0x29__0x20_17_0x3a_06</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="unpack_safestr">unpack_safestr</a></h2>
+<dl>
+<dt><strong><a name="item_safe_strings_back_into_ascii_characters">Safe strings back into ASCII characters</a></strong>
+
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    Hub::unpack_safestr('Dogs_0x20__0x28_Waters_0x2c__0x20_Gilmour_0x29__0x20_17_0x3a_06');</pre>
+</dd>
+<dd>
+<pre>
+    Dogs (Waters, Gilmour) 17:06</pre>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<h2><a name="pack_ncr">pack_ncr</a></h2>
+<dl>
+<dt><strong><a name="item_non_2dalphanumeric_ascii_characters_to_numeric_cha">Non-alphanumeric ASCII characters to Numeric Character References.</a></strong>
+
+<dd>
+<pre>
+ Usage: pack_ncr $string</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    Hub::pack_ncr(&quot;This is a # of tests &amp; bl/ah&quot;);</pre>
+</dd>
+<dd>
+<pre>
+    This is a &amp;#35; of tests &amp;#38; bl&amp;#47;ah</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="unpack_ncr">unpack_ncr</a></h2>
+<dl>
+<dt><strong><a name="item_convert_numeric_character_references_into_ascii_ch">Convert Numeric Character References into ASCII characters</a></strong>
+
+<dd>
+<pre>
+ Usage: unpack_ncr $string</pre>
+</dd>
+<dd>
+<p><strong>Example</strong>: (matches)</p>
+</dd>
+<dd>
+<pre>
+    Hub::unpack_ncr('This is a &amp;#35; of tests &amp;#38; bl&amp;#47;ah');</pre>
+</dd>
+<dd>
+<pre>
+    This is a # of tests &amp; bl/ah</pre>
+</dd>
 </dl>
 <p>
 </p>
@@ -127,14 +212,12 @@
 </p>
 <h2><a name="jsstr">jsstr</a></h2>
 <dl>
-<dt>
+<dt><strong><a name="item_format_as_one_long_string_for_use_as_the_rval_in_j">Format as one long string for use as the rval in javascript</a></strong>
+
 <dd>
 <pre>
- Usage: jsstr</pre>
-</dd>
-<dd>
-<p>Format as one long string for use as the rval in javascript (ie put the
-backslash continue-ator at the end of each line).</p>
+ Usage: jsstr \$value
+ Usage: jsstr $value</pre>
 </dd>
 </dl>
 <p>
@@ -251,7 +334,7 @@ give any guarantee of the above statement.</p>
 </p>
 <hr />
 <h1><a name="updated">UPDATED</a></h1>
-<p>06/09/2007</p>
+<p>08/02/2007</p>
 <p><a href="#__index__"><small>Top</small></a></p>
 
 </body>

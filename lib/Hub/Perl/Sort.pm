@@ -1,7 +1,7 @@
 package Hub::Perl::Sort;
 use strict;
 use Hub qw/:lib/;
-our $VERSION = '4.00012';
+our $VERSION = '4.00043';
 our @EXPORT = qw//;
 our @EXPORT_OK = qw/
     anon_sort
@@ -79,7 +79,7 @@ sub anon_sort {
 # ------------------------------------------------------------------------------
 
 sub keydepth_sort {
-  return Hub::keydepth($a) <=> Hub::keydepth($b);
+  return sort {Hub::keydepth($a) <=> Hub::keydepth($b)} @_;
 }#keydepth_sort
 
 # ------------------------------------------------------------------------------

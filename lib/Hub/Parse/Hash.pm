@@ -2,9 +2,18 @@ package Hub::Parse::Hash;
 use strict;
 use Hub qw/:lib :console/;
 
-our $VERSION = '4.00012';
+our $VERSION = '4.00043';
 our @EXPORT = qw//;
-our @EXPORT_OK = qw/hparse hprint/;
+our @EXPORT_OK = qw/
+  HASH_FORMAT_MAJOR_VERSION
+  HASH_FORMAT_MINOR_VERSION
+  hparse
+  hprint
+/;
+
+# Version
+use constant HASH_FORMAT_MAJOR_VERSION => 2;
+use constant HASH_FORMAT_MINOR_VERSION => 1;
 
 # Constants
 our $NEWLINE            = "\n";
@@ -29,26 +38,36 @@ our $PAT_HASH           = $LIT_HASH;
 our $PAT_ARRAY          = $LIT_ARRAY;
 our $PAT_SCALAR         = "\\$LIT_SCALAR";
 our $PAT_ASSIGN         = $LIT_ASSIGN;
+our $PAT_ASSIGN_STRUCT  = '[\$\%\@]';
+our $PAT_ASSIGN_BLOCK   = '<<';
 our $PAT_COMMENT        = $LIT_COMMENT;
 our $PAT_COMMENT_BEGIN  = $LIT_COMMENT_BEGIN;
 our $PAT_COMMENT_END    = $LIT_COMMENT_END;
-our $PAT_LVAL           = '[\w\d\.\_\-]';
-our $PAT_PROTECTED      = '[\%\@\$\{\}\>\=\#]';
+#our $PAT_LVAL           = '[\w\d\.\_\-\s]';
+our $PAT_LVAL           = '[^\{\=]';
+our $PAT_PROTECTED      = '[\%\@\$\{\}\>\#]';
+our $PAT_PROTECTED2     = '[\%\@\$\{\}\>\=\#]'; # backward compat
+our $PAT_BLOCK_END      = '[a-zA-Z0-9_-]';
 
 # ------------------------------------------------------------------------------
 # hparse - Parse text into perl data structures
 # hparse \$text, [options]
 # options:
 #   -as_array=1         # Treat text as an array list (and return an array ref)
+#   -hint=hint          # Usually a filename, used in debug/error output
 # ------------------------------------------------------------------------------
 
 sub hparse {
-  my ($opts, $text) = Hub::opts(\@_);
+  my ($opts, $text) = Hub::opts(\@_, {
+    'hint'      => '',
+    'as_array'  => 0,
+  });
   croak "Provide a scalar reference" unless ref($text) eq 'SCALAR';
   my $root = $$opts{'into'} ? $$opts{'into'} : ();
   $root ||= $$opts{'as_array'} ? [] : Hub::mkinst('SortedHash');
   my $ptr = $root;
   my $block_comment = 0;
+  my $block_text = 0;
   my @parents = ();
   local $. = 0;
 
@@ -67,13 +86,27 @@ sub hparse {
       next;
     }
 
+    if ($block_text) {
+      # End of a text block?
+      /\s*$block_text\s*/ and do {
+        _trace($., "txtblk-e", $_);
+        $block_text = 0;
+        $ptr = pop @parents;
+        next;
+      };
+      _trace($., "txtblk+", $_);
+      $$ptr .= $$ptr ? $NEWLINE . _unescape($_) : _unescape($_);
+      next;
+    }
+
     # Begin of a new hash structure
     /^\s*$PAT_HASH($PAT_LVAL*)\s*$PAT_OPEN?\s*$/ and do {
       _trace($., "hash", $_);
       push @parents, $ptr;
 #     my %h; tie %h, 'Hub::Knots::SortedHash';
       my $h = Hub::mkinst('SortedHash');
-      isa($ptr, 'HASH') and $ptr->{$1} = $h;
+      my $var_name = _trim_whitespace(\$1);
+      isa($ptr, 'HASH') and $ptr->{$var_name} = $h;
       isa($ptr, 'ARRAY') and push @$ptr, $h;
       $ptr = $h;
       next;
@@ -84,7 +117,8 @@ sub hparse {
       _trace($., "array", $_);
       push @parents, $ptr;
       my $a = [];
-      isa($ptr, 'HASH') and $ptr->{$1} = $a;
+      my $var_name = _trim_whitespace(\$1);
+      isa($ptr, 'HASH') and $ptr->{$var_name} = $a;
       isa($ptr, 'ARRAY') and push @$ptr, $a;
       $ptr = $a;
       next;
@@ -95,8 +129,9 @@ sub hparse {
       _trace($., "scalar", $_);
       push @parents, $ptr;
       if (isa($ptr, 'HASH')) {
-        $ptr->{$1} = '';
-        $ptr = \$ptr->{$1};
+        my $var_name = _trim_whitespace(\$1);
+        $ptr->{$var_name} = '';
+        $ptr = \$ptr->{$var_name};
       } elsif (isa($ptr, 'ARRAY')) {
         push @$ptr, '';
         $ptr = \$ptr->[$#$ptr];
@@ -106,10 +141,61 @@ sub hparse {
 
     # A one-line hash member value
     /^\s*($PAT_LVAL+)\s*$PAT_ASSIGN\s*(.*)/ and do {
+      my $lval = $1;
+      my $rval = $2;
+      my $var_name = _trim_whitespace(\$lval);
+
+      # Structure assignment
+      $rval =~ /($PAT_ASSIGN_STRUCT)\s*$PAT_OPEN?\s*$/ and do {
+        _trace($., "assign-$1", $_);
+        unless (isa($ptr, 'HASH')) {
+          warn "Cannot assign structure to '$ptr'",
+              _get_hint($., $_, $$opts{'hint'});
+          next;
+        }
+        push @parents, $ptr;
+        if ($1 eq $LIT_HASH) {
+          my $h = Hub::mkinst('SortedHash');
+          $ptr->{$var_name} = $h;
+          $ptr = $h;
+        } elsif ($1 eq $LIT_ARRAY) {
+          my $a = [];
+          $ptr->{$var_name} = $a;
+          $ptr = $a;
+        } elsif ($1 eq $LIT_SCALAR) {
+          $ptr->{$var_name} = '';
+          $ptr = \$ptr->{$var_name};
+        } else {
+          warn "Unexpected structure assignment",
+              _get_hint($., $_, $$opts{'hint'});
+        }
+        next;
+      };
+
+      # Block assignment
+      $rval =~ /$PAT_ASSIGN_BLOCK\s*($PAT_BLOCK_END+)\s*$/ and do {
+        _trace($., "txtblk", $_);
+        push @parents, $ptr;
+        if (isa($ptr, 'HASH')) {
+          $ptr->{$var_name} = '';
+          $ptr = \$ptr->{$var_name};
+        } elsif (isa($ptr, 'ARRAY')) {
+          push @$ptr, '';
+          $ptr = \$ptr->[$#$ptr];
+        }
+        $block_text = $1;
+        next;
+      };
+
+      # Value assignment
       _trace($., "assign", $_);
-      die "Cannot assign variable to '$ptr'", _get_hint($., $_)
-        unless isa($ptr, 'HASH');
-      $ptr->{$1} = $2;
+      unless (isa($ptr, 'HASH')) {
+        warn "Cannot assign variable to '$ptr'", _get_hint($., $_, $$opts{'hint'});
+        isa($ptr, 'ARRAY') and push @$ptr, $_;
+        isa($ptr, 'SCALAR') and $$ptr .= $_;
+        next;
+      }
+      $ptr->{$var_name} = $rval;
       next;
     };
 
@@ -117,7 +203,9 @@ sub hparse {
     /^\s*$PAT_CLOSE\s*$/ and do {
       _trace($., "close", $_);
       $ptr = pop @parents;
-      die "No parent" . _get_hint($., $_) unless defined $ptr;
+      unless (defined $ptr) {
+        warn "No parent" . _get_hint($., $_, $$opts{'hint'});
+      }
       next;
     };
 
@@ -141,7 +229,19 @@ sub hparse {
 
     # A one-line comment
     /^\s*$PAT_COMMENT/ and do {
-      _trace($., "comment", $_);
+      if ($. == 1) {
+        _trace($., "crown", $_);
+        my @parts = split '\s';
+        if (@parts >= 3 && $parts[0] =~ /^Hash(File|Format)$/) {
+          my ($major, $minor) = split '\.', $parts[2];
+          if ($major > HASH_FORMAT_MAJOR_VERSION) {
+            die "Hash format version '$major' is too new",
+                _get_hint($., $_, $$opts{'hint'});
+          }
+        }
+      } else {
+        _trace($., "comment", $_);
+      }
       next unless (ref($ptr) eq 'SCALAR');
     };
 
@@ -165,7 +265,7 @@ sub hparse {
     _trace($., "?", $_);
   }
 
-  die "Unclosed structure" . _get_hint($., 'EOF') if @parents > 1;
+  warn "Unclosed structure" . _get_hint($., 'EOF', $$opts{'hint'}) if @parents > 1;
   return $root;
 }
 
@@ -193,15 +293,26 @@ sub _hprint {
   my $ref = shift or croak "Provide a reference";
   my $name = shift || '';
   my $level = shift || 0;
+  my $parent = shift;
   my $result_str = '';
   my $result = \$result_str;
+
+  # Tame beastly names
+  if ($name && $name !~ /^$PAT_LVAL+$/) {
+    $name = Hub::safestr($name);
+  }
 
   if (isa($ref, 'HASH') || isa($ref, 'ARRAY')) {
 
     # Structure declaration and name
     if ($level > 0) {
       my $symbol = isa($ref, 'HASH') ? $LIT_HASH : $LIT_ARRAY;
-      $$result .= _get_indent($level) .$symbol.$name.$LIT_OPEN.$NEWLINE;
+      if (defined $parent && isa($parent, 'HASH')) {
+        $$result .= _get_indent($level) 
+          .$name.$SPACE.$LIT_ASSIGN.$SPACE.$symbol.$LIT_OPEN.$NEWLINE;
+      } else {
+        $$result .= _get_indent($level) .$symbol.$name.$LIT_OPEN.$NEWLINE;
+      }
     }
 
     # Contents
@@ -209,9 +320,9 @@ sub _hprint {
       $level++;
       for (keys %$ref) {
         if (ref($$ref{$_})) {
-          $$result .= ${_hprint($$ref{$_}, $_, $level)};
+          $$result .= ${_hprint($$ref{$_}, $_, $level, $ref)};
         } else {
-          $$result .= ${_hprint(\$$ref{$_}, $_, $level)};
+          $$result .= ${_hprint(\$$ref{$_}, $_, $level, $ref)};
         }
       }
       $level--;
@@ -219,8 +330,8 @@ sub _hprint {
       $level++;
       for (@$ref) {
         $$result .= ref($_) ?
-          ${_hprint($_, '', $level)} :
-          ${_hprint(\$_, '', $level)};
+          ${_hprint($_, '', $level, $ref)} :
+          ${_hprint(\$_, '', $level, $ref)};
       }
       $level--;
     }
@@ -236,8 +347,13 @@ sub _hprint {
 
     # Scalar
     if (index($value, "\n") > -1 || $value =~ /^\s+/) {
+      $$result .= _get_indent($level);
+      if (defined $parent && isa($parent, 'HASH')) {
+        $$result .= $name.$SPACE.$LIT_ASSIGN.$SPACE.$LIT_SCALAR.$LIT_OPEN.$NEWLINE;
+      } else {
+        $$result .= $LIT_SCALAR.$name.$LIT_OPEN.$NEWLINE;
+      }
       # Write a scalar block to protect data
-      $$result .= _get_indent($level) .$LIT_SCALAR.$name.$LIT_OPEN.$NEWLINE;
       $$result .= _escape($value).$NEWLINE;
       $$result .= _get_indent($level) .$LIT_CLOSE.$NEWLINE;
     } else {
@@ -261,6 +377,12 @@ sub _hprint {
   return $result;
 }
 
+sub _trim_whitespace {
+  my $result = ${$_[0]};
+  $result =~ s/^\s+|\s+$//g;
+  return $result;
+}
+
 # ------------------------------------------------------------------------------
 # _escape - Esacape patterns which would be interpred as control characters
 # ------------------------------------------------------------------------------
@@ -277,7 +399,7 @@ sub _escape {
 
 sub _unescape {
   my $result = $_[0];
-  $result =~ s/\\($PAT_PROTECTED)/$1/g;
+  $result =~ s/\\($PAT_PROTECTED2)/$1/g;
   return $result;
 }#_unescape
 
@@ -305,9 +427,14 @@ sub _trace {
 # ------------------------------------------------------------------------------
 
 sub _get_hint {
+  my $result = '';
+  if (defined $_[2]) {
+    $result = " ($_[2])";
+  }
   my $str =  substr($_[1], 0, 40);
   $str =~ s/^\s+//g;
-  return " at line $_[0]: '$str'";
+  $result .= " at line $_[0]: '$str'";
+  return $result;
 }
 
 # ------------------------------------------------------------------------------

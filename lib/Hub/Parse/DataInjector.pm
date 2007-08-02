@@ -18,7 +18,7 @@ $EVALUATORS{'define'} = sub {
   my ($self, $params, $result) = @_;
 # return if $$self{'priority'} eq 'content';
   my ($outer_str, $fields, $pos, $text, $parents, $valdata) = @$params;
-  my %directive = @$fields;
+  my ($opts, %directive) = Hub::opts($fields);
   my $varname = $directive{'define'};
   my ($end_p, $block) =
     $self->_get_block($$pos + length($outer_str), $text, 'define');
@@ -49,7 +49,7 @@ $EVALUATORS{'end'} = sub {
   my ($self, $params, $result) = @_;
 # return if $$self{'priority'} eq 'content';
   my ($outer_str, $fields, $pos, $text, $parents, $valdata) = @$params;
-  my %directive = @$fields;
+  my ($opts, %directive) = Hub::opts($fields);
   $result->{'value'} = '' if $directive{'end'} eq 'define';
 };
 

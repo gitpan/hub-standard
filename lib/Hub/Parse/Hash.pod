@@ -29,6 +29,7 @@ Hub::Parse::Hash - Refactor of HashFile
  Usage: hparse \$text, [options]
 options:
   -as_array=1         # Treat text as an array list (and return an array ref)
+  -hint=hint          # Usually a filename, used in debug/error output
 
 
 =back
@@ -60,6 +61,16 @@ options:
 
 =item Implementation of hprint
 
+
+
+
+=back
+
+=head2 _trim_whitespace
+
+=over 4
+
+=item 
 
 
 
@@ -171,6 +182,6 @@ give any guarantee of the above statement.
 
 =head1 UPDATED
 
-06/09/2007
+08/02/2007
 
 =cut

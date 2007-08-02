@@ -29,6 +29,7 @@ For :webapp functions
 
 	Bundle::Apache2
 	Image::Size
+  Digest::SHA1 (or Crypt::DSA)
 
 AUTHORS
 -------

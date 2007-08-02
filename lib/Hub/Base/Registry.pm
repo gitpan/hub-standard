@@ -1,9 +1,11 @@
 package Hub::Base::Registry;
 use strict;
-use Hub qw/:lib/;
-our $VERSION = '4.00012';
+use Hub qw/:lib :config/;
+our $VERSION = '4.00043';
 our @EXPORT = qw//;
-our @EXPORT_OK = qw//;
+our @EXPORT_OK = qw/ROOT_KEYS/;
+
+use constant ROOT_KEYS => qw(sys conf session cgi);
 
 # ------------------------------------------------------------------------------
 # new - Constructor
@@ -46,24 +48,53 @@ sub bootstrap {
   croak "Illegal call to instance method" unless ref($self);
   # System environment
   my @argv = (@ARGV);
+  # Remove virtual containers
+  do {delete $$self{"/$_"}} for qw(sys/.* conf session cgi);
+  $$self{'/sys'} = {}; # Clear
   $$self{'/sys/OPTS'} = Hub::cmdopts(\@argv);
   $$self{'/sys/ARGV'} = \@argv;
   $$self{'/sys/ENV'} = Hub::cpref(\%ENV);
   $$self{'/sys/ENV/WORKING_DIR'} ||= cwd();
   # Configuration
+  my $conf = Hub::CONF_BASE;
+  if ($Hub::TAG_MAP{'Webapp'}) {
+    $conf = Hub::merge($conf, Hub::CONF_WEBAPP, -overwrite, -copy)
+  }
   my $conf_file = Hub::bestof($$Hub{'/sys/ENV/CONF_FILE'}, '.conf');
   if (-e $conf_file) {
     my $hf = Hub::mkinst('HashFile', $conf_file);
-    $$self{'/conf'} = $hf->get_data();
+    $conf = Hub::merge($conf, $hf->get_data(), -overwrite, -copy);
   }
-  # Stub out each root file or directory
-  my $workdir = $$self{'/sys/ENV/WORKING_DIR'};
-  foreach my $name (Hub::readdir($workdir)) {
-    next if grep {$_ eq $name} qw(sys conf); # don't overwrite the above
-    my $init = $$self{$name}; # creates the handler
-#   $$self{$name} = Hub::mkhandler($name);
+  $$self{'/conf'} = $conf;
+  # Directories encountered first have prescedence
+  my @root_keys = ();
+  foreach my $var ('/sys/ENV/BASE_DIR', '/sys/ENV/WORKING_DIR') {
+    my $dir = $$self{$var};
+    if (defined $dir) {
+      chdir $dir;
+      push @root_keys, $self->_root_overlay($dir);
+    }
   }
+  # Clear
+  foreach my $k (keys %$self) {
+    unless (grep { $_ eq $k } (@root_keys, ROOT_KEYS)) {
+      delete $$self{$k};
+    }
+  }
+  # Our dot directory is the working (not base) directory
+  $$self{'.'} = Hub::mkhandler($$self{'/sys/ENV/WORKING_DIR'});
 }#bootstrap
+
+sub _root_overlay {
+  my ($self, $dir) = @_;
+  return () unless defined $dir;
+  my @root_files = Hub::readdir($dir);
+  foreach my $name (@root_files) {
+    next if grep {$_ eq $name} ROOT_KEYS; # don't overwrite the above
+    my $init = $$self{$name}; # creates the handler
+  }
+  return @root_files;
+}
 
 # ------------------------------------------------------------------------------
 # finish - The caller's script has completed

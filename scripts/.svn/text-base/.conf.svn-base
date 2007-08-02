@@ -1,0 +1,13 @@
+# HashFile 2.0
+# vim: syntax=hf
+# vim: filetype=hf
+
+log_max_size                == 1000
+log_level                   == info,warn
+log_disable                 == 0
+log_stack_depth             == 0
+log_show_source             == 0
+
+win32_owner_name            == Everyone
+win32_group_name            == 
+win32_other_name            == 

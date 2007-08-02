@@ -1,4 +1,4 @@
-Hub version 04.00.012
+Hub version 04.00.043
 =====================
 
 INSTALLATION
@@ -29,6 +29,7 @@ For :webapp functions
 
 	Bundle::Apache2
 	Image::Size
+  Digest::SHA1 (or Crypt::DSA)
 
 AUTHORS
 -------

@@ -5,7 +5,7 @@
 <title>Hub::Apache2::Render</title>
 <link rel="stylesheet" href="../../styles.css" type="text/css" />
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<link rev="made" href="mailto:root@localhost" />
+<link rev="made" href="mailto:Gentoo@livesitemail.(none)" />
 </head>
 
 <body>
@@ -23,6 +23,7 @@
 		<li><a href="#working_dir">WORKING_DIR</a></li>
 		<li><a href="#conf_file">CONF_FILE</a></li>
 		<li><a href="#debug">DEBUG</a></li>
+		<li><a href="#notes">Notes</a></li>
 	</ul>
 
 	<li><a href="#public_methods">PUBLIC METHODS</a></li>
@@ -30,14 +31,8 @@
 
 		<li><a href="#handler">handler</a></li>
 		<li><a href="#process_request">process_request</a></li>
+		<li><a href="#render">render</a></li>
 		<li><a href="#mimic">mimic</a></li>
-	</ul>
-
-	<li><a href="#internal_methods">INTERNAL METHODS</a></li>
-	<ul>
-
-		<li><a href="#_sigwarn">_sigwarn</a></li>
-		<li><a href="#_sigdie">_sigdie</a></li>
 	</ul>
 
 	<li><a href="#author">AUTHOR</a></li>
@@ -103,6 +98,31 @@ For example:</p>
 <pre>
       PerlSetEnv DEBUG &quot;1&quot;</pre>
 <p>
+</p>
+<h2><a name="notes">Notes</a></h2>
+<pre>
+  'Accept',               # Lists acceptable media types for the server to 
+                          # present in response
+  'Accept-Charset',       # Lists character sets the client will accept
+  'Accept-Encoding',      # Lists encodings the client will accept
+  'Accept-Language',      # Lists languages the client is most interested in
+  'Authorization',        # A series of authorization fields
+  'Cache-Control',        # Behavior intended to prevent caches from adversely 
+                          # interfering with the request or response
+  'Cookie',               # Decribes a client cookie
+  'Host',                 # Name of the requested host server
+  'If-Match',             # The entity tag of the client's cached version of 
+                          # the requested resource
+  'If-Modified-Since',    # An HTTP-formatted date for the server to use in 
+                          # resource comparisons
+  'If-None-Match',        # A list of entity tags representing the client's 
+                          # possible cached resources
+  'If-Unmodified-Since',  # An HTTP-formatted date for the server to use in 
+                          # resource comparisons
+  'Referer',              # An absolute or partial URI of the resource from 
+                          # which the current request was obtained
+  'User-Agent',           # A string identifying the client software</pre>
+<p>
 <a href="#__index__"><small>Top</small></a>
 </p>
 <hr />
@@ -111,12 +131,19 @@ For example:</p>
 </p>
 <h2><a name="handler">handler</a></h2>
 <dl>
-<dt><strong><a name="item_apache2_mod_perl_invokation_method">Apache2 mod_perl invokation method</a></strong>
+<dt><strong><a name="item_apache2_mode_perl_invocation_method">Apache2 mode_perl invocation method</a></strong>
 
 </dl>
 <p>
 </p>
 <h2><a name="process_request">process_request</a></h2>
+<dl>
+<dt><strong><a name="item_apache2_mod_perl_processor">Apache2 mod_perl processor</a></strong>
+
+</dl>
+<p>
+</p>
+<h2><a name="render">render</a></h2>
 <dl>
 <dt><strong><a name="item_worker_method">Worker method</a></strong>
 
@@ -138,25 +165,6 @@ For debugging, you may mimic a web request by:</pre>
   cd $WORKING_DIR
   perl -MHub -e &quot;Hub::Apache2::Render::mimic()&quot; index.html</pre>
 </dd>
-</dl>
-<p>
-<a href="#__index__"><small>Top</small></a>
-</p>
-<hr />
-<h1><a name="internal_methods">INTERNAL METHODS</a></h1>
-<p>
-</p>
-<h2><a name="_sigwarn">_sigwarn</a></h2>
-<dl>
-<dt><strong><a name="item_warning_handler">Warning handler</a></strong>
-
-</dl>
-<p>
-</p>
-<h2><a name="_sigdie">_sigdie</a></h2>
-<dl>
-<dt><strong><a name="item_handler">Die handler (fatals to browser)</a></strong>
-
 </dl>
 <p>
 <a href="#__index__"><small>Top</small></a>
@@ -201,7 +209,7 @@ give any guarantee of the above statement.</p>
 </p>
 <hr />
 <h1><a name="updated">UPDATED</a></h1>
-<p>06/09/2007</p>
+<p>08/02/2007</p>
 <p><a href="#__index__"><small>Top</small></a></p>
 
 </body>

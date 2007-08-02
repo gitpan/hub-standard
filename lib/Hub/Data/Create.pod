@@ -36,6 +36,31 @@ In the second form (only one key can exist) the matching value is returned.
 
  Usage: mkhandler $path
 
+B<Example> returns: B<regex>:
+
+    Hub::mkhandler('/jonnyboy.dat')
+
+
+B<Example> returns: B<regex>:
+
+    Hub::mkhandler('/jonnyboy.data')
+
+
+B<Example> returns: B<regex>:
+
+    Hub::mkhandler('/jonnyboy.hf')
+
+
+B<Example> returns: B<regex>:
+
+    Hub::mkhandler('/data.dat.foo')
+
+
+B<Example> returns: B<regex>:
+
+    use Cwd qw(cwd); Hub::mkhandler(cwd())
+
+
 
 =back
 
@@ -134,6 +159,6 @@ give any guarantee of the above statement.
 
 =head1 UPDATED
 
-06/09/2007
+08/02/2007
 
 =cut

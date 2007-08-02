@@ -6,7 +6,7 @@ use IO::Handle;
 use Fcntl qw/:flock/;
 use File::Copy qw/copy/;
 use Hub qw/:lib/;
-our $VERSION = '4.00012';
+our $VERSION = '4.00043';
 our @EXPORT = qw//;
 our @EXPORT_OK = qw/
   SEPARATOR
@@ -33,6 +33,7 @@ our @EXPORT_OK = qw/
   popwp
   srcpath
   fixpath
+  secpath
   getaddr
   getpath
   getspec
@@ -430,12 +431,14 @@ sub cpdir {
   my $target_parent = Hub::getpath($target_dir) || '.';
   croak "Provide an existing source: $source_dir" unless -d $source_dir;
   croak "Provide an existing target: $target_parent" unless -d $target_parent;
+  my $item_count = 0;
   if ($$opts{'as_subdir'}) {
     $target_dir .= SEPARATOR if $target_dir;
     $target_dir .= Hub::getname($source_dir);
     mkabsdir($target_dir, -opts => $opts);
   } elsif ($$opts{'peers'}) {
     mkabsdir($target_dir, -opts => $opts);
+    $item_count++;
   }
   my @items = Hub::find($source_dir, -opts => $opts);
   foreach my $item (@items) {
@@ -449,7 +452,8 @@ sub cpdir {
       Hub::cpfile($item, $target, -opts => $opts);
     }
   }
-  return @items ? $#items+1 : 0;
+  $item_count += @items;
+  return $item_count;
 }#cpdir
 
 # ------------------------------------------------------------------------------
@@ -919,7 +923,8 @@ sub srcpath {
   -e $unknown and return $unknown;
   for (
     @{$$Hub{'/sys/PATH'}},
-    $$Hub{'/sys/ENV/WORKING_DIR'}
+    $$Hub{'/sys/ENV/WORKING_DIR'},
+    $$Hub{'/sys/ENV/BASE_DIR'}
   ) {
     next unless defined && $_;
     my $spec = Hub::fixpath( "$_/$unknown" );
@@ -928,6 +933,20 @@ sub srcpath {
     }
   }
 }#srcpath
+
+# ------------------------------------------------------------------------------
+# secpath - Authorize a path for the runtime access
+# secpath $path
+#
+# Intention is to be able to pass anything to this method and it will only
+# return a path when it is valid.  Being valid means that it resolves to a file
+# or directory which is at or below the WORKING_DIR.
+# ------------------------------------------------------------------------------
+
+sub secpath {
+  my $abspath = Hub::abspath(@_, -must_exit => 0);
+  return defined Hub::getaddr($abspath) ? $abspath : undef;
+}#secpath
 
 #-------------------------------------------------------------------------------
 # fixpath - Clean up malformed paths (usually due to concatenation logic).
@@ -983,9 +1002,13 @@ sub fixpath {
 
 sub getaddr {
   my $path = Hub::srcpath(@_) || $_[0];
+  my $result = ();
   return unless defined $path;
-  $path =~ s#^$$Hub{'/sys/ENV/WORKING_DIR'}##;
-  return $path;
+  foreach my $dir ($$Hub{'/sys/ENV/WORKING_DIR'}, $$Hub{'/sys/ENV/BASE_DIR'}) {
+    next unless defined $dir;
+    $path =~ s#^$dir## and return $path;
+  }
+  return undef;
 }#getaddr
 
 # ------------------------------------------------------------------------------
@@ -1066,6 +1089,7 @@ sub getext {
 
 sub realpath {
   my $real_path = shift;
+  croak "Provide an address" unless defined $real_path;
   $real_path =~ s/^\///;
   # TODO implement mounts
   return $real_path ? $real_path : '.';
@@ -1081,21 +1105,32 @@ sub realpath {
 sub abspath {
   my $path = shift; # important to shift (filenames can start with a dash)
   my ($opts) = Hub::opts(\@_, {must_exist => 0,});
-  my $result = _find_abspath($path);
-  die "$!: $result" if $$opts{'must_exist'} && ! -e $result;
+  my $result = ();
+  if ($$opts{'must_exist'}) {
+    $result = _find_abspath($path, $$Hub{'/sys/ENV/WORKING_DIR'});
+    if (! -e $result) {
+      $result = _find_abspath($path, $$Hub{'/sys/ENV/BASE_DIR'});
+    }
+#   die "$!: $result" unless -e $result;
+    return undef unless -e $result;
+  } else {
+    $result = _find_abspath($path);
+  }
   return $result;
 }#abspath
 
 # ------------------------------------------------------------------------------
 # _find_abspath - Get the absolute path (may or may not exist)
 # _find_abspath $node
+# _find_abspath $node $working_dir
 # ------------------------------------------------------------------------------
 
 sub _find_abspath {
   my $relative_path = shift || return;
+  my $base_dir = shift;
 # $relative_path =~ s/\\/\//g;
   return $relative_path if $relative_path =~ /^\/|^[A-Za-z]:\//;
-  my $base_dir = Hub::bestof($$Hub{'/sys/ENV/WORKING_DIR'},Hub::getpath($0));
+  $base_dir ||= Hub::bestof($$Hub{'/sys/ENV/WORKING_DIR'},Hub::getpath($0));
   $base_dir = cwd() unless $base_dir =~ /^\/|^[A-Za-z]:\//;
 # $base_dir =~ s/\\/\//g;
   return fixpath("$base_dir/$relative_path");

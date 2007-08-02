@@ -87,6 +87,7 @@ options:
 
 
   -as_ref => 1         # Return a reference
+  -text_only => 1      # Do not return binary data
 
 
 =back
@@ -190,6 +191,6 @@ give any guarantee of the above statement.
 
 =head1 UPDATED
 
-06/09/2007
+08/02/2007
 
 =cut

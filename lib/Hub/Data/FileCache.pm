@@ -1,7 +1,7 @@
 package Hub::Data::FileCache;
 use strict;
 use Hub qw/:lib/;
-our $VERSION = '4.00012';
+our $VERSION = '4.00043';
 our @EXPORT = qw//;
 our @EXPORT_OK = qw/fattach fhandler finstance frefresh fread/;
 our $NAMESPACE = Hub::regns('filecache');
@@ -96,7 +96,8 @@ sub finstance {
 #
 # options:
 #
-#   -force=>1         Force re-reading
+#   -force=>1         Force re-reading all
+#   -force_dirs=>1    Force re-reading of directories
 #
 # Without a $filename, B<all> file instances are checked for disk modifications.
 # If the file has been modified, re-read the file and tell all your handlers to 
@@ -121,10 +122,13 @@ sub frefresh {
     }
     if (!defined $stats || ($stats->mtime() == 0)) {
       # file no longer exists
+      delete $$Hub{Hub::getaddr($instance->{'filename'})};
       delete $NAMESPACE->{$instance->{'filename'}};
       next;
     }
-    if ($$opts{'force'} || ($stats->mtime() > $instance->{'lastread'})) {
+    if (($$opts{'force'} || ($stats->mtime() > $instance->{'lastread'}))
+        || ($$opts{'force_dirs'} && -d $instance->{'filename'})) {
+#warn " Read \n";
       Hub::fread($instance);
     } elsif (-d $instance->{'filename'}) {
       my $md_filename = $instance->{'filename'}
@@ -164,8 +168,8 @@ sub fread {
   my $stats = stat $filename;
   if (defined $stats) {
 #warn " -reading: $filename\n";
-#   $instance->{'lastread'} = $stats->mtime();
-    $instance->{'lastread'} = time;
+    $instance->{'lastread'} = $stats->mtime();
+#   $instance->{'lastread'} = time;
     if (-f $filename) {
       my @contents = Hub::readfile($filename, '-asa=1');
       $instance->{'lines'}    = [ @contents ];

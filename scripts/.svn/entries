@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="229"
+   name=""
+   committed-date="2007-07-20T06:44:21.983098Z"
+   url="file:///var/svn/repos/livesite/trunk/code/perl/build/templates/lib/scripts"
+   last-author="ryan"
+   kind="dir"
+   uuid="9b4ab0be-3106-4dd6-b4c4-43caaa45ba2f"
+   repos="file:///var/svn/repos/livesite"
+   revision="345"/>
+</wc-entries>

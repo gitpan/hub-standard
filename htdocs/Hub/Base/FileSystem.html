@@ -5,7 +5,7 @@
 <title>Hub::Base::FileSystem</title>
 <link rel="stylesheet" href="../../styles.css" type="text/css" />
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<link rev="made" href="mailto:root@localhost" />
+<link rev="made" href="mailto:Gentoo@livesitemail.(none)" />
 </head>
 
 <body>
@@ -46,6 +46,7 @@
 		<li><a href="#pushwp">pushwp</a></li>
 		<li><a href="#popwp">popwp</a></li>
 		<li><a href="#srcpath">srcpath</a></li>
+		<li><a href="#secpath">secpath</a></li>
 		<li><a href="#fixpath">fixpath</a></li>
 		<li><a href="#getaddr">getaddr</a></li>
 		<li><a href="#getpath">getpath</a></li>
@@ -536,6 +537,22 @@ source directory are copied.  This is done so that the default operation is:</p>
 </dl>
 <p>
 </p>
+<h2><a name="secpath">secpath</a></h2>
+<dl>
+<dt><strong><a name="item_authorize_a_path_for_the_runtime_access">Authorize a path for the runtime access</a></strong>
+
+<dd>
+<pre>
+ Usage: secpath $path</pre>
+</dd>
+<dd>
+<p>Intention is to be able to pass anything to this method and it will only
+return a path when it is valid.  Being valid means that it resolves to a file
+or directory which is at or below the WORKING_DIR.</p>
+</dd>
+</dl>
+<p>
+</p>
 <h2><a name="fixpath">fixpath</a></h2>
 <dl>
 <dt><strong><a name="item_paths">Clean up malformed paths (usually due to concatenation logic).</a></strong>
@@ -946,7 +963,8 @@ default, '.conf' in the current directory):</p>
 
 <dd>
 <pre>
- Usage: _find_abspath $node</pre>
+ Usage: _find_abspath $node
+ Usage: _find_abspath $node $working_dir</pre>
 </dd>
 </dl>
 <p>
@@ -992,7 +1010,7 @@ give any guarantee of the above statement.</p>
 </p>
 <hr />
 <h1><a name="updated">UPDATED</a></h1>
-<p>06/09/2007</p>
+<p>08/02/2007</p>
 <p><a href="#__index__"><small>Top</small></a></p>
 
 </body>

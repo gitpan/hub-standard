@@ -1,7 +1,7 @@
 package Hub::Data::Handlers;
 use strict;
 use Hub qw/:lib/;
-our $VERSION = '4.00012';
+our $VERSION = '4.00043';
 our @EXPORT = qw//;
 our @EXPORT_OK = qw/fetch store getv setv delete/;
 
@@ -188,12 +188,15 @@ sub _transcend {
     my $node = $result->{'not_found'}[0];
     $result->{'parent'} = $ptr;
     my $path = $base ? "$base/$node" : $node;
-    return $result unless -e $path;
-    $ptr->{$node} = Hub::mkhandler($path);
-    $continue = -d $path;
-    $base = $path;
-    $ptr = $ptr->{$node};
-    push @{$result->{'found'}}, shift @{$result->{'not_found'}};
+    if (-e $path) {
+      $ptr->{$node} = Hub::mkhandler($path);
+      $continue = -d $path;
+      $base = $path;
+      $ptr = $ptr->{$node};
+      push @{$result->{'found'}}, shift @{$result->{'not_found'}};
+    } else {
+      $continue = 0;
+    }
   }
   if (@{$result->{'not_found'}}) {
     my $result2 = _traverse($ptr, join('/', @{$result->{'not_found'}}));

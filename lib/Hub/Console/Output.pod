@@ -97,11 +97,24 @@ B<Example>: (matches)
 
 
 
+
     this is re
    ally short
     but split
    s on ten c
    hars
+
+B<Example>: (matches)
+
+    ps( 10, "this  is really short but splits on ten chars", -keepwords );
+
+
+
+    this  is 
+    really 
+    short but 
+    splits on 
+    ten 
 
 
 =back
@@ -226,6 +239,6 @@ give any guarantee of the above statement.
 
 =head1 UPDATED
 
-06/09/2007
+08/02/2007
 
 =cut

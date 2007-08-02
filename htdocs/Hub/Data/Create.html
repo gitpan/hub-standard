@@ -5,7 +5,7 @@
 <title>Hub::Data::Create</title>
 <link rel="stylesheet" href="../../styles.css" type="text/css" />
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<link rev="made" href="mailto:root@localhost" />
+<link rev="made" href="mailto:Gentoo@livesitemail.(none)" />
 </head>
 
 <body>
@@ -76,6 +76,41 @@ In the second form (only one key can exist) the matching value is returned.</pre
 <dd>
 <pre>
  Usage: mkhandler $path</pre>
+</dd>
+<dd>
+<p><strong>Example</strong> returns: <strong>regex</strong>:</p>
+</dd>
+<dd>
+<pre>
+    Hub::mkhandler('/jonnyboy.dat')</pre>
+</dd>
+<dd>
+<p><strong>Example</strong> returns: <strong>regex</strong>:</p>
+</dd>
+<dd>
+<pre>
+    Hub::mkhandler('/jonnyboy.data')</pre>
+</dd>
+<dd>
+<p><strong>Example</strong> returns: <strong>regex</strong>:</p>
+</dd>
+<dd>
+<pre>
+    Hub::mkhandler('/jonnyboy.hf')</pre>
+</dd>
+<dd>
+<p><strong>Example</strong> returns: <strong>regex</strong>:</p>
+</dd>
+<dd>
+<pre>
+    Hub::mkhandler('/data.dat.foo')</pre>
+</dd>
+<dd>
+<p><strong>Example</strong> returns: <strong>regex</strong>:</p>
+</dd>
+<dd>
+<pre>
+    use Cwd qw(cwd); Hub::mkhandler(cwd())</pre>
 </dd>
 </dl>
 <p>
@@ -160,7 +195,7 @@ give any guarantee of the above statement.</p>
 </p>
 <hr />
 <h1><a name="updated">UPDATED</a></h1>
-<p>06/09/2007</p>
+<p>08/02/2007</p>
 <p><a href="#__index__"><small>Top</small></a></p>
 
 </body>

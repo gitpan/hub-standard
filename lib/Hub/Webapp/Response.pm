@@ -1,7 +1,7 @@
 package Hub::Webapp::Response;
 use strict;
 use Hub qw/:lib/;
-our $VERSION = '4.00012';
+our $VERSION = '4.00043';
 our @EXPORT = qw//;
 our @EXPORT_OK = qw/
     respond
@@ -13,52 +13,99 @@ our @EXPORT_OK = qw/
 
 sub respond {
 
-  # Validate response template
-  my $response_template =
-    Hub::bestof(Hub::srcpath($$Hub{'/sys/response/template'}), '');
-  unless($response_template) {
-    warn "Response template not found: $$Hub{'/sys/response/template'}";
-    my $ext = Hub::getext($$Hub{'/sys/response/template'}) || '';
-    $response_template = Hub::bestof(
-      $$Hub{"/conf/not_found/$ext"},
-      $$Hub{"/conf/not_found/other"}
-    );
-    unless (-e $response_template) {
-      warn "Cannot locate not_found document";
-      return;
-    }
+  # Request object
+  my $reqrec = shift;
+
+  # Munge /cgi data to protect from XSS attacks
+  foreach my $k (keys %{$$Hub{'/cgi'}}) {
   }
 
   # Merge templates with values
-  my $contents = Hub::readfile($response_template);
-  my $parser = Hub::mkinst('HtmlParser', -template => \$contents);
-  my $output = $parser->populate($Hub);
-
-  # Print headers
-  my $headers = $$Hub{'/sys/response/headers'} || [];
-  unless (substr($$output, 0, 500) =~ /Content-Type:/i) {
-    my ($encoding,$type,$header) =
-      _get_headers(Hub::getext($response_template));
-    push @$headers, "Content-type: $type\n\n";
+  my $contents = '';
+  my $response_template = Hub::getaddr($$Hub{'/sys/response/template'});
+  return unless defined $response_template;
+  my $file = $$Hub{$response_template};
+  if (can($file, 'get_content')) {
+    $contents = $file->get_content();
   }
-  map { $_ and print $_ =~ /\n$/ ? $_ : "$_\n" } @$headers;
+  my $parser = Hub::mkinst('HtmlParser', -template => \$contents);
+  my $output = $parser->populate($Hub) || '';
+
+  # Glean headers from registry
+  my $headers = {};
+  my $rh = $$Hub{'/sys/response/headers'};
+  if (isa($rh, 'ARRAY')) {
+    for (@$rh) {
+      my ($k, $v) = /([^:]+)\s*:\s*(.*)/;
+      $headers->{lc($k)} = $v;
+    }
+  }
+
+  # Parse headers from output
+  my $crown = substr($$output, 0, 500);
+  my $crop = 0;
+  for (split /[\r\n]+/, $crown) {
+    my @fields = /^([a-z\-_]+)\s*:\s*(.*)/i;
+    if (@fields) {
+      $headers->{lc($fields[0])} = $fields[1];
+      $crop = Hub::indexmatch($crown, '[\r\n]+', $crop, -after);
+      $crop = length($crown) if $crop < 0;
+    } else {
+      last;
+    }
+  }
+
+  # Oputput headers
+  unless ($$headers{'content-type'}) {
+    my ($encoding,$type,$header) =
+      _get_content_headers(Hub::getext($response_template));
+    $headers->{'content-type'} = $type;
+  }
+  my $output_headers = '';
+  for (keys %$headers) {
+    /content-type/ and next;
+    $output_headers .= ucfirst($_) . ": $$headers{$_}\n"
+  }
+  $output_headers .= "Content-Type: $$headers{'content-type'}\n\n";
 
   # Send output
-  print $$output if defined $output;
+  if (can($reqrec, 'print')) {
+    $output_headers and $reqrec->print($output_headers);
+    $reqrec->print($crop > 0 ? substr($$output, $crop) : $$output);
+  } else {
+    $output_headers and print STDOUT $output_headers;
+    print STDOUT $crop > 0 ? substr($$output, $crop) : $$output;
+  }
+
+#
+# # Echo the response to file (debugging headers)
+# if ($$Hub{'/sys/ENV/DEBUG'}) {
+#   if (defined $$Hub{'/session'}) {
+#     my $dir = $$Hub{'/session/directory'};
+#     if (-d $dir) {
+#       my $fn = $dir . '/' . Hub::getname($response_template);
+#       Hub::writefile($fn, $output_headers . $$output);
+#     }
+#   }
+# }
+#
 
 }
 
 # ------------------------------------------------------------------------------
-# _get_headers - Standard HTTP headers by file extension
-# _get_headers $ext
+# _get_content_headers - Standard HTTP headers by file extension
+# _get_content_headers $ext
 # Return an array of headers ($content_encoding, $content_type, [other..])
 # ------------------------------------------------------------------------------
 
-sub _get_headers {
+sub _get_content_headers {
   my $ext = lc(shift) || '';
   # Create the map
   $$Hub{"/conf/content_types"} ||= {
     htm => {
+      type => 'text/html',
+    },
+    html => {
       type => 'text/html',
     },
     js => {
@@ -67,8 +114,8 @@ sub _get_headers {
     css => {
       type => 'text/css',
     },
-    html => {
-      type => 'text/html',
+    txt => {
+      type => 'text/plain',
     },
   };
   # Lookup by file extension

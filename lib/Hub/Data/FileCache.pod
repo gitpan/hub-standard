@@ -83,7 +83,8 @@ In its second form, we will return all handlers for the given file.
 options:
 
 
-  -force=>1         Force re-reading
+  -force=>1         Force re-reading all
+  -force_dirs=>1    Force re-reading of directories
 
 
 Without a $filename, B<all> file instances are checked for disk modifications.
@@ -169,6 +170,6 @@ give any guarantee of the above statement.
 
 =head1 UPDATED
 
-06/09/2007
+08/02/2007
 
 =cut

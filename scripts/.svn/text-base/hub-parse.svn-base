@@ -1,0 +1,13 @@
+#!/usr/bin/perl -w
+use strict;
+use Hub qw(:standard);
+
+my @data = ($Hub);
+my $use = $$Hub{'/sys/OPTS/use'};
+unshift @data, $$Hub{$use} if defined $use;
+
+foreach my $filename (@{$$Hub{'/sys/ARGV'}}) {
+  my $parser = mkinst('FileParser', $filename);
+  my $result = $parser->populate(@data);
+  print $$result;
+}

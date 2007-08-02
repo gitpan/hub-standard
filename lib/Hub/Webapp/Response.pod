@@ -38,14 +38,14 @@ with values from the registry.
 
 =head1 INTERNAL METHODS
 
-=head2 _get_headers
+=head2 _get_content_headers
 
 =over 4
 
 =item Standard HTTP headers by file extension
 
 
- Usage: _get_headers $ext
+ Usage: _get_content_headers $ext
 Return an array of headers ($content_encoding, $content_type, [other..])
 
 
@@ -100,6 +100,6 @@ give any guarantee of the above statement.
 
 =head1 UPDATED
 
-06/09/2007
+08/02/2007
 
 =cut

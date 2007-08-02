@@ -1,16 +1,19 @@
 package Hub::Misc::Transform;
 use strict;
 use Hub qw/:lib/;
-our $VERSION        = '4.00012';
+our $VERSION        = '4.00043';
 our @EXPORT         = qw//;
 our @EXPORT_OK      = qw/
-    populate
-    jsstr
-    hashtoattrs
-    safestr
-    nbspstr
-    packcgi
-    unpackcgi
+  populate
+  jsstr
+  hashtoattrs
+  safestr
+  unpack_safestr
+  nbspstr
+  packcgi
+  unpackcgi
+  pack_ncr
+  unpack_ncr
 /;
 
 # ------------------------------------------------------------------------------
@@ -19,16 +22,57 @@ our @EXPORT_OK      = qw/
 # Pack nogood characters into good ones.  Good characters are letters, numbers,
 # and the underscore.
 # ------------------------------------------------------------------------------
-=test(match) safestr( 'Dogs (Waters, Gilmour) 17:06' );
-=result Dogs_20__28_Waters_2c__20_Gilmour_29__20_17_3a_06
-=cut
+#|test(match) safestr( 'Dogs (Waters, Gilmour) 17:06' );
+#=Dogs_0x20__0x28_Waters_0x2c__0x20_Gilmour_0x29__0x20_17_0x3a_06
 # ------------------------------------------------------------------------------
 
 sub safestr {
   my $str = shift;
-  $str =~ s/([^A-Za-z0-9_])/sprintf("_%2x_", unpack("C", $1))/eg;
+  $str =~ s/([^A-Za-z0-9_])/sprintf("_0x%2x_", unpack("C", $1))/eg;
   return $str;
 }#safestr
+
+# ------------------------------------------------------------------------------
+# unpack_safestr - Safe strings back into ASCII characters
+# ------------------------------------------------------------------------------
+#|test(match) Hub::unpack_safestr('Dogs_0x20__0x28_Waters_0x2c__0x20_Gilmour_0x29__0x20_17_0x3a_06');
+#=Dogs (Waters, Gilmour) 17:06
+# ------------------------------------------------------------------------------
+
+sub unpack_safestr {
+  my $str = shift;
+  $str =~ s/_0x([a-fA-F0-9][a-fA-F0-9])_/pack("C",hex($1))/eg;
+  return $str
+}
+
+# ------------------------------------------------------------------------------
+# pack_ncr - Non-alphanumeric ASCII characters to Numeric Character References.
+# pack_ncr $string
+# ------------------------------------------------------------------------------
+#|test(match) Hub::pack_ncr("This is a # of tests & bl/ah");
+#=This is a &#35; of tests &#38; bl&#47;ah
+# ------------------------------------------------------------------------------
+
+sub pack_ncr {
+  my $str = shift;
+  my $ptr = ref($str) eq 'SCALAR' ? $str : \$str;
+  $$ptr =~ s/([^A-Za-z0-9_ ])/sprintf("&#%d;", ord($1))/eg;
+  return $str
+}
+
+# ------------------------------------------------------------------------------
+# unpack_ncr - Convert Numeric Character References into ASCII characters
+# unpack_ncr $string
+# ------------------------------------------------------------------------------
+#|test(match) Hub::unpack_ncr('This is a &#35; of tests &#38; bl&#47;ah');
+#=This is a # of tests & bl/ah
+# ------------------------------------------------------------------------------
+
+sub unpack_ncr {
+  my $str = shift;
+  $str =~ s/&#([0-9]+);/sprintf("%c",$1)/eg;
+  return $str
+}
 
 # ------------------------------------------------------------------------------
 # packcgi $string|\$string
@@ -108,30 +152,16 @@ sub nbspstr {
 }#nbsp
 
 # ------------------------------------------------------------------------------
-# jsstr
-#
-# Format as one long string for use as the rval in javascript (ie put the
-# backslash continue-ator at the end of each line).
+# jsstr - Format as one long string for use as the rval in javascript
+# jsstr \$value
+# jsstr $value
 # ------------------------------------------------------------------------------
 
 sub jsstr {
-  my $original = shift || "";
-  my $modified = $original;
-  # append \ to line
-  $modified =~ s/([^\\])$/$1 =~ '[\r\n]' ? "\\" : "$1\\"/mge;
-  # fix accidental \\ (double backslashes) at end of line
-  $modified =~ s/\\\\$/\\/mg;
-  # escape quotes
-  $modified =~ s/([^\\])(['"])/$1\\$2/g;
-  # quotes in a row
-  $modified =~ s/([^\\])(['"])/$1\\$2/g;
-  # escape embeded forward slashes (prevent embeded /script markers from closing
-  # a containing block
-  $modified =~ s/([^\\])(\/)/$1\\$2/g;
-  # remove the last one
-  $modified =~ s/\\\z//;
-  return $modified;
-}#jsString
+  my $str = isa($_[0], 'SCALAR') ? ${$_[0]} : $_[0];
+  $str =~ s/(?<!\\)(['"\r\n])/\\$1/gm;
+  return $str;
+}#jsstr
 
 # ------------------------------------------------------------------------------
 # populate - Populate template text with values
@@ -147,7 +177,8 @@ sub jsstr {
 
 sub populate {
   my $opts = Hub::opts(\@_, {'as_ref' => 0});
-  my $text = shift or croak( "No template provided" );
+  my $text = shift;
+  croak("No template provided") unless defined $text;
   my $parser = Hub::mkinst( 'StandardParser', $text, -opts => $opts );
   my $result = $parser->populate( @_ );
   return $$opts{'as_ref'} ? $result : $$result;

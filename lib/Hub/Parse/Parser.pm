@@ -1,16 +1,21 @@
 package Hub::Parse::Parser;
 use strict;
 use Hub qw/:lib/;
-our $VERSION = '4.00012';
+our $VERSION = '4.00043';
 our @EXPORT = qw//;
 our @EXPORT_OK = qw/
     PARSER_ALL_BEGIN
     PARSER_ALL_END
+    PARSER_MAX_DEPTH
+    PARSER_MAX_SCOPE_DEPTH
 /;
 use constant {
   PARSER_ALL_BEGIN        => '[#',
   PARSER_ALL_END          => ']',
-  PARSER_MAX_DEPTH        => 10,      # recursion accross _populate calls
+  # recursion accross _populate calls  consequently, also max replacements per 
+  # template
+  PARSER_MAX_DEPTH        => 10000,
+  PARSER_MAX_SCOPE_DEPTH  => 100,
 };
 
 
@@ -82,6 +87,8 @@ sub refresh {
     'var_end'     => PARSER_ALL_END,
     'max_depth'   => Hub::bestof($$Hub{'/conf/parser/max_depth'},
         PARSER_MAX_DEPTH),
+    'max_scope_depth'   => Hub::bestof($$Hub{'/conf/parser/max_scope_depth'},
+        PARSER_MAX_SCOPE_DEPTH),
   });
   croak "Illegal call to instance method" unless ref($self);
 
@@ -160,16 +167,22 @@ sub _populate {
   my $BEGINCHAR       = $self->{'beg_char'};
   my $ENDCHAR         = $self->{'end_char'};
   my $MAX_DEPTH       = $self->{'max_depth'};
+  my $MAX_SCOPE_DEPTH = $self->{'max_scope_depth'};
 
   my @parents = ();   # templates we will pass the parsed text into
   my %skip = ();      # remember undefined values
   my $p = 0;          # string position as we progress
   $self->{'*replace_count'} = 0;
 
-  # recursion control (high level)
+  # recursion control (high level, templates calling templates)
   croak "High-level recursion limit ($MAX_DEPTH) exceeded"
       . $self->get_hint($p, \$text)
         if $self->{'*depth'} > $MAX_DEPTH;
+
+  # recursion control (medium level, like foreach loops)
+  croak "Medium-level recursion limit ($MAX_SCOPE_DEPTH) exceeded"
+      . $self->get_hint($p, \$text)
+        if @_ > $MAX_SCOPE_DEPTH;
 
   while( $p > -1 ) {
 
@@ -177,14 +190,15 @@ sub _populate {
     $p = index( $text, $BEGIN, $p );
     last unless $p > -1;
 
-    # recursion control (low level)
+    # recursion control (low level, variable nesting)
     if ($p > $self->{'*exit_point'}) {
       $self->{'*replace_count'} = 0;
       $self->{'*exit_point'} = $p;
     } else {
-      croak "Low-level recursion limit ($MAX_DEPTH) exceeded"
-          . $self->get_hint($p, \$text)
-            if $self->{'*replace_count'} > $MAX_DEPTH;
+      if ($self->{'*replace_count'} > $MAX_DEPTH) {
+        croak "Low-level recursion limit ($MAX_DEPTH) exceeded"
+          . $self->get_hint($p, \$text);
+      }
     }
 
     # find the end of this definition: ']'
@@ -237,38 +251,28 @@ sub _populate {
     }
 
     # Break apart the inner string into fields
-    my @fields = map {s/[\r\n]+//g; $_} split
+    my @fields = ();
+    if ($inner_str =~ /^["'](.*)["']$/) {
+      push @fields, $1;
+    } else {
+      @fields = map {s/[\r\n]+//g; $_} split
         /\s+["']{1}|=["']{1}|(?<!\\)["']{1}\s+|(?<!\\)["']{1}$/, $inner_str;
-    next unless (@fields); # empty construct
-
-    # Reconstruct parser fields if they use the colon shortcut
-    my ($prefix, $suffix) = $fields[0] =~ /^(\![a-z]+)\s*:\s*(.*)/;
-    if (defined $prefix) {
-      my @subfields = split /\s+/, $suffix;
-      my $varname = shift @subfields;
-      shift @fields;
-      unshift @fields, @subfields if @subfields;
-      unshift @fields, $self->get_value($varname, \@_);
-      unshift @fields, $prefix;
+      next unless (@fields); # empty construct
+      # Account for un-quoted first parameter
+      my @name_fields = split /\s+/, $fields[0];
+      if (@name_fields > 1) {
+        shift @fields;
+        unshift @fields, @name_fields;
+      }
     }
 
-    # Account for un-quoted first parameter
-    my @name_fields = split /\s+/, $fields[0];
-    if (@name_fields > 1) {
-      shift @fields;
-      unshift @fields, @name_fields;
-    }
-
-#warn "Got fields: " . join(';',@fields) . "\n";
-
+    # Evaluate the match
     $self->_evaluate($fields[0],
       [$outer_str, \@fields, \$p, \$text, \@parents, \@_,]);
-
-  }#while
-
-  my $result = ref($text) eq 'SCALAR' ? $text : \$text;
+  }
 
   # Parents are templates specified by the 'into' directive
+  my $result = ref($text) eq 'SCALAR' ? $text : \$text;
   while (my $parent = pop @parents) {
     my $contents = $Hub->resolve($$parent{'into'});
     if (defined $contents) {
@@ -281,13 +285,12 @@ sub _populate {
           $$parent{'as'} => $result,
         }, @_);
       } else {
-        my $buf = $self->_populate(-text => $contents, @_);
-        $$result = $$buf . $$result;
+        $result = $self->_populate(-text => $contents . $$result, @_);
       }
     }
   }
 
-  return $result;
+  return $result; # scalar ref
 }
 
 # ------------------------------------------------------------------------------
@@ -338,9 +341,6 @@ sub _evaluate {
 
   my $evaluator = $self->get_evaluator($name);
   if (ref $evaluator eq 'CODE') {
-    # Make fields hash-friendly
-    push @$fields, undef if ((scalar (@$fields) % 2) != 0);
-    # Invoke evaluator
     &$evaluator($self, $params, $result);
   } else {
     $$result{'keep_ws'} = 1;
@@ -351,26 +351,34 @@ sub _evaluate {
       # Infinite recursion variables
       $self->{'*replace_count'}++;
       $self->{'*exit_point'} += length($$result{'value'}) - $$result{'width'};
+#     if ($self->{'*replace_count'} > 4) {
+#       warn "Approaching MAX_DEPTH: $name"
+#         . $self->get_hint($$pos, $text);
+#     }
     } else {
       warn "Value not found", $self->get_hint($$pos, $text)
           if $$Hub{'/sys/ENV/DEBUG'};
     }
   }
 
-  # Eat whitespace due to indenting (limit of 80 char indent)
-  unless($$result{'keep_ws'}) {
-    my @padding = _padding($text, $$pos, $$result{'width'});
-    if (@padding) {
-      $$pos -= $padding[0];
-      $$result{'width'} += $padding[0];
-      $$result{'width'} += $padding[1];
-    }
-  }
-
   # Replace the directive
   if (defined $$result{'value'}) {
+    # Eat whitespace due to indenting (limit of 80 char indent)
+    unless($$result{'keep_ws'}) {
+      my @padding = _padding($text, $$pos, $$result{'width'});
+      if (@padding) {
+        $$pos -= $padding[0];
+        $$result{'width'} += $padding[0];
+        $$result{'width'} += $padding[1];
+      }
+    }
+    # Do the replacement
     substr($$text, $$pos, $$result{'width'}, $$result{'value'});
-
+    # Infinite recursion control.  Trim out directives which extract portions 
+    # of the template (like #define and if/else blocks)
+    if (length($$result{'value'}) == 0) {
+      $self->{'*exit_point'} -= $$result{'width'};
+    }
   } else {
     $$result{'goto'} ||= $$pos + $$result{'width'};
   }
@@ -400,7 +408,12 @@ sub get_value {
       push @$vd, @$valdata;
       $self->resolve($n, $vd, $p);
     });
-    return Hub::modexec(-filename => $name, $params);
+    my ($file, $method) = split ':{1,2}', $name;
+    if ($$Hub{$file}) {
+      return Hub::modexec(-filename => $file, -method => $method, $params);
+    } else {
+      return warn "Cannot find module: $file";
+    }
   }
   # Search value data for the value
   foreach my $h (@$valdata, @{$self->{'values'}}) {
@@ -415,11 +428,11 @@ sub get_value {
   # Alternative value
   if (!defined($value) && defined $params && @$params) {
     # Make params hash-friendly
-    push @$params, undef if ((scalar (@$params) % 2) != 0);
+##  push @$params, undef if ((scalar (@$params) % 2) != 0);
 #   if ((scalar (@$params) % 2) != 0) {
 #     warn "Odd number of elements: ", join(", ", @$params), "\n";
 #   }
-    my %params = @$params;
+    my ($param_opts, %params) = Hub::hashopts($params);
     if (defined $params{'or'} && $params{'or'} ne $name) {
       $value = $self->resolve($params{'or'}, $valdata, $params);
     }
@@ -454,6 +467,8 @@ sub resolve {
       $value = ${$self->_populate( -text => $value, \%args, @$valdata)}
           unless ((@$params == 2) && (defined $args{'or'}));
     }
+  } elsif (isa($value, 'HASH')) {
+    $value = Hub::hprint($value);
   }
   return $value;
 }#resolve
@@ -616,16 +631,18 @@ sub _find_end_point {
 sub _padding {
 
   my ($text, $pos, $width) = @_;
-  my ($prefix, $suffix) = ();
+  my ($prefix, $suffix, $starts_line) = ();
 
   if ($pos == 0) {
     $prefix = 0;
+    $starts_line = 1;
   } else {
     for my $i (1 .. 80) {
       my $prev_c = substr $$text, $pos - $i, 1;
       last unless $prev_c =~ /\s/;
       $prefix = 0 if !defined $prefix;
       if (($prev_c eq "\r") || ($prev_c eq "\n")) {
+        $starts_line = 1;
         if ($i > 1) {
           $prefix = $i - 1;
         }
@@ -634,7 +651,7 @@ sub _padding {
     }
   }
 
-  if (defined $prefix) {
+  if ($starts_line) {
     $suffix = 0;
     my $next_p = $pos + $width;
     my $last_c = '';

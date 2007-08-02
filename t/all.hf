@@ -1,8 +1,8 @@
-@testcases{
+testcases => @{
   %{
-    $test{
-my \$parser \= mkinst( 'Parser', -template \=\> 'Hello [\#who]' );
-              \$\{\$parser-\>populate( \{ who \=\> 'World' \} )\};
+    test => ${
+my \$parser = mkinst( 'Parser', -template =\> 'Hello [\#who]' );
+              \$\{\$parser-\>populate( \{ who =\> 'World' \} )\};
 
     }
     num => 1
@@ -10,39 +10,17 @@ my \$parser \= mkinst( 'Parser', -template \=\> 'Hello [\#who]' );
     package => Hub::Parse::Parser
     summary => 
     lib => ../lib/Hub/Parse/Parser.pm
-    id => 1751124525
+    id => 3661891668
     invert => 0
-    lineno => 117
+    lineno => 124
     result => Hello World
   }
   %{
-    $test{
-
-  my \%h \= ();
-  tie \%h, 'Hub::Knots::SortedHash';
-  \$h\{'first'\} \= "Apple";
-  \$h\{'second'\} \= "Banana";
-  \$h\{'third'\} \= "Pear";
-  join ';', values \%h;
-
-
-    }
-    num => 2
-    comparator => match
-    package => Hub::Knots::SortedHash
-    summary => 
-    lib => ../lib/Hub/Knots/SortedHash.pm
-    id => 2247526918
-    invert => 0
-    lineno => 94
-    result => Apple;Banana;Pear
-  }
-  %{
-    $test{
+    test => ${
 compare('eq','',undef);
 
     }
-    num => 3
+    num => 2
     comparator => false
     package => Hub::Perl::Compare
     summary => 
@@ -53,11 +31,11 @@ compare('eq','',undef);
     result => 
   }
   %{
-    $test{
+    test => ${
 compare('eq','abc','abc');
 
     }
-    num => 4
+    num => 3
     comparator => true
     package => Hub::Perl::Compare
     summary => 
@@ -68,11 +46,11 @@ compare('eq','abc','abc');
     result => 
   }
   %{
-    $test{
+    test => ${
 compare('ne','abc','Abc');
 
     }
-    num => 5
+    num => 4
     comparator => true
     package => Hub::Perl::Compare
     summary => 
@@ -83,11 +61,11 @@ compare('ne','abc','Abc');
     result => 
   }
   %{
-    $test{
+    test => ${
 compare('eq','abc',undef);
 
     }
-    num => 6
+    num => 5
     comparator => false
     package => Hub::Perl::Compare
     summary => 
@@ -98,11 +76,11 @@ compare('eq','abc',undef);
     result => 
   }
   %{
-    $test{
+    test => ${
 compare('!~','abc','A');
 
     }
-    num => 7
+    num => 6
     comparator => true
     package => Hub::Perl::Compare
     summary => 
@@ -113,11 +91,11 @@ compare('!~','abc','A');
     result => 
   }
   %{
-    $test{
-compare('\=~','abc','a');
+    test => ${
+compare('=~','abc','a');
 
     }
-    num => 8
+    num => 7
     comparator => true
     package => Hub::Perl::Compare
     summary => 
@@ -128,11 +106,11 @@ compare('\=~','abc','a');
     result => 
   }
   %{
-    $test{
-compare('\=\=',1234,1234);
+    test => ${
+compare('==',1234,1234);
 
     }
-    num => 9
+    num => 8
     comparator => true
     package => Hub::Perl::Compare
     summary => 
@@ -143,11 +121,11 @@ compare('\=\=',1234,1234);
     result => 
   }
   %{
-    $test{
-compare('\>\=',1234,1234);
+    test => ${
+compare('\>=',1234,1234);
 
     }
-    num => 10
+    num => 9
     comparator => true
     package => Hub::Perl::Compare
     summary => 
@@ -158,11 +136,11 @@ compare('\>\=',1234,1234);
     result => 
   }
   %{
-    $test{
+    test => ${
 compare('eqic','abc','Abc');
 
     }
-    num => 11
+    num => 10
     comparator => true
     package => Hub::Perl::Compare
     summary => 
@@ -173,11 +151,11 @@ compare('eqic','abc','Abc');
     result => 
   }
   %{
-    $test{
-compare('\=\=',undef,undef);
+    test => ${
+compare('==',undef,undef);
 
     }
-    num => 12
+    num => 11
     comparator => true
     package => Hub::Perl::Compare
     summary => 
@@ -188,11 +166,11 @@ compare('\=\=',undef,undef);
     result => 
   }
   %{
-    $test{
-compare('\=\=',0,undef);
+    test => ${
+compare('==',0,undef);
 
     }
-    num => 13
+    num => 12
     comparator => false
     package => Hub::Perl::Compare
     summary => 
@@ -203,12 +181,12 @@ compare('\=\=',0,undef);
     result => 
   }
   %{
-    $test{
-my \@numbers \= ( 20, 1, 10, 2 );
-              join ';', sort \{ &compare('<\=\>',\$a,\$b) \} \@numbers;
+    test => ${
+my \@numbers = ( 20, 1, 10, 2 );
+              join ';', sort \{ &compare('<=\>',\$a,\$b) \} \@numbers;
 
     }
-    num => 14
+    num => 13
     comparator => match
     package => Hub::Perl::Compare
     summary => 
@@ -219,1716 +197,18 @@ my \@numbers \= ( 20, 1, 10, 2 );
     result => 1;2;10;20
   }
   %{
-    $test{
-safestr( 'Dogs (Waters, Gilmour) 17:06' );
+    test => ${
 
-    }
-    num => 15
-    comparator => match
-    package => Hub::Misc::Transform
-    summary => 
-    lib => ../lib/Hub/Misc/Transform.pm
-    id => 900177402
-    invert => 0
-    lineno => 22
-    result => Dogs_20__28_Waters_2c__20_Gilmour_29__20_17_3a_06
-  }
-  %{
-    $test{
-populate('mu[\#foo]m', \{ foo \=\> 'shroo' \});
-
-    }
-    num => 16
-    comparator => match
-    package => Hub::Misc::Transform
-    summary => 
-    lib => ../lib/Hub/Misc/Transform.pm
-    id => 4210540152
-    invert => 0
-    lineno => 144
-    result => mushroom
-  }
-  %{
-    $test{
-ref(populate('a[\#b]c', \{ b \=\> 'bee' \}, '-as_ref\=1'));
-
-    }
-    num => 17
-    comparator => match
-    package => Hub::Misc::Transform
-    summary => 
-    lib => ../lib/Hub/Misc/Transform.pm
-    id => 2381352686
-    invert => 0
-    lineno => 145
-    result => SCALAR
-  }
-  %{
-    $test{
-  my \$hash \= \{
-    'class'   \=\> "foodidly",
-    'name'    \=\> "bobsmith",
-    'height'  \=\> "5px",
-    'junk'    \=\> "ignore me",
-  \};
-  hashtoattrs(\$hash, ['junk']);
-
-    }
-    num => 18
-    comparator => match
-    package => Hub::Misc::Transform
-    summary => 
-    lib => ../lib/Hub/Misc/Transform.pm
-    id => 1453672793
-    invert => 0
-    lineno => 163
-    result => class=\"foodidly\" height=\"5px\" name=\"bobsmith\"
-  }
-  %{
-    $test{
-sizeof( \{ a\=\>1, b\=\>2, c\=\>3 \} );
-
-    }
-    num => 19
-    comparator => match
-    package => Hub::Perl::Language
-    summary => Hash
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 3775575581
-    invert => 0
-    lineno => 68
-    result => 3
-  }
-  %{
-    $test{
-sizeof( [ 'a1', 'b2', 'c3' ] );
-
-    }
-    num => 20
-    comparator => match
-    package => Hub::Perl::Language
-    summary => Array
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 2517468811
-    invert => 0
-    lineno => 69
-    result => 3
-  }
-  %{
-    $test{
-sizeof( "abc"                );
-
-    }
-    num => 21
-    comparator => match
-    package => Hub::Perl::Language
-    summary => Scalar
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 4140437358
-    invert => 0
-    lineno => 70
-    result => 3
-  }
-  %{
-    $test{
-sizeof( \"abc"               );
-
-    }
-    num => 22
-    comparator => match
-    package => Hub::Perl::Language
-    summary => Scalar (ref)
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 2177712120
-    invert => 0
-    lineno => 71
-    result => 3
-  }
-  %{
-    $test{
-sizeof( undef                );
-
-    }
-    num => 23
-    comparator => match
-    package => Hub::Perl::Language
-    summary => Nothing
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 415526466
-    invert => 0
-    lineno => 72
-    result => 0
-  }
-  %{
-    $test{
-sizeof( "a", "b", "c"        );
-
-    }
-    num => 24
-    comparator => match
-    package => Hub::Perl::Language
-    summary => Multiple values
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 1875074772
-    invert => 0
-    lineno => 73
-    result => 3
-  }
-  %{
-    $test{
-my \$compression \= check( '-test\=eval', 'use IO::Zlib' ) ? 1 : 0;
-
-    }
-    num => 25
-    comparator => abort
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 289472485
-    invert => 1
-    lineno => 129
-    result => 
-  }
-  %{
-    $test{
-check( undef, undef, undef );
-
-    }
-    num => 26
-    comparator => false
-    package => Hub::Perl::Language
-    summary => none are defined
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 140234404
-    invert => 0
-    lineno => 139
-    result => 
-  }
-  %{
-    $test{
-check( 1, undef );
-
-    }
-    num => 27
-    comparator => false
-    package => Hub::Perl::Language
-    summary => only one is defined
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 1053221063
-    invert => 0
-    lineno => 140
-    result => 
-  }
-  %{
-    $test{
-check( 1, 1 );
-
-    }
-    num => 28
-    comparator => true
-    package => Hub::Perl::Language
-    summary => both are defined
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 1237438545
-    invert => 0
-    lineno => 141
-    result => 
-  }
-  %{
-    $test{
-check( 1, undef, -opr \=\> 'or' );
-
-
-    }
-    num => 29
-    comparator => true
-    package => Hub::Perl::Language
-    summary => one is defined
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 3502801387
-    invert => 0
-    lineno => 142
-    result => 
-  }
-  %{
-    $test{
-check( -opr \=\> 'xor', 1, 1 );
-
-    }
-    num => 30
-    comparator => false
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 967517406
-    invert => 0
-    lineno => 144
-    result => 
-  }
-  %{
-    $test{
-check( -opr \=\> 'xor', undef, undef );
-
-
-    }
-    num => 31
-    comparator => false
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 1319900232
-    invert => 0
-    lineno => 145
-    result => 
-  }
-  %{
-    $test{
-check( -opr \=\> 'xor', undef, 1 );
-
-    }
-    num => 32
-    comparator => true
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 2695001444
-    invert => 0
-    lineno => 147
-    result => 
-  }
-  %{
-    $test{
-check( -opr \=\> 'xor', 1, undef );
-
-
-    }
-    num => 33
-    comparator => true
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 807233781
-    invert => 0
-    lineno => 148
-    result => 
-  }
-  %{
-    $test{
-check( -opr \=\> 'xor', 1, undef, 1, undef );
-
-    }
-    num => 34
-    comparator => true
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 668848518
-    invert => 0
-    lineno => 150
-    result => 
-  }
-  %{
-    $test{
-check( -opr \=\> 'xor', 1, undef, 1, 1, undef );
-
-    }
-    num => 35
-    comparator => false
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 1356521744
-    invert => 0
-    lineno => 151
-    result => 
-  }
-  %{
-    $test{
-check( -opr \=\> 'xor', undef, 1, undef, 1 );
-
-    }
-    num => 36
-    comparator => true
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 3386093738
-    invert => 0
-    lineno => 152
-    result => 
-  }
-  %{
-    $test{
-
-   sub myjoin \{
-      my \$opts \= Hub::opts( \@_ );
-      return join( \$\$opts\{'with'\}, \@_ );
-   \}
-
-   myjoin( 'a', 'b', '-with\=;', 'c', 'd' );
-
-    }
-    num => 37
-    comparator => match
-    package => Hub::Perl::Language
-    summary => at-underscore contains everyting but the '-with' option
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 2539181451
-    invert => 0
-    lineno => 284
-    result => a;b;c;d
-  }
-  %{
-    $test{
-
-  my \$obj \= mkinst( 'Object' );
-  my \@result \= objopts( [ \$obj ] );
-  join( ',', map \{ ref(\$_) \} \@result );
-
-
-    }
-    num => 38
-    comparator => match
-    package => Hub::Perl::Language
-    summary => Test return value
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 2407632637
-    invert => 0
-    lineno => 394
-    result => Hub::Base::Object,
-  }
-  %{
-    $test{
-  my \$opts \= cmdopts(['--letters\=a', '++letters\=b', '++letters\=c']);
-  join('-', \@\{\$\$opts\{'letters'\}\});
-
-    }
-    num => 39
-    comparator => match
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 395001102
-    invert => 0
-    lineno => 429
-    result => a-b-c
-  }
-  %{
-    $test{
-Hub::expect( -match \=\> 'and|or|xor', 'and' );
-
-    }
-    num => 40
-    comparator => true
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 3799857025
-    invert => 0
-    lineno => 581
-    result => 
-  }
-  %{
-    $test{
-Hub::expect( HASH \=\> \{\}, HASH \=\> \{\} );
-
-    }
-    num => 41
-    comparator => true
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 2071225915
-    invert => 0
-    lineno => 582
-    result => 
-  }
-  %{
-    $test{
-Hub::expect( -blessed \=\> \{\} );
-
-    }
-    num => 42
-    comparator => abort
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 208885421
-    invert => 0
-    lineno => 583
-    result => 
-  }
-  %{
-    $test{
-Hub::expect( -blessed \=\> mkinst( 'Object' ) );
-
-    }
-    num => 43
-    comparator => true
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 2451030798
-    invert => 0
-    lineno => 584
-    result => 
-  }
-  %{
-    $test{
-Hub::expect( -match \=\> 'and|or|xor', 'if', 'or', 'and' );
-
-    }
-    num => 44
-    comparator => abort
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 3843093400
-    invert => 0
-    lineno => 585
-    result => 
-  }
-  %{
-    $test{
-Hub::expect( ARRAY \=\> \{\} );
-
-    }
-    num => 45
-    comparator => abort
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 2082054690
-    invert => 0
-    lineno => 586
-    result => 
-  }
-  %{
-    $test{
-Hub::expect( -blessed \=\> 'abc' );
-
-    }
-    num => 46
-    comparator => abort
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 186553012
-    invert => 0
-    lineno => 587
-    result => 
-  }
-  %{
-    $test{
-Hub::expect( -ref \=\> 'HASH', \{\} );
-
-    }
-    num => 47
-    comparator => true
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 2611056421
-    invert => 0
-    lineno => 588
-    result => 
-  }
-  %{
-    $test{
-Hub::expect( -ref \=\> 'HASH', mkinst('Object') );
-
-    }
-    num => 48
-    comparator => true
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 3970351027
-    invert => 0
-    lineno => 589
-    result => 
-  }
-  %{
-    $test{
-Hub::fear( HASH \=\> \{\} );
-
-    }
-    num => 49
-    comparator => abort
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 498705739
-    invert => 0
-    lineno => 625
-    result => 
-  }
-  %{
-    $test{
-Hub::fear( HASH \=\> [] );
-
-    }
-    num => 50
-    comparator => true
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 2226189553
-    invert => 0
-    lineno => 626
-    result => 
-  }
-  %{
-    $test{
-abort( -msg \=\> 'Goddamn hippies' );
-
-    }
-    num => 51
-    comparator => abort
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 219469857
-    invert => 0
-    lineno => 639
-    result => 
-  }
-  %{
-    $test{
-Hub::min(1,2);
-
-    }
-    num => 52
-    comparator => match
-    package => Hub::Perl::Language
-    summary => Two integers
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 1732521274
-    invert => 0
-    lineno => 696
-    result => 1
-  }
-  %{
-    $test{
-Hub::min(2,1,3);
-
-    }
-    num => 53
-    comparator => match
-    package => Hub::Perl::Language
-    summary => Three integers
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 272833964
-    invert => 0
-    lineno => 697
-    result => 1
-  }
-  %{
-    $test{
-Hub::min(2,-1,3);
-
-    }
-    num => 54
-    comparator => match
-    package => Hub::Perl::Language
-    summary => Three integers
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 2163998781
-    invert => 0
-    lineno => 698
-    result => -1
-  }
-  %{
-    $test{
-Hub::min(1);
-
-    }
-    num => 55
-    comparator => match
-    package => Hub::Perl::Language
-    summary => One integer
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 4160434347
-    invert => 0
-    lineno => 699
-    result => 1
-  }
-  %{
-    $test{
-Hub::min(1,undef);
-
-    }
-    num => 56
-    comparator => match
-    package => Hub::Perl::Language
-    summary => Undefined value
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 1579637105
-    invert => 0
-    lineno => 700
-    result => 1
-  }
-  %{
-    $test{
-Hub::min(undef,1,0);
-
-    }
-    num => 57
-    comparator => match
-    package => Hub::Perl::Language
-    summary => Zero
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 689990119
-    invert => 0
-    lineno => 701
-    result => 0
-  }
-  %{
-    $test{
-Hub::min(.009,1.001);
-
-    }
-    num => 58
-    comparator => match
-    package => Hub::Perl::Language
-    summary => Three decimal values
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 2955491421
-    invert => 0
-    lineno => 702
-    result => 0.009
-  }
-  %{
-    $test{
-Hub::max(.009,-1.01,2,undef,0);
-
-    }
-    num => 59
-    comparator => match
-    package => Hub::Perl::Language
-    summary => Three decimal values
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 2925513989
-    invert => 0
-    lineno => 716
-    result => 2
-  }
-  %{
-    $test{
-join(',',Hub::intdiv(3,2));
-
-    }
-    num => 60
-    comparator => match
-    package => Hub::Perl::Language
-    summary => 3 divided by 2 is 1R1
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 34421284
-    invert => 0
-    lineno => 731
-    result => 1,1
-  }
-  %{
-    $test{
-join('',\@\{rmval([1,2,3,4],3)\});
-
-    }
-    num => 61
-    comparator => match
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 2518248276
-    invert => 0
-    lineno => 767
-    result => 124
-  }
-  %{
-    $test{
-
-  my \$x \= 'like catfood';
-  Hub::checksum( 'my', \{ cats \=\> 'breath' \}, ( 'smells', \$x ) );
-
-
-    }
-    num => 62
-    comparator => match
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 3743005284
-    invert => 0
-    lineno => 842
-    result => 2023611966
-  }
-  %{
-    $test{
-join( ';', dice( "a\{b\{c\}\}c\{d\}" ) );
-
-    }
-    num => 63
-    comparator => match
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 4279826099
-    invert => 0
-    lineno => 1251
-    result => a;{b{c}};c;{d}
-  }
-  %{
-    $test{
-indexmatch("abracadabra", "[cd]")
-
-    }
-    num => 64
-    comparator => match
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 2979727939
-    invert => 0
-    lineno => 1321
-    result => 4
-  }
-  %{
-    $test{
-indexmatch("abracadabra", "a", 3)
-
-    }
-    num => 65
-    comparator => match
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 680680441
-    invert => 0
-    lineno => 1322
-    result => 3
-  }
-  %{
-    $test{
-indexmatch("abracadabra", "d\{2,2\}")
-
-    }
-    num => 66
-    comparator => match
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 1603627887
-    invert => 0
-    lineno => 1323
-    result => -1
-  }
-  %{
-    $test{
-indexmatch("scant", "can", "-after\=1")
-                - indexmatch("scant", "can")
-
-    }
-    num => 67
-    comparator => match
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 3253862092
-    invert => 0
-    lineno => 1324
-    result => 3
-  }
-  %{
-    $test{
-ps( 10, "this is really short but splits on ten chars" );
-
-
-
-    }
-    num => 68
-    comparator => match
-    package => Hub::Console::Output
-    summary => 
-    lib => ../lib/Hub/Console/Output.pm
-    id => 985326511
-    invert => 0
-    lineno => 96
-    $result{
-this is re
-ally short
- but split
-s on ten c
-hars
-    }
-  }
-  %{
-    $test{
-ps( 10, "this is really short but splits on ten chars", 3 );
-
-
-    }
-    num => 69
-    comparator => match
-    package => Hub::Console::Output
-    summary => 
-    lib => ../lib/Hub/Console/Output.pm
-    id => 3987532188
-    invert => 0
-    lineno => 104
-    $result{
-this is re
-   ally short
-    but split
-   s on ten c
-   hars
-    }
-  }
-  %{
-    $test{
-indenttext(4,"Hello\nWorld")
-
-    }
-    num => 70
-    comparator => match
-    package => Hub::Console::Output
-    summary => 
-    lib => ../lib/Hub/Console/Output.pm
-    id => 4249077856
-    invert => 0
-    lineno => 345
-    $result{
-    Hello
-    World
-    }
-  }
-  %{
-    $test{
-    my \@months \= qw/Jan Feb Mar/;
-    my \@sorted \= anon_sort( \@months );
-    return join ',', \@sorted;
-
-    }
-    num => 71
-    comparator => match
-    package => Hub::Perl::Sort
-    summary => Simple (alphabetical) sort
-    lib => ../lib/Hub/Perl/Sort.pm
-    id => 4219876572
-    invert => 0
-    lineno => 24
-    result => Feb,Jan,Mar
-  }
-  %{
-    $test{
-fixpath( "../../../users/newuser/web/bin/../src/screens" );
-
-    }
-    num => 72
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 2031715293
-    invert => 0
-    lineno => 936
-    result => ../../../users/newuser/web/src/screens
-  }
-  %{
-    $test{
-fixpath( "users/newuser/web/" );
-
-    }
-    num => 73
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 3920010828
-    invert => 0
-    lineno => 939
-    result => users/newuser/web
-  }
-  %{
-    $test{
-fixpath( "users/../web/bin/../src" );
-
-    }
-    num => 74
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 825610499
-    invert => 0
-    lineno => 942
-    result => web/src
-  }
-  %{
-    $test{
-fixpath( "users//newuser" );
-
-    }
-    num => 75
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 2941338784
-    invert => 0
-    lineno => 945
-    result => users/newuser
-  }
-  %{
-    $test{
-fixpath( "users//newuser/./files" );
-
-    }
-    num => 76
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 3521132573
-    invert => 0
-    lineno => 948
-    result => users/newuser/files
-  }
-  %{
-    $test{
-fixpath( "http://site/users//newuser" );
-
-    }
-    num => 77
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 2972168696
-    invert => 0
-    lineno => 951
-    result => http://site/users/newuser
-  }
-  %{
-    $test{
-fixpath( '/home/hub/build/../../../out/doc/pod' );
-
-    }
-    num => 78
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 1596575956
-    invert => 0
-    lineno => 953
-    result => /out/doc/pod
-  }
-  %{
-    $test{
-getpath( "/etc/passwd" )
-
-    }
-    num => 79
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 1844972155
-    invert => 0
-    lineno => 994
-    result => /etc
-  }
-  %{
-    $test{
-getpath( "/usr/local/bin" )
-
-    }
-    num => 80
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 452934381
-    invert => 0
-    lineno => 995
-    result => /usr/local
-  }
-  %{
-    $test{
-getname("../../../users/newuser/web/data/p001/batman-small.jpg");
-
-    }
-    num => 81
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 2821980000
-    invert => 0
-    lineno => 1024
-    result => batman-small.jpg
-  }
-  %{
-    $test{
-getname("../../../users/newuser/web/data/p001");
-
-    }
-    num => 82
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 1178443340
-    invert => 0
-    lineno => 1026
-    result => p001
-  }
-  %{
-    $test{
-getname("/var/log/*.log");
-
-    }
-    num => 83
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 2709893963
-    invert => 0
-    lineno => 1028
-    result => *.log
-  }
-  %{
-    $test{
-getext( "/foo/bar/filename.ext" )
-
-    }
-    num => 84
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 2382605417
-    invert => 0
-    lineno => 1041
-    result => ext
-  }
-  %{
-    $test{
-getext( "filename.cgi" )
-
-    }
-    num => 85
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 1611517253
-    invert => 0
-    lineno => 1043
-    result => cgi
-  }
-  %{
-    $test{
-relpath("/home/docs", "/home/docs/install");
-
-    }
-    num => 86
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 2456927230
-    invert => 0
-    lineno => 1108
-    result => ..
-  }
-  %{
-    $test{
-relpath("/home/src", "/home/docs/install");
-
-    }
-    num => 87
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 3849751400
-    invert => 0
-    lineno => 1109
-    result => ../../src
-  }
-  %{
-    $test{
-relpath("/home/docs/README.txt", "/home/docs");
-
-    }
-    num => 88
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 4072026651
-    invert => 0
-    lineno => 1111
-    result => README.txt
-  }
-  %{
-    $test{
-relpath("README.txt", "/DEBUG");
-
-    }
-    num => 89
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 481841975
-    invert => 0
-    lineno => 1113
-    result => README.txt
-  }
-  %{
-    $test{
-ref(mkinst('Object')) eq 'Hub::Base::Object';
-
-    }
-    num => 90
-    comparator => true
-    package => Hub
-    summary => 
-    lib => ../lib/Hub.pm
-    id => 1302441446
-    invert => 0
-    lineno => 319
-    result => 
-  }
-  %{
-    $test{
-mkinst('DoesNotExist');
-
-    }
-    num => 91
-    comparator => abort
-    package => Hub
-    summary => 
-    lib => ../lib/Hub.pm
-    id => 525354625
-    invert => 0
-    lineno => 320
-    result => 
-  }
-  %{
-    $test{
-Hub::blahblahblah();
-
-
-    }
-    num => 92
-    comparator => abort
-    package => Hub
-    summary => 
-    lib => ../lib/Hub.pm
-    id => 1890065714
-    invert => 0
-    lineno => 468
-    result => 
-  }
-  %{
-    $test{
-datetime( );
-
-    }
-    num => 93
-    comparator => true
-    package => Hub::Misc::Time
-    summary => 
-    lib => ../lib/Hub/Misc/Time.pm
-    id => 3461749961
-    invert => 0
-    lineno => 69
-    result => 
-  }
-  %{
-    $test{
-datetime( 1045837284 );
-
-    }
-    num => 94
-    comparator => regex
-    package => Hub::Misc::Time
-    summary => 
-    lib => ../lib/Hub/Misc/Time.pm
-    id => 2928776492
-    invert => 0
-    lineno => 70
-    result => 02\/..\/2003 ..:..:24
-  }
-  %{
-    $test{
-datetime( 1045837284, -nosec );
-
-    }
-    num => 95
-    comparator => regex
-    package => Hub::Misc::Time
-    summary => 
-    lib => ../lib/Hub/Misc/Time.pm
-    id => 3650528698
-    invert => 0
-    lineno => 71
-    result => 02\/..\/2003 ..:..
-  }
-  %{
-    $test{
-datetime( 1045837284, -noyear );
-
-    }
-    num => 96
-    comparator => regex
-    package => Hub::Misc::Time
-    summary => 
-    lib => ../lib/Hub/Misc/Time.pm
-    id => 1084224512
-    invert => 0
-    lineno => 72
-    result => 02\/.. ..:..:24
-  }
-  %{
-    $test{
-datetime( 1045837284, -ampm );
-
-    }
-    num => 97
-    comparator => regex
-    package => Hub::Misc::Time
-    summary => 
-    lib => ../lib/Hub/Misc/Time.pm
-    id => 932758678
-    invert => 0
-    lineno => 73
-    result => 02\/..\/2003 ..:..:24am
-  }
-  %{
-    $test{
-datetime( 1045837284, -nozeros );
-
-    }
-    num => 98
-    comparator => regex
-    package => Hub::Misc::Time
-    summary => 
-    lib => ../lib/Hub/Misc/Time.pm
-    id => 2851885365
-    invert => 0
-    lineno => 74
-    result => 2\/..\/2003 .:..:24
-  }
-  %{
-    $test{
-datetime( 1045837284, -notime );
-
-    }
-    num => 99
-    comparator => regex
-    package => Hub::Misc::Time
-    summary => 
-    lib => ../lib/Hub/Misc/Time.pm
-    id => 3741016483
-    invert => 0
-    lineno => 75
-    result => 02\/..\/2003
-  }
-  %{
-    $test{
-datetime( 1045837284, -nodate );
-
-    }
-    num => 100
-    comparator => regex
-    package => Hub::Misc::Time
-    summary => 
-    lib => ../lib/Hub/Misc/Time.pm
-    id => 1207054361
-    invert => 0
-    lineno => 76
-    result => ..:..:24
-  }
-  %{
-    $test{
-datetime( 1045837284, -letter );
-
-    }
-    num => 101
-    comparator => regex
-    package => Hub::Misc::Time
-    summary => 
-    lib => ../lib/Hub/Misc/Time.pm
-    id => 821362831
-    invert => 0
-    lineno => 77
-    result => February .., 2003 ..:..:24
-  }
-  %{
-    $test{
-datetime( 1045837284, -ampm, -nosec );              
-
-    }
-    num => 102
-    comparator => regex
-    package => Hub::Misc::Time
-    summary => 
-    lib => ../lib/Hub/Misc/Time.pm
-    id => 1578023285
-    invert => 0
-    lineno => 81
-    result => 02\/..\/2003 ..:..am
-  }
-  %{
-    $test{
-datetime( 1045837284, -nosec, -nozeros, -noyear );
-
-    }
-    num => 103
-    comparator => regex
-    package => Hub::Misc::Time
-    summary => 
-    lib => ../lib/Hub/Misc/Time.pm
-    id => 778325498
-    invert => 0
-    lineno => 84
-    result => 2\/.. .:..
-  }
-  %{
-    $test{
-keydepth( 'and:then:came:the:rain' )
-
-    }
-    num => 104
-    comparator => match
-    package => Hub::Data::Address
-    summary => 
-    lib => ../lib/Hub/Data/Address.pm
-    id => 2822227746
-    invert => 0
-    lineno => 23
-    result => 4
-  }
-  %{
-    $test{
-vartype( );
-
-    }
-    num => 105
-    comparator => match
-    package => Hub::Data::Address
-    summary => 
-    lib => ../lib/Hub/Data/Address.pm
-    id => 1481593686
-    invert => 0
-    lineno => 35
-    result => 
-  }
-  %{
-    $test{
-vartype( "clr-bg" );
-
-    }
-    num => 106
-    comparator => match
-    package => Hub::Data::Address
-    summary => 
-    lib => ../lib/Hub/Data/Address.pm
-    id => 3242590956
-    invert => 0
-    lineno => 36
-    result => clr
-  }
-  %{
-    $test{
-vartype( "clr-bg", "default" );
-
-    }
-    num => 107
-    comparator => match
-    package => Hub::Data::Address
-    summary => 
-    lib => ../lib/Hub/Data/Address.pm
-    id => 3057726074
-    invert => 0
-    lineno => 37
-    result => clr
-  }
-  %{
-    $test{
-vartype( "whatev", "default" );
-
-    }
-    num => 108
-    comparator => match
-    package => Hub::Data::Address
-    summary => 
-    lib => ../lib/Hub/Data/Address.pm
-    id => 654192619
-    invert => 0
-    lineno => 38
-    result => default
-  }
-  %{
-    $test{
-vartype( "whatev" );
-
-    }
-    num => 109
-    comparator => match
-    package => Hub::Data::Address
-    summary => 
-    lib => ../lib/Hub/Data/Address.pm
-    id => 1375281021
-    invert => 0
-    lineno => 39
-    result => 
-  }
-  %{
-    $test{
-vartype( "a:b:c" );
-
-    }
-    num => 110
-    comparator => match
-    package => Hub::Data::Address
-    summary => 
-    lib => ../lib/Hub/Data/Address.pm
-    id => 1734619422
-    invert => 0
-    lineno => 40
-    result => 
-  }
-  %{
-    $test{
-vartype( "x-a:b:c" );
-
-    }
-    num => 111
-    comparator => match
-    package => Hub::Data::Address
-    summary => 
-    lib => ../lib/Hub/Data/Address.pm
-    id => 274923912
-    invert => 0
-    lineno => 41
-    result => x
-  }
-  %{
-    $test{
-vartype( "a:b:x-c" );
-
-    }
-    num => 112
-    comparator => match
-    package => Hub::Data::Address
-    summary => 
-    lib => ../lib/Hub/Data/Address.pm
-    id => 2305445938
-    invert => 0
-    lineno => 42
-    result => x
-  }
-  %{
-    $test{
-varroot( "p001:items:1002:text-description" );
-
-    }
-    num => 113
-    comparator => match
-    package => Hub::Data::Address
-    summary => 
-    lib => ../lib/Hub/Data/Address.pm
-    id => 128170235
-    invert => 0
-    lineno => 59
-    result => p001
-  }
-  %{
-    $test{
-varroot( "p001" );
-
-    }
-    num => 114
-    comparator => match
-    package => Hub::Data::Address
-    summary => 
-    lib => ../lib/Hub/Data/Address.pm
-    id => 1431458716
-    invert => 0
-    lineno => 60
-    result => p001
-  }
-  %{
-    $test{
-varname( "p001:items:1002:text-desc" );
-
-    }
-    num => 115
-    comparator => match
-    package => Hub::Data::Address
-    summary => 
-    lib => ../lib/Hub/Data/Address.pm
-    id => 3577754471
-    invert => 0
-    lineno => 73
-    result => text-desc
-  }
-  %{
-    $test{
-varname( "p001" );
-
-    }
-    num => 116
-    comparator => match
-    package => Hub::Data::Address
-    summary => 
-    lib => ../lib/Hub/Data/Address.pm
-    id => 1260693188
-    invert => 0
-    lineno => 74
-    result => p001
-  }
-  %{
-    $test{
-varparent( "p001:items:12:1000" );
-
-    }
-    num => 117
-    comparator => match
-    package => Hub::Data::Address
-    summary => 
-    lib => ../lib/Hub/Data/Address.pm
-    id => 3305829920
-    invert => 0
-    lineno => 88
-    result => p001:items:12
-  }
-  %{
-    $test{
-varparent( "p001:items:10:subs:100" );
-
-    }
-    num => 118
-    comparator => match
-    package => Hub::Data::Address
-    summary => 
-    lib => ../lib/Hub/Data/Address.pm
-    id => 2987247286
-    invert => 0
-    lineno => 89
-    result => p001:items:10:subs
-  }
-  %{
-    $test{
-varparent( "p001" );
-
-    }
-    num => 119
-    comparator => match
-    package => Hub::Data::Address
-    summary => 
-    lib => ../lib/Hub/Data/Address.pm
-    id => 3536473939
-    invert => 0
-    lineno => 90
-    result => 
-  }
-  %{
-    $test{
-dotaddr("p004:proj:1000");
-
-    }
-    num => 120
-    comparator => match
-    package => Hub::Data::Address
-    summary => 
-    lib => ../lib/Hub/Data/Address.pm
-    id => 2014490647
-    invert => 0
-    lineno => 105
-    result => p004.proj.1000
-  }
-  %{
-    $test{
-dotaddr("p004:proj:1000:name");
-
-    }
-    num => 121
-    comparator => match
-    package => Hub::Data::Address
-    summary => 
-    lib => ../lib/Hub/Data/Address.pm
-    id => 3776700845
-    invert => 0
-    lineno => 106
-    result => p004.proj.1000.name
-  }
-  %{
-    $test{
-dotaddr("p001");
-
-    }
-    num => 122
-    comparator => match
-    package => Hub::Data::Address
-    summary => 
-    lib => ../lib/Hub/Data/Address.pm
-    id => 2518470971
-    invert => 0
-    lineno => 107
-    result => p001
-  }
-  %{
-    $test{
-dotaddr("");
-
-    }
-    num => 123
-    comparator => defined
-    package => Hub::Data::Address
-    summary => 
-    lib => ../lib/Hub/Data/Address.pm
-    id => 111398058
-    invert => 1
-    lineno => 108
-    result => 
-  }
-}
-@testcalls{
-  %{
-    $test{
-my \$parser \= mkinst( 'Parser', -template \=\> 'Hello [\#who]' );
-              \$\{\$parser-\>populate( \{ who \=\> 'World' \} )\};
-
-    }
-    num => 1
-    comparator => match
-    package => Hub::Parse::Parser
-    summary => 
-    lib => ../lib/Hub/Parse/Parser.pm
-    id => 1751124525
-    invert => 0
-    lineno => 117
-    result => Hello World
-  }
-  %{
-    $test{
-
-  my \%h \= ();
+  my \%h = ();
   tie \%h, 'Hub::Knots::SortedHash';
-  \$h\{'first'\} \= "Apple";
-  \$h\{'second'\} \= "Banana";
-  \$h\{'third'\} \= "Pear";
+  \$h\{'first'\} = "Apple";
+  \$h\{'second'\} = "Banana";
+  \$h\{'third'\} = "Pear";
   join ';', values \%h;
 
 
     }
-    num => 2
+    num => 14
     comparator => match
     package => Hub::Knots::SortedHash
     summary => 
@@ -1939,291 +219,200 @@ my \$parser \= mkinst( 'Parser', -template \=\> 'Hello [\#who]' );
     result => Apple;Banana;Pear
   }
   %{
-    $test{
-compare('eq','',undef);
-
-    }
-    num => 3
-    comparator => false
-    package => Hub::Perl::Compare
-    summary => 
-    lib => ../lib/Hub/Perl/Compare.pm
-    id => 3269678604
-    invert => 0
-    lineno => 73
-    result => 
-  }
-  %{
-    $test{
-compare('eq','abc','abc');
-
-    }
-    num => 4
-    comparator => true
-    package => Hub::Perl::Compare
-    summary => 
-    lib => ../lib/Hub/Perl/Compare.pm
-    id => 1552401327
-    invert => 0
-    lineno => 74
-    result => 
-  }
-  %{
-    $test{
-compare('ne','abc','Abc');
-
-    }
-    num => 5
-    comparator => true
-    package => Hub::Perl::Compare
-    summary => 
-    lib => ../lib/Hub/Perl/Compare.pm
-    id => 729871161
-    invert => 0
-    lineno => 75
-    result => 
-  }
-  %{
-    $test{
-compare('eq','abc',undef);
-
-    }
-    num => 6
-    comparator => false
-    package => Hub::Perl::Compare
-    summary => 
-    lib => ../lib/Hub/Perl/Compare.pm
-    id => 2995364483
-    invert => 0
-    lineno => 76
-    result => 
-  }
-  %{
-    $test{
-compare('!~','abc','A');
-
-    }
-    num => 7
-    comparator => true
-    package => Hub::Perl::Compare
-    summary => 
-    lib => ../lib/Hub/Perl/Compare.pm
-    id => 3314455061
-    invert => 0
-    lineno => 77
-    result => 
-  }
-  %{
-    $test{
-compare('\=~','abc','a');
-
-    }
-    num => 8
-    comparator => true
-    package => Hub::Perl::Compare
-    summary => 
-    lib => ../lib/Hub/Perl/Compare.pm
-    id => 1429311364
-    invert => 0
-    lineno => 78
-    result => 
-  }
-  %{
-    $test{
-compare('\=\=',1234,1234);
-
-    }
-    num => 9
-    comparator => true
-    package => Hub::Perl::Compare
-    summary => 
-    lib => ../lib/Hub/Perl/Compare.pm
-    id => 574013202
-    invert => 0
-    lineno => 79
-    result => 
-  }
-  %{
-    $test{
-compare('\>\=',1234,1234);
-
-    }
-    num => 10
-    comparator => true
-    package => Hub::Perl::Compare
-    summary => 
-    lib => ../lib/Hub/Perl/Compare.pm
-    id => 3698465657
-    invert => 0
-    lineno => 80
-    result => 
-  }
-  %{
-    $test{
-compare('eqic','abc','Abc');
-
-    }
-    num => 11
-    comparator => true
-    package => Hub::Perl::Compare
-    summary => 
-    lib => ../lib/Hub/Perl/Compare.pm
-    id => 2876582895
-    invert => 0
-    lineno => 81
-    result => 
-  }
-  %{
-    $test{
-compare('\=\=',undef,undef);
-
-    }
-    num => 12
-    comparator => true
-    package => Hub::Perl::Compare
-    summary => 
-    lib => ../lib/Hub/Perl/Compare.pm
-    id => 847018581
-    invert => 0
-    lineno => 82
-    result => 
-  }
-  %{
-    $test{
-compare('\=\=',0,undef);
-
-    }
-    num => 13
-    comparator => false
-    package => Hub::Perl::Compare
-    summary => 
-    lib => ../lib/Hub/Perl/Compare.pm
-    id => 1165707971
-    invert => 0
-    lineno => 83
-    result => 
-  }
-  %{
-    $test{
-my \@numbers \= ( 20, 1, 10, 2 );
-              join ';', sort \{ &compare('<\=\>',\$a,\$b) \} \@numbers;
-
-    }
-    num => 14
-    comparator => match
-    package => Hub::Perl::Compare
-    summary => 
-    lib => ../lib/Hub/Perl/Compare.pm
-    id => 3676299104
-    invert => 0
-    lineno => 84
-    result => 1;2;10;20
-  }
-  %{
-    $test{
-safestr( 'Dogs (Waters, Gilmour) 17:06' );
+    test => ${
+Hub::mkhandler('/jonnyboy.dat')
 
     }
     num => 15
-    comparator => match
-    package => Hub::Misc::Transform
+    comparator => regex
+    package => Hub::Data::Create
     summary => 
-    lib => ../lib/Hub/Misc/Transform.pm
-    id => 900177402
+    lib => ../lib/Hub/Data/Create.pm
+    id => 1024198110
     invert => 0
-    lineno => 22
-    result => Dogs_20__28_Waters_2c__20_Gilmour_29__20_17_3a_06
+    lineno => 55
+    result => Hub::Data::HashFile
   }
   %{
-    $test{
-populate('mu[\#foo]m', \{ foo \=\> 'shroo' \});
+    test => ${
+Hub::mkhandler('/jonnyboy.data')
 
     }
     num => 16
-    comparator => match
-    package => Hub::Misc::Transform
+    comparator => regex
+    package => Hub::Data::Create
     summary => 
-    lib => ../lib/Hub/Misc/Transform.pm
-    id => 4210540152
+    lib => ../lib/Hub/Data/Create.pm
+    id => 3540149490
     invert => 0
-    lineno => 144
-    result => mushroom
+    lineno => 57
+    result => Hub::Data::HashFile
   }
   %{
-    $test{
-ref(populate('a[\#b]c', \{ b \=\> 'bee' \}, '-as_ref\=1'));
+    test => ${
+Hub::mkhandler('/jonnyboy.hf')
 
     }
     num => 17
-    comparator => match
-    package => Hub::Misc::Transform
+    comparator => regex
+    package => Hub::Data::Create
     summary => 
-    lib => ../lib/Hub/Misc/Transform.pm
-    id => 2381352686
+    lib => ../lib/Hub/Data/Create.pm
+    id => 884623861
     invert => 0
-    lineno => 145
-    result => SCALAR
+    lineno => 59
+    result => Hub::Data::HashFile
   }
   %{
-    $test{
-  my \$hash \= \{
-    'class'   \=\> "foodidly",
-    'name'    \=\> "bobsmith",
-    'height'  \=\> "5px",
-    'junk'    \=\> "ignore me",
-  \};
-  hashtoattrs(\$hash, ['junk']);
+    test => ${
+Hub::mkhandler('/data.dat.foo')
 
     }
     num => 18
-    comparator => match
-    package => Hub::Misc::Transform
+    comparator => regex
+    package => Hub::Data::Create
     summary => 
-    lib => ../lib/Hub/Misc/Transform.pm
-    id => 1453672793
+    lib => ../lib/Hub/Data/Create.pm
+    id => 290230788
     invert => 0
-    lineno => 163
-    result => class=\"foodidly\" height=\"5px\" name=\"bobsmith\"
+    lineno => 61
+    result => Hub::Data::File
   }
   %{
-    $test{
-sizeof( \{ a\=\>1, b\=\>2, c\=\>3 \} );
+    test => ${
+use Cwd qw(cwd); Hub::mkhandler(cwd())
 
     }
     num => 19
-    comparator => match
-    package => Hub::Perl::Language
-    summary => Hash
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 3775575581
+    comparator => regex
+    package => Hub::Data::Create
+    summary => 
+    lib => ../lib/Hub/Data/Create.pm
+    id => 4282577704
     invert => 0
-    lineno => 68
-    result => 3
+    lineno => 63
+    result => Hub::Data::Directory
   }
   %{
-    $test{
-sizeof( [ 'a1', 'b2', 'c3' ] );
+    test => ${
+safestr( 'Dogs (Waters, Gilmour) 17:06' );
 
     }
     num => 20
     comparator => match
-    package => Hub::Perl::Language
-    summary => Array
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 2517468811
+    package => Hub::Misc::Transform
+    summary => 
+    lib => ../lib/Hub/Misc/Transform.pm
+    id => 2881685593
     invert => 0
-    lineno => 69
-    result => 3
+    lineno => 25
+    result => Dogs_0x20__0x28_Waters_0x2c__0x20_Gilmour_0x29__0x20_17_0x3a_06
   }
   %{
-    $test{
-sizeof( "abc"                );
+    test => ${
+Hub::unpack_safestr('Dogs_0x20__0x28_Waters_0x2c__0x20_Gilmour_0x29__0x20_17_0x3a_06');
 
     }
     num => 21
     comparator => match
+    package => Hub::Misc::Transform
+    summary => 
+    lib => ../lib/Hub/Misc/Transform.pm
+    id => 3429451173
+    invert => 0
+    lineno => 38
+    result => Dogs (Waters, Gilmour) 17:06
+  }
+  %{
+    test => ${
+Hub::pack_ncr("This is a \# of tests & bl/ah");
+
+    }
+    num => 22
+    comparator => match
+    package => Hub::Misc::Transform
+    summary => 
+    lib => ../lib/Hub/Misc/Transform.pm
+    id => 2061896509
+    invert => 0
+    lineno => 52
+    result => This is a &#35; of tests &#38; bl&#47;ah
+  }
+  %{
+    test => ${
+Hub::unpack_ncr('This is a &\#35; of tests &\#38; bl&\#47;ah');
+
+    }
+    num => 23
+    comparator => match
+    package => Hub::Misc::Transform
+    summary => 
+    lib => ../lib/Hub/Misc/Transform.pm
+    id => 564243569
+    invert => 0
+    lineno => 67
+    result => This is a # of tests & bl/ah
+  }
+  %{
+    test => ${
+populate('mu[\#foo]m', \{ foo =\> 'shroo' \});
+
+    }
+    num => 24
+    comparator => match
+    package => Hub::Misc::Transform
+    summary => 
+    lib => ../lib/Hub/Misc/Transform.pm
+    id => 3520785851
+    invert => 0
+    lineno => 174
+    result => mushroom
+  }
+  %{
+    test => ${
+ref(populate('a[\#b]c', \{ b =\> 'bee' \}, '-as_ref=1'));
+
+    }
+    num => 25
+    comparator => match
+    package => Hub::Misc::Transform
+    summary => 
+    lib => ../lib/Hub/Misc/Transform.pm
+    id => 2799557933
+    invert => 0
+    lineno => 175
+    result => SCALAR
+  }
+  %{
+    test => ${
+  my \$hash = \{
+    'class'   =\> "foodidly",
+    'name'    =\> "bobsmith",
+    'height'  =\> "5px",
+    'junk'    =\> "ignore me",
+  \};
+  hashtoattrs(\$hash, ['junk']);
+
+    }
+    num => 26
+    comparator => match
+    package => Hub::Misc::Transform
+    summary => 
+    lib => ../lib/Hub/Misc/Transform.pm
+    id => 1331281973
+    invert => 0
+    lineno => 194
+    result => class=\"foodidly\" height=\"5px\" name=\"bobsmith\"
+  }
+  %{
+    test => ${
+sizeof( \{ a=\>1, b=\>2, c=\>3 \} );
+
+    }
+    num => 27
+    comparator => match
     package => Hub::Perl::Language
-    summary => Scalar
+    summary => Hash
     lib => ../lib/Hub/Perl/Language.pm
     id => 4140437358
     invert => 0
@@ -2231,14 +420,14 @@ sizeof( "abc"                );
     result => 3
   }
   %{
-    $test{
-sizeof( \"abc"               );
+    test => ${
+sizeof( [ 'a1', 'b2', 'c3' ] );
 
     }
-    num => 22
+    num => 28
     comparator => match
     package => Hub::Perl::Language
-    summary => Scalar (ref)
+    summary => Array
     lib => ../lib/Hub/Perl/Language.pm
     id => 2177712120
     invert => 0
@@ -2246,29 +435,29 @@ sizeof( \"abc"               );
     result => 3
   }
   %{
-    $test{
-sizeof( undef                );
+    test => ${
+sizeof( "abc"                );
 
     }
-    num => 23
+    num => 29
     comparator => match
     package => Hub::Perl::Language
-    summary => Nothing
+    summary => Scalar
     lib => ../lib/Hub/Perl/Language.pm
     id => 415526466
     invert => 0
     lineno => 72
-    result => 0
+    result => 3
   }
   %{
-    $test{
-sizeof( "a", "b", "c"        );
+    test => ${
+sizeof( \"abc"               );
 
     }
-    num => 24
+    num => 30
     comparator => match
     package => Hub::Perl::Language
-    summary => Multiple values
+    summary => Scalar (ref)
     lib => ../lib/Hub/Perl/Language.pm
     id => 1875074772
     invert => 0
@@ -2276,59 +465,59 @@ sizeof( "a", "b", "c"        );
     result => 3
   }
   %{
-    $test{
-my \$compression \= check( '-test\=eval', 'use IO::Zlib' ) ? 1 : 0;
+    test => ${
+sizeof( undef                );
 
     }
-    num => 25
+    num => 31
+    comparator => match
+    package => Hub::Perl::Language
+    summary => Nothing
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 4054305655
+    invert => 0
+    lineno => 74
+    result => 0
+  }
+  %{
+    test => ${
+sizeof( "a", "b", "c"        );
+
+    }
+    num => 32
+    comparator => match
+    package => Hub::Perl::Language
+    summary => Multiple values
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 2258697185
+    invert => 0
+    lineno => 75
+    result => 3
+  }
+  %{
+    test => ${
+my \$compression = check( '-test=eval', 'use IO::Zlib' ) ? 1 : 0;
+
+    }
+    num => 33
     comparator => abort
     package => Hub::Perl::Language
     summary => 
     lib => ../lib/Hub/Perl/Language.pm
-    id => 289472485
+    id => 109069974
     invert => 1
-    lineno => 129
+    lineno => 131
     result => 
   }
   %{
-    $test{
+    test => ${
 check( undef, undef, undef );
 
     }
-    num => 26
+    num => 34
     comparator => false
     package => Hub::Perl::Language
     summary => none are defined
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 140234404
-    invert => 0
-    lineno => 139
-    result => 
-  }
-  %{
-    $test{
-check( 1, undef );
-
-    }
-    num => 27
-    comparator => false
-    package => Hub::Perl::Language
-    summary => only one is defined
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 1053221063
-    invert => 0
-    lineno => 140
-    result => 
-  }
-  %{
-    $test{
-check( 1, 1 );
-
-    }
-    num => 28
-    comparator => true
-    package => Hub::Perl::Language
-    summary => both are defined
     lib => ../lib/Hub/Perl/Language.pm
     id => 1237438545
     invert => 0
@@ -2336,15 +525,14 @@ check( 1, 1 );
     result => 
   }
   %{
-    $test{
-check( 1, undef, -opr \=\> 'or' );
-
+    test => ${
+check( 1, undef );
 
     }
-    num => 29
-    comparator => true
+    num => 35
+    comparator => false
     package => Hub::Perl::Language
-    summary => one is defined
+    summary => only one is defined
     lib => ../lib/Hub/Perl/Language.pm
     id => 3502801387
     invert => 0
@@ -2352,14 +540,30 @@ check( 1, undef, -opr \=\> 'or' );
     result => 
   }
   %{
-    $test{
-check( -opr \=\> 'xor', 1, 1 );
+    test => ${
+check( 1, 1 );
 
     }
-    num => 30
-    comparator => false
+    num => 36
+    comparator => true
     package => Hub::Perl::Language
-    summary => 
+    summary => both are defined
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 2815406461
+    invert => 0
+    lineno => 143
+    result => 
+  }
+  %{
+    test => ${
+check( 1, undef, -opr =\> 'or' );
+
+
+    }
+    num => 37
+    comparator => true
+    package => Hub::Perl::Language
+    summary => one is defined
     lib => ../lib/Hub/Perl/Language.pm
     id => 967517406
     invert => 0
@@ -2367,28 +571,28 @@ check( -opr \=\> 'xor', 1, 1 );
     result => 
   }
   %{
-    $test{
-check( -opr \=\> 'xor', undef, undef );
-
+    test => ${
+check( -opr =\> 'xor', 1, 1 );
 
     }
-    num => 31
+    num => 38
     comparator => false
     package => Hub::Perl::Language
     summary => 
     lib => ../lib/Hub/Perl/Language.pm
-    id => 1319900232
+    id => 3617932786
     invert => 0
-    lineno => 145
+    lineno => 146
     result => 
   }
   %{
-    $test{
-check( -opr \=\> 'xor', undef, 1 );
+    test => ${
+check( -opr =\> 'xor', undef, undef );
+
 
     }
-    num => 32
-    comparator => true
+    num => 39
+    comparator => false
     package => Hub::Perl::Language
     summary => 
     lib => ../lib/Hub/Perl/Language.pm
@@ -2398,27 +602,27 @@ check( -opr \=\> 'xor', undef, 1 );
     result => 
   }
   %{
-    $test{
-check( -opr \=\> 'xor', 1, undef );
-
+    test => ${
+check( -opr =\> 'xor', undef, 1 );
 
     }
-    num => 33
+    num => 40
     comparator => true
     package => Hub::Perl::Language
     summary => 
     lib => ../lib/Hub/Perl/Language.pm
-    id => 807233781
+    id => 1192908899
     invert => 0
-    lineno => 148
+    lineno => 149
     result => 
   }
   %{
-    $test{
-check( -opr \=\> 'xor', 1, undef, 1, undef );
+    test => ${
+check( -opr =\> 'xor', 1, undef );
+
 
     }
-    num => 34
+    num => 41
     comparator => true
     package => Hub::Perl::Language
     summary => 
@@ -2429,26 +633,11 @@ check( -opr \=\> 'xor', 1, undef, 1, undef );
     result => 
   }
   %{
-    $test{
-check( -opr \=\> 'xor', 1, undef, 1, 1, undef );
+    test => ${
+check( -opr =\> 'xor', 1, undef, 1, undef );
 
     }
-    num => 35
-    comparator => false
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 1356521744
-    invert => 0
-    lineno => 151
-    result => 
-  }
-  %{
-    $test{
-check( -opr \=\> 'xor', undef, 1, undef, 1 );
-
-    }
-    num => 36
+    num => 42
     comparator => true
     package => Hub::Perl::Language
     summary => 
@@ -2459,214 +648,125 @@ check( -opr \=\> 'xor', undef, 1, undef, 1 );
     result => 
   }
   %{
-    $test{
+    test => ${
+check( -opr =\> 'xor', 1, undef, 1, 1, undef );
+
+    }
+    num => 43
+    comparator => false
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 3201597500
+    invert => 0
+    lineno => 153
+    result => 
+  }
+  %{
+    test => ${
+check( -opr =\> 'xor', undef, 1, undef, 1 );
+
+    }
+    num => 44
+    comparator => true
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 548410783
+    invert => 0
+    lineno => 154
+    result => 
+  }
+  %{
+    test => ${
 
    sub myjoin \{
-      my \$opts \= Hub::opts( \@_ );
+      my \$opts = Hub::opts( \@_ );
       return join( \$\$opts\{'with'\}, \@_ );
    \}
 
-   myjoin( 'a', 'b', '-with\=;', 'c', 'd' );
+   myjoin( 'a', 'b', '-with=;', 'c', 'd' );
 
     }
-    num => 37
+    num => 45
     comparator => match
     package => Hub::Perl::Language
     summary => at-underscore contains everyting but the '-with' option
     lib => ../lib/Hub/Perl/Language.pm
-    id => 2539181451
+    id => 2035725479
     invert => 0
-    lineno => 284
+    lineno => 286
     result => a;b;c;d
   }
   %{
-    $test{
+    test => ${
 
-  my \$obj \= mkinst( 'Object' );
-  my \@result \= objopts( [ \$obj ] );
+  my \$obj = mkinst( 'Object' );
+  my \@result = objopts( [ \$obj ] );
   join( ',', map \{ ref(\$_) \} \@result );
 
 
     }
-    num => 38
+    num => 46
     comparator => match
     package => Hub::Perl::Language
     summary => Test return value
     lib => ../lib/Hub/Perl/Language.pm
-    id => 2407632637
+    id => 1636822993
     invert => 0
-    lineno => 394
+    lineno => 396
     result => Hub::Base::Object,
   }
   %{
-    $test{
-  my \$opts \= cmdopts(['--letters\=a', '++letters\=b', '++letters\=c']);
+    test => ${
+  my \$opts = cmdopts(['--letters=a', '++letters=b', '++letters=c']);
   join('-', \@\{\$\$opts\{'letters'\}\});
 
     }
-    num => 39
+    num => 47
     comparator => match
     package => Hub::Perl::Language
     summary => 
     lib => ../lib/Hub/Perl/Language.pm
-    id => 395001102
+    id => 4949117
     invert => 0
-    lineno => 429
+    lineno => 431
     result => a-b-c
   }
   %{
-    $test{
-Hub::expect( -match \=\> 'and|or|xor', 'and' );
-
-    }
-    num => 40
-    comparator => true
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 3799857025
-    invert => 0
-    lineno => 581
-    result => 
-  }
-  %{
-    $test{
-Hub::expect( HASH \=\> \{\}, HASH \=\> \{\} );
-
-    }
-    num => 41
-    comparator => true
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 2071225915
-    invert => 0
-    lineno => 582
-    result => 
-  }
-  %{
-    $test{
-Hub::expect( -blessed \=\> \{\} );
-
-    }
-    num => 42
-    comparator => abort
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 208885421
-    invert => 0
-    lineno => 583
-    result => 
-  }
-  %{
-    $test{
-Hub::expect( -blessed \=\> mkinst( 'Object' ) );
-
-    }
-    num => 43
-    comparator => true
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 2451030798
-    invert => 0
-    lineno => 584
-    result => 
-  }
-  %{
-    $test{
-Hub::expect( -match \=\> 'and|or|xor', 'if', 'or', 'and' );
-
-    }
-    num => 44
-    comparator => abort
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 3843093400
-    invert => 0
-    lineno => 585
-    result => 
-  }
-  %{
-    $test{
-Hub::expect( ARRAY \=\> \{\} );
-
-    }
-    num => 45
-    comparator => abort
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 2082054690
-    invert => 0
-    lineno => 586
-    result => 
-  }
-  %{
-    $test{
-Hub::expect( -blessed \=\> 'abc' );
-
-    }
-    num => 46
-    comparator => abort
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 186553012
-    invert => 0
-    lineno => 587
-    result => 
-  }
-  %{
-    $test{
-Hub::expect( -ref \=\> 'HASH', \{\} );
-
-    }
-    num => 47
-    comparator => true
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 2611056421
-    invert => 0
-    lineno => 588
-    result => 
-  }
-  %{
-    $test{
-Hub::expect( -ref \=\> 'HASH', mkinst('Object') );
+    test => ${
+  my (\$opts, \%hash) = Hub::hashopts(['key1', -foo]);
+  \$hash\{'key1'\}
 
     }
     num => 48
+    comparator => defined
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 2317951061
+    invert => 1
+    lineno => 473
+    result => 
+  }
+  %{
+    test => ${
+Hub::expect( -match =\> 'and|or|xor', 'and' );
+
+    }
+    num => 49
     comparator => true
     package => Hub::Perl::Language
     summary => 
     lib => ../lib/Hub/Perl/Language.pm
-    id => 3970351027
+    id => 1363065716
     invert => 0
-    lineno => 589
+    lineno => 608
     result => 
   }
   %{
-    $test{
-Hub::fear( HASH \=\> \{\} );
-
-    }
-    num => 49
-    comparator => abort
-    package => Hub::Perl::Language
-    summary => 
-    lib => ../lib/Hub/Perl/Language.pm
-    id => 498705739
-    invert => 0
-    lineno => 625
-    result => 
-  }
-  %{
-    $test{
-Hub::fear( HASH \=\> [] );
+    test => ${
+Hub::expect( HASH =\> \{\}, HASH =\> \{\} );
 
     }
     num => 50
@@ -2674,14 +774,14 @@ Hub::fear( HASH \=\> [] );
     package => Hub::Perl::Language
     summary => 
     lib => ../lib/Hub/Perl/Language.pm
-    id => 2226189553
+    id => 641305570
     invert => 0
-    lineno => 626
+    lineno => 609
     result => 
   }
   %{
-    $test{
-abort( -msg \=\> 'Goddamn hippies' );
+    test => ${
+Hub::expect( -blessed =\> \{\} );
 
     }
     num => 51
@@ -2689,263 +789,398 @@ abort( -msg \=\> 'Goddamn hippies' );
     package => Hub::Perl::Language
     summary => 
     lib => ../lib/Hub/Perl/Language.pm
-    id => 219469857
+    id => 1191051783
     invert => 0
-    lineno => 639
+    lineno => 610
     result => 
   }
   %{
-    $test{
-Hub::min(1,2);
+    test => ${
+Hub::expect( -blessed =\> mkinst( 'Object' ) );
 
     }
     num => 52
-    comparator => match
+    comparator => true
     package => Hub::Perl::Language
-    summary => Two integers
+    summary => 
     lib => ../lib/Hub/Perl/Language.pm
-    id => 1732521274
+    id => 838414993
     invert => 0
-    lineno => 696
-    result => 1
+    lineno => 611
+    result => 
   }
   %{
-    $test{
-Hub::min(2,1,3);
+    test => ${
+Hub::expect( -match =\> 'and|or|xor', 'if', 'or', 'and' );
 
     }
     num => 53
-    comparator => match
+    comparator => abort
     package => Hub::Perl::Language
-    summary => Three integers
+    summary => 
     lib => ../lib/Hub/Perl/Language.pm
-    id => 272833964
+    id => 2834326315
     invert => 0
-    lineno => 697
-    result => 1
+    lineno => 612
+    result => 
   }
   %{
-    $test{
-Hub::min(2,-1,3);
+    test => ${
+Hub::expect( ARRAY =\> \{\} );
 
     }
     num => 54
-    comparator => match
+    comparator => abort
     package => Hub::Perl::Language
-    summary => Three integers
+    summary => 
     lib => ../lib/Hub/Perl/Language.pm
-    id => 2163998781
+    id => 3757527997
     invert => 0
-    lineno => 698
-    result => -1
+    lineno => 613
+    result => 
   }
   %{
-    $test{
-Hub::min(1);
+    test => ${
+Hub::expect( -blessed =\> 'abc' );
 
     }
     num => 55
-    comparator => match
+    comparator => abort
     package => Hub::Perl::Language
-    summary => One integer
+    summary => 
     lib => ../lib/Hub/Perl/Language.pm
-    id => 4160434347
+    id => 1100203550
     invert => 0
-    lineno => 699
-    result => 1
+    lineno => 614
+    result => 
   }
   %{
-    $test{
-Hub::min(1,undef);
+    test => ${
+Hub::expect( -ref =\> 'HASH', \{\} );
 
     }
     num => 56
-    comparator => match
+    comparator => true
     package => Hub::Perl::Language
-    summary => Undefined value
+    summary => 
     lib => ../lib/Hub/Perl/Language.pm
-    id => 1579637105
+    id => 915732104
     invert => 0
-    lineno => 700
-    result => 1
+    lineno => 615
+    result => 
   }
   %{
-    $test{
-Hub::min(undef,1,0);
+    test => ${
+Hub::expect( -ref =\> 'HASH', mkinst('Object') );
 
     }
     num => 57
-    comparator => match
+    comparator => true
     package => Hub::Perl::Language
-    summary => Zero
+    summary => 
     lib => ../lib/Hub/Perl/Language.pm
-    id => 689990119
+    id => 2946344754
     invert => 0
-    lineno => 701
-    result => 0
+    lineno => 616
+    result => 
   }
   %{
-    $test{
-Hub::min(.009,1.001);
+    test => ${
+Hub::fear( HASH =\> \{\} );
 
     }
     num => 58
-    comparator => match
+    comparator => abort
     package => Hub::Perl::Language
-    summary => Three decimal values
+    summary => 
     lib => ../lib/Hub/Perl/Language.pm
-    id => 2955491421
+    id => 3432818223
     invert => 0
-    lineno => 702
-    result => 0.009
+    lineno => 652
+    result => 
   }
   %{
-    $test{
-Hub::max(.009,-1.01,2,undef,0);
+    test => ${
+Hub::fear( HASH =\> [] );
 
     }
     num => 59
-    comparator => match
+    comparator => true
     package => Hub::Perl::Language
-    summary => Three decimal values
+    summary => 
     lib => ../lib/Hub/Perl/Language.pm
-    id => 2925513989
+    id => 3147536057
     invert => 0
-    lineno => 716
-    result => 2
+    lineno => 653
+    result => 
   }
   %{
-    $test{
-join(',',Hub::intdiv(3,2));
+    test => ${
+abort( -msg =\> 'Goddamn hippies' );
 
     }
     num => 60
-    comparator => match
+    comparator => abort
     package => Hub::Perl::Language
-    summary => 3 divided by 2 is 1R1
+    summary => 
     lib => ../lib/Hub/Perl/Language.pm
-    id => 34421284
+    id => 3772527093
     invert => 0
-    lineno => 731
-    result => 1,1
+    lineno => 666
+    result => 
   }
   %{
-    $test{
-join('',\@\{rmval([1,2,3,4],3)\});
+    test => ${
+Hub::min(1,2);
 
     }
     num => 61
     comparator => match
     package => Hub::Perl::Language
-    summary => 
+    summary => Two integers
     lib => ../lib/Hub/Perl/Language.pm
-    id => 2518248276
+    id => 4112017993
     invert => 0
-    lineno => 767
-    result => 124
+    lineno => 723
+    result => 1
   }
   %{
-    $test{
-
-  my \$x \= 'like catfood';
-  Hub::checksum( 'my', \{ cats \=\> 'breath' \}, ( 'smells', \$x ) );
-
+    test => ${
+Hub::min(2,1,3);
 
     }
     num => 62
     comparator => match
     package => Hub::Perl::Language
-    summary => 
+    summary => Three integers
     lib => ../lib/Hub/Perl/Language.pm
-    id => 3743005284
+    id => 1803354090
     invert => 0
-    lineno => 842
-    result => 2023611966
+    lineno => 724
+    result => 1
   }
   %{
-    $test{
-join( ';', dice( "a\{b\{c\}\}c\{d\}" ) );
+    test => ${
+Hub::min(2,-1,3);
 
     }
     num => 63
     comparator => match
     package => Hub::Perl::Language
-    summary => 
+    summary => Three integers
     lib => ../lib/Hub/Perl/Language.pm
-    id => 4279826099
+    id => 477876092
     invert => 0
-    lineno => 1251
-    result => a;{b{c}};c;{d}
+    lineno => 725
+    result => -1
   }
   %{
-    $test{
-indexmatch("abracadabra", "[cd]")
+    test => ${
+Hub::min(1);
 
     }
     num => 64
     comparator => match
     package => Hub::Perl::Language
-    summary => 
+    summary => One integer
     lib => ../lib/Hub/Perl/Language.pm
-    id => 2979727939
+    id => 2238881478
     invert => 0
-    lineno => 1321
-    result => 4
+    lineno => 726
+    result => 1
   }
   %{
-    $test{
-indexmatch("abracadabra", "a", 3)
+    test => ${
+Hub::min(1,undef);
 
     }
     num => 65
     comparator => match
     package => Hub::Perl::Language
-    summary => 
+    summary => Undefined value
     lib => ../lib/Hub/Perl/Language.pm
-    id => 680680441
+    id => 4067798608
     invert => 0
-    lineno => 1322
-    result => 3
+    lineno => 727
+    result => 1
   }
   %{
-    $test{
-indexmatch("abracadabra", "d\{2,2\}")
+    test => ${
+Hub::min(undef,1,0);
 
     }
     num => 66
     comparator => match
     package => Hub::Perl::Language
-    summary => 
+    summary => Zero
     lib => ../lib/Hub/Perl/Language.pm
-    id => 1603627887
+    id => 1657451457
     invert => 0
-    lineno => 1323
-    result => -1
+    lineno => 728
+    result => 0
   }
   %{
-    $test{
-indexmatch("scant", "can", "-after\=1")
-                - indexmatch("scant", "can")
+    test => ${
+Hub::min(.009,1.001);
 
     }
     num => 67
     comparator => match
     package => Hub::Perl::Language
+    summary => Three decimal values
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 365790039
+    invert => 0
+    lineno => 729
+    result => 0.009
+  }
+  %{
+    test => ${
+Hub::max(.009,-1.01,2,undef,0);
+
+    }
+    num => 68
+    comparator => match
+    package => Hub::Perl::Language
+    summary => Three decimal values
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 2739064271
+    invert => 0
+    lineno => 743
+    result => 2
+  }
+  %{
+    test => ${
+join(',',Hub::intdiv(3,2));
+
+    }
+    num => 69
+    comparator => match
+    package => Hub::Perl::Language
+    summary => 3 divided by 2 is 1R1
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 764093702
+    invert => 0
+    lineno => 758
+    result => 1,1
+  }
+  %{
+    test => ${
+join('',\@\{rmval([1,2,3,4],3)\});
+
+    }
+    num => 70
+    comparator => match
+    package => Hub::Perl::Language
     summary => 
     lib => ../lib/Hub/Perl/Language.pm
-    id => 3253862092
+    id => 2290624033
     invert => 0
-    lineno => 1324
+    lineno => 794
+    result => 124
+  }
+  %{
+    test => ${
+
+  my \$x = 'like catfood';
+  Hub::checksum( 'my', \{ cats =\> 'breath' \}, ( 'smells', \$x ) );
+
+
+    }
+    num => 71
+    comparator => match
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 1940714856
+    invert => 0
+    lineno => 882
+    result => 2023611966
+  }
+  %{
+    test => ${
+join( ';', dice( "a\{b\{c\}\}c\{d\}" ) );
+
+    }
+    num => 72
+    comparator => match
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 976995420
+    invert => 0
+    lineno => 1263
+    result => a;{b{c}};c;{d}
+  }
+  %{
+    test => ${
+indexmatch("abracadabra", "[cd]")
+
+    }
+    num => 73
+    comparator => match
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 920956577
+    invert => 0
+    lineno => 1336
+    result => 4
+  }
+  %{
+    test => ${
+indexmatch("abracadabra", "a", 3)
+
+    }
+    num => 74
+    comparator => match
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 1105436215
+    invert => 0
+    lineno => 1337
     result => 3
   }
   %{
-    $test{
+    test => ${
+indexmatch("abracadabra", "d\{2,2\}")
+
+    }
+    num => 75
+    comparator => match
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 3512501158
+    invert => 0
+    lineno => 1338
+    result => -1
+  }
+  %{
+    test => ${
+indexmatch("scant", "can", "-after=1")
+                - indexmatch("scant", "can")
+
+    }
+    num => 76
+    comparator => match
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 2791027504
+    invert => 0
+    lineno => 1339
+    result => 3
+  }
+  %{
+    test => ${
 ps( 10, "this is really short but splits on ten chars" );
 
 
 
     }
-    num => 68
+    num => 77
     comparator => match
     package => Hub::Console::Output
     summary => 
@@ -2953,7 +1188,7 @@ ps( 10, "this is really short but splits on ten chars" );
     id => 985326511
     invert => 0
     lineno => 96
-    $result{
+    result => ${
 this is re
 ally short
  but split
@@ -2962,12 +1197,13 @@ hars
     }
   }
   %{
-    $test{
+    test => ${
 ps( 10, "this is really short but splits on ten chars", 3 );
 
 
+
     }
-    num => 69
+    num => 78
     comparator => match
     package => Hub::Console::Output
     summary => 
@@ -2975,7 +1211,7 @@ ps( 10, "this is really short but splits on ten chars", 3 );
     id => 3987532188
     invert => 0
     lineno => 104
-    $result{
+    result => ${
 this is re
    ally short
     but split
@@ -2984,31 +1220,53 @@ this is re
     }
   }
   %{
-    $test{
-indenttext(4,"Hello\nWorld")
+    test => ${
+ps( 10, "this  is really short but splits on ten chars", -keepwords );
+
 
     }
-    num => 70
+    num => 79
     comparator => match
     package => Hub::Console::Output
     summary => 
     lib => ../lib/Hub/Console/Output.pm
-    id => 4249077856
+    id => 500465128
     invert => 0
-    lineno => 345
-    $result{
+    lineno => 112
+    result => ${
+this  is 
+really 
+short but 
+splits on 
+ten 
+    }
+  }
+  %{
+    test => ${
+indenttext(4,"Hello\nWorld")
+
+    }
+    num => 80
+    comparator => match
+    package => Hub::Console::Output
+    summary => 
+    lib => ../lib/Hub/Console/Output.pm
+    id => 1998679112
+    invert => 0
+    lineno => 307
+    result => ${
     Hello
     World
     }
   }
   %{
-    $test{
-    my \@months \= qw/Jan Feb Mar/;
-    my \@sorted \= anon_sort( \@months );
+    test => ${
+    my \@months = qw/Jan Feb Mar/;
+    my \@sorted = anon_sort( \@months );
     return join ',', \@sorted;
 
     }
-    num => 71
+    num => 81
     comparator => match
     package => Hub::Perl::Sort
     summary => Simple (alphabetical) sort
@@ -3019,327 +1277,57 @@ indenttext(4,"Hello\nWorld")
     result => Feb,Jan,Mar
   }
   %{
-    $test{
-fixpath( "../../../users/newuser/web/bin/../src/screens" );
-
-    }
-    num => 72
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 2031715293
-    invert => 0
-    lineno => 936
-    result => ../../../users/newuser/web/src/screens
-  }
-  %{
-    $test{
-fixpath( "users/newuser/web/" );
-
-    }
-    num => 73
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 3920010828
-    invert => 0
-    lineno => 939
-    result => users/newuser/web
-  }
-  %{
-    $test{
-fixpath( "users/../web/bin/../src" );
-
-    }
-    num => 74
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 825610499
-    invert => 0
-    lineno => 942
-    result => web/src
-  }
-  %{
-    $test{
-fixpath( "users//newuser" );
-
-    }
-    num => 75
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 2941338784
-    invert => 0
-    lineno => 945
-    result => users/newuser
-  }
-  %{
-    $test{
-fixpath( "users//newuser/./files" );
-
-    }
-    num => 76
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 3521132573
-    invert => 0
-    lineno => 948
-    result => users/newuser/files
-  }
-  %{
-    $test{
-fixpath( "http://site/users//newuser" );
-
-    }
-    num => 77
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 2972168696
-    invert => 0
-    lineno => 951
-    result => http://site/users/newuser
-  }
-  %{
-    $test{
-fixpath( '/home/hub/build/../../../out/doc/pod' );
-
-    }
-    num => 78
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 1596575956
-    invert => 0
-    lineno => 953
-    result => /out/doc/pod
-  }
-  %{
-    $test{
-getpath( "/etc/passwd" )
-
-    }
-    num => 79
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 1844972155
-    invert => 0
-    lineno => 994
-    result => /etc
-  }
-  %{
-    $test{
-getpath( "/usr/local/bin" )
-
-    }
-    num => 80
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 452934381
-    invert => 0
-    lineno => 995
-    result => /usr/local
-  }
-  %{
-    $test{
-getname("../../../users/newuser/web/data/p001/batman-small.jpg");
-
-    }
-    num => 81
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 2821980000
-    invert => 0
-    lineno => 1024
-    result => batman-small.jpg
-  }
-  %{
-    $test{
-getname("../../../users/newuser/web/data/p001");
-
-    }
-    num => 82
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 1178443340
-    invert => 0
-    lineno => 1026
-    result => p001
-  }
-  %{
-    $test{
-getname("/var/log/*.log");
-
-    }
-    num => 83
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 2709893963
-    invert => 0
-    lineno => 1028
-    result => *.log
-  }
-  %{
-    $test{
-getext( "/foo/bar/filename.ext" )
-
-    }
-    num => 84
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 2382605417
-    invert => 0
-    lineno => 1041
-    result => ext
-  }
-  %{
-    $test{
-getext( "filename.cgi" )
-
-    }
-    num => 85
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 1611517253
-    invert => 0
-    lineno => 1043
-    result => cgi
-  }
-  %{
-    $test{
-relpath("/home/docs", "/home/docs/install");
-
-    }
-    num => 86
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 2456927230
-    invert => 0
-    lineno => 1108
-    result => ..
-  }
-  %{
-    $test{
-relpath("/home/src", "/home/docs/install");
-
-    }
-    num => 87
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 3849751400
-    invert => 0
-    lineno => 1109
-    result => ../../src
-  }
-  %{
-    $test{
-relpath("/home/docs/README.txt", "/home/docs");
-
-    }
-    num => 88
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 4072026651
-    invert => 0
-    lineno => 1111
-    result => README.txt
-  }
-  %{
-    $test{
-relpath("README.txt", "/DEBUG");
-
-    }
-    num => 89
-    comparator => match
-    package => Hub::Base::FileSystem
-    summary => 
-    lib => ../lib/Hub/Base/FileSystem.pm
-    id => 481841975
-    invert => 0
-    lineno => 1113
-    result => README.txt
-  }
-  %{
-    $test{
+    test => ${
 ref(mkinst('Object')) eq 'Hub::Base::Object';
 
     }
-    num => 90
+    num => 82
     comparator => true
     package => Hub
     summary => 
     lib => ../lib/Hub.pm
-    id => 1302441446
+    id => 4130595764
     invert => 0
-    lineno => 319
+    lineno => 326
     result => 
   }
   %{
-    $test{
+    test => ${
 mkinst('DoesNotExist');
 
     }
-    num => 91
+    num => 83
     comparator => abort
     package => Hub
     summary => 
     lib => ../lib/Hub.pm
-    id => 525354625
+    id => 2167722786
     invert => 0
-    lineno => 320
+    lineno => 327
     result => 
   }
   %{
-    $test{
+    test => ${
 Hub::blahblahblah();
 
 
     }
-    num => 92
+    num => 84
     comparator => abort
     package => Hub
     summary => 
     lib => ../lib/Hub.pm
-    id => 1890065714
+    id => 386027726
     invert => 0
-    lineno => 468
+    lineno => 475
     result => 
   }
   %{
-    $test{
+    test => ${
 datetime( );
 
     }
-    num => 93
+    num => 85
     comparator => true
     package => Hub::Misc::Time
     summary => 
@@ -3350,11 +1338,11 @@ datetime( );
     result => 
   }
   %{
-    $test{
+    test => ${
 datetime( 1045837284 );
 
     }
-    num => 94
+    num => 86
     comparator => regex
     package => Hub::Misc::Time
     summary => 
@@ -3365,11 +1353,11 @@ datetime( 1045837284 );
     result => 02\/..\/2003 ..:..:24
   }
   %{
-    $test{
+    test => ${
 datetime( 1045837284, -nosec );
 
     }
-    num => 95
+    num => 87
     comparator => regex
     package => Hub::Misc::Time
     summary => 
@@ -3380,11 +1368,11 @@ datetime( 1045837284, -nosec );
     result => 02\/..\/2003 ..:..
   }
   %{
-    $test{
+    test => ${
 datetime( 1045837284, -noyear );
 
     }
-    num => 96
+    num => 88
     comparator => regex
     package => Hub::Misc::Time
     summary => 
@@ -3395,11 +1383,11 @@ datetime( 1045837284, -noyear );
     result => 02\/.. ..:..:24
   }
   %{
-    $test{
+    test => ${
 datetime( 1045837284, -ampm );
 
     }
-    num => 97
+    num => 89
     comparator => regex
     package => Hub::Misc::Time
     summary => 
@@ -3410,11 +1398,11 @@ datetime( 1045837284, -ampm );
     result => 02\/..\/2003 ..:..:24am
   }
   %{
-    $test{
+    test => ${
 datetime( 1045837284, -nozeros );
 
     }
-    num => 98
+    num => 90
     comparator => regex
     package => Hub::Misc::Time
     summary => 
@@ -3425,11 +1413,11 @@ datetime( 1045837284, -nozeros );
     result => 2\/..\/2003 .:..:24
   }
   %{
-    $test{
+    test => ${
 datetime( 1045837284, -notime );
 
     }
-    num => 99
+    num => 91
     comparator => regex
     package => Hub::Misc::Time
     summary => 
@@ -3440,11 +1428,11 @@ datetime( 1045837284, -notime );
     result => 02\/..\/2003
   }
   %{
-    $test{
+    test => ${
 datetime( 1045837284, -nodate );
 
     }
-    num => 100
+    num => 92
     comparator => regex
     package => Hub::Misc::Time
     summary => 
@@ -3455,11 +1443,11 @@ datetime( 1045837284, -nodate );
     result => ..:..:24
   }
   %{
-    $test{
+    test => ${
 datetime( 1045837284, -letter );
 
     }
-    num => 101
+    num => 93
     comparator => regex
     package => Hub::Misc::Time
     summary => 
@@ -3470,11 +1458,11 @@ datetime( 1045837284, -letter );
     result => February .., 2003 ..:..:24
   }
   %{
-    $test{
+    test => ${
 datetime( 1045837284, -ampm, -nosec );              
 
     }
-    num => 102
+    num => 94
     comparator => regex
     package => Hub::Misc::Time
     summary => 
@@ -3485,11 +1473,11 @@ datetime( 1045837284, -ampm, -nosec );
     result => 02\/..\/2003 ..:..am
   }
   %{
-    $test{
+    test => ${
 datetime( 1045837284, -nosec, -nozeros, -noyear );
 
     }
-    num => 103
+    num => 95
     comparator => regex
     package => Hub::Misc::Time
     summary => 
@@ -3500,11 +1488,281 @@ datetime( 1045837284, -nosec, -nozeros, -noyear );
     result => 2\/.. .:..
   }
   %{
-    $test{
-keydepth( 'and:then:came:the:rain' )
+    test => ${
+fixpath( "../../../users/newuser/web/bin/../src/screens" );
+
+    }
+    num => 96
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 3058333153
+    invert => 0
+    lineno => 955
+    result => ../../../users/newuser/web/src/screens
+  }
+  %{
+    test => ${
+fixpath( "users/newuser/web/" );
+
+    }
+    num => 97
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 3371895132
+    invert => 0
+    lineno => 958
+    result => users/newuser/web
+  }
+  %{
+    test => ${
+fixpath( "users/../web/bin/../src" );
+
+    }
+    num => 98
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 2584404539
+    invert => 0
+    lineno => 961
+    result => web/src
+  }
+  %{
+    test => ${
+fixpath( "users//newuser" );
+
+    }
+    num => 99
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 3932165812
+    invert => 0
+    lineno => 964
+    result => users/newuser
+  }
+  %{
+    test => ${
+fixpath( "users//newuser/./files" );
+
+    }
+    num => 100
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 1936279310
+    invert => 0
+    lineno => 967
+    result => users/newuser/files
+  }
+  %{
+    test => ${
+fixpath( "http://site/users//newuser" );
+
+    }
+    num => 101
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 4095140844
+    invert => 0
+    lineno => 970
+    result => http://site/users/newuser
+  }
+  %{
+    test => ${
+fixpath( '/home/hub/build/../../../out/doc/pod' );
+
+    }
+    num => 102
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 437813952
+    invert => 0
+    lineno => 972
+    result => /out/doc/pod
+  }
+  %{
+    test => ${
+getpath( "/etc/passwd" )
+
+    }
+    num => 103
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 437779737
+    invert => 0
+    lineno => 1017
+    result => /etc
+  }
+  %{
+    test => ${
+getpath( "/usr/local/bin" )
 
     }
     num => 104
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 2326323336
+    invert => 0
+    lineno => 1018
+    result => /usr/local
+  }
+  %{
+    test => ${
+getname("../../../users/newuser/web/data/p001/batman-small.jpg");
+
+    }
+    num => 105
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 1734347100
+    invert => 0
+    lineno => 1047
+    result => batman-small.jpg
+  }
+  %{
+    test => ${
+getname("../../../users/newuser/web/data/p001");
+
+    }
+    num => 106
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 2161648731
+    invert => 0
+    lineno => 1049
+    result => p001
+  }
+  %{
+    test => ${
+getname("/var/log/*.log");
+
+    }
+    num => 107
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 2534972712
+    invert => 0
+    lineno => 1051
+    result => *.log
+  }
+  %{
+    test => ${
+getext( "/foo/bar/filename.ext" )
+
+    }
+    num => 108
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 3428792932
+    invert => 0
+    lineno => 1064
+    result => ext
+  }
+  %{
+    test => ${
+getext( "filename.cgi" )
+
+    }
+    num => 109
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 575757128
+    invert => 0
+    lineno => 1066
+    result => cgi
+  }
+  %{
+    test => ${
+relpath("/home/docs", "/home/docs/install");
+
+    }
+    num => 110
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 1640998770
+    invert => 0
+    lineno => 1143
+    result => ..
+  }
+  %{
+    test => ${
+relpath("/home/src", "/home/docs/install");
+
+    }
+    num => 111
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 4289409745
+    invert => 0
+    lineno => 1144
+    result => ../../src
+  }
+  %{
+    test => ${
+relpath("/home/docs/README.txt", "/home/docs");
+
+    }
+    num => 112
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 296047613
+    invert => 0
+    lineno => 1146
+    result => README.txt
+  }
+  %{
+    test => ${
+relpath("README.txt", "/DEBUG");
+
+    }
+    num => 113
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 4129128186
+    invert => 0
+    lineno => 1148
+    result => README.txt
+  }
+  %{
+    test => ${
+keydepth( 'and:then:came:the:rain' )
+
+    }
+    num => 114
     comparator => match
     package => Hub::Data::Address
     summary => 
@@ -3515,11 +1773,11 @@ keydepth( 'and:then:came:the:rain' )
     result => 4
   }
   %{
-    $test{
+    test => ${
 vartype( );
 
     }
-    num => 105
+    num => 115
     comparator => match
     package => Hub::Data::Address
     summary => 
@@ -3530,11 +1788,11 @@ vartype( );
     result => 
   }
   %{
-    $test{
+    test => ${
 vartype( "clr-bg" );
 
     }
-    num => 106
+    num => 116
     comparator => match
     package => Hub::Data::Address
     summary => 
@@ -3545,11 +1803,11 @@ vartype( "clr-bg" );
     result => clr
   }
   %{
-    $test{
+    test => ${
 vartype( "clr-bg", "default" );
 
     }
-    num => 107
+    num => 117
     comparator => match
     package => Hub::Data::Address
     summary => 
@@ -3560,11 +1818,11 @@ vartype( "clr-bg", "default" );
     result => clr
   }
   %{
-    $test{
+    test => ${
 vartype( "whatev", "default" );
 
     }
-    num => 108
+    num => 118
     comparator => match
     package => Hub::Data::Address
     summary => 
@@ -3575,11 +1833,11 @@ vartype( "whatev", "default" );
     result => default
   }
   %{
-    $test{
+    test => ${
 vartype( "whatev" );
 
     }
-    num => 109
+    num => 119
     comparator => match
     package => Hub::Data::Address
     summary => 
@@ -3590,11 +1848,11 @@ vartype( "whatev" );
     result => 
   }
   %{
-    $test{
+    test => ${
 vartype( "a:b:c" );
 
     }
-    num => 110
+    num => 120
     comparator => match
     package => Hub::Data::Address
     summary => 
@@ -3605,11 +1863,11 @@ vartype( "a:b:c" );
     result => 
   }
   %{
-    $test{
+    test => ${
 vartype( "x-a:b:c" );
 
     }
-    num => 111
+    num => 121
     comparator => match
     package => Hub::Data::Address
     summary => 
@@ -3620,11 +1878,11 @@ vartype( "x-a:b:c" );
     result => x
   }
   %{
-    $test{
+    test => ${
 vartype( "a:b:x-c" );
 
     }
-    num => 112
+    num => 122
     comparator => match
     package => Hub::Data::Address
     summary => 
@@ -3635,11 +1893,11 @@ vartype( "a:b:x-c" );
     result => x
   }
   %{
-    $test{
+    test => ${
 varroot( "p001:items:1002:text-description" );
 
     }
-    num => 113
+    num => 123
     comparator => match
     package => Hub::Data::Address
     summary => 
@@ -3650,11 +1908,11 @@ varroot( "p001:items:1002:text-description" );
     result => p001
   }
   %{
-    $test{
+    test => ${
 varroot( "p001" );
 
     }
-    num => 114
+    num => 124
     comparator => match
     package => Hub::Data::Address
     summary => 
@@ -3665,11 +1923,11 @@ varroot( "p001" );
     result => p001
   }
   %{
-    $test{
+    test => ${
 varname( "p001:items:1002:text-desc" );
 
     }
-    num => 115
+    num => 125
     comparator => match
     package => Hub::Data::Address
     summary => 
@@ -3680,11 +1938,11 @@ varname( "p001:items:1002:text-desc" );
     result => text-desc
   }
   %{
-    $test{
+    test => ${
 varname( "p001" );
 
     }
-    num => 116
+    num => 126
     comparator => match
     package => Hub::Data::Address
     summary => 
@@ -3695,11 +1953,11 @@ varname( "p001" );
     result => p001
   }
   %{
-    $test{
+    test => ${
 varparent( "p001:items:12:1000" );
 
     }
-    num => 117
+    num => 127
     comparator => match
     package => Hub::Data::Address
     summary => 
@@ -3710,11 +1968,11 @@ varparent( "p001:items:12:1000" );
     result => p001:items:12
   }
   %{
-    $test{
+    test => ${
 varparent( "p001:items:10:subs:100" );
 
     }
-    num => 118
+    num => 128
     comparator => match
     package => Hub::Data::Address
     summary => 
@@ -3725,11 +1983,11 @@ varparent( "p001:items:10:subs:100" );
     result => p001:items:10:subs
   }
   %{
-    $test{
+    test => ${
 varparent( "p001" );
 
     }
-    num => 119
+    num => 129
     comparator => match
     package => Hub::Data::Address
     summary => 
@@ -3740,11 +1998,11 @@ varparent( "p001" );
     result => 
   }
   %{
-    $test{
+    test => ${
 dotaddr("p004:proj:1000");
 
     }
-    num => 120
+    num => 130
     comparator => match
     package => Hub::Data::Address
     summary => 
@@ -3755,11 +2013,11 @@ dotaddr("p004:proj:1000");
     result => p004.proj.1000
   }
   %{
-    $test{
+    test => ${
 dotaddr("p004:proj:1000:name");
 
     }
-    num => 121
+    num => 131
     comparator => match
     package => Hub::Data::Address
     summary => 
@@ -3770,11 +2028,11 @@ dotaddr("p004:proj:1000:name");
     result => p004.proj.1000.name
   }
   %{
-    $test{
+    test => ${
 dotaddr("p001");
 
     }
-    num => 122
+    num => 132
     comparator => match
     package => Hub::Data::Address
     summary => 
@@ -3785,11 +2043,11 @@ dotaddr("p001");
     result => p001
   }
   %{
-    $test{
+    test => ${
 dotaddr("");
 
     }
-    num => 123
+    num => 133
     comparator => defined
     package => Hub::Data::Address
     summary => 
@@ -3800,4 +2058,2064 @@ dotaddr("");
     result => 
   }
 }
-num_tests => 124
+testcalls => @{
+  %{
+    test => ${
+my \$parser = mkinst( 'Parser', -template =\> 'Hello [\#who]' );
+              \$\{\$parser-\>populate( \{ who =\> 'World' \} )\};
+
+    }
+    num => 1
+    comparator => match
+    package => Hub::Parse::Parser
+    summary => 
+    lib => ../lib/Hub/Parse/Parser.pm
+    id => 3661891668
+    invert => 0
+    lineno => 124
+    result => Hello World
+  }
+  %{
+    test => ${
+compare('eq','',undef);
+
+    }
+    num => 2
+    comparator => false
+    package => Hub::Perl::Compare
+    summary => 
+    lib => ../lib/Hub/Perl/Compare.pm
+    id => 3269678604
+    invert => 0
+    lineno => 73
+    result => 
+  }
+  %{
+    test => ${
+compare('eq','abc','abc');
+
+    }
+    num => 3
+    comparator => true
+    package => Hub::Perl::Compare
+    summary => 
+    lib => ../lib/Hub/Perl/Compare.pm
+    id => 1552401327
+    invert => 0
+    lineno => 74
+    result => 
+  }
+  %{
+    test => ${
+compare('ne','abc','Abc');
+
+    }
+    num => 4
+    comparator => true
+    package => Hub::Perl::Compare
+    summary => 
+    lib => ../lib/Hub/Perl/Compare.pm
+    id => 729871161
+    invert => 0
+    lineno => 75
+    result => 
+  }
+  %{
+    test => ${
+compare('eq','abc',undef);
+
+    }
+    num => 5
+    comparator => false
+    package => Hub::Perl::Compare
+    summary => 
+    lib => ../lib/Hub/Perl/Compare.pm
+    id => 2995364483
+    invert => 0
+    lineno => 76
+    result => 
+  }
+  %{
+    test => ${
+compare('!~','abc','A');
+
+    }
+    num => 6
+    comparator => true
+    package => Hub::Perl::Compare
+    summary => 
+    lib => ../lib/Hub/Perl/Compare.pm
+    id => 3314455061
+    invert => 0
+    lineno => 77
+    result => 
+  }
+  %{
+    test => ${
+compare('=~','abc','a');
+
+    }
+    num => 7
+    comparator => true
+    package => Hub::Perl::Compare
+    summary => 
+    lib => ../lib/Hub/Perl/Compare.pm
+    id => 1429311364
+    invert => 0
+    lineno => 78
+    result => 
+  }
+  %{
+    test => ${
+compare('==',1234,1234);
+
+    }
+    num => 8
+    comparator => true
+    package => Hub::Perl::Compare
+    summary => 
+    lib => ../lib/Hub/Perl/Compare.pm
+    id => 574013202
+    invert => 0
+    lineno => 79
+    result => 
+  }
+  %{
+    test => ${
+compare('\>=',1234,1234);
+
+    }
+    num => 9
+    comparator => true
+    package => Hub::Perl::Compare
+    summary => 
+    lib => ../lib/Hub/Perl/Compare.pm
+    id => 3698465657
+    invert => 0
+    lineno => 80
+    result => 
+  }
+  %{
+    test => ${
+compare('eqic','abc','Abc');
+
+    }
+    num => 10
+    comparator => true
+    package => Hub::Perl::Compare
+    summary => 
+    lib => ../lib/Hub/Perl/Compare.pm
+    id => 2876582895
+    invert => 0
+    lineno => 81
+    result => 
+  }
+  %{
+    test => ${
+compare('==',undef,undef);
+
+    }
+    num => 11
+    comparator => true
+    package => Hub::Perl::Compare
+    summary => 
+    lib => ../lib/Hub/Perl/Compare.pm
+    id => 847018581
+    invert => 0
+    lineno => 82
+    result => 
+  }
+  %{
+    test => ${
+compare('==',0,undef);
+
+    }
+    num => 12
+    comparator => false
+    package => Hub::Perl::Compare
+    summary => 
+    lib => ../lib/Hub/Perl/Compare.pm
+    id => 1165707971
+    invert => 0
+    lineno => 83
+    result => 
+  }
+  %{
+    test => ${
+my \@numbers = ( 20, 1, 10, 2 );
+              join ';', sort \{ &compare('<=\>',\$a,\$b) \} \@numbers;
+
+    }
+    num => 13
+    comparator => match
+    package => Hub::Perl::Compare
+    summary => 
+    lib => ../lib/Hub/Perl/Compare.pm
+    id => 3676299104
+    invert => 0
+    lineno => 84
+    result => 1;2;10;20
+  }
+  %{
+    test => ${
+
+  my \%h = ();
+  tie \%h, 'Hub::Knots::SortedHash';
+  \$h\{'first'\} = "Apple";
+  \$h\{'second'\} = "Banana";
+  \$h\{'third'\} = "Pear";
+  join ';', values \%h;
+
+
+    }
+    num => 14
+    comparator => match
+    package => Hub::Knots::SortedHash
+    summary => 
+    lib => ../lib/Hub/Knots/SortedHash.pm
+    id => 2247526918
+    invert => 0
+    lineno => 94
+    result => Apple;Banana;Pear
+  }
+  %{
+    test => ${
+Hub::mkhandler('/jonnyboy.dat')
+
+    }
+    num => 15
+    comparator => regex
+    package => Hub::Data::Create
+    summary => 
+    lib => ../lib/Hub/Data/Create.pm
+    id => 1024198110
+    invert => 0
+    lineno => 55
+    result => Hub::Data::HashFile
+  }
+  %{
+    test => ${
+Hub::mkhandler('/jonnyboy.data')
+
+    }
+    num => 16
+    comparator => regex
+    package => Hub::Data::Create
+    summary => 
+    lib => ../lib/Hub/Data/Create.pm
+    id => 3540149490
+    invert => 0
+    lineno => 57
+    result => Hub::Data::HashFile
+  }
+  %{
+    test => ${
+Hub::mkhandler('/jonnyboy.hf')
+
+    }
+    num => 17
+    comparator => regex
+    package => Hub::Data::Create
+    summary => 
+    lib => ../lib/Hub/Data/Create.pm
+    id => 884623861
+    invert => 0
+    lineno => 59
+    result => Hub::Data::HashFile
+  }
+  %{
+    test => ${
+Hub::mkhandler('/data.dat.foo')
+
+    }
+    num => 18
+    comparator => regex
+    package => Hub::Data::Create
+    summary => 
+    lib => ../lib/Hub/Data/Create.pm
+    id => 290230788
+    invert => 0
+    lineno => 61
+    result => Hub::Data::File
+  }
+  %{
+    test => ${
+use Cwd qw(cwd); Hub::mkhandler(cwd())
+
+    }
+    num => 19
+    comparator => regex
+    package => Hub::Data::Create
+    summary => 
+    lib => ../lib/Hub/Data/Create.pm
+    id => 4282577704
+    invert => 0
+    lineno => 63
+    result => Hub::Data::Directory
+  }
+  %{
+    test => ${
+safestr( 'Dogs (Waters, Gilmour) 17:06' );
+
+    }
+    num => 20
+    comparator => match
+    package => Hub::Misc::Transform
+    summary => 
+    lib => ../lib/Hub/Misc/Transform.pm
+    id => 2881685593
+    invert => 0
+    lineno => 25
+    result => Dogs_0x20__0x28_Waters_0x2c__0x20_Gilmour_0x29__0x20_17_0x3a_06
+  }
+  %{
+    test => ${
+Hub::unpack_safestr('Dogs_0x20__0x28_Waters_0x2c__0x20_Gilmour_0x29__0x20_17_0x3a_06');
+
+    }
+    num => 21
+    comparator => match
+    package => Hub::Misc::Transform
+    summary => 
+    lib => ../lib/Hub/Misc/Transform.pm
+    id => 3429451173
+    invert => 0
+    lineno => 38
+    result => Dogs (Waters, Gilmour) 17:06
+  }
+  %{
+    test => ${
+Hub::pack_ncr("This is a \# of tests & bl/ah");
+
+    }
+    num => 22
+    comparator => match
+    package => Hub::Misc::Transform
+    summary => 
+    lib => ../lib/Hub/Misc/Transform.pm
+    id => 2061896509
+    invert => 0
+    lineno => 52
+    result => This is a &#35; of tests &#38; bl&#47;ah
+  }
+  %{
+    test => ${
+Hub::unpack_ncr('This is a &\#35; of tests &\#38; bl&\#47;ah');
+
+    }
+    num => 23
+    comparator => match
+    package => Hub::Misc::Transform
+    summary => 
+    lib => ../lib/Hub/Misc/Transform.pm
+    id => 564243569
+    invert => 0
+    lineno => 67
+    result => This is a # of tests & bl/ah
+  }
+  %{
+    test => ${
+populate('mu[\#foo]m', \{ foo =\> 'shroo' \});
+
+    }
+    num => 24
+    comparator => match
+    package => Hub::Misc::Transform
+    summary => 
+    lib => ../lib/Hub/Misc/Transform.pm
+    id => 3520785851
+    invert => 0
+    lineno => 174
+    result => mushroom
+  }
+  %{
+    test => ${
+ref(populate('a[\#b]c', \{ b =\> 'bee' \}, '-as_ref=1'));
+
+    }
+    num => 25
+    comparator => match
+    package => Hub::Misc::Transform
+    summary => 
+    lib => ../lib/Hub/Misc/Transform.pm
+    id => 2799557933
+    invert => 0
+    lineno => 175
+    result => SCALAR
+  }
+  %{
+    test => ${
+  my \$hash = \{
+    'class'   =\> "foodidly",
+    'name'    =\> "bobsmith",
+    'height'  =\> "5px",
+    'junk'    =\> "ignore me",
+  \};
+  hashtoattrs(\$hash, ['junk']);
+
+    }
+    num => 26
+    comparator => match
+    package => Hub::Misc::Transform
+    summary => 
+    lib => ../lib/Hub/Misc/Transform.pm
+    id => 1331281973
+    invert => 0
+    lineno => 194
+    result => class=\"foodidly\" height=\"5px\" name=\"bobsmith\"
+  }
+  %{
+    test => ${
+sizeof( \{ a=\>1, b=\>2, c=\>3 \} );
+
+    }
+    num => 27
+    comparator => match
+    package => Hub::Perl::Language
+    summary => Hash
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 4140437358
+    invert => 0
+    lineno => 70
+    result => 3
+  }
+  %{
+    test => ${
+sizeof( [ 'a1', 'b2', 'c3' ] );
+
+    }
+    num => 28
+    comparator => match
+    package => Hub::Perl::Language
+    summary => Array
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 2177712120
+    invert => 0
+    lineno => 71
+    result => 3
+  }
+  %{
+    test => ${
+sizeof( "abc"                );
+
+    }
+    num => 29
+    comparator => match
+    package => Hub::Perl::Language
+    summary => Scalar
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 415526466
+    invert => 0
+    lineno => 72
+    result => 3
+  }
+  %{
+    test => ${
+sizeof( \"abc"               );
+
+    }
+    num => 30
+    comparator => match
+    package => Hub::Perl::Language
+    summary => Scalar (ref)
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 1875074772
+    invert => 0
+    lineno => 73
+    result => 3
+  }
+  %{
+    test => ${
+sizeof( undef                );
+
+    }
+    num => 31
+    comparator => match
+    package => Hub::Perl::Language
+    summary => Nothing
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 4054305655
+    invert => 0
+    lineno => 74
+    result => 0
+  }
+  %{
+    test => ${
+sizeof( "a", "b", "c"        );
+
+    }
+    num => 32
+    comparator => match
+    package => Hub::Perl::Language
+    summary => Multiple values
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 2258697185
+    invert => 0
+    lineno => 75
+    result => 3
+  }
+  %{
+    test => ${
+my \$compression = check( '-test=eval', 'use IO::Zlib' ) ? 1 : 0;
+
+    }
+    num => 33
+    comparator => abort
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 109069974
+    invert => 1
+    lineno => 131
+    result => 
+  }
+  %{
+    test => ${
+check( undef, undef, undef );
+
+    }
+    num => 34
+    comparator => false
+    package => Hub::Perl::Language
+    summary => none are defined
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 1237438545
+    invert => 0
+    lineno => 141
+    result => 
+  }
+  %{
+    test => ${
+check( 1, undef );
+
+    }
+    num => 35
+    comparator => false
+    package => Hub::Perl::Language
+    summary => only one is defined
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 3502801387
+    invert => 0
+    lineno => 142
+    result => 
+  }
+  %{
+    test => ${
+check( 1, 1 );
+
+    }
+    num => 36
+    comparator => true
+    package => Hub::Perl::Language
+    summary => both are defined
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 2815406461
+    invert => 0
+    lineno => 143
+    result => 
+  }
+  %{
+    test => ${
+check( 1, undef, -opr =\> 'or' );
+
+
+    }
+    num => 37
+    comparator => true
+    package => Hub::Perl::Language
+    summary => one is defined
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 967517406
+    invert => 0
+    lineno => 144
+    result => 
+  }
+  %{
+    test => ${
+check( -opr =\> 'xor', 1, 1 );
+
+    }
+    num => 38
+    comparator => false
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 3617932786
+    invert => 0
+    lineno => 146
+    result => 
+  }
+  %{
+    test => ${
+check( -opr =\> 'xor', undef, undef );
+
+
+    }
+    num => 39
+    comparator => false
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 2695001444
+    invert => 0
+    lineno => 147
+    result => 
+  }
+  %{
+    test => ${
+check( -opr =\> 'xor', undef, 1 );
+
+    }
+    num => 40
+    comparator => true
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 1192908899
+    invert => 0
+    lineno => 149
+    result => 
+  }
+  %{
+    test => ${
+check( -opr =\> 'xor', 1, undef );
+
+
+    }
+    num => 41
+    comparator => true
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 668848518
+    invert => 0
+    lineno => 150
+    result => 
+  }
+  %{
+    test => ${
+check( -opr =\> 'xor', 1, undef, 1, undef );
+
+    }
+    num => 42
+    comparator => true
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 3386093738
+    invert => 0
+    lineno => 152
+    result => 
+  }
+  %{
+    test => ${
+check( -opr =\> 'xor', 1, undef, 1, 1, undef );
+
+    }
+    num => 43
+    comparator => false
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 3201597500
+    invert => 0
+    lineno => 153
+    result => 
+  }
+  %{
+    test => ${
+check( -opr =\> 'xor', undef, 1, undef, 1 );
+
+    }
+    num => 44
+    comparator => true
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 548410783
+    invert => 0
+    lineno => 154
+    result => 
+  }
+  %{
+    test => ${
+
+   sub myjoin \{
+      my \$opts = Hub::opts( \@_ );
+      return join( \$\$opts\{'with'\}, \@_ );
+   \}
+
+   myjoin( 'a', 'b', '-with=;', 'c', 'd' );
+
+    }
+    num => 45
+    comparator => match
+    package => Hub::Perl::Language
+    summary => at-underscore contains everyting but the '-with' option
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 2035725479
+    invert => 0
+    lineno => 286
+    result => a;b;c;d
+  }
+  %{
+    test => ${
+
+  my \$obj = mkinst( 'Object' );
+  my \@result = objopts( [ \$obj ] );
+  join( ',', map \{ ref(\$_) \} \@result );
+
+
+    }
+    num => 46
+    comparator => match
+    package => Hub::Perl::Language
+    summary => Test return value
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 1636822993
+    invert => 0
+    lineno => 396
+    result => Hub::Base::Object,
+  }
+  %{
+    test => ${
+  my \$opts = cmdopts(['--letters=a', '++letters=b', '++letters=c']);
+  join('-', \@\{\$\$opts\{'letters'\}\});
+
+    }
+    num => 47
+    comparator => match
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 4949117
+    invert => 0
+    lineno => 431
+    result => a-b-c
+  }
+  %{
+    test => ${
+  my (\$opts, \%hash) = Hub::hashopts(['key1', -foo]);
+  \$hash\{'key1'\}
+
+    }
+    num => 48
+    comparator => defined
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 2317951061
+    invert => 1
+    lineno => 473
+    result => 
+  }
+  %{
+    test => ${
+Hub::expect( -match =\> 'and|or|xor', 'and' );
+
+    }
+    num => 49
+    comparator => true
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 1363065716
+    invert => 0
+    lineno => 608
+    result => 
+  }
+  %{
+    test => ${
+Hub::expect( HASH =\> \{\}, HASH =\> \{\} );
+
+    }
+    num => 50
+    comparator => true
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 641305570
+    invert => 0
+    lineno => 609
+    result => 
+  }
+  %{
+    test => ${
+Hub::expect( -blessed =\> \{\} );
+
+    }
+    num => 51
+    comparator => abort
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 1191051783
+    invert => 0
+    lineno => 610
+    result => 
+  }
+  %{
+    test => ${
+Hub::expect( -blessed =\> mkinst( 'Object' ) );
+
+    }
+    num => 52
+    comparator => true
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 838414993
+    invert => 0
+    lineno => 611
+    result => 
+  }
+  %{
+    test => ${
+Hub::expect( -match =\> 'and|or|xor', 'if', 'or', 'and' );
+
+    }
+    num => 53
+    comparator => abort
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 2834326315
+    invert => 0
+    lineno => 612
+    result => 
+  }
+  %{
+    test => ${
+Hub::expect( ARRAY =\> \{\} );
+
+    }
+    num => 54
+    comparator => abort
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 3757527997
+    invert => 0
+    lineno => 613
+    result => 
+  }
+  %{
+    test => ${
+Hub::expect( -blessed =\> 'abc' );
+
+    }
+    num => 55
+    comparator => abort
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 1100203550
+    invert => 0
+    lineno => 614
+    result => 
+  }
+  %{
+    test => ${
+Hub::expect( -ref =\> 'HASH', \{\} );
+
+    }
+    num => 56
+    comparator => true
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 915732104
+    invert => 0
+    lineno => 615
+    result => 
+  }
+  %{
+    test => ${
+Hub::expect( -ref =\> 'HASH', mkinst('Object') );
+
+    }
+    num => 57
+    comparator => true
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 2946344754
+    invert => 0
+    lineno => 616
+    result => 
+  }
+  %{
+    test => ${
+Hub::fear( HASH =\> \{\} );
+
+    }
+    num => 58
+    comparator => abort
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 3432818223
+    invert => 0
+    lineno => 652
+    result => 
+  }
+  %{
+    test => ${
+Hub::fear( HASH =\> [] );
+
+    }
+    num => 59
+    comparator => true
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 3147536057
+    invert => 0
+    lineno => 653
+    result => 
+  }
+  %{
+    test => ${
+abort( -msg =\> 'Goddamn hippies' );
+
+    }
+    num => 60
+    comparator => abort
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 3772527093
+    invert => 0
+    lineno => 666
+    result => 
+  }
+  %{
+    test => ${
+Hub::min(1,2);
+
+    }
+    num => 61
+    comparator => match
+    package => Hub::Perl::Language
+    summary => Two integers
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 4112017993
+    invert => 0
+    lineno => 723
+    result => 1
+  }
+  %{
+    test => ${
+Hub::min(2,1,3);
+
+    }
+    num => 62
+    comparator => match
+    package => Hub::Perl::Language
+    summary => Three integers
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 1803354090
+    invert => 0
+    lineno => 724
+    result => 1
+  }
+  %{
+    test => ${
+Hub::min(2,-1,3);
+
+    }
+    num => 63
+    comparator => match
+    package => Hub::Perl::Language
+    summary => Three integers
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 477876092
+    invert => 0
+    lineno => 725
+    result => -1
+  }
+  %{
+    test => ${
+Hub::min(1);
+
+    }
+    num => 64
+    comparator => match
+    package => Hub::Perl::Language
+    summary => One integer
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 2238881478
+    invert => 0
+    lineno => 726
+    result => 1
+  }
+  %{
+    test => ${
+Hub::min(1,undef);
+
+    }
+    num => 65
+    comparator => match
+    package => Hub::Perl::Language
+    summary => Undefined value
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 4067798608
+    invert => 0
+    lineno => 727
+    result => 1
+  }
+  %{
+    test => ${
+Hub::min(undef,1,0);
+
+    }
+    num => 66
+    comparator => match
+    package => Hub::Perl::Language
+    summary => Zero
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 1657451457
+    invert => 0
+    lineno => 728
+    result => 0
+  }
+  %{
+    test => ${
+Hub::min(.009,1.001);
+
+    }
+    num => 67
+    comparator => match
+    package => Hub::Perl::Language
+    summary => Three decimal values
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 365790039
+    invert => 0
+    lineno => 729
+    result => 0.009
+  }
+  %{
+    test => ${
+Hub::max(.009,-1.01,2,undef,0);
+
+    }
+    num => 68
+    comparator => match
+    package => Hub::Perl::Language
+    summary => Three decimal values
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 2739064271
+    invert => 0
+    lineno => 743
+    result => 2
+  }
+  %{
+    test => ${
+join(',',Hub::intdiv(3,2));
+
+    }
+    num => 69
+    comparator => match
+    package => Hub::Perl::Language
+    summary => 3 divided by 2 is 1R1
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 764093702
+    invert => 0
+    lineno => 758
+    result => 1,1
+  }
+  %{
+    test => ${
+join('',\@\{rmval([1,2,3,4],3)\});
+
+    }
+    num => 70
+    comparator => match
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 2290624033
+    invert => 0
+    lineno => 794
+    result => 124
+  }
+  %{
+    test => ${
+
+  my \$x = 'like catfood';
+  Hub::checksum( 'my', \{ cats =\> 'breath' \}, ( 'smells', \$x ) );
+
+
+    }
+    num => 71
+    comparator => match
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 1940714856
+    invert => 0
+    lineno => 882
+    result => 2023611966
+  }
+  %{
+    test => ${
+join( ';', dice( "a\{b\{c\}\}c\{d\}" ) );
+
+    }
+    num => 72
+    comparator => match
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 976995420
+    invert => 0
+    lineno => 1263
+    result => a;{b{c}};c;{d}
+  }
+  %{
+    test => ${
+indexmatch("abracadabra", "[cd]")
+
+    }
+    num => 73
+    comparator => match
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 920956577
+    invert => 0
+    lineno => 1336
+    result => 4
+  }
+  %{
+    test => ${
+indexmatch("abracadabra", "a", 3)
+
+    }
+    num => 74
+    comparator => match
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 1105436215
+    invert => 0
+    lineno => 1337
+    result => 3
+  }
+  %{
+    test => ${
+indexmatch("abracadabra", "d\{2,2\}")
+
+    }
+    num => 75
+    comparator => match
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 3512501158
+    invert => 0
+    lineno => 1338
+    result => -1
+  }
+  %{
+    test => ${
+indexmatch("scant", "can", "-after=1")
+                - indexmatch("scant", "can")
+
+    }
+    num => 76
+    comparator => match
+    package => Hub::Perl::Language
+    summary => 
+    lib => ../lib/Hub/Perl/Language.pm
+    id => 2791027504
+    invert => 0
+    lineno => 1339
+    result => 3
+  }
+  %{
+    test => ${
+ps( 10, "this is really short but splits on ten chars" );
+
+
+
+    }
+    num => 77
+    comparator => match
+    package => Hub::Console::Output
+    summary => 
+    lib => ../lib/Hub/Console/Output.pm
+    id => 985326511
+    invert => 0
+    lineno => 96
+    result => ${
+this is re
+ally short
+ but split
+s on ten c
+hars
+    }
+  }
+  %{
+    test => ${
+ps( 10, "this is really short but splits on ten chars", 3 );
+
+
+
+    }
+    num => 78
+    comparator => match
+    package => Hub::Console::Output
+    summary => 
+    lib => ../lib/Hub/Console/Output.pm
+    id => 3987532188
+    invert => 0
+    lineno => 104
+    result => ${
+this is re
+   ally short
+    but split
+   s on ten c
+   hars
+    }
+  }
+  %{
+    test => ${
+ps( 10, "this  is really short but splits on ten chars", -keepwords );
+
+
+    }
+    num => 79
+    comparator => match
+    package => Hub::Console::Output
+    summary => 
+    lib => ../lib/Hub/Console/Output.pm
+    id => 500465128
+    invert => 0
+    lineno => 112
+    result => ${
+this  is 
+really 
+short but 
+splits on 
+ten 
+    }
+  }
+  %{
+    test => ${
+indenttext(4,"Hello\nWorld")
+
+    }
+    num => 80
+    comparator => match
+    package => Hub::Console::Output
+    summary => 
+    lib => ../lib/Hub/Console/Output.pm
+    id => 1998679112
+    invert => 0
+    lineno => 307
+    result => ${
+    Hello
+    World
+    }
+  }
+  %{
+    test => ${
+    my \@months = qw/Jan Feb Mar/;
+    my \@sorted = anon_sort( \@months );
+    return join ',', \@sorted;
+
+    }
+    num => 81
+    comparator => match
+    package => Hub::Perl::Sort
+    summary => Simple (alphabetical) sort
+    lib => ../lib/Hub/Perl/Sort.pm
+    id => 4219876572
+    invert => 0
+    lineno => 24
+    result => Feb,Jan,Mar
+  }
+  %{
+    test => ${
+ref(mkinst('Object')) eq 'Hub::Base::Object';
+
+    }
+    num => 82
+    comparator => true
+    package => Hub
+    summary => 
+    lib => ../lib/Hub.pm
+    id => 4130595764
+    invert => 0
+    lineno => 326
+    result => 
+  }
+  %{
+    test => ${
+mkinst('DoesNotExist');
+
+    }
+    num => 83
+    comparator => abort
+    package => Hub
+    summary => 
+    lib => ../lib/Hub.pm
+    id => 2167722786
+    invert => 0
+    lineno => 327
+    result => 
+  }
+  %{
+    test => ${
+Hub::blahblahblah();
+
+
+    }
+    num => 84
+    comparator => abort
+    package => Hub
+    summary => 
+    lib => ../lib/Hub.pm
+    id => 386027726
+    invert => 0
+    lineno => 475
+    result => 
+  }
+  %{
+    test => ${
+datetime( );
+
+    }
+    num => 85
+    comparator => true
+    package => Hub::Misc::Time
+    summary => 
+    lib => ../lib/Hub/Misc/Time.pm
+    id => 3461749961
+    invert => 0
+    lineno => 69
+    result => 
+  }
+  %{
+    test => ${
+datetime( 1045837284 );
+
+    }
+    num => 86
+    comparator => regex
+    package => Hub::Misc::Time
+    summary => 
+    lib => ../lib/Hub/Misc/Time.pm
+    id => 2928776492
+    invert => 0
+    lineno => 70
+    result => 02\/..\/2003 ..:..:24
+  }
+  %{
+    test => ${
+datetime( 1045837284, -nosec );
+
+    }
+    num => 87
+    comparator => regex
+    package => Hub::Misc::Time
+    summary => 
+    lib => ../lib/Hub/Misc/Time.pm
+    id => 3650528698
+    invert => 0
+    lineno => 71
+    result => 02\/..\/2003 ..:..
+  }
+  %{
+    test => ${
+datetime( 1045837284, -noyear );
+
+    }
+    num => 88
+    comparator => regex
+    package => Hub::Misc::Time
+    summary => 
+    lib => ../lib/Hub/Misc/Time.pm
+    id => 1084224512
+    invert => 0
+    lineno => 72
+    result => 02\/.. ..:..:24
+  }
+  %{
+    test => ${
+datetime( 1045837284, -ampm );
+
+    }
+    num => 89
+    comparator => regex
+    package => Hub::Misc::Time
+    summary => 
+    lib => ../lib/Hub/Misc/Time.pm
+    id => 932758678
+    invert => 0
+    lineno => 73
+    result => 02\/..\/2003 ..:..:24am
+  }
+  %{
+    test => ${
+datetime( 1045837284, -nozeros );
+
+    }
+    num => 90
+    comparator => regex
+    package => Hub::Misc::Time
+    summary => 
+    lib => ../lib/Hub/Misc/Time.pm
+    id => 2851885365
+    invert => 0
+    lineno => 74
+    result => 2\/..\/2003 .:..:24
+  }
+  %{
+    test => ${
+datetime( 1045837284, -notime );
+
+    }
+    num => 91
+    comparator => regex
+    package => Hub::Misc::Time
+    summary => 
+    lib => ../lib/Hub/Misc/Time.pm
+    id => 3741016483
+    invert => 0
+    lineno => 75
+    result => 02\/..\/2003
+  }
+  %{
+    test => ${
+datetime( 1045837284, -nodate );
+
+    }
+    num => 92
+    comparator => regex
+    package => Hub::Misc::Time
+    summary => 
+    lib => ../lib/Hub/Misc/Time.pm
+    id => 1207054361
+    invert => 0
+    lineno => 76
+    result => ..:..:24
+  }
+  %{
+    test => ${
+datetime( 1045837284, -letter );
+
+    }
+    num => 93
+    comparator => regex
+    package => Hub::Misc::Time
+    summary => 
+    lib => ../lib/Hub/Misc/Time.pm
+    id => 821362831
+    invert => 0
+    lineno => 77
+    result => February .., 2003 ..:..:24
+  }
+  %{
+    test => ${
+datetime( 1045837284, -ampm, -nosec );              
+
+    }
+    num => 94
+    comparator => regex
+    package => Hub::Misc::Time
+    summary => 
+    lib => ../lib/Hub/Misc/Time.pm
+    id => 1578023285
+    invert => 0
+    lineno => 81
+    result => 02\/..\/2003 ..:..am
+  }
+  %{
+    test => ${
+datetime( 1045837284, -nosec, -nozeros, -noyear );
+
+    }
+    num => 95
+    comparator => regex
+    package => Hub::Misc::Time
+    summary => 
+    lib => ../lib/Hub/Misc/Time.pm
+    id => 778325498
+    invert => 0
+    lineno => 84
+    result => 2\/.. .:..
+  }
+  %{
+    test => ${
+fixpath( "../../../users/newuser/web/bin/../src/screens" );
+
+    }
+    num => 96
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 3058333153
+    invert => 0
+    lineno => 955
+    result => ../../../users/newuser/web/src/screens
+  }
+  %{
+    test => ${
+fixpath( "users/newuser/web/" );
+
+    }
+    num => 97
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 3371895132
+    invert => 0
+    lineno => 958
+    result => users/newuser/web
+  }
+  %{
+    test => ${
+fixpath( "users/../web/bin/../src" );
+
+    }
+    num => 98
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 2584404539
+    invert => 0
+    lineno => 961
+    result => web/src
+  }
+  %{
+    test => ${
+fixpath( "users//newuser" );
+
+    }
+    num => 99
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 3932165812
+    invert => 0
+    lineno => 964
+    result => users/newuser
+  }
+  %{
+    test => ${
+fixpath( "users//newuser/./files" );
+
+    }
+    num => 100
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 1936279310
+    invert => 0
+    lineno => 967
+    result => users/newuser/files
+  }
+  %{
+    test => ${
+fixpath( "http://site/users//newuser" );
+
+    }
+    num => 101
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 4095140844
+    invert => 0
+    lineno => 970
+    result => http://site/users/newuser
+  }
+  %{
+    test => ${
+fixpath( '/home/hub/build/../../../out/doc/pod' );
+
+    }
+    num => 102
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 437813952
+    invert => 0
+    lineno => 972
+    result => /out/doc/pod
+  }
+  %{
+    test => ${
+getpath( "/etc/passwd" )
+
+    }
+    num => 103
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 437779737
+    invert => 0
+    lineno => 1017
+    result => /etc
+  }
+  %{
+    test => ${
+getpath( "/usr/local/bin" )
+
+    }
+    num => 104
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 2326323336
+    invert => 0
+    lineno => 1018
+    result => /usr/local
+  }
+  %{
+    test => ${
+getname("../../../users/newuser/web/data/p001/batman-small.jpg");
+
+    }
+    num => 105
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 1734347100
+    invert => 0
+    lineno => 1047
+    result => batman-small.jpg
+  }
+  %{
+    test => ${
+getname("../../../users/newuser/web/data/p001");
+
+    }
+    num => 106
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 2161648731
+    invert => 0
+    lineno => 1049
+    result => p001
+  }
+  %{
+    test => ${
+getname("/var/log/*.log");
+
+    }
+    num => 107
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 2534972712
+    invert => 0
+    lineno => 1051
+    result => *.log
+  }
+  %{
+    test => ${
+getext( "/foo/bar/filename.ext" )
+
+    }
+    num => 108
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 3428792932
+    invert => 0
+    lineno => 1064
+    result => ext
+  }
+  %{
+    test => ${
+getext( "filename.cgi" )
+
+    }
+    num => 109
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 575757128
+    invert => 0
+    lineno => 1066
+    result => cgi
+  }
+  %{
+    test => ${
+relpath("/home/docs", "/home/docs/install");
+
+    }
+    num => 110
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 1640998770
+    invert => 0
+    lineno => 1143
+    result => ..
+  }
+  %{
+    test => ${
+relpath("/home/src", "/home/docs/install");
+
+    }
+    num => 111
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 4289409745
+    invert => 0
+    lineno => 1144
+    result => ../../src
+  }
+  %{
+    test => ${
+relpath("/home/docs/README.txt", "/home/docs");
+
+    }
+    num => 112
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 296047613
+    invert => 0
+    lineno => 1146
+    result => README.txt
+  }
+  %{
+    test => ${
+relpath("README.txt", "/DEBUG");
+
+    }
+    num => 113
+    comparator => match
+    package => Hub::Base::FileSystem
+    summary => 
+    lib => ../lib/Hub/Base/FileSystem.pm
+    id => 4129128186
+    invert => 0
+    lineno => 1148
+    result => README.txt
+  }
+  %{
+    test => ${
+keydepth( 'and:then:came:the:rain' )
+
+    }
+    num => 114
+    comparator => match
+    package => Hub::Data::Address
+    summary => 
+    lib => ../lib/Hub/Data/Address.pm
+    id => 2822227746
+    invert => 0
+    lineno => 23
+    result => 4
+  }
+  %{
+    test => ${
+vartype( );
+
+    }
+    num => 115
+    comparator => match
+    package => Hub::Data::Address
+    summary => 
+    lib => ../lib/Hub/Data/Address.pm
+    id => 1481593686
+    invert => 0
+    lineno => 35
+    result => 
+  }
+  %{
+    test => ${
+vartype( "clr-bg" );
+
+    }
+    num => 116
+    comparator => match
+    package => Hub::Data::Address
+    summary => 
+    lib => ../lib/Hub/Data/Address.pm
+    id => 3242590956
+    invert => 0
+    lineno => 36
+    result => clr
+  }
+  %{
+    test => ${
+vartype( "clr-bg", "default" );
+
+    }
+    num => 117
+    comparator => match
+    package => Hub::Data::Address
+    summary => 
+    lib => ../lib/Hub/Data/Address.pm
+    id => 3057726074
+    invert => 0
+    lineno => 37
+    result => clr
+  }
+  %{
+    test => ${
+vartype( "whatev", "default" );
+
+    }
+    num => 118
+    comparator => match
+    package => Hub::Data::Address
+    summary => 
+    lib => ../lib/Hub/Data/Address.pm
+    id => 654192619
+    invert => 0
+    lineno => 38
+    result => default
+  }
+  %{
+    test => ${
+vartype( "whatev" );
+
+    }
+    num => 119
+    comparator => match
+    package => Hub::Data::Address
+    summary => 
+    lib => ../lib/Hub/Data/Address.pm
+    id => 1375281021
+    invert => 0
+    lineno => 39
+    result => 
+  }
+  %{
+    test => ${
+vartype( "a:b:c" );
+
+    }
+    num => 120
+    comparator => match
+    package => Hub::Data::Address
+    summary => 
+    lib => ../lib/Hub/Data/Address.pm
+    id => 1734619422
+    invert => 0
+    lineno => 40
+    result => 
+  }
+  %{
+    test => ${
+vartype( "x-a:b:c" );
+
+    }
+    num => 121
+    comparator => match
+    package => Hub::Data::Address
+    summary => 
+    lib => ../lib/Hub/Data/Address.pm
+    id => 274923912
+    invert => 0
+    lineno => 41
+    result => x
+  }
+  %{
+    test => ${
+vartype( "a:b:x-c" );
+
+    }
+    num => 122
+    comparator => match
+    package => Hub::Data::Address
+    summary => 
+    lib => ../lib/Hub/Data/Address.pm
+    id => 2305445938
+    invert => 0
+    lineno => 42
+    result => x
+  }
+  %{
+    test => ${
+varroot( "p001:items:1002:text-description" );
+
+    }
+    num => 123
+    comparator => match
+    package => Hub::Data::Address
+    summary => 
+    lib => ../lib/Hub/Data/Address.pm
+    id => 128170235
+    invert => 0
+    lineno => 59
+    result => p001
+  }
+  %{
+    test => ${
+varroot( "p001" );
+
+    }
+    num => 124
+    comparator => match
+    package => Hub::Data::Address
+    summary => 
+    lib => ../lib/Hub/Data/Address.pm
+    id => 1431458716
+    invert => 0
+    lineno => 60
+    result => p001
+  }
+  %{
+    test => ${
+varname( "p001:items:1002:text-desc" );
+
+    }
+    num => 125
+    comparator => match
+    package => Hub::Data::Address
+    summary => 
+    lib => ../lib/Hub/Data/Address.pm
+    id => 3577754471
+    invert => 0
+    lineno => 73
+    result => text-desc
+  }
+  %{
+    test => ${
+varname( "p001" );
+
+    }
+    num => 126
+    comparator => match
+    package => Hub::Data::Address
+    summary => 
+    lib => ../lib/Hub/Data/Address.pm
+    id => 1260693188
+    invert => 0
+    lineno => 74
+    result => p001
+  }
+  %{
+    test => ${
+varparent( "p001:items:12:1000" );
+
+    }
+    num => 127
+    comparator => match
+    package => Hub::Data::Address
+    summary => 
+    lib => ../lib/Hub/Data/Address.pm
+    id => 3305829920
+    invert => 0
+    lineno => 88
+    result => p001:items:12
+  }
+  %{
+    test => ${
+varparent( "p001:items:10:subs:100" );
+
+    }
+    num => 128
+    comparator => match
+    package => Hub::Data::Address
+    summary => 
+    lib => ../lib/Hub/Data/Address.pm
+    id => 2987247286
+    invert => 0
+    lineno => 89
+    result => p001:items:10:subs
+  }
+  %{
+    test => ${
+varparent( "p001" );
+
+    }
+    num => 129
+    comparator => match
+    package => Hub::Data::Address
+    summary => 
+    lib => ../lib/Hub/Data/Address.pm
+    id => 3536473939
+    invert => 0
+    lineno => 90
+    result => 
+  }
+  %{
+    test => ${
+dotaddr("p004:proj:1000");
+
+    }
+    num => 130
+    comparator => match
+    package => Hub::Data::Address
+    summary => 
+    lib => ../lib/Hub/Data/Address.pm
+    id => 2014490647
+    invert => 0
+    lineno => 105
+    result => p004.proj.1000
+  }
+  %{
+    test => ${
+dotaddr("p004:proj:1000:name");
+
+    }
+    num => 131
+    comparator => match
+    package => Hub::Data::Address
+    summary => 
+    lib => ../lib/Hub/Data/Address.pm
+    id => 3776700845
+    invert => 0
+    lineno => 106
+    result => p004.proj.1000.name
+  }
+  %{
+    test => ${
+dotaddr("p001");
+
+    }
+    num => 132
+    comparator => match
+    package => Hub::Data::Address
+    summary => 
+    lib => ../lib/Hub/Data/Address.pm
+    id => 2518470971
+    invert => 0
+    lineno => 107
+    result => p001
+  }
+  %{
+    test => ${
+dotaddr("");
+
+    }
+    num => 133
+    comparator => defined
+    package => Hub::Data::Address
+    summary => 
+    lib => ../lib/Hub/Data/Address.pm
+    id => 111398058
+    invert => 1
+    lineno => 108
+    result => 
+  }
+}
+num_tests => 134

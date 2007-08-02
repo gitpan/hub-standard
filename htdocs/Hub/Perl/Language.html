@@ -5,7 +5,7 @@
 <title>Hub::Perl::Language</title>
 <link rel="stylesheet" href="../../styles.css" type="text/css" />
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<link rev="made" href="mailto:root@localhost" />
+<link rev="made" href="mailto:Gentoo@livesitemail.(none)" />
 </head>
 
 <body>
@@ -26,6 +26,7 @@
 		<li><a href="#opts">opts</a></li>
 		<li><a href="#objopts">objopts</a></li>
 		<li><a href="#cmdopts">cmdopts</a></li>
+		<li><a href="#hashopts">hashopts</a></li>
 		<li><a href="#subst">subst</a></li>
 		<li><a href="#getuid">getuid</a></li>
 		<li><a href="#getgid">getgid</a></li>
@@ -40,6 +41,7 @@
 		<li><a href="#flip">flip</a></li>
 		<li><a href="#rmval">rmval</a></li>
 		<li><a href="#cpref">cpref</a></li>
+		<li><a href="#random_id">random_id</a></li>
 		<li><a href="#checksum">checksum</a></li>
 		<li><a href="#merge">merge</a></li>
 		<li><a href="#flatten">flatten</a></li>
@@ -54,10 +56,9 @@
 	<ul>
 
 		<li><a href="#_assignopt">_assignopt</a></li>
-		<li><a href="#_mergehash">_mergeHash</a></li>
-		<li><a href="#_mergearray">_mergeArray</a></li>
-		<li><a href="#_getid">_getId</a></li>
-		<li><a href="#_mergeelement">_mergeElement</a></li>
+		<li><a href="#_merge_hash">_merge_hash</a></li>
+		<li><a href="#_merge_array">_merge_array</a></li>
+		<li><a href="#_merge_element">_merge_element</a></li>
 		<li><a href="#_diff_hashes">_diff_hashes</a></li>
 		<li><a href="#_diff_arrays">_diff_arrays</a></li>
 	</ul>
@@ -530,6 +531,43 @@ that:</p>
 </dl>
 <p>
 </p>
+<h2><a name="hashopts">hashopts</a></h2>
+<dl>
+<dt><strong><a name="item_get_options_and_parameters_as_a_hash">Get options and parameters as a hash</a></strong>
+
+<dd>
+<pre>
+ Usage: hashopts \@parameters</pre>
+</dd>
+<dd>
+<p>The purpose of this method is to even out the returned parameter list by
+adding an undefined value if there are an odd number of elements in the list.</p>
+</dd>
+<dd>
+<p>This avoids the Perl warning:</p>
+</dd>
+<dd>
+<pre>
+  Odd number of elements in hash assignment</pre>
+</dd>
+<dd>
+<p>When parsing options as:</p>
+</dd>
+<dd>
+<pre>
+  my ($opts, %fields) = Hub::opts(...)</pre>
+</dd>
+<dd>
+<p><strong>Example</strong> returns: <strong>defined</strong>:</p>
+</dd>
+<dd>
+<pre>
+  my ($opts, %hash) = Hub::hashopts(['key1', -foo]);
+  $hash{'key1'}</pre>
+</dd>
+</dl>
+<p>
+</p>
 <h2><a name="subst">subst</a></h2>
 <dl>
 <dt>
@@ -953,6 +991,20 @@ and FastCGI test servers...</pre>
 </dl>
 <p>
 </p>
+<h2><a name="random_id">random_id</a></h2>
+<dl>
+<dt><strong><a name="item_get_a_random_numeric_value_for_use_as_an_id">Get a random numeric value for use as an id</a></strong>
+
+<dd>
+<pre>
+ Usage: random_id</pre>
+</dd>
+<dd>
+<p>Creates a checksum of the current <code>time()</code> plus 4 digit <code>rand()</code> number.</p>
+</dd>
+</dl>
+<p>
+</p>
 <h2><a name="checksum">checksum</a></h2>
 <dl>
 <dt><strong><a name="item_create_a_unique_identifier_for_the_provided_data">Create a unique identifier for the provided data</a></strong>
@@ -983,14 +1035,22 @@ Params can be scalars, hash references, array references and the like.</pre>
 
 <dd>
 <pre>
- Usage: merge \%target, \%source, [\%source..], [options]</pre>
+ Usage: merge \%target, \%source, [\%source..], [options]
+returns \%hash</pre>
 </dd>
 <dd>
 <p>Merges the provided hashes.  The first argument (destination hash) has
 precedence (as in values are NOT overwritten) unless -overwrite is given.</p>
 </dd>
 <dd>
+<p>By default this routine modifies \%target.  Specifiy -copy circumvent.</p>
+</dd>
+<dd>
 <p>OPTIONS:</p>
+</dd>
+<dd>
+<pre>
+  -copy                   Do not modify \%target.</pre>
 </dd>
 <dd>
 <pre>
@@ -1133,12 +1193,17 @@ options:
 <dd>
 <pre>
  Usage: indexmatch [options] $string, $expression, $position
- Usage: indexmatch [options] $string, $expression
-Returns -1 if $expression is not found.</pre>
+ Usage: indexmatch [options] $string, $expression</pre>
 </dd>
 <dd>
-<p>options:
-  after   1|0     Return the position *after* the expression.  Default is 0.</p>
+<p>Returns -1 if $expression is not found.</p>
+</dd>
+<dd>
+<p>options:</p>
+</dd>
+<dd>
+<pre>
+  -after=1        Return the position *after* the expression.</pre>
 </dd>
 <dd>
 <p><strong>Example</strong>: (matches)</p>
@@ -1207,25 +1272,19 @@ Returns -1 if $expression is not found.</pre>
 </dl>
 <p>
 </p>
-<h2><a name="_mergehash">_mergeHash</a></h2>
+<h2><a name="_merge_hash">_merge_hash</a></h2>
 <dl>
 <dt>
 </dl>
 <p>
 </p>
-<h2><a name="_mergearray">_mergeArray</a></h2>
+<h2><a name="_merge_array">_merge_array</a></h2>
 <dl>
 <dt>
 </dl>
 <p>
 </p>
-<h2><a name="_getid">_getId</a></h2>
-<dl>
-<dt>
-</dl>
-<p>
-</p>
-<h2><a name="_mergeelement">_mergeElement</a></h2>
+<h2><a name="_merge_element">_merge_element</a></h2>
 <dl>
 <dt>
 </dl>
@@ -1298,7 +1357,7 @@ give any guarantee of the above statement.</p>
 </p>
 <hr />
 <h1><a name="updated">UPDATED</a></h1>
-<p>06/09/2007</p>
+<p>08/02/2007</p>
 <p><a href="#__index__"><small>Top</small></a></p>
 
 </body>

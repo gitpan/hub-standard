@@ -5,7 +5,7 @@ use Hub qw/:lib/;
 
 push our @ISA, qw/Hub::Parse::Template/;
 
-our $VERSION        = '4.00012';
+our $VERSION        = '4.00043';
 our @EXPORT         = qw//;
 our @EXPORT_OK      = qw//;
 

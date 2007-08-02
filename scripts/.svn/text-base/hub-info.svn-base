@@ -1,0 +1,122 @@
+#!/usr/bin/perl -w
+use strict;
+use Hub qw(:all);
+
+callback( \&main );
+
+# ------------------------------------------------------------------------------
+# main
+# ------------------------------------------------------------------------------
+
+sub main {
+  my @search = ();
+  my $display = '';
+  while( my $arg = shift @ARGV ) {
+    if( $arg =~ /^-/ ) {
+      if( $arg eq '-l' || $arg eq '--list' ) {
+        $display = 'info';
+      } elsif( $arg eq '-f' || $arg eq '--funcs' ) {
+        $display = 'funcs';
+      } elsif( $arg eq '-t' || $arg eq '--tags' ) {
+        $display = 'tags';
+      } elsif( $arg eq '-h' || $arg eq '--help' ) {
+        exit help();
+      } else {
+        die "Unknown option: $arg";
+      }
+    } else {
+      push @search, $arg;
+    }
+  }
+  if( @search ) {
+    search( @search );
+  } else {
+    exit help() unless $display;
+    list( $display );
+  }
+}#main
+
+# ------------------------------------------------------------------------------
+# search FUNC
+# 
+# Search for the given function (regex).
+# ------------------------------------------------------------------------------
+
+sub search {
+  my @methods = keys %Hub::METHODMAP;
+  my $total = 0;
+  foreach my $query ( @_ ) {
+    my @matches = grep /$query/, @methods;
+    map { print fw(30,$_), $Hub::METHODMAP{$_}, "\n" }
+        sort @matches if( @matches );
+    $total += @matches;
+  }
+  print "Total methods: $total\n";
+}#search
+
+# ------------------------------------------------------------------------------
+# list DISPLAYTYPE
+# 
+# List all methods.
+#
+# DISPLAYTYPE
+#
+#   info        Informative (default)
+#   funcs       One func per line
+#
+# ------------------------------------------------------------------------------
+
+sub list {
+  my $display = shift;
+  my $pkgtometh = flip(\%Hub::METHODMAP);
+  if( $display eq 'tags' ) {
+    $pkgtometh = \%Hub::EXPORT_TAGS;
+  }
+  my $total = 0;
+  foreach my $pkg (sort keys %$pkgtometh) {
+    my $methods = $pkgtometh->{$pkg};
+    my $count = ref($methods) eq 'ARRAY' ? @$methods : 1;
+    if($display =~ 'info|tags') {
+      $methods = join(' ', sort @$methods) if( ref($methods) eq 'ARRAY' );
+      my $grid = fcols( $methods, 2, "-width=30" );
+      print fw(30,"$pkg ($count)"), indenttext(30,$grid,"-skip_first"), "\n\n";
+    } elsif( $display eq 'funcs' ) {
+      $methods = join( "\n", sort @$methods ) if( ref($methods) eq 'ARRAY' );
+      print $methods, "\n";
+    }
+    $total += $count;
+  }
+  print "Total methods: $total\n" unless $display eq 'tags';
+}#list
+
+# ------------------------------------------------------------------------------
+# help
+# 
+# Show help for using this script.
+# ------------------------------------------------------------------------------
+
+sub help {
+print <<__end_print;
+Usage: $0 FLAG
+       $0 SEARCH [SEARCH]...
+
+Where: FLAG
+
+    -l|--list       Prints functions and their implementing package
+    -f|--funcs      Prints function names only, one per line.
+    -t|--tags       Show functions exported by tag name
+    -h|--help       Show this help
+
+Where: SEARCH
+
+    Prints function name and implementing package.  SEARCH is a regular 
+    expression which matches any part of the function name.  For example,
+
+        a) $0 var
+        b) $0 var[np]
+
+    a) will match 'varname', 'varparent', 'varroot', and 'vartype'.
+    b) will match 'varname' and 'varparent'.
+
+__end_print
+}#help
